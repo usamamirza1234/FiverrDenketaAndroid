@@ -196,6 +196,13 @@ public interface AppConstt {
         String FN_ExtraRulesFragment = "ExtraRulesFragment" ;
         String FN_ChallengeFragment = "ChallengeFragment";
         String FN_RulesMianFragment = "RulesMianFragment" ;
+        String FN_MyAccountFragment = "MyAccountFragment";
+        String FN_SiginInFragment = "SiginInFragment" ;
+        String FN_SignUpCompleteProfileFragment ="SignUpCompleteProfileFragment" ;
+        String FN_LanguageFragment = "LanguageFragment" ;
+        String FN_RateAppFragment = "RateAppFragment";
+        String FN_ContactFragment = "ContactFragment";
+        String FN_FaqFragment = "FaqFragment" ;
     }
 
 

@@ -134,9 +134,11 @@
 
 
     <color name="thm_blue_app">#1A5876</color>
+    <color name="thm_gray_app">#40000000</color>
     <color name="thm_orange_app">#E89151</color>
     <color name="thm_red_app">#9D3630</color>
     <color name="dull_white2">#DFE1E4</color>
+    <color name="thm_blue_red">#9D3630</color>
 
 </resources>
 

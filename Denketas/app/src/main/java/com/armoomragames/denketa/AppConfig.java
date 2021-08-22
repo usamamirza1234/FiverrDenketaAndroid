@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import com.armoomragames.denketa.IntroAuxilaries.DModelUser;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
