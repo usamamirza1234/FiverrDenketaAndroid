@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/thm_yellow_1"
+    android:background="@drawable/app_bg"
     android:clickable="true">
 
 
@@ -32,17 +32,8 @@
                     android:paddingEnd="2dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="OneBill"
-                    android:textColor="@color/white_1"
-                    android:textSize="@dimen/fontsize_large"
-                    android:layout_gravity="center_vertical"/>
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="App"
-                    android:textColor="@color/black_1"
+                    android:text="Denketa"
+                    android:textColor="@color/thm_blue_app"
                     android:textSize="@dimen/fontsize_large"
                     android:layout_gravity="center_vertical"/>
 

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="-15dp">
+
+            <ImageView
+                android:layout_width="210dp"
+                android:layout_height="330dp"
+                android:src="@drawable/ic_extra_hand" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/ic_shp_gray"
+                android:orientation="horizontal"
+                android:padding="10dp"
+
+                android:weightSum="100">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="25"
+                    android:src="@drawable/ic_speaker" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="70"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/frg_extra_desc"
+                    android:textAlignment="center"
+                    android:textColor="@color/thm_blue_app"
+                    android:textSize="@dimen/fontsize_mini" />
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/frg_extra_rules_txvDescription2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/frg_extra_desc2"
+
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fontsize_mini" />
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_below="@id/frg_extra_rules_txvDescription2"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="-15dp"
+                    android:src="@drawable/ic_master_2" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/frg_extra_rules_txvDescription3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/frg_extra_desc3"
+
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fontsize_mini" />
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/ic_shp_gray"
+                android:orientation="horizontal"
+                android:padding="10dp"
+
+                android:weightSum="100">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="25"
+                    android:src="@drawable/ic_speaker" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="70"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/frg_extra_desc4"
+                    android:textAlignment="center"
+                    android:textColor="@color/thm_blue_app"
+                    android:textSize="@dimen/fontsize_mini" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/ic_shp_circle_blue2"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="20dp"
+                    android:src="@drawable/ic_madeup" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:padding="10dp"
+                    android:text="@string/frg_extra_desc5"
+
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fontsize_mini" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>

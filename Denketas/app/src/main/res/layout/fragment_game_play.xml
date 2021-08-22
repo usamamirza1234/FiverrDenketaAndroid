@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+
+            <LinearLayout
+                android:id="@+id/top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="100">
+
+                <LinearLayout
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+
+                    android:layout_weight="50"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_investigator" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="15dp"
+                        android:text="@string/frg_game_play_hint"
+                        android:textColor="@color/thm_red_app"
+                        android:textSize="@dimen/fontsize_small"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/frg_game_play_escape_death"
+                        android:textColor="@color/thm_blue_app"
+                        android:textSize="@dimen/fontsize_mini" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="100dp"
+                    android:layout_weight="50"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_master" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="15dp"
+                        android:text="@string/frg_game_play_anser"
+                        android:textColor="@color/thm_red_app"
+                        android:textSize="@dimen/fontsize_small"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="@string/frg_game_play_remi_survived"
+                        android:textColor="@color/thm_blue_app"
+                        android:textSize="@dimen/fontsize_mini" />
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/top"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/ic_cloud_remi">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:paddingStart="25dp"
+                        android:paddingEnd="25dp"
+                        android:text="@string/frg_game_play_was_musian"
+                        android:textColor="@color/thm_blue_app"
+                        android:textSize="@dimen/fontsize_mini"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+
+                        android:background="@drawable/ic_yes_game_playe">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="15dp"
+                            android:paddingStart="25dp"
+                            android:paddingEnd="25dp"
+                            android:text="@string/frg_rule_yes"
+                            android:textColor="@color/thm_blue_app"
+                            android:textSize="@dimen/fontsize_mini"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/ic_cloud_remi">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:paddingStart="25dp"
+                        android:paddingEnd="25dp"
+                        android:text="@string/frg_game_play_play_villian"
+                        android:textColor="@color/thm_blue_app"
+                        android:textSize="@dimen/fontsize_mini"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="5dp"
+                        android:layout_toStartOf="@id/frg_rlFalse"
+                        android:src="@drawable/ic_speaker_red" />
+
+                    <RelativeLayout
+                        android:id="@+id/frg_rlFalse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+
+                        android:background="@drawable/ic_shp_rec_red">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:gravity="center"
+                            android:padding="15dp"
+                            android:paddingStart="25dp"
+                            android:paddingEnd="25dp"
+                            android:text="@string/frg_rule_please_spicify"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/fontsize_mini"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/ic_does_he_play">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:paddingStart="25dp"
+                        android:paddingEnd="25dp"
+                        android:text="@string/frg_game_play_does_he"
+                        android:textColor="@color/thm_blue_app"
+                        android:textSize="@dimen/fontsize_mini"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+
+                        android:background="@drawable/ic_yes_game_playe">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="15dp"
+                            android:paddingStart="25dp"
+                            android:paddingEnd="25dp"
+                            android:text="@string/frg_rule_no"
+                            android:textColor="@color/thm_blue_app"
+                            android:textSize="@dimen/fontsize_mini"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/ic_does_he_play">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:paddingStart="25dp"
+                        android:paddingEnd="25dp"
+                        android:text="@string/frg_game_play_did_die"
+                        android:textColor="@color/thm_blue_app"
+                        android:textSize="@dimen/fontsize_mini"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="5dp"
+                        android:layout_toStartOf="@id/frg_rlFalse"
+                        android:src="@drawable/ic_speaker_red" />
+
+                    <RelativeLayout
+                        android:id="@+id/frg_rlFalse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+
+                        android:background="@drawable/ic_shp_rec_red">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:gravity="center"
+                            android:padding="15dp"
+                            android:paddingStart="25dp"
+                            android:paddingEnd="25dp"
+                            android:text="@string/frg_rule_false_assumtion"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/fontsize_mini"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/ic_cloud_remi">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:paddingStart="25dp"
+                        android:paddingEnd="25dp"
+                        android:text="@string/frg_game_play_did_he_die_right"
+                        android:textColor="@color/thm_blue_app"
+                        android:textSize="@dimen/fontsize_mini"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+
+                        android:background="@drawable/ic_yes_game_playe">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="15dp"
+                            android:paddingStart="25dp"
+                            android:paddingEnd="25dp"
+                            android:text="@string/frg_rule_no"
+                            android:textColor="@color/thm_blue_app"
+                            android:textSize="@dimen/fontsize_mini"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/ic_cloud_remi">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:paddingStart="25dp"
+                        android:paddingEnd="25dp"
+                        android:text="@string/frg_game_play_did_he_end"
+                        android:textColor="@color/thm_blue_app"
+                        android:textSize="@dimen/fontsize_mini"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+
+                        android:background="@drawable/ic_yes_game_playe">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="15dp"
+                            android:paddingStart="25dp"
+                            android:paddingEnd="25dp"
+                            android:text="@string/frg_rule_yes"
+                            android:textColor="@color/thm_blue_app"
+                            android:textSize="@dimen/fontsize_mini"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:paddingStart="25dp"
+                        android:paddingEnd="25dp"
+                        android:text="@string/frg_game_play_etc"
+                        android:textColor="@color/thm_blue_app"
+                        android:textSize="@dimen/fontsize_mini"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_gameplay_hand" />
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>

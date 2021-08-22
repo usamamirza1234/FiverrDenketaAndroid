@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "97905994585",
+    "project_id": "denketaapp",
+    "storage_bucket": "denketaapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:97905994585:android:688b07685f788d6e413a48",
+        "android_client_info": {
+          "package_name": "com.armoomragames.denketa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "97905994585-ru9j05bqqtpkndu59t20e76k44t9pju2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.armoomragames.denketa",
+            "certificate_hash": "fd7d1fc330688485bfbfe5c5e560d2076c5a3cf9"
+          }
+        },
+        {
+          "client_id": "97905994585-04sfigdvqvfto9gsvuqqrrsnggs1nh88.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYiEIZJOm6L9dp-1e1ZKMjkhP4v9MaN6Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "97905994585-04sfigdvqvfto9gsvuqqrrsnggs1nh88.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

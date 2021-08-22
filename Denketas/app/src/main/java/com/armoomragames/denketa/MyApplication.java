@@ -32,7 +32,7 @@ public class MyApplication extends Application {
     private static final int serif_idx = 2;
     private static final int monospace_idx = 3;
     public static Context mContext;
-    private static com.armoomragames.denketa.MyApplication applicationContext;
+    private static MyApplication applicationContext;
     // Defining sans as the normal (default) typeface.
     private String DEFAULT_NORMAL_BOLD_FONT_FILENAME = "";
     private String DEFAULT_NORMAL_BOLD_ITALIC_FONT_FILENAME = "";
@@ -70,7 +70,7 @@ public class MyApplication extends Application {
 //    }
     private FirebaseAnalytics mFirebaseAnalytics;
 
-    public static com.armoomragames.denketa.MyApplication getInstance() {
+    public static MyApplication getInstance() {
         return applicationContext;
     }
 
@@ -80,7 +80,7 @@ public class MyApplication extends Application {
         mContext = this;
         applicationContext = this;
 
-        com.armoomragames.denketa.AppConfig.initInstance(mContext);
+        AppConfig.initInstance(mContext);
 //        if (AppConfig.getInstance().loadFCMDeviceToken().equals(""))
 //        {
 //            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
@@ -99,7 +99,7 @@ public class MyApplication extends Application {
 //
 //        }
 //        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        setAppLanguage(com.armoomragames.denketa.AppConfig.getInstance().loadDefLanguage());
+        setAppLanguage(AppConfig.getInstance().loadDefLanguage());
     }
 
     @Override
@@ -120,13 +120,13 @@ public class MyApplication extends Application {
 
 
         if (_lang.equalsIgnoreCase(AppConstt.AppLang.LANG_UR)) {
-            com.armoomragames.denketa.AppConfig.getInstance().saveDefLanguage(AppConstt.AppLang.LANG_UR);
-            com.armoomragames.denketa.AppConfig.getInstance().isEnglishMode = false;
+            AppConfig.getInstance().saveDefLanguage(AppConstt.AppLang.LANG_UR);
+            AppConfig.getInstance().isEnglishMode = false;
         } else {
-            com.armoomragames.denketa.AppConfig.getInstance().saveDefLanguage(AppConstt.AppLang.LANG_EN);
-            com.armoomragames.denketa.AppConfig.getInstance().isEnglishMode = true;
+            AppConfig.getInstance().saveDefLanguage(AppConstt.AppLang.LANG_EN);
+            AppConfig.getInstance().isEnglishMode = true;
         }
-        setLanguageSpecificFonts(com.armoomragames.denketa.AppConfig.getInstance().isEnglishMode);
+        setLanguageSpecificFonts(AppConfig.getInstance().isEnglishMode);
 
     }
 
@@ -150,52 +150,52 @@ public class MyApplication extends Application {
     public void setLanguageSpecificFonts(boolean isEnglish) {
         if (!isEnglish) {
             //Arabic fonts
-            DEFAULT_NORMAL_BOLD_FONT_FILENAME = "fonts/jameel_noori_nastaleeq_kasheeda.ttf";
-            DEFAULT_NORMAL_BOLD_ITALIC_FONT_FILENAME = "fonts/jameel_noori_nastaleeq_kasheeda.ttf";
-            DEFAULT_NORMAL_ITALIC_FONT_FILENAME = "fonts/jameel_noori_nastaleeq_kasheeda.ttf";
-            DEFAULT_NORMAL_NORMAL_FONT_FILENAME = "fonts/jameel_noori_nastaleeq_kasheeda.ttf";
+            DEFAULT_NORMAL_BOLD_FONT_FILENAME = "fonts/.ttf";
+            DEFAULT_NORMAL_BOLD_ITALIC_FONT_FILENAME = "fonts/.ttf";
+            DEFAULT_NORMAL_ITALIC_FONT_FILENAME = "fonts/.ttf";
+            DEFAULT_NORMAL_NORMAL_FONT_FILENAME = "fonts/.ttf";
 
 
-            DEFAULT_SANS_BOLD_FONT_FILENAME = "fonts/jameel_noori_nastaleeq_kasheeda.ttf";
-            DEFAULT_SANS_BOLD_ITALIC_FONT_FILENAME = "fonts/jameel_noori_nastaleeq_kasheeda.ttf";
-            DEFAULT_SANS_ITALIC_FONT_FILENAME = "fonts/jameel_noori_nastaleeq_kasheeda.ttf";
-            DEFAULT_SANS_NORMAL_FONT_FILENAME = "fonts/jameel_noori_nastaleeq_kasheeda.ttf";
+            DEFAULT_SANS_BOLD_FONT_FILENAME = "fonts/.ttf";
+            DEFAULT_SANS_BOLD_ITALIC_FONT_FILENAME = "fonts/.ttf";
+            DEFAULT_SANS_ITALIC_FONT_FILENAME = "fonts/.ttf";
+            DEFAULT_SANS_NORMAL_FONT_FILENAME = "fonts/.ttf";
 
 
-            DEFAULT_SERIF_BOLD_FONT_FILENAME = "fonts/jameel_noori_nastaleeq_kasheeda.ttf";
-            DEFAULT_SERIF_BOLD_ITALIC_FONT_FILENAME = "fonts/jameel_noori_nastaleeq_kasheeda.ttf";
-            DEFAULT_SERIF_ITALIC_FONT_FILENAME = "fonts/jameel_noori_nastaleeq_kasheeda.ttf";
-            DEFAULT_SERIF_NORMAL_FONT_FILENAME = "fonts/jameel_noori_nastaleeq_kasheeda.ttf";
+            DEFAULT_SERIF_BOLD_FONT_FILENAME = "fonts/.ttf";
+            DEFAULT_SERIF_BOLD_ITALIC_FONT_FILENAME = "fonts/.ttf";
+            DEFAULT_SERIF_ITALIC_FONT_FILENAME = "fonts/.ttf";
+            DEFAULT_SERIF_NORMAL_FONT_FILENAME = "fonts/.ttf";
 
 
-            DEFAULT_MONOSPACE_BOLD_FONT_FILENAME = "fonts/jameel_noori_nastaleeq_kasheeda.ttf";
-            DEFAULT_MONOSPACE_BOLD_ITALIC_FONT_FILENAME = "fonts/jameel_noori_nastaleeq_kasheeda.ttf";
-            DEFAULT_MONOSPACE_ITALIC_FONT_FILENAME = "fonts/jameel_noori_nastaleeq_kasheeda.ttf";
-            DEFAULT_MONOSPACE_NORMAL_FONT_FILENAME = "fonts/jameel_noori_nastaleeq_kasheeda.ttf";
+            DEFAULT_MONOSPACE_BOLD_FONT_FILENAME = "fonts/.ttf";
+            DEFAULT_MONOSPACE_BOLD_ITALIC_FONT_FILENAME = "fonts/.ttf";
+            DEFAULT_MONOSPACE_ITALIC_FONT_FILENAME = "fonts/.ttf";
+            DEFAULT_MONOSPACE_NORMAL_FONT_FILENAME = "fonts/.ttf";
         } else {
             //English fonts
-            DEFAULT_NORMAL_BOLD_FONT_FILENAME = "fonts/Comfortaa_Bold.ttf";
+            DEFAULT_NORMAL_BOLD_FONT_FILENAME = "fonts/Aladin_Regular.ttf";
             DEFAULT_NORMAL_BOLD_ITALIC_FONT_FILENAME = "fonts/CircularStd_MediumItalic.otf";
             DEFAULT_NORMAL_ITALIC_FONT_FILENAME = "fonts/CircularStd_BookItalic.otf";
-            DEFAULT_NORMAL_NORMAL_FONT_FILENAME = "fonts/Comfortaa_VariableFont_wght.ttf";
+            DEFAULT_NORMAL_NORMAL_FONT_FILENAME = "fonts/Poppins_Regular.ttf";
 
 
-            DEFAULT_SANS_BOLD_FONT_FILENAME = "fonts/Comfortaa_Bold.ttf";
+            DEFAULT_SANS_BOLD_FONT_FILENAME = "fonts/Aladin_Regular.ttf";
             DEFAULT_SANS_BOLD_ITALIC_FONT_FILENAME = "fonts/CircularStd_MediumItalic.otf";
             DEFAULT_SANS_ITALIC_FONT_FILENAME = "fonts/CircularStd_BookItalic.otf";
-            DEFAULT_SANS_NORMAL_FONT_FILENAME = "fonts/Comfortaa_VariableFont_wght.ttf";
+            DEFAULT_SANS_NORMAL_FONT_FILENAME = "fonts/Poppins_Regular.ttf";
 
 
-            DEFAULT_SERIF_BOLD_FONT_FILENAME = "fonts/Comfortaa_Bold.ttf";
+            DEFAULT_SERIF_BOLD_FONT_FILENAME = "fonts/Aladin_Regular.ttf";
             DEFAULT_SERIF_BOLD_ITALIC_FONT_FILENAME = "fonts/CircularStd_MediumItalic.otf";
             DEFAULT_SERIF_ITALIC_FONT_FILENAME = "fonts/CircularStd_BookItalic.otf";
-            DEFAULT_SERIF_NORMAL_FONT_FILENAME = "fonts/Comfortaa_VariableFont_wght.ttf";
+            DEFAULT_SERIF_NORMAL_FONT_FILENAME = "fonts/Poppins_Regular.ttf";
 
 
-            DEFAULT_MONOSPACE_BOLD_FONT_FILENAME = "fonts/Comfortaa_Bold.ttf";
+            DEFAULT_MONOSPACE_BOLD_FONT_FILENAME = "fonts/Aladin_Regular.ttf";
             DEFAULT_MONOSPACE_BOLD_ITALIC_FONT_FILENAME = "fonts/CircularStd_MediumItalic.otf";
             DEFAULT_MONOSPACE_ITALIC_FONT_FILENAME = "fonts/CircularStd_BookItalic.otf";
-            DEFAULT_MONOSPACE_NORMAL_FONT_FILENAME = "fonts/Comfortaa_VariableFont_wght.ttf";
+            DEFAULT_MONOSPACE_NORMAL_FONT_FILENAME = "fonts/Poppins_Regular.ttf";
         }
 
 
@@ -320,5 +320,6 @@ public class MyApplication extends Application {
     private void logFontError(Throwable e) {
         Log.e("font_override", "Error overriding font", e);
     }
+
 
 }

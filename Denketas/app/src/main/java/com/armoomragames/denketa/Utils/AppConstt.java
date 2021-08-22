@@ -190,6 +190,12 @@ public interface AppConstt {
         String FN_OutageScheduleFragment = "OutageScheduleFragment" ;
         String FN_AlertsFragment = "AlertsFragment" ;
         String FN_BillAnaylsisFragment = "BillAnaylsisFragment" ;
+        String FN_WhatDenketaFragment = "WhatDenketaFragment" ;
+        String FN_RulesFragment = "RulesFragment" ;
+        String FN_GamePlayFragment = "GamePlayFragment" ;
+        String FN_ExtraRulesFragment = "ExtraRulesFragment" ;
+        String FN_ChallengeFragment = "ChallengeFragment";
+        String FN_RulesMianFragment = "RulesMianFragment" ;
     }
 
 
@@ -322,10 +328,12 @@ public interface AppConstt {
     }
 
     public interface ViewPagerState {
-        public int upcomingBookingFragment = 0;
-        public int previousBookingFragment = 1;
-        public int addReviews = 0;
-        public int AllReviews = 1;
+
+
+        public int Rules = 0;
+        public int GamePlay = 1;
+        public int ExtraRules = 2;
+        public int Challenge =3;
     }
 
 }

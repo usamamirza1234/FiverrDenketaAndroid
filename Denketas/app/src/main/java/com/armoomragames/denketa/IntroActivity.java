@@ -18,6 +18,10 @@ import java.util.Locale;
 
 import com.armoomragames.denketa.IntroAuxilaries.PreSignInFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SplashFragment;
+import com.armoomragames.denketa.RulesAuxilaries.ChallengeFragment;
+import com.armoomragames.denketa.RulesAuxilaries.ExtraRulesFragment;
+import com.armoomragames.denketa.RulesAuxilaries.GamePlayFragment;
+import com.armoomragames.denketa.RulesAuxilaries.RulesFragment;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.LocaleHelper;
@@ -31,7 +35,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        AppConfig.getInstance().performLangCheck(getWindow());
-         AppConfig.getInstance().regulateFontScale(getResources().getConfiguration(), getBaseContext());
+        AppConfig.getInstance().regulateFontScale(getResources().getConfiguration(), getBaseContext());
         setContentView(R.layout.activity_intro);
 
         fm = getSupportFragmentManager();
@@ -81,6 +85,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         setIntent(intent);
         //now getIntent() should always return the last received intent
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -94,6 +99,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -196,6 +202,10 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
 
     //region Navigations
+
+
+
+
     public void navToPreSignInVAFragment() {
         clearMyBackStack();
         PreSignInFragment frg = new PreSignInFragment();
@@ -206,7 +216,6 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         ft.commit();
 
     }
-
 
 
     public void navtoMainActivity() {
@@ -232,6 +241,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         }
         return tag;
     }
+
     public void clearMyBackStack() {
         int count = fm.getBackStackEntryCount();
         for (int i = 0; i < count; ++i) {
@@ -254,6 +264,31 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.act_intro_content_frg, frg, AppConstt.FragTag.FN_SplashFragment);
         ft.commit();
+    }
+
+
+    public void hideLastStackFragment(FragmentTransaction ft) {
+        Fragment frg = null;
+        frg = getSupportFragmentManager().findFragmentById(R.id.act_intro_content_frg);
+
+        if (frg != null) {
+            if (frg instanceof PreSignInFragment && frg.isVisible()) {
+                ft.hide(frg);
+            }
+
+            if (frg instanceof ChallengeFragment && frg.isVisible()) {
+                ft.hide(frg);
+            } else if (frg instanceof RulesFragment && frg.isVisible()) {
+                ft.hide(frg);
+            } else if (frg instanceof ExtraRulesFragment && frg.isVisible()) {
+                ft.hide(frg);
+            } else if (frg instanceof GamePlayFragment && frg.isVisible()) {
+                ft.hide(frg);
+            }
+
+
+        }
+
     }
     //endregion
 

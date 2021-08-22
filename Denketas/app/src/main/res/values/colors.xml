@@ -126,5 +126,17 @@
     <color name="thm_gray_bg_dark1">#1A707070</color>
     <color name="thm_gray_1">#99000000</color>
     <color name="thm_gray_2">#D9D9D9</color>
+
+
+
+
+
+
+
+    <color name="thm_blue_app">#1A5876</color>
+    <color name="thm_orange_app">#E89151</color>
+    <color name="thm_red_app">#9D3630</color>
+    <color name="dull_white2">#DFE1E4</color>
+
 </resources>
 
