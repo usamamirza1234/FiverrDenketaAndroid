@@ -1,37 +1,334 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/app_bg"
+
     android:clickable="true"
     android:orientation="vertical">
 
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="20dp">
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="20dp">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/aladin_regular"
+                android:padding="10dp"
+                android:text="@string/frg_rate_app"
+                android:textColor="@color/thm_orange_app"
+                android:textSize="@dimen/fontsize_extralarge"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
 
         <TextView
-
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/aladin_regular"
-            android:padding="10dp"
-            android:text="@string/frg_rate_app"
-            android:textColor="@color/thm_orange_app"
-            android:textSize="@dimen/fontsize_extralarge"
+            android:layout_gravity="center"
+
+            android:layout_marginTop="20dp"
+
+            android:background="@null"
+            android:gravity="center"
+            android:hint="@string/frg_rate_app_hard"
+            android:lines="1"
+            android:padding="5dp"
+            android:textColor="@color/thm_blue_app"
+            android:textColorHint="@color/thm_blue_app"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/fontsize_small"
             android:textStyle="bold" />
 
-    </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="20"
+                android:background="@null"
+                android:gravity="center"
+                android:hint="@string/frg_rate_app_Easy"
+                android:lines="1"
+                android:padding="5dp"
+                android:textColor="@color/thm_blue_app"
+                android:textColorHint="@color/thm_blue_app"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/fontsize_small"
+                android:textStyle="bold" />
+
+            <RatingBar
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="60"
+                android:numStars="5"
+                android:progressTint="#FFC107"
+                android:rating="3.5" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="20"
+
+                android:background="@null"
+                android:gravity="center"
+                android:hint="@string/frg_rate_app_Hard"
+                android:lines="1"
+                android:padding="5dp"
+                android:textColor="@color/thm_blue_app"
+                android:textColorHint="@color/thm_blue_app"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/fontsize_small"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:layout_marginTop="20dp"
+
+            android:background="@null"
+            android:gravity="center"
+            android:hint="@string/frg_rate_app_you_enjoyed"
+            android:lines="1"
+            android:padding="5dp"
+            android:textColor="@color/thm_blue_app"
+            android:textColorHint="@color/thm_blue_app"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/fontsize_small"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="20"
+                android:background="@null"
+                android:gravity="center"
+                android:hint="@string/frg_rate_app_Boriiing"
+                android:lines="1"
+                android:padding="5dp"
+                android:textColor="@color/thm_blue_app"
+                android:textColorHint="@color/thm_blue_app"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/fontsize_small"
+                android:textStyle="bold" />
+
+            <RatingBar
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="60"
+                android:numStars="5"
+                android:progressTint="#FFC107"
+                android:rating="3.5" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="20"
+
+                android:background="@null"
+                android:gravity="center"
+                android:hint="@string/frg_rate_app_WOW"
+                android:lines="1"
+                android:padding="5dp"
+                android:textColor="@color/thm_blue_app"
+                android:textColorHint="@color/thm_blue_app"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/fontsize_small"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:layout_marginTop="20dp"
+
+            android:background="@null"
+            android:gravity="center"
+            android:hint="@string/frg_rate_app_helpful"
+            android:lines="1"
+            android:padding="5dp"
+            android:textColor="@color/thm_blue_app"
+            android:textColorHint="@color/thm_blue_app"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/fontsize_small"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="20"
+                android:background="@null"
+                android:gravity="center"
+                android:hint="@string/frg_rate_app_no"
+                android:lines="1"
+                android:padding="5dp"
+                android:textColor="@color/thm_blue_app"
+                android:textColorHint="@color/thm_blue_app"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/fontsize_small"
+                android:textStyle="bold" />
+
+            <RatingBar
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="60"
+                android:numStars="5"
+                android:progressTint="#FFC107"
+                android:rating="3.5" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="20"
+
+                android:background="@null"
+                android:gravity="center"
+                android:hint="@string/frg_rate_app_yes"
+                android:lines="1"
+                android:padding="5dp"
+                android:textColor="@color/thm_blue_app"
+                android:textColorHint="@color/thm_blue_app"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/fontsize_small"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:layout_marginTop="20dp"
+
+            android:background="@null"
+            android:gravity="center"
+            android:hint="@string/frg_rate_app_how_hard"
+            android:lines="1"
+            android:padding="5dp"
+            android:textColor="@color/thm_blue_app"
+            android:textColorHint="@color/thm_blue_app"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/fontsize_small"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="20"
+                android:background="@null"
+                android:gravity="center"
+                android:hint="@string/frg_rate_app_Nope"
+                android:lines="1"
+                android:padding="5dp"
+                android:textColor="@color/thm_blue_app"
+                android:textColorHint="@color/thm_blue_app"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/fontsize_small"
+                android:textStyle="bold" />
+
+            <RatingBar
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="60"
+                android:numStars="5"
+                android:progressTint="#FFC107"
+                android:rating="3.5" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="20"
+
+                android:background="@null"
+                android:gravity="center"
+                android:hint="@string/frg_rate_app_sure"
+                android:lines="1"
+                android:padding="5dp"
+                android:textColor="@color/thm_blue_app"
+                android:textColorHint="@color/thm_blue_app"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/fontsize_small"
+                android:textStyle="bold" />
+        </LinearLayout>
 
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height_large"
+            android:layout_margin="30dp"
+            android:background="@drawable/shp_rect_rounded_app_blue">
 
-</LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Leave a Feedback"
+                android:textColor="@color/white"
+                android:textSize="@dimen/button_height_xxxsmall"
+                android:textStyle="bold" />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/app_bg"
+
     android:clickable="true">
 
     <RelativeLayout
@@ -179,7 +179,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="@drawable/shp_rect_rounded_blue"
+                        android:background="@drawable/shp_rect_rounded_app_blue"
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:padding="10dp">

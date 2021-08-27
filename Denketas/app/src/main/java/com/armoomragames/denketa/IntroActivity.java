@@ -16,7 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import java.util.Locale;
 
-import com.armoomragames.denketa.IntroAuxilaries.PreSignInFragment;
+import com.armoomragames.denketa.SettingsAuxillaries.PreSignInFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SplashFragment;
 import com.armoomragames.denketa.RulesAuxilaries.ChallengeFragment;
 import com.armoomragames.denketa.RulesAuxilaries.ExtraRulesFragment;

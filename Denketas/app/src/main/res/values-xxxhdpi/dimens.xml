@@ -1,7 +1,8 @@
 <resources>
 
     <dimen name="button_height_small">26dp</dimen>
-    <dimen name="button_height_medium">36dp</dimen>
+    <dimen name="button_height_xxxsmall">30dp</dimen>
+    <dimen name="button_height_medium">38dp</dimen>
     <dimen name="button_height_xmedium">40dp</dimen>
     <dimen name="button_height_xxmedium">45dp</dimen>
     <dimen name="button_height_large">50dp</dimen>
@@ -23,6 +24,7 @@
 
 
     <dimen name="fontsize_extralarge">46sp</dimen>
+    <dimen name="fontsize_xxxxlarge">36sp</dimen>
     <dimen name="fontsize_xxxlarge">34sp</dimen>
     <dimen name="fontsize_xxlarge">26sp</dimen>
     <dimen name="fontsize_xlarge">24sp</dimen>

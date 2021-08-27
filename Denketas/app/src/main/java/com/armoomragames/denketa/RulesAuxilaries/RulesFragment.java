@@ -11,14 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.armoomragames.denketa.IntroActivity;
-import com.armoomragames.denketa.IntroAuxilaries.PreSignInFragment;
-import com.armoomragames.denketa.MainActivity;
 import com.armoomragames.denketa.R;
-import com.armoomragames.denketa.Utils.AppConstt;
 
 public class RulesFragment extends Fragment implements View.OnClickListener {
 

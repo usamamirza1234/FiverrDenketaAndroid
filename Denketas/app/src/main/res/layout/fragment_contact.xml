@@ -1,37 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/app_bg"
-    android:clickable="true"
-    android:orientation="vertical">
 
-    <RelativeLayout
+    android:clickable="true">
+
+
+    <LinearLayout
+
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="20dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
-            android:fontFamily="@font/aladin_regular"
-            android:padding="10dp"
-            android:text="@string/frg_contact_app"
-            android:textColor="@color/thm_orange_app"
-            android:textSize="@dimen/fontsize_extralarge"
-            android:textStyle="bold" />
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="20dp">
 
-    </RelativeLayout>
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/aladin_regular"
+                android:padding="10dp"
+                android:text="@string/frg_contact_app"
+                android:textColor="@color/thm_orange_app"
+                android:textSize="@dimen/fontsize_extralarge"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
 
+                android:layout_marginTop="20dp"
 
-</LinearLayout>
+                android:background="@null"
+                android:gravity="center"
+                android:text="@string/frg_contact_app_ask"
+                android:lines="1"
+                android:padding="5dp"
+                android:textColor="@color/black"
+
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/fontsize_mini"
+                android:textStyle="bold" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shp_rect_rounded_gray">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:cursorVisible="true"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:hint="@string/frg_contact_type_here"
+                    android:lines="6"
+                    android:padding="15dp"
+                    android:paddingStart="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="10dp"
+                    android:text=""
+                    android:textColor="@color/thm_blue_app"
+                    android:textColorHint="@color/thm_gray_app"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/fontsize_mini"
+                    android:textStyle="normal" />
+
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginTop="20dp"
+
+                android:background="@null"
+                android:gravity="center"
+                android:hint="@string/frg_contact_app_contact"
+                android:lines="1"
+                android:padding="5dp"
+                android:textColor="@color/black"
+
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/fontsize_mini" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginTop="20dp"
+
+                android:background="@null"
+                android:gravity="center"
+                android:hint="@string/frg_contact_app_details"
+
+                android:padding="5dp"
+                android:textColor="@color/black"
+
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/fontsize_mini"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_fb_icon" />
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_youtube" />
+
+            </LinearLayout>
+
+
+            <ImageView
+                android:layout_marginEnd="25dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:padding="5dp"
+                android:src="@drawable/ic_logo" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

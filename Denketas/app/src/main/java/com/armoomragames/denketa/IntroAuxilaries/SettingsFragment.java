@@ -10,8 +10,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.R;
+import com.armoomragames.denketa.SettingsAuxillaries.AboutFragment;
+import com.armoomragames.denketa.SettingsAuxillaries.FaqFragment;
+import com.armoomragames.denketa.SettingsAuxillaries.LanguageFragment;
+import com.armoomragames.denketa.SettingsAuxillaries.PrivacyFragment;
+import com.armoomragames.denketa.SettingsAuxillaries.RateAppFragment;
 import com.armoomragames.denketa.SettingsAuxillaries.SignUpFragment;
 import com.armoomragames.denketa.Utils.AppConstt;
 
@@ -102,9 +106,23 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     }
 
     private void navtoPrivacyFragment() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new PrivacyFragment();
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PrivacyFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_PrivacyFragment);
+        ft.hide(this);
+        ft.commit();
     }
 
     private void navtoAboutFragment() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new AboutFragment();
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_AboutFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_AboutFragment);
+        ft.hide(this);
+        ft.commit();
     }
 
     private void navtoMyAccountFragment() {
@@ -157,5 +175,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         ft.hide(this);
         ft.commit();
     }
+    private void navtoAboutusFragment() {
 
+    }
 }

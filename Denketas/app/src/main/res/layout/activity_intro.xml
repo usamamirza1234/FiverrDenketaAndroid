@@ -1,7 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg">
+
     <RelativeLayout
         android:id="@+id/act_intro_rl_toolbar"
         android:layout_width="match_parent"
@@ -10,15 +12,17 @@
 
 
     </RelativeLayout>
+
     <FrameLayout
-        android:layout_below="@id/act_intro_rl_toolbar"
         android:id="@+id/act_intro_content_frg"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        android:layout_below="@id/act_intro_rl_toolbar" />
+
     <RelativeLayout
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
 
     </RelativeLayout>
 </RelativeLayout>

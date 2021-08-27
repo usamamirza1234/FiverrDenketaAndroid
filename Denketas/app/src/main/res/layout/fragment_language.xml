@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/app_bg"
+
     android:clickable="true"
     android:orientation="vertical">
 
@@ -73,7 +73,7 @@
                 android:padding="10dp"
                 android:text="@string/frg_lang_coming"
                 android:textColor="@color/thm_blue_red"
-                android:textSize="@dimen/fontsize_xxxlarge"
+                android:textSize="@dimen/fontsize_xxxxlarge"
                 android:textStyle="bold" />
 
 

@@ -203,6 +203,8 @@ public interface AppConstt {
         String FN_RateAppFragment = "RateAppFragment";
         String FN_ContactFragment = "ContactFragment";
         String FN_FaqFragment = "FaqFragment" ;
+        String FN_AboutFragment = "AboutFragment" ;
+        String FN_PrivacyFragment = "PrivacyFragment" ;
     }
 
 

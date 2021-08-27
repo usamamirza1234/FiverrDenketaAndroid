@@ -1,4 +1,4 @@
-package com.armoomragames.denketa.IntroAuxilaries;
+package com.armoomragames.denketa.SettingsAuxillaries;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -13,6 +13,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.AppConfig;
+import com.armoomragames.denketa.IntroAuxilaries.RulesMianFragment;
+import com.armoomragames.denketa.IntroAuxilaries.SettingsFragment;
+import com.armoomragames.denketa.IntroAuxilaries.WhatDenketaFragment;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.RulesAuxilaries.RulesFragment;
 import com.armoomragames.denketa.Utils.AppConstt;

@@ -13,7 +13,7 @@
 
     <!-- General Colors -->
     <color name="white">#ffffff</color>
-    <color name="black">#ff000000</color>
+    <color name="black">#000000</color>
     <color name="brown">#ff4e3d29</color>
     <color name="green">#16ca6b</color>
     <color name="gray">#7c7c7c</color>
@@ -132,7 +132,7 @@
 
 
 
-
+    <color name="thm_black_app">#BF000000</color>
     <color name="thm_blue_app">#1A5876</color>
     <color name="thm_gray_app">#40000000</color>
     <color name="thm_orange_app">#E89151</color>

@@ -14,6 +14,7 @@
     <!--FONTS -->
     <dimen name="fontsize_extralarge">44sp</dimen>
 
+    <dimen name="fontsize_xxxxlarge">34sp</dimen>
     <dimen name="fontsize_xxxlarge">32sp</dimen>
     <dimen name="fontsize_xxlarge">24sp</dimen>
     <dimen name="fontsize_xlarge">22sp</dimen>
@@ -80,6 +81,7 @@
     <dimen name="buttonview_font_padding_bottom">0dp</dimen>
 
     <dimen name="button_height_small">26dp</dimen>
+    <dimen name="button_height_xxxsmall">28dp</dimen>
     <dimen name="button_height_medium">36dp</dimen>
     <dimen name="button_height_xmedium">40dp</dimen>
     <dimen name="button_height_xxmedium">45dp</dimen>
