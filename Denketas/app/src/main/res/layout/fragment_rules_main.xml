@@ -10,8 +10,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
 
-        android:background="@drawable/shp_rect_rounded_white"
+
         android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -19,6 +20,7 @@
 
 
             <RelativeLayout
+                android:id="@+id/act_intro_lay_toolbar_rlCross"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"

@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true">
 
+        <include layout="@layout/act_lay_toolabar" />
 
     </RelativeLayout>
 

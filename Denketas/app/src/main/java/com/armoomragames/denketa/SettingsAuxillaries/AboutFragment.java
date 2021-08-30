@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.armoomragames.denketa.R;
+import com.armoomragames.denketa.Utils.AppConstt;
+import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 
 import static android.text.Layout.JUSTIFICATION_MODE_INTER_WORD;
 
@@ -33,8 +37,50 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
         bindViews(frg);
 
 
+//        Animation shake;
+//        shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
+
+
+        RelativeLayout txvPlay = frg.findViewById(R.id.frg_presigin_rlPlay);
+//        txvPlay.startAnimation(shake); // starts animation
+
+        txvPlay.animate().y(70f).setDuration(700);
+
+
+
+        init();
         return frg;
     }
+
+    IBadgeUpdateListener mBadgeUpdateListener;
+
+    void setToolbar() {
+
+        try {
+            mBadgeUpdateListener = (IBadgeUpdateListener) getActivity();
+        } catch (ClassCastException castException) {
+            castException.printStackTrace(); // The activity does not implement the listener
+        }
+        if (getActivity() != null && isAdded()) {
+            mBadgeUpdateListener.setToolbarState(AppConstt.INTRO_ToolbarStates.TOOLBAR_VISIBLE);
+
+        }
+
+    }
+
+    void init() {
+        setToolbar();
+    }
+
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!isHidden()) {
+            setToolbar();
+        }
+    }
+
 
     private void bindViews(View frg) {
         txvCreatorDesc = frg.findViewById(R.id.frg_about_txv_creator_desc);

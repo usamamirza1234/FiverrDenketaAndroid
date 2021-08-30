@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
+        android:padding="10dp"
         android:background="@drawable/ic_bg_about"
         android:orientation="vertical">
 
@@ -18,6 +19,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/frg_presigin_rlPlay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -223,14 +225,14 @@
                                 android:layout_marginEnd="10dp"
                                 android:gravity="center"
                                 android:padding="5dp"
-                                android:text="Illustrations"
+                                android:text="Designers"
                                 android:textColor="@color/thm_blue_red"
                                 android:textSize="@dimen/fontsize_xxlarge"
                                 android:textStyle="bold" />
 
 
                             <ImageView
-                                android:layout_width="100dp"
+                                android:layout_width="80dp"
                                 android:layout_height="58dp"
                                 android:layout_below="@id/heading1"
                                 android:layout_alignParentEnd="true"

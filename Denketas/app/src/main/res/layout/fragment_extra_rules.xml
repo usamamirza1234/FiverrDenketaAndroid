@@ -79,12 +79,12 @@
                     android:textSize="@dimen/fontsize_mini" />
 
                 <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_below="@id/frg_extra_rules_txvDescription2"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginTop="-15dp"
+                    android:layout_marginTop="-20dp"
                     android:src="@drawable/ic_master_2" />
 
             </RelativeLayout>
@@ -156,14 +156,14 @@
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:layout_gravity="center"
-                    android:layout_margin="20dp"
+                    android:layout_margin="10dp"
                     android:src="@drawable/ic_madeup" />
 
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_margin="10dp"
                     android:padding="10dp"
                     android:text="@string/frg_extra_desc5"
 

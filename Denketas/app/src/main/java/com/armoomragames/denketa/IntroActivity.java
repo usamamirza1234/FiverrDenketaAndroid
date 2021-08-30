@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -30,6 +31,8 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
 
     private FragmentManager fm;
+
+    RelativeLayout rlToolbar, rlBack, rlCross;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,17 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
         setMyScreenSize();
 
+        bindViews();
+
+    }
+
+    private void bindViews() {
+        rlToolbar = findViewById(R.id.act_intro_rl_toolbar);
+        rlBack = findViewById(R.id.act_intro_lay_toolbar_rlBack);
+        rlCross = findViewById(R.id.act_intro_lay_toolbar_rlCross);
+
+        rlBack.setOnClickListener(this);
+        rlCross.setOnClickListener(this);
     }
 
     @Override
@@ -90,11 +104,14 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
     public void onClick(View v) {
         switch (v.getId()) {
 
-//            case R.id.act_intro_rl_toolbar_logo:
-//
-//                navToChoiceAppNatureFragment();
-//
-//                break;
+            case R.id.act_intro_lay_toolbar_rlBack:
+                onBackPressed();
+
+                break;
+            case R.id.act_intro_lay_toolbar_rlCross:
+                navToPreSignInVAFragment();
+
+                break;
 
 
         }
@@ -140,27 +157,34 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
     @Override
     public void onBackPressed() {
+//
+//        String tag = returnStackFragmentTag();
+//
+//        AppConfig.getInstance().closeKeyboard(this);
+//        {
+//            Log.d("whileOnBackPress", " Tag " + tag);
+//            if ((tag.equalsIgnoreCase(AppConstt.FragTag.FN_SignInFragment)) ||
+//                    (tag.equalsIgnoreCase(AppConstt.FragTag.FN_SignUpFragment))
+//                    || (tag.equalsIgnoreCase(AppConstt.FragTag.FN_ForgotPasswordFragment))
+//            ) {
+//                navToPreSignInVAFragment();
+//            } else {
+//                if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+//                    getSupportFragmentManager().popBackStack();
+//                    Log.d("whileOnBackPress", " 123 " + tag);
+//                } else {
+//                    Log.d("whileOnBackPress", " 456 " + tag);
+//                    super.onBackPressed();
+//                }
+//            }
+//        }
 
-        String tag = returnStackFragmentTag();
-
-        AppConfig.getInstance().closeKeyboard(this);
-        {
-            Log.d("whileOnBackPress", " Tag " + tag);
-            if ((tag.equalsIgnoreCase(AppConstt.FragTag.FN_SignInFragment)) ||
-                    (tag.equalsIgnoreCase(AppConstt.FragTag.FN_SignUpFragment))
-                    || (tag.equalsIgnoreCase(AppConstt.FragTag.FN_ForgotPasswordFragment))
-            ) {
-                navToPreSignInVAFragment();
-            } else {
-                if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-                    getSupportFragmentManager().popBackStack();
-                    Log.d("whileOnBackPress", " 123 " + tag);
-                } else {
-                    Log.d("whileOnBackPress", " 456 " + tag);
-                    super.onBackPressed();
-                }
-            }
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            getSupportFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
         }
+
     }
 
     //region IBadgeUpdateListener
@@ -180,8 +204,31 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         switch (mState) {
 
 
-            case AppConstt.INTRO_ToolbarStates.defualt:
+            case AppConstt.INTRO_ToolbarStates.TOOLBAR_HIDDEN:
+                rlToolbar.setVisibility(View.GONE);
+                break;
 
+
+            case AppConstt.INTRO_ToolbarStates.TOOLBAR_VISIBLE:
+                rlToolbar.setVisibility(View.VISIBLE);
+                rlBack.setVisibility(View.VISIBLE);
+                rlCross.setVisibility(View.VISIBLE);
+                break;
+
+            case AppConstt.INTRO_ToolbarStates.TOOLBAR_BACK_HIDDEN:
+                rlToolbar.setVisibility(View.VISIBLE);
+                rlBack.setVisibility(View.GONE);
+                rlCross.setVisibility(View.VISIBLE);
+                break;
+
+            case AppConstt.INTRO_ToolbarStates.TOOLBAR_CROSS_HIDDEN:
+                rlToolbar.setVisibility(View.VISIBLE);
+                rlBack.setVisibility(View.VISIBLE);
+                rlCross.setVisibility(View.GONE);
+
+                break;
+
+            default:
                 break;
 
         }
@@ -202,8 +249,6 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
 
     //region Navigations
-
-
 
 
     public void navToPreSignInVAFragment() {

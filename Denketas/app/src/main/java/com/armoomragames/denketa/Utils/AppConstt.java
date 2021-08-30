@@ -224,11 +224,11 @@ public interface AppConstt {
 
     interface INTRO_ToolbarStates {
 
-        byte choice = 0;
-        byte signinVA = 1;
-        byte signinFarmer = 2;
+        byte TOOLBAR_VISIBLE=0;
+        byte TOOLBAR_HIDDEN=1;
+        byte TOOLBAR_BACK_HIDDEN=2;
+        byte TOOLBAR_CROSS_HIDDEN=3;
 
-        byte defualt = 4;
 
     }
 

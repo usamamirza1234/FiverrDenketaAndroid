@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,29 +22,62 @@ import com.armoomragames.denketa.IntroAuxilaries.WhatDenketaFragment;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.RulesAuxilaries.RulesFragment;
 import com.armoomragames.denketa.Utils.AppConstt;
+import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 
 public class PreSignInFragment extends Fragment implements View.OnClickListener {
 
 
-    RelativeLayout rlPlay, rlDenketa, rlRules,rlSettings;
-    TextView txvSettings, txvDictionary, txvPlay,txvRules,txvDenketa;
-
-
+    RelativeLayout rlPlay, rlDenketa, rlRules, rlSettings;
+    TextView txvSettings, txvDictionary, txvPlay, txvRules, txvDenketa;
+    ImageView imv_master,imv_master_hat;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View frg = inflater.inflate(R.layout.fragment_pre_sign_in, container, false);
 
-
+        init();
         bindViews(frg);
+
+
 
 
 
         return frg;
     }
+    public void onShakeImage() {
 
-    private void bindViews(View frg)
-    {
+    }
+    IBadgeUpdateListener mBadgeUpdateListener;
+
+    void setToolbar() {
+
+        try {
+            mBadgeUpdateListener = (IBadgeUpdateListener) getActivity();
+        } catch (ClassCastException castException) {
+            castException.printStackTrace(); // The activity does not implement the listener
+        }
+        if (getActivity() != null && isAdded()) {
+            mBadgeUpdateListener.setToolbarState(AppConstt.INTRO_ToolbarStates.TOOLBAR_HIDDEN);
+
+        }
+
+    }
+
+    void init() {
+        setToolbar();
+    }
+
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!isHidden()) {
+            setToolbar();
+        }
+    }
+
+
+    private void bindViews(View frg) {
         rlPlay = frg.findViewById(R.id.frg_presigin_rlPlay);
         rlDenketa = frg.findViewById(R.id.frg_presigin_rlDenketa);
         rlRules = frg.findViewById(R.id.frg_presigin_rlRules);
@@ -51,13 +87,21 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         txvDenketa = frg.findViewById(R.id.frg_presigin_txvDenketas);
         txvDictionary = frg.findViewById(R.id.frg_presigin_txvDictionary);
         txvPlay = frg.findViewById(R.id.frg_presigin_txvPlay);
-        txvRules= frg.findViewById(R.id.frg_presigin_txvRules);
+        txvRules = frg.findViewById(R.id.frg_presigin_txvRules);
+
+
+        imv_master = frg.findViewById(R.id.imv_master);
+        imv_master_hat = frg.findViewById(R.id.imv_master_hat);
+
 
 
         rlPlay.setOnClickListener(this);
         rlDenketa.setOnClickListener(this);
         rlRules.setOnClickListener(this);
         rlSettings.setOnClickListener(this);
+
+        imv_master.setOnClickListener(this);
+        imv_master_hat.setOnClickListener(this);
 
         Typeface tfEng = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Aladin_Regular.ttf");
 
@@ -91,6 +135,30 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
                 break;
             case R.id.frg_presigin_rlSettings:
                 navToSettingsFragment();
+                break;
+
+
+
+                case R.id.imv_master:
+
+                    Animation Upbottom = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_down);
+
+
+                    imv_master.startAnimation(Upbottom);
+                    imv_master.setVisibility(View.GONE);
+                    imv_master_hat.setVisibility(View.VISIBLE);
+
+                    break;
+
+
+            case R.id.imv_master_hat:
+
+                Animation  bottomUp = AnimationUtils.loadAnimation(getContext(),
+                        R.anim.bottom_up);
+
+                imv_master_hat.setVisibility(View.GONE);
+                imv_master.setVisibility(View.VISIBLE);
+                imv_master_hat.startAnimation(bottomUp);
                 break;
         }
     }
@@ -140,6 +208,8 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new SettingsFragment();
+//        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+//                R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_SettingsFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_SettingsFragment);
         ft.hide(this);

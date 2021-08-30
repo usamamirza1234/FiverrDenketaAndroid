@@ -5,12 +5,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.armoomragames.denketa.IntroActivity;
+import com.armoomragames.denketa.MainActivity;
 import com.armoomragames.denketa.R;
+import com.armoomragames.denketa.Utils.AppConstt;
+import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -20,6 +25,7 @@ public class RulesMianFragment extends Fragment implements View.OnClickListener 
     private ArrayList<String> listTitle;
     ViewPager viewPager;
     TabLayout tabLayout;
+    RelativeLayout rlToolbar, rlBack, rlCross;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,7 +51,37 @@ public class RulesMianFragment extends Fragment implements View.OnClickListener 
 
         displayFragments();
 
+        init();
         return frg;
+    }
+
+    IBadgeUpdateListener mBadgeUpdateListener;
+
+    void setToolbar() {
+
+        try {
+            mBadgeUpdateListener = (IBadgeUpdateListener) getActivity();
+        } catch (ClassCastException castException) {
+            castException.printStackTrace(); // The activity does not implement the listener
+        }
+        if (getActivity() != null && isAdded()) {
+            mBadgeUpdateListener.setToolbarState(AppConstt.INTRO_ToolbarStates.TOOLBAR_HIDDEN);
+
+        }
+
+    }
+
+    void init() {
+        setToolbar();
+    }
+
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!isHidden()) {
+            setToolbar();
+        }
     }
 
 
@@ -79,7 +115,9 @@ public class RulesMianFragment extends Fragment implements View.OnClickListener 
     }
 
     private void bindViews(View frg) {
+        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
 
+        rlCross.setOnClickListener(this);
     }
 
 
@@ -87,6 +125,10 @@ public class RulesMianFragment extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
 
         switch (v.getId()) {
+            case R.id.act_intro_lay_toolbar_rlCross:
+                ((IntroActivity) getActivity()).onBackPressed();
+
+                break;
 
 
         }
@@ -95,14 +137,6 @@ public class RulesMianFragment extends Fragment implements View.OnClickListener 
 
     private PagerAdapter buildAdapter() {
         return (new RulesViewPagerAdapter(getActivity(), getChildFragmentManager(), listTitle));
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!isHidden()) {
-//            setBottomBar();
-        }
     }
 
 
