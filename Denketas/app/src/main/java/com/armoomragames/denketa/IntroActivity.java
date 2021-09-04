@@ -17,12 +17,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import java.util.Locale;
 
-import com.armoomragames.denketa.SettingsAuxillaries.PreSignInFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PreSignInFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SplashFragment;
-import com.armoomragames.denketa.RulesAuxilaries.ChallengeFragment;
-import com.armoomragames.denketa.RulesAuxilaries.ExtraRulesFragment;
-import com.armoomragames.denketa.RulesAuxilaries.GamePlayFragment;
-import com.armoomragames.denketa.RulesAuxilaries.RulesFragment;
+import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.ChallengeFragment;
+import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.ExtraRulesFragment;
+import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.GamePlayFragment;
+import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.RulesFragment;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.LocaleHelper;

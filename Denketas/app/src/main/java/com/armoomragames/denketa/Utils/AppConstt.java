@@ -205,6 +205,8 @@ public interface AppConstt {
         String FN_FaqFragment = "FaqFragment" ;
         String FN_AboutFragment = "AboutFragment" ;
         String FN_PrivacyFragment = "PrivacyFragment" ;
+        String FN_DictionaryFragment = "DictionaryFragment" ;
+        String PlayMianFragment ="PlayMianFragment" ;
     }
 
 
@@ -336,7 +338,7 @@ public interface AppConstt {
         String canceled = "canceled";
     }
 
-    public interface ViewPagerState {
+    public interface ViewPagerStateRules {
 
 
         public int Rules = 0;
@@ -345,6 +347,14 @@ public interface AppConstt {
         public int Challenge =3;
     }
 
+    public interface ViewPagerStatePlay     {
+
+
+        public int MY_DENKETA = 0;
+        public int MORE_DENKETA = 1;
+        public int MAKE_MY_DENKETA = 2;
+
+    }
 }
 
 

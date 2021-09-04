@@ -1,4 +1,4 @@
-package com.armoomragames.denketa.RulesAuxilaries;
+package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,11 +9,11 @@ import androidx.fragment.app.Fragment;
 
 import com.armoomragames.denketa.R;
 
-public class ChallengeFragment extends Fragment implements View.OnClickListener {
+public class MoreDenketaFragment extends Fragment implements View.OnClickListener {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View frg = inflater.inflate(R.layout.fragment_challenge, container, false);
+        View frg = inflater.inflate(R.layout.fragment_more_denketa, container, false);
 
 
         return frg;
@@ -22,7 +22,7 @@ public class ChallengeFragment extends Fragment implements View.OnClickListener 
     private static final String KEY_POSITION = "position";
 
     public static Fragment newInstance(int position) {
-        Fragment frag = new ChallengeFragment();
+        Fragment frag = new MoreDenketaFragment();
         Bundle args = new Bundle();
         args.putInt(KEY_POSITION, position);
         frag.setArguments(args);

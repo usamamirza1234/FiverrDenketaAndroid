@@ -1,4 +1,4 @@
-package com.armoomragames.denketa.SettingsAuxillaries;
+package com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

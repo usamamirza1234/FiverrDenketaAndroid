@@ -1,4 +1,4 @@
-package com.armoomragames.denketa.SettingsAuxillaries;
+package com.armoomragames.denketa.IntroAuxilaries;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -16,18 +16,18 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.AppConfig;
+import com.armoomragames.denketa.IntroAuxilaries.DictionaryFragment;
 import com.armoomragames.denketa.IntroAuxilaries.RulesMianFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsFragment;
 import com.armoomragames.denketa.IntroAuxilaries.WhatDenketaFragment;
 import com.armoomragames.denketa.R;
-import com.armoomragames.denketa.RulesAuxilaries.RulesFragment;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 
 public class PreSignInFragment extends Fragment implements View.OnClickListener {
 
 
-    RelativeLayout rlPlay, rlDenketa, rlRules, rlSettings;
+    RelativeLayout rlPlay, rlDenketa, rlRules, rlSettings,rlDictionary;
     TextView txvSettings, txvDictionary, txvPlay, txvRules, txvDenketa;
     ImageView imv_master,imv_master_hat;
 
@@ -82,6 +82,7 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         rlDenketa = frg.findViewById(R.id.frg_presigin_rlDenketa);
         rlRules = frg.findViewById(R.id.frg_presigin_rlRules);
         rlSettings = frg.findViewById(R.id.frg_presigin_rlSettings);
+        rlDictionary = frg.findViewById(R.id.frg_presigin_rldictionary);
 
         txvSettings = frg.findViewById(R.id.frg_presigin_txvSettings);
         txvDenketa = frg.findViewById(R.id.frg_presigin_txvDenketas);
@@ -99,6 +100,7 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         rlDenketa.setOnClickListener(this);
         rlRules.setOnClickListener(this);
         rlSettings.setOnClickListener(this);
+        rlDictionary.setOnClickListener(this);
 
         imv_master.setOnClickListener(this);
         imv_master_hat.setOnClickListener(this);
@@ -174,13 +176,13 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
     }
 
     private void navToPlayFragment() {
-//        FragmentManager fm = getFragmentManager();
-//        FragmentTransaction ft = fm.beginTransaction();
-//        Fragment frag = new SignInFragment();
-//        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_SignInFragment);
-//        ft.addToBackStack(AppConstt.FragTag.FN_SignInFragment);
-//        ft.hide(this);
-//        ft.commit();
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new PlayMianFragment();
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.PlayMianFragment);
+        ft.addToBackStack(AppConstt.FragTag.PlayMianFragment);
+        ft.hide(this);
+        ft.commit();
     }
 
     private void navToRulesFragment() {
@@ -194,13 +196,13 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
     }
 
     private void navToDictionaryFragment() {
-//        FragmentManager fm = getFragmentManager();
-//        FragmentTransaction ft = fm.beginTransaction();
-//        Fragment frag = new ForgotPasswordFragment();
-//        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_SignInFragment);
-//        ft.addToBackStack(AppConstt.FragTag.FN_SignInFragment);
-//        ft.hide(this);
-//        ft.commit();
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new DictionaryFragment();
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_DictionaryFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_DictionaryFragment);
+        ft.hide(this);
+        ft.commit();
     }
 
 

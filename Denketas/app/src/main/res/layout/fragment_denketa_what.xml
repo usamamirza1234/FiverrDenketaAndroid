@@ -1,6 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout   android:background="@drawable/app_bg"
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <RelativeLayout
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/frg_presigin_rlPlay"
+
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/ic_bg_about"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="15dp"
+
+                android:background="@drawable/ic_shp_about">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/aladin_regular"
+                    android:padding="10dp"
+
+                    android:text="What is Danetkas?"
+                    android:textColor="@color/thm_orange_app"
+                    android:textSize="@dimen/fontsize_xxxxlarge"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/title"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/ic_what_denketa">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:paddingTop="25dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="15dp"
+
+
+                    android:text="    Danetkas - musical stories is a quiz cooperative game where you need to find stories based on a hint and a picture. You don’t need to  be a musician. You just need to think critically and make smart questions. Even if you have a PhD in music history, you will still discover new fascinating things since many stories are not widely known. And even if you miraculously do know all the stories, the enigmatic hints will still make the game interesting.
+
+    In Danetkas you will find real stories from classical composer’s lives, learn musical facts, instruments and also how to behave at a concert. Find out how a balloon inspired people to learn music, how a dead composer made a woman poison herself or how a symphony sent everyone on holidays. You will end up knowing facts about classical music and be able to impress your friends with fun anecdotes. You will find a whole  new world, where classical music is interesting, weird and unexpected. Don’t hesitate to go online and listen to the music you just learnt about.
+
+"
+                    android:textColor="@color/thm_blue_app"
+                    android:textSize="@dimen/fontsize_small" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/bow"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_below="@id/title"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="-20dp"
+                android:src="@drawable/ic_what_denketa_bow" />
+
+
+            <ImageView
+
+                android:id="@+id/feet"
+                android:layout_width="105dp"
+                android:layout_height="50dp"
+                android:layout_below="@id/description"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="-30dp"
+                android:src="@drawable/ic_what_feet" />
+
+
+        </RelativeLayout>
+
+
+        <ImageView
+            android:id="@+id/frg_presigin_rlPlay"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="-40dp"
+            android:src="@drawable/ic_hat_what" />
+
+    </RelativeLayout>
+
+
+</androidx.core.widget.NestedScrollView>

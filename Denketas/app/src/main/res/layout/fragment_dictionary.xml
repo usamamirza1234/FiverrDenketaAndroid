@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"          android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/ic_shp_about">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/aladin_regular"
+            android:padding="10dp"
+
+            android:text="Dictionary"
+            android:textColor="@color/thm_orange_app"
+            android:textSize="@dimen/fontsize_extralarge"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+
+    <com.dd.ShadowLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:sl_cornerRadius="24dp"
+        app:sl_dx="0dp"
+        app:sl_dy="0dp"
+        app:sl_shadowColor="@color/thm_shadow"
+        app:sl_shadowRadius="3dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height_medium"
+
+            android:background="@drawable/shp_rect_rounded_white_medium">
+
+            <TextView
+                android:paddingStart="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:hint="Search" />
+
+            <ImageView
+
+                android:paddingEnd="14dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_search"/>
+
+
+        </RelativeLayout>
+    </com.dd.ShadowLayout>
+
+    <ListView
+        android:padding="10dp"
+        android:background="@drawable/ic_shp_game_creator"
+        android:id="@+id/frg_lsv_dictionary"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:divider="@null"
+        android:horizontalSpacing="7dp"
+        android:numColumns="2"
+        android:paddingBottom="10dp"
+        android:scrollbars="none"
+        android:verticalSpacing="7dp"
+        android:visibility="visible" />
+
+</LinearLayout>

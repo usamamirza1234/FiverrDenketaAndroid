@@ -1,33 +1,24 @@
 package com.armoomragames.denketa.IntroAuxilaries;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.R;
-import com.armoomragames.denketa.SettingsAuxillaries.AboutFragment;
-import com.armoomragames.denketa.SettingsAuxillaries.FaqFragment;
-import com.armoomragames.denketa.SettingsAuxillaries.LanguageFragment;
-import com.armoomragames.denketa.SettingsAuxillaries.PrivacyFragment;
-import com.armoomragames.denketa.SettingsAuxillaries.RateAppFragment;
-import com.armoomragames.denketa.SettingsAuxillaries.SignUpFragment;
+import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.AboutFragment;
+import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.FaqFragment;
+import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.LanguageFragment;
+import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.PrivacyFragment;
+import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.RateAppFragment;
+import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.SignUpFragment;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 

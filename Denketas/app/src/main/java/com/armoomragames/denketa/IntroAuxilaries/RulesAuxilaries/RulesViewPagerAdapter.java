@@ -1,4 +1,4 @@
-package com.armoomragames.denketa.IntroAuxilaries;
+package com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries;
 
 import android.content.Context;
 import android.view.ViewGroup;
@@ -7,10 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.armoomragames.denketa.RulesAuxilaries.ChallengeFragment;
-import com.armoomragames.denketa.RulesAuxilaries.ExtraRulesFragment;
-import com.armoomragames.denketa.RulesAuxilaries.GamePlayFragment;
-import com.armoomragames.denketa.RulesAuxilaries.RulesFragment;
 import com.armoomragames.denketa.Utils.AppConstt;
 
 import java.util.HashMap;
@@ -45,18 +41,18 @@ public class RulesViewPagerAdapter extends FragmentStatePagerAdapter {
         Fragment frg = null;
 
         switch (position) {
-            case AppConstt.ViewPagerState.Rules:
+            case AppConstt.ViewPagerStateRules.Rules:
                 frg = RulesFragment.newInstance(position);
                 break;
-            case AppConstt.ViewPagerState.ExtraRules:
+            case AppConstt.ViewPagerStateRules.ExtraRules:
                 frg = ExtraRulesFragment.newInstance(position);
                 break;
 
-            case AppConstt.ViewPagerState.GamePlay:
+            case AppConstt.ViewPagerStateRules.GamePlay:
                 frg = GamePlayFragment.newInstance(position);
                 break;
 
-            case AppConstt.ViewPagerState.Challenge:
+            case AppConstt.ViewPagerStateRules.Challenge:
                 frg = ChallengeFragment.newInstance(position);
                 break;
 

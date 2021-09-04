@@ -1,4 +1,4 @@
-package com.armoomragames.denketa.RulesAuxilaries;
+package com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries;
 
 import android.graphics.Typeface;
 import android.os.Bundle;

@@ -1,19 +1,13 @@
-package com.armoomragames.denketa.RulesAuxilaries;
+package com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.R;
-import com.armoomragames.denketa.Utils.AppConstt;
 
 public class ExtraRulesFragment extends Fragment implements View.OnClickListener {
 

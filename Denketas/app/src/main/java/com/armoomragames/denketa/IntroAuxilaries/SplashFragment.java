@@ -18,7 +18,6 @@ import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.MainActivity;
 import com.armoomragames.denketa.R;
-import com.armoomragames.denketa.SettingsAuxillaries.PreSignInFragment;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 

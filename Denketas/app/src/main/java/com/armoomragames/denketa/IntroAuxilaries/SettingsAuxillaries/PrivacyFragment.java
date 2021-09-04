@@ -1,4 +1,4 @@
-package com.armoomragames.denketa.SettingsAuxillaries;
+package com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,18 +11,15 @@ import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 
-public class ForgotPasswordFragment extends Fragment implements View.OnClickListener {
-
-
+public class PrivacyFragment extends Fragment implements View.OnClickListener {
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View frg = inflater.inflate(R.layout.fragment_forgot_password, container, false);
+        View frg = inflater.inflate(R.layout.fragment_privacy, container, false);
 
 
         bindViews(frg);
-
 
 
 
@@ -41,7 +38,6 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
         }
         if (getActivity() != null && isAdded()) {
             mBadgeUpdateListener.setToolbarState(AppConstt.INTRO_ToolbarStates.TOOLBAR_VISIBLE);
-
         }
 
     }
@@ -58,12 +54,8 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
             setToolbar();
         }
     }
-
-
     private void bindViews(View frg)
     {
-
-
 
 
     }
@@ -73,9 +65,15 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
     public void onClick(View v) {
 
         switch (v.getId()) {
+            case R.id.frg_settings_rlMyAccount:
 
+
+
+                break;
         }
     }
+
+
 
 
 }

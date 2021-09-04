@@ -5,13 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.armoomragames.denketa.IntroActivity;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PlayViewPagerAdapter;
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.RulesViewPagerAdapter;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
@@ -20,16 +19,16 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
-public class RulesMianFragment extends Fragment implements View.OnClickListener {
+public class PlayMianFragment extends Fragment implements View.OnClickListener {
 
     private ArrayList<String> listTitle;
     ViewPager viewPager;
     TabLayout tabLayout;
-    RelativeLayout rlToolbar, rlBack, rlCross;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View frg = inflater.inflate(R.layout.fragment_rules_main, container, false);
+        View frg = inflater.inflate(R.layout.fragment_play_main, container, false);
 
         listTitle = new ArrayList<>();
 
@@ -43,10 +42,10 @@ public class RulesMianFragment extends Fragment implements View.OnClickListener 
 
         tabLayout.setVisibility(View.VISIBLE);
 
-        listTitle.add(getString(R.string.rules));
-        listTitle.add(getString(R.string.gameplay));
-        listTitle.add(getString(R.string.extra_rules));
-        listTitle.add(getString(R.string.challenge));
+        listTitle.add(getString(R.string.my_denketa));
+        listTitle.add(getString(R.string.more_denketa));
+        listTitle.add(getString(R.string.make_deneketa));
+
 
 
         displayFragments();
@@ -65,7 +64,7 @@ public class RulesMianFragment extends Fragment implements View.OnClickListener 
             castException.printStackTrace(); // The activity does not implement the listener
         }
         if (getActivity() != null && isAdded()) {
-            mBadgeUpdateListener.setToolbarState(AppConstt.INTRO_ToolbarStates.TOOLBAR_HIDDEN);
+            mBadgeUpdateListener.setToolbarState(AppConstt.INTRO_ToolbarStates.TOOLBAR_BACK_HIDDEN);
 
         }
 
@@ -115,9 +114,7 @@ public class RulesMianFragment extends Fragment implements View.OnClickListener 
     }
 
     private void bindViews(View frg) {
-        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
 
-        rlCross.setOnClickListener(this);
     }
 
 
@@ -125,10 +122,7 @@ public class RulesMianFragment extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.act_intro_lay_toolbar_rlCross:
-                ((IntroActivity) getActivity()).onBackPressed();
 
-                break;
 
 
         }
@@ -136,7 +130,7 @@ public class RulesMianFragment extends Fragment implements View.OnClickListener 
 
 
     private PagerAdapter buildAdapter() {
-        return (new RulesViewPagerAdapter(getActivity(), getChildFragmentManager(), listTitle));
+        return (new PlayViewPagerAdapter(getActivity(), getChildFragmentManager(), listTitle));
     }
 
 
