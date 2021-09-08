@@ -28,7 +28,6 @@ import java.util.Random;
 
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.CustomAlertConfirmationInterface;
-import com.armoomragames.denketa.Utils.CustomAlertDialog;
 import com.armoomragames.denketa.Utils.IWebCallback;
 import com.armoomragames.denketa.Utils.IWebIndexedCallback;
 import com.armoomragames.denketa.Utils.IWebPaginationCallback;
@@ -38,8 +37,8 @@ import com.armoomragames.denketa.Utils.RModel_onFailureError;
 
 
 public class AppConfig {
-    private static com.armoomragames.denketa.AppConfig ourInstance;// = new AppConfig(null);
-    public CustomAlertDialog customAlertDialog;
+    private static AppConfig ourInstance;// = new AppConfig(null);
+
     //endregion
     public Gson gson;
     public String mRole;
@@ -84,11 +83,11 @@ public class AppConfig {
     public static void initInstance(Context _mContext) {
         if (ourInstance == null) {
             // Create the instance
-            ourInstance = new com.armoomragames.denketa.AppConfig(_mContext);
+            ourInstance = new AppConfig(_mContext);
         }
     }
 
-    public static com.armoomragames.denketa.AppConfig getInstance() {
+    public static AppConfig getInstance() {
         return ourInstance;
     }
 
@@ -168,23 +167,7 @@ public class AppConfig {
         }
     }
 
-    public void parsErrorMessageOnFailure(final IWebCallback iWebCallback, byte[] responseBody) {
-        try {
-            Gson gson = new Gson();
-            String strResponse = new String(responseBody, StandardCharsets.UTF_8);
-            RModel_onFailureError responseObjectLocal = gson.fromJson(strResponse, RModel_onFailureError.class);
 
-
-            Log.d("paserdJSON", "JSONObject: responseObjectLocal.getErrors() " + responseObjectLocal.getErrors());
-//            parseJson(responseObjectLocal.getErrors());
-
-
-            iWebCallback.onWebResult(false, responseObjectLocal.getErrors().toString());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            iWebCallback.onWebException(ex);
-        }
-    }
 
 //    public void performLangCheck(Window _window) {
 //        if (_window != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
@@ -193,36 +176,8 @@ public class AppConfig {
 //    }
     //endregion
 
-    public void parsErrorMessage(final IWebIndexedCallback iWebIndexedCallback, byte[] responseBody, int _index) {
-        try {
-            Gson gson = new Gson();
-            String strResponse = new String(responseBody, StandardCharsets.UTF_8);
-            RModel_Message responseObjectLocal = gson.fromJson(strResponse, RModel_Message.class);
-            iWebIndexedCallback.onWebResult(false, responseObjectLocal.getMessage(), _index);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            iWebIndexedCallback.onWebException(ex, _index);
-        }
-    }
 
-    public void parsErrorMessage(final IWebPaginationCallback iWebPaginationCallback, byte[] responseBody,
-                                 final int _index, final int _currIndex) {
-        try {
-            Gson gson = new Gson();
-            String strResponse = new String(responseBody, StandardCharsets.UTF_8);
-            RModel_Message responseObjectLocal = gson.fromJson(strResponse, RModel_Message.class);
-            if (_index == _currIndex)
-                iWebPaginationCallback.onWebInitialResult(false, responseObjectLocal.getMessage());
-            else
-                iWebPaginationCallback.onWebSuccessiveResult(false, false, responseObjectLocal.getMessage());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            if (_index == _currIndex)
-                iWebPaginationCallback.onWebInitialException(ex);
-            else
-                iWebPaginationCallback.onWebSuccessiveException(ex);
-        }
-    }
+
 
     public void closeKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -235,20 +190,7 @@ public class AppConfig {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public void showErrorMessage(Context context, String _errorMsg) {
-        customAlertDialog = new CustomAlertDialog(context, "", _errorMsg, "Ok", "", false, new CustomAlertConfirmationInterface() {
-            @Override
-            public void callConfirmationDialogPositive() {
-                customAlertDialog.dismiss();
-            }
 
-            @Override
-            public void callConfirmationDialogNegative() {
-                customAlertDialog.dismiss();
-            }
-        });
-        customAlertDialog.show();
-    }
     //endregion
 
 
@@ -550,12 +492,12 @@ public class AppConfig {
             deleteUserData();
 
             try {
-                Intent intent = new Intent(com.armoomragames.denketa.MyApplication.mContext,
+                Intent intent = new Intent(MyApplication.mContext,
                         IntroActivity.class);
 
                 // set the new task and clear flags
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                com.armoomragames.denketa.MyApplication.mContext.startActivity(intent);
+                MyApplication.mContext.startActivity(intent);
 
             } catch (Exception e) {
                 e.printStackTrace();

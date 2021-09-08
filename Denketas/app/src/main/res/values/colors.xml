@@ -138,7 +138,8 @@
     <color name="thm_orange_app">#E89151</color>
     <color name="thm_red_app">#9D3630</color>
     <color name="dull_white2">#DFE1E4</color>
-    <color name="thm_blue_red">#9D3630</color>
+    <color name="app_thm_txv_gray">#40000000</color>
+
 
 </resources>
 

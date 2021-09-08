@@ -207,6 +207,8 @@ public interface AppConstt {
         String FN_PrivacyFragment = "PrivacyFragment" ;
         String FN_DictionaryFragment = "DictionaryFragment" ;
         String PlayMianFragment ="PlayMianFragment" ;
+        String FN_DenketaQuestionFragment = "DenketaQuestionFragment" ;
+        String FN_DenketaAnswerFragment = "DenketaAnswerFragment" ;
     }
 
 

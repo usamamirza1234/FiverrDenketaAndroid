@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.AppConfig;
+import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.DictionaryFragment;
 import com.armoomragames.denketa.IntroAuxilaries.RulesMianFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsFragment;
@@ -122,7 +123,7 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         switch (v.getId()) {
 
             case R.id.frg_presigin_rlPlay:
-                navToPlayFragment();
+                ((IntroActivity)getActivity()). navToPlayFragment();
                 break;
 
             case R.id.frg_presigin_rlDenketa:
@@ -175,15 +176,7 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         ft.commit();
     }
 
-    private void navToPlayFragment() {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new PlayMianFragment();
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.PlayMianFragment);
-        ft.addToBackStack(AppConstt.FragTag.PlayMianFragment);
-        ft.hide(this);
-        ft.commit();
-    }
+
 
     private void navToRulesFragment() {
         FragmentManager fm = getFragmentManager();

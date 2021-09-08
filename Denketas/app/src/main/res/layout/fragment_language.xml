@@ -72,7 +72,7 @@
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="@string/frg_lang_coming"
-                android:textColor="@color/thm_blue_red"
+                android:textColor="@color/thm_red_app"
                 android:textSize="@dimen/fontsize_xxxxlarge"
                 android:textStyle="bold" />
 
