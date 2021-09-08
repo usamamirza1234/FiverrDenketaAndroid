@@ -47,13 +47,14 @@
                     android:src="@drawable/ic_speaker" />
 
                 <TextView
+                    android:id="@+id/frg_extra_rules_txvtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="70"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="@string/frg_extra_desc"
+                    android:justificationMode="inter_word"
                     android:textAlignment="center"
                     android:textColor="@color/thm_blue_app"
                     android:textSize="@dimen/fontsize_mini" />
@@ -73,13 +74,14 @@
                     android:id="@+id/frg_extra_rules_txvDescription2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/frg_extra_desc2"
 
+                    android:justificationMode="inter_word"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fontsize_mini" />
 
                 <ImageView
-                    android:layout_width="40dp"
+                    android:layout_marginStart="5dp"
+                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_below="@id/frg_extra_rules_txvDescription2"
                     android:layout_alignParentEnd="true"
@@ -102,7 +104,7 @@
                     android:id="@+id/frg_extra_rules_txvDescription3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/frg_extra_desc3"
+
 
                     android:textColor="@color/black"
                     android:textSize="@dimen/fontsize_mini" />
@@ -131,13 +133,14 @@
                     android:src="@drawable/ic_speaker" />
 
                 <TextView
+                    android:id="@+id/frg_extra_rules_txvMessage"
+                    android:justificationMode="inter_word"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="70"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="@string/frg_extra_desc4"
                     android:textAlignment="center"
                     android:textColor="@color/thm_blue_app"
                     android:textSize="@dimen/fontsize_mini" />
@@ -163,10 +166,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
                     android:padding="10dp"
                     android:text="@string/frg_extra_desc5"
-
+                    android:justificationMode="inter_word"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fontsize_mini" />
 

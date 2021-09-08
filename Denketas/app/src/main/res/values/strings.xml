@@ -78,10 +78,12 @@
     <string name="frg_game_play_did_he_die_right">Did he die right after\n receiving a gunshot?</string>
     <string name="frg_game_play_did_he_end">Did he end up dying\n of an illness?</string>
     <string name="frg_game_play_etc">Etc...</string>
-    <string name="frg_extra_desc">Look carefully at all the information that you can find, everything might have a double meaning, every little detail is important (or maybe not).</string>
-    <string name="frg_extra_desc2">"     It’s up to you to decide how strict you want to be. The Master can help by using intonations and giving directions. If you see that the Investigators still can’t find the solution, ask them to look again at the information provided, check if they miss anything. If the Investigators run out of questions, then the players can ask for extra hints their wise friend Mr. Rigoletto. "</string>
-    <string name="frg_extra_desc3">"     It's up to the Master to decide which extra hint to give  depending on  which part  of  the story the Investigators have difficulty solving. It’s up to you to decide how detailed you want to get the story. If you are a perfectionist you should find out everything. No need to get the story word by word but you need to explain everything, including the picture and the title. If something does not make sense to the Investigators,  dig deeper.  "</string>
-    <string name="frg_extra_desc4">There can be different “logical” storylines you might come up with, but the ONLY correct answer is the one provided in the app. The Master MUST answer the questions according to that.</string>
+    <string name="frg_extra_desc">Look carefully at all the information that you can find, everything might have a double meaning, every little detail is important</string>
+    <string name="frg_extra_desc2">"     It’s up to you to decide how strict you want to be. The Master can help by using intonations and giving directions. If you see that the Investigators still can’t find the solution, ask them to look again at the information provided, check if they miss anything. If the Investigators run out of questions, then the players can ask for extra hints their wise friend"</string>
+    <string name="frg_extra_desc_3_01">"     It's up to the Master to decide which extra hint to give  depending on  which part  of  the story the Investigators have difficulty solving. It’s up to you to decide how detailed you want to get the story. If you are a perfectionist you should find out everything. No need to get the story word by word but you need to explain everything, including the"</string>
+    <string name="frg_extra_desc_3_02">". If something does not make sense to the Investigators,  dig deeper.  "</string>
+    <string name="frg_extra_message_4_01">There can be different “logical” storylines you might come up with, but the</string>
+    <string name="frg_extra_message_4_02">answer the questions according to that.</string>
     <string name="frg_extra_desc5">Most of the stories present in this game are true historical events or debatable by musicologists. If you see this icon, that means that we, the creators of this game, made up the story based on real musical and historical facts.</string>
     <string name="frg_challnge_difficult">DIFFICULT BUT FUN!</string>
     <string name="frg_challnge_prof_inves">For professional Investigators</string>

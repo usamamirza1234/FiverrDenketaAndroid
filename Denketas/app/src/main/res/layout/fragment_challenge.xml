@@ -20,7 +20,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:fontFamily="@font/poppins_bold"
                 android:padding="15dp"
+
                 android:text="@string/frg_challnge_difficult"
                 android:textColor="@color/thm_red_app"
                 android:textSize="@dimen/fontsize_large"
@@ -191,42 +193,59 @@
             </LinearLayout>
 
 
-            <LinearLayout
-                android:layout_marginTop="30dp"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
-
-                android:background="@drawable/ic_shp_circle_dark_blue"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="@string/frg_extra_challenge_inves"
-                    android:textColor="@color/dull_white2"
-
-                    android:textSize="@dimen/fontsize_mini"
-                    android:textStyle="bold" />
+                android:layout_height="wrap_content">
 
 
-                <TextView
+                <LinearLayout
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="40dp"
+                    android:background="@drawable/ic_shp_circle_dark_blue"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="@string/frg_extra_challenge_inves"
+                        android:textColor="@color/dull_white2"
+
+                        android:textSize="@dimen/fontsize_mini"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+
+                        android:padding="15dp"
+                        android:text="@string/frg_extra_challenge_inves2"
+
+                        android:textColor="@color/dull_white2"
+                        android:textSize="@dimen/fontsize_mini" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="32dp"
+                    android:src="@drawable/ic_bulb" />
 
-                    android:padding="10dp"
-                    android:text="@string/frg_extra_challenge_inves2"
 
-                    android:textColor="@color/dull_white2"
-                    android:textSize="@dimen/fontsize_mini" />
-
-            </LinearLayout>
+            </RelativeLayout>
 
 
         </LinearLayout>

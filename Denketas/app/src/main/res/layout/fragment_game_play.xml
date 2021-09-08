@@ -41,6 +41,7 @@
                         android:src="@drawable/ic_investigator" />
 
                     <TextView
+                        android:fontFamily="@font/poppins_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -75,7 +76,8 @@
                         android:layout_gravity="center"
                         android:src="@drawable/ic_master" />
 
-                    <TextView
+                    <TextView     android:fontFamily="@font/poppins_bold"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
