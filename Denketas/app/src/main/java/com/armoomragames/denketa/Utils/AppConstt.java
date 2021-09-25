@@ -209,6 +209,7 @@ public interface AppConstt {
         String PlayMianFragment ="PlayMianFragment" ;
         String FN_DenketaQuestionFragment = "DenketaQuestionFragment" ;
         String FN_DenketaAnswerFragment = "DenketaAnswerFragment" ;
+        String FN_InvestigatorFragment = "InvestigatorFragment" ;
     }
 
 

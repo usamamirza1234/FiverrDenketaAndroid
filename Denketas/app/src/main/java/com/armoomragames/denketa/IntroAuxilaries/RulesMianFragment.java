@@ -127,10 +127,7 @@ public class RulesMianFragment extends Fragment implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.act_intro_lay_toolbar_rlCross:
                 ((IntroActivity) getActivity()).onBackPressed();
-
                 break;
-
-
         }
     }
 
@@ -140,15 +137,4 @@ public class RulesMianFragment extends Fragment implements View.OnClickListener 
     }
 
 
-    void setBottomBar() {
-
-//        try {
-//            mBadgeUpdateListener = (IBadgeUpdateListener) getActivity();
-//        } catch (ClassCastException castException) {
-//            castException.printStackTrace(); // The activity does not implement the listener
-//        }
-//        if (getActivity() != null && isAdded())
-//            mBadgeUpdateListener.setToolbarState(AppConstt.ToolbarState.BOTTOM_BAR_HIDDEN);
-
-    }
 }

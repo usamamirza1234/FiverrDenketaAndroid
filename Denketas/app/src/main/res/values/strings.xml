@@ -93,7 +93,7 @@
     <string name="frg_challnge_prof_musi">For music lovers and \nprofessional musicians</string>
     <string name="frg_challnge_prof_musi2">For music lovers and \nprofessional musicians</string>
     <string name="frg_extra_challenge_inves">" INVESTIGATOR"</string>
-    <string name="frg_extra_challenge_inves2">Avoid false assumptions and make a lot of questions, going step by step, instead of coming up with a story.  “The woman was a street musician and then someone gave her money and she bought an instrument with that?”\n   That can be broken down into\n several questions:\n    “Was the woman a musician?”\n    “Did someone give her money?”\n    “Did she want to buy an instrument?”  \nEtc...</string>
+    <string name="frg_extra_challenge_inves2">Avoid false assumptions and make a lot of questions, going step by step, instead of coming up with a story.  “The woman was a street musician and then someone gave her money and she bought an instrument with that?”\n   That can be broken down into\n several questions:\n•  “Was the woman a musician?”\n•  “Did someone give her money?”\n•  “Did she want to buy an instrument?”  \nEtc...</string>
     <string name="frg_settings_my_account">My Account</string>
     <string name="frg_settings_lang">Language</string>
     <string name="frg_settings_rate">Rate the App</string>
@@ -193,9 +193,9 @@
         Changes to this Privacy Policy are effective when they are posted on this page.
         \n\nContact Us \nIf you have any questions about this Privacy Policy, You can contact us:
         \n\nBy email: armoomragames@gmail.com \nPrivacy Policy for Danetkas</string>
-    <string name="my_denketa">My Denketa</string>
-    <string name="more_denketa">More Denketa</string>
-    <string name="make_deneketa">Make Denekta</string>
-
+    <string name="my_denketa">My Danetkas</string>
+    <string name="more_denketa">More Danetkas</string>
+    <string name="make_deneketa">Make My Danetkas</string>
+    <string name="facebook_app_id">894882580618030</string>
 
 </resources>

@@ -94,7 +94,7 @@
 
                 </RelativeLayout>
 
-                <RelativeLayout
+                <RelativeLayout android:visibility="gone"
                     android:id="@+id/frg_settings_rlRate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

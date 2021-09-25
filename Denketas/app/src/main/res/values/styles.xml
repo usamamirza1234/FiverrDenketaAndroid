@@ -58,6 +58,18 @@
         <item name="android:textColor">@color/thm_blue_app</item>
         <item name="android:fontFamily">@font/aladin_regular</item>
     </style>
+
+
+
+    <style name="MyCustomTextAppearancePlay" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/fontsize_medium</item>
+
+        <item name="android:textColor">@color/thm_blue_app</item>
+        <item name="android:fontFamily">@font/aladin_regular</item>
+    </style>
     <!-- region end-->
 
     <style name="TextAppearance.MaterialCalendarWidget.Header" parent="android:TextAppearance.DeviceDefault.Small">

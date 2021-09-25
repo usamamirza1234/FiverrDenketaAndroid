@@ -25,7 +25,7 @@
 
                 android:text="@string/frg_challnge_difficult"
                 android:textColor="@color/thm_red_app"
-                android:textSize="@dimen/fontsize_large"
+                android:textSize="@dimen/fontsize_xlarge"
                 android:textStyle="bold" />
 
 
@@ -121,7 +121,7 @@
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
+                        android:justificationMode="inter_word"
 
                         android:text="@string/frg_challnge_prof_mast2"
                         android:textColor="@color/black"
@@ -180,9 +180,9 @@
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:justificationMode="inter_word"
 
-
-                        android:text="@string/frg_challnge_prof_musi2"
+                        android:text="Try to find the exact composer or \nthe exact musical piece."
                         android:textColor="@color/black"
                         android:textSize="@dimen/fontsize_mini" />
 
@@ -226,7 +226,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-
+                        android:justificationMode="inter_word"
                         android:padding="15dp"
                         android:text="@string/frg_extra_challenge_inves2"
 

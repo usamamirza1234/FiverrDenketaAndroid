@@ -32,7 +32,7 @@
                     android:paddingEnd="2dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Denketa"
+                    android:text="Danetkas"
                     android:textColor="@color/thm_blue_app"
                     android:textSize="@dimen/fontsize_large"
                     android:layout_gravity="center_vertical"/>

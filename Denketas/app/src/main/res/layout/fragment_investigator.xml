@@ -4,36 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="20dp"
-    android:layout_marginEnd="20dp"
+
     android:orientation="vertical">
 
-    <RelativeLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:background="@drawable/ic_shp_about">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/aladin_regular"
-            android:padding="10dp"
-
-            android:text="Dictionary"
-            android:textColor="@color/thm_orange_app"
-            android:textSize="@dimen/fontsize_extralarge"
-            android:textStyle="bold" />
-
-
-    </RelativeLayout>
 
     <com.dd.ShadowLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="10dp"    android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
         app:sl_cornerRadius="24dp"
         app:sl_dx="0dp"
@@ -69,11 +48,10 @@
         </RelativeLayout>
     </com.dd.ShadowLayout>
 
-    <ListView
-        android:id="@+id/frg_lsv_dictionary"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/frg_rcv_my_denketa"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/ic_shp_game_creator"
         android:clipToPadding="false"
         android:divider="@null"
         android:horizontalSpacing="7dp"

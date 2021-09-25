@@ -24,6 +24,7 @@
             app:tabIndicatorHeight="3dp"
 
             app:tabSelectedTextColor="@color/thm_blue_app"
+
             app:tabTextAppearance="@style/MyCustomTextAppearance"
 
             />
@@ -36,4 +37,6 @@
 
 
     </LinearLayout>
+
+
 </RelativeLayout>

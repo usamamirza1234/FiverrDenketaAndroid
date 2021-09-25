@@ -191,7 +191,7 @@
                             android:layout_centerInParent="true"
                             android:background="@null"
                             android:lines="1"
-
+                            android:fontFamily="@font/poppins_bold"
 
                             android:text="@string/frg_my_account_register"
 
@@ -289,7 +289,7 @@
                             android:background="@null"
                             android:lines="1"
                             android:padding="5dp"
-
+                            android:fontFamily="@font/poppins_bold"
                             android:paddingStart="5dp"
                             android:text="@string/frg_my_account_signup_google"
 
@@ -344,7 +344,7 @@
                             android:background="@null"
                             android:lines="1"
                             android:padding="5dp"
-
+                            android:fontFamily="@font/poppins_bold"
                             android:paddingStart="5dp"
                             android:text="@string/frg_my_account_signup_fb"
 

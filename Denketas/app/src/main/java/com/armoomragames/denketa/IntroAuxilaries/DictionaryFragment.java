@@ -41,43 +41,6 @@ public class DictionaryFragment extends Fragment implements View.OnClickListener
         DictionaryListAdapter listAdapter = new DictionaryListAdapter(getContext(), (eventId, position) -> {
 
 
-//            switch (eventId) {
-//                case EVENT_A: {
-//                    selectedPosition = position;
-//                    Log.d("CARDTEST", "lastClicked: pos " + selectedPosition);
-//                }
-//                break;
-//
-//                case EVENT_B: {
-//                    String risk = lst_Funds.get(position).getRisk_rating().toLowerCase();
-//                    Bundle bundle = new Bundle();
-//                    if (lst_Funds_target_allocation.size() > 0) {
-//                        String money_market = lst_Funds_target_allocation.get(position).getMoney_market().toLowerCase();
-//                        String fixedIncome = lst_Funds_target_allocation.get(position).getFixed_income().toLowerCase();
-//                        String publicEquity = lst_Funds_target_allocation.get(position).getPublic_equity().toLowerCase();
-//                        String realEstate = lst_Funds_target_allocation.get(position).getReal_estate().toLowerCase();
-//
-//                        bundle.putString("riskType", risk);
-//
-//                        bundle.putDouble("moneyMarket", Double.parseDouble(money_market));
-//                        bundle.putDouble("fixedIncome", Double.parseDouble(fixedIncome));
-//                        bundle.putDouble("publicEquity", Double.parseDouble(publicEquity));
-//                        bundle.putDouble("realEstate", Double.parseDouble(realEstate));
-//                    } else {
-//                        bundle.putString("riskType", risk);
-//
-//                        bundle.putDouble("moneyMarket", 0.0);
-//                        bundle.putDouble("fixedIncome", 0.0);
-//                        bundle.putDouble("publicEquity", 0.0);
-//                        bundle.putDouble("realEstate", 0.0);
-//                    }
-//
-//
-//                    ((MainActivity) getActivity()).navtoFundsSelectionChartFragment(bundle);
-//                }
-//                break;
-//            }
-
         }, lst_Funds);
 
         lsvDictionary.setAdapter(listAdapter);

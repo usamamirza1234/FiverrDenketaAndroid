@@ -1,10 +1,17 @@
 package com.armoomragames.denketa.IntroAuxilaries;
 
+import android.app.Dialog;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
@@ -24,7 +31,6 @@ public class PlayMianFragment extends Fragment implements View.OnClickListener {
     private ArrayList<String> listTitle;
     ViewPager viewPager;
     TabLayout tabLayout;
-
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -134,15 +140,4 @@ public class PlayMianFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    void setBottomBar() {
-
-//        try {
-//            mBadgeUpdateListener = (IBadgeUpdateListener) getActivity();
-//        } catch (ClassCastException castException) {
-//            castException.printStackTrace(); // The activity does not implement the listener
-//        }
-//        if (getActivity() != null && isAdded())
-//            mBadgeUpdateListener.setToolbarState(AppConstt.ToolbarState.BOTTOM_BAR_HIDDEN);
-
-    }
 }

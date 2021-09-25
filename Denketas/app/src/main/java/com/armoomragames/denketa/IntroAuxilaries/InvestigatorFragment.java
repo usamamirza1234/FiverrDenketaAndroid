@@ -1,7 +1,6 @@
-package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
+package com.armoomragames.denketa.IntroAuxilaries;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -20,17 +18,17 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.armoomragames.denketa.IntroActivity;
-import com.armoomragames.denketa.IntroAuxilaries.RulesMianFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DenketaQuestionFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.MyDenketaRcvAdapter;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
-import com.armoomragames.denketa.Utils.CustomAlertConfirmationInterface;
 
 import java.util.ArrayList;
 
 import static com.armoomragames.denketa.Utils.IAdapterCallback.EVENT_A;
 
-public class MyDenketaFragment extends Fragment implements View.OnClickListener {
+public class InvestigatorFragment extends Fragment implements View.OnClickListener {
 
     RecyclerView rcvMyDenekta;
     Dialog dialog;
@@ -40,7 +38,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View frg = inflater.inflate(R.layout.fragment_my_denketa, container, false);
+        View frg = inflater.inflate(R.layout.fragment_investigator, container, false);
 
         init();
         bindViewss(frg);
@@ -121,7 +119,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener 
     private static final String KEY_POSITION = "position";
 
     public static Fragment newInstance(int position) {
-        Fragment frag = new MyDenketaFragment();
+        Fragment frag = new InvestigatorFragment();
         Bundle args = new Bundle();
         args.putInt(KEY_POSITION, position);
         frag.setArguments(args);

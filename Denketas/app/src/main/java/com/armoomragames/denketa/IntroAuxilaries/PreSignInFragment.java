@@ -1,10 +1,16 @@
 package com.armoomragames.denketa.IntroAuxilaries;
 
+import android.app.Dialog;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -16,11 +22,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.AppConfig;
-import com.armoomragames.denketa.IntroActivity;
-import com.armoomragames.denketa.IntroAuxilaries.DictionaryFragment;
-import com.armoomragames.denketa.IntroAuxilaries.RulesMianFragment;
-import com.armoomragames.denketa.IntroAuxilaries.SettingsFragment;
-import com.armoomragames.denketa.IntroAuxilaries.WhatDenketaFragment;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
@@ -28,9 +29,12 @@ import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 public class PreSignInFragment extends Fragment implements View.OnClickListener {
 
 
-    RelativeLayout rlPlay, rlDenketa, rlRules, rlSettings,rlDictionary;
+    RelativeLayout rlPlay, rlDenketa, rlRules, rlSettings, rlDictionary;
     TextView txvSettings, txvDictionary, txvPlay, txvRules, txvDenketa;
-    ImageView imv_master,imv_master_hat;
+    ImageView imv_master, imv_master_hat;
+    Dialog dialog;
+    IBadgeUpdateListener mBadgeUpdateListener;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,16 +44,11 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         bindViews(frg);
 
 
-
-
-
         return frg;
     }
-    public void onShakeImage() {
 
-    }
-    IBadgeUpdateListener mBadgeUpdateListener;
 
+    //region init
     void setToolbar() {
 
         try {
@@ -96,7 +95,6 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         imv_master_hat = frg.findViewById(R.id.imv_master_hat);
 
 
-
         rlPlay.setOnClickListener(this);
         rlDenketa.setOnClickListener(this);
         rlRules.setOnClickListener(this);
@@ -115,7 +113,32 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         txvSettings.setTypeface(tfEng);
         AppConfig.getInstance().tfAppDefault = txvRules.getTypeface();
     }
+    //endregion
 
+    //region Onclicks
+    public void openDialoguePlay() {
+
+        dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.lay_item_play);
+        final Window window = dialog.getWindow();
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        TextView txvRules = dialog.findViewById(R.id.lay_item_play_txvRules);
+        TextView txvMaster = dialog.findViewById(R.id.lay_item_play_txvMaster);
+        TextView txvInvestigator = dialog.findViewById(R.id.lay_item_play_txvInvestigator);
+        RelativeLayout rlCross = dialog.findViewById(R.id.lay_item_play_rlCross);
+
+
+        txvInvestigator.setOnClickListener(this);
+        txvMaster.setOnClickListener(this);
+        txvRules.setOnClickListener(this);
+        rlCross.setOnClickListener(this);
+
+        dialog.show();
+    }
 
     @Override
     public void onClick(View v) {
@@ -123,7 +146,28 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         switch (v.getId()) {
 
             case R.id.frg_presigin_rlPlay:
-                ((IntroActivity)getActivity()). navToPlayFragment();
+                openDialoguePlay();
+                break;
+            case R.id.lay_item_play_txvRules:
+
+                dialog.dismiss();
+                navToRulesFragment();
+                break;
+            case R.id.lay_item_play_txvInvestigator:
+
+
+                dialog.dismiss();
+                navToInvestigatorFragment();
+                break;
+            case R.id.lay_item_play_txvMaster:
+
+                dialog.dismiss();
+                navToPlayFragment();
+                break;
+            case R.id.lay_item_play_rlCross:
+
+                dialog.dismiss();
+
                 break;
 
             case R.id.frg_presigin_rlDenketa:
@@ -141,29 +185,54 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
                 break;
 
 
+            case R.id.imv_master:
+                hideMaster();
 
-                case R.id.imv_master:
-
-                    Animation Upbottom = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_down);
-
-
-                    imv_master.startAnimation(Upbottom);
-                    imv_master.setVisibility(View.GONE);
-                    imv_master_hat.setVisibility(View.VISIBLE);
-
-                    break;
+                break;
 
 
             case R.id.imv_master_hat:
-
-                Animation  bottomUp = AnimationUtils.loadAnimation(getContext(),
-                        R.anim.bottom_up);
-
-                imv_master_hat.setVisibility(View.GONE);
-                imv_master.setVisibility(View.VISIBLE);
-                imv_master_hat.startAnimation(bottomUp);
+                showMaster();
                 break;
         }
+    }
+
+    private void hideMaster() {
+        Animation Upbottom = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_down);
+        imv_master.startAnimation(Upbottom);
+        imv_master.setVisibility(View.GONE);
+        imv_master_hat.setVisibility(View.VISIBLE);
+    }
+
+    private void showMaster() {
+        Animation bottomUp = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_up);
+        imv_master_hat.setVisibility(View.GONE);
+        imv_master.setVisibility(View.VISIBLE);
+        imv_master_hat.startAnimation(bottomUp);
+        imv_master.setOnClickListener(null);
+
+        final Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            Animation Upbottom = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_down);
+            imv_master.startAnimation(Upbottom);
+            imv_master.setVisibility(View.GONE);
+            imv_master_hat.setVisibility(View.VISIBLE);
+//            enableOnclickHat();
+        }, 1000);
+    }
+    //endregion
+
+    //region Navigations
+    private void navToInvestigatorFragment() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new InvestigatorFragment();
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_InvestigatorFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_InvestigatorFragment);
+//        ft.hide(this);
+        ft.hide(this);
+        ft.commit();
+
     }
 
     private void navToDenketaWhatFragment() {
@@ -176,7 +245,17 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         ft.commit();
     }
 
+    public void navToPlayFragment() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new PlayMianFragment();
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.PlayMianFragment);
+        ft.addToBackStack(AppConstt.FragTag.PlayMianFragment);
+//        ft.hide(this);
+        ft.hide(this);
+        ft.commit();
 
+    }
 
     private void navToRulesFragment() {
         FragmentManager fm = getFragmentManager();
@@ -198,7 +277,6 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         ft.commit();
     }
 
-
     private void navToSettingsFragment() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -210,4 +288,6 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         ft.hide(this);
         ft.commit();
     }
+
+    //endregion
 }

@@ -253,19 +253,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
     //region Navigations
 
-    public void navToDenketaQuestionFragment() {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new DenketaQuestionFragment();
-        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                R.anim.enter_from_left, R.anim.exit_to_right);//not required
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_DenketaQuestionFragment);
-        ft.addToBackStack(AppConstt.FragTag.FN_DenketaQuestionFragment);
-//        ft.hide(this);
-        hideLastStackFragment(ft);
-        ft.commit();
 
-    }
 
     public void navToPreSignInVAFragment() {
         clearMyBackStack();
@@ -278,17 +266,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
     }
 
-    public void navToPlayFragment() {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new PlayMianFragment();
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.PlayMianFragment);
-        ft.addToBackStack(AppConstt.FragTag.PlayMianFragment);
-//        ft.hide(this);
-        hideLastStackFragment(ft);
-        ft.commit();
 
-    }
     public void navtoMainActivity() {
 //        Toast.makeText(this, "MainActivity", Toast.LENGTH_SHORT).show();
 

@@ -17,7 +17,6 @@ public class RulesViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private Context mContext = null;
     private List<String> listTitle; // header titles
-    private String strOrderId, strOrderType;
     private FragmentManager mFragmentManager;
     private Map<Integer, String> mFragmentTags;
     private float mRotationY;
@@ -60,7 +59,6 @@ public class RulesViewPagerAdapter extends FragmentStatePagerAdapter {
                 frg = RulesFragment.newInstance(position);
                 break;
         }
-
 
 
 //        if (AppConfig.getInstance().isComingFromAllReviews) {
