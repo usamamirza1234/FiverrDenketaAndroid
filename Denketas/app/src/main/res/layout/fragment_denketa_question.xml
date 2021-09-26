@@ -68,7 +68,7 @@
                 android:lines="1"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-
+                android:fontFamily="@font/poppins_bold"
                 android:text="See the answer"
 
                 android:textColor="@color/white"

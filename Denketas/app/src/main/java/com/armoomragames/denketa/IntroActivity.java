@@ -15,19 +15,23 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import java.util.Locale;
-
+import com.armoomragames.denketa.IntroAuxilaries.InvestigatorAuxillaries.DenketaInvestigatorQuestionFragment;
+import com.armoomragames.denketa.IntroAuxilaries.InvestigatorFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DenketaQuestionFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.MyResultsFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayMianFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PreSignInFragment;
-import com.armoomragames.denketa.IntroAuxilaries.SplashFragment;
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.ChallengeFragment;
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.ExtraRulesFragment;
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.GamePlayFragment;
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.RulesFragment;
+import com.armoomragames.denketa.IntroAuxilaries.RulesMianFragment;
+import com.armoomragames.denketa.IntroAuxilaries.SplashFragment;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.LocaleHelper;
+
+import java.util.Locale;
 
 public class IntroActivity extends AppCompatActivity implements IBadgeUpdateListener, View.OnClickListener {
 
@@ -253,6 +257,52 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
     //region Navigations
 
+    public void navToMyResultsFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new MyResultsFragment();
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_MyResultsFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_RulesMianFragment);
+        hideLastStackFragment(ft);
+//        ft.hide(this);
+        ft.commit();
+    }
+
+    public void navToDenketaQuestionFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new DenketaQuestionFragment();
+        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+                R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_DenketaQuestionFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_DenketaQuestionFragment);
+        hideLastStackFragment(ft);
+//        ft.hide(this);
+        ft.commit();
+
+    }
+    public void navToDenketaInvestigatorQuestionFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new DenketaInvestigatorQuestionFragment();
+        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+                R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_DenketaInvestigatorQuestionFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_DenketaInvestigatorQuestionFragment);
+        hideLastStackFragment(ft);
+//        ft.hide(this);
+        ft.commit();
+    }
+    public void navToRulesFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new RulesMianFragment();
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_RulesMianFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_RulesMianFragment);
+//        ft.hide(this);
+        hideLastStackFragment(ft);
+        ft.commit();
+    }
 
 
     public void navToPreSignInVAFragment() {
@@ -336,8 +386,11 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
             }
             else if (frg instanceof DenketaQuestionFragment && frg.isVisible()) {
                 ft.hide(frg);
-            }
-            else if (frg instanceof PlayMianFragment && frg.isVisible()) {
+            } else if (frg instanceof PlayMianFragment && frg.isVisible()) {
+                ft.hide(frg);
+            } else if (frg instanceof MyResultsFragment && frg.isVisible()) {
+                ft.hide(frg);
+            } else if (frg instanceof InvestigatorFragment && frg.isVisible()) {
                 ft.hide(frg);
             }
 
@@ -345,6 +398,8 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         }
 
     }
+
+
     //endregion
 
 }

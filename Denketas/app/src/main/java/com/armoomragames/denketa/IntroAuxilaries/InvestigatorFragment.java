@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DenketaQuestionFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.MyDenketaRcvAdapter;
@@ -133,36 +134,16 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
             case R.id.lay_item_play_txvRules:
 
                 dialog.dismiss();
-                navToRulesFragment();
-                break;            case R.id.lay_item_rules_llOkay:
+                ((IntroActivity)getActivity()).navToRulesFragment();
+                break;
 
+            case R.id.lay_item_rules_llOkay:
                 dialog.dismiss();
-
+                ((IntroActivity)getActivity()).navToDenketaInvestigatorQuestionFragment();
                 break;
         }
     }
 
-    private void navToRulesFragment() {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new RulesMianFragment();
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_RulesMianFragment);
-        ft.addToBackStack(AppConstt.FragTag.FN_RulesMianFragment);
-        ft.hide(this);
-        ft.commit();
-    }
 
-    public void navToDenketaQuestionFragment() {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new DenketaQuestionFragment();
-        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                R.anim.enter_from_left, R.anim.exit_to_right);//not required
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_DenketaQuestionFragment);
-        ft.addToBackStack(AppConstt.FragTag.FN_DenketaQuestionFragment);
-//        ft.hide(this);
-        ft.hide(this);
-        ft.commit();
 
-    }
 }

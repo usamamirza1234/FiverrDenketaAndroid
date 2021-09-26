@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/pozadi0"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true">
-
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_above="@+id/llParentSettings"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="35dp"
-            android:layout_marginEnd="20dp">
+
+            >
 
             <TextView
 
@@ -34,171 +31,165 @@
 
         </RelativeLayout>
 
-
         <LinearLayout
+            android:id="@+id/llParentSettings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:orientation="vertical">
+            android:gravity="center"
+            android:orientation="vertical"
+            >
 
 
-            <LinearLayout
-                android:gravity="center"
-                android:id="@+id/llParentSettings"
+
+            <RelativeLayout
+                android:id="@+id/frg_settings_rlMyAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="50dp">
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="20dp">
 
-
-                <RelativeLayout
-                    android:id="@+id/frg_settings_rlMyAccount"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="20dp">
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/aladin_regular"
+                    android:padding="10dp"
+                    android:text="@string/frg_settings_my_account"
+                    android:textColor="@color/thm_blue_app"
+                    android:textSize="@dimen/fontsize_xxxlarge"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/aladin_regular"
-                        android:padding="10dp"
-                        android:text="@string/frg_settings_my_account"
-                        android:textColor="@color/thm_blue_app"
-                        android:textSize="@dimen/fontsize_xxxlarge"
-                        android:textStyle="bold" />
+            </RelativeLayout>
 
-                </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/frg_settings_rllang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
 
-                <RelativeLayout
-                    android:id="@+id/frg_settings_rllang"
+                android:layout_marginEnd="20dp">
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/aladin_regular"
+                    android:lines="1"
+                    android:padding="10dp"
+                    android:text="@string/frg_settings_lang"
+                    android:textColor="@color/thm_blue_app"
+                    android:textSize="@dimen/fontsize_xxxlarge"
+                    android:textStyle="bold" />
 
-                    android:layout_marginEnd="20dp">
+            </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/aladin_regular"
-                        android:lines="1"
-                        android:padding="10dp"
-                        android:text="@string/frg_settings_lang"
-                        android:textColor="@color/thm_blue_app"
-                        android:textSize="@dimen/fontsize_xxxlarge"
-                        android:textStyle="bold" />
+            <RelativeLayout
+                android:id="@+id/frg_settings_rlRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:visibility="gone">
 
-                </RelativeLayout>
-
-                <RelativeLayout android:visibility="gone"
-                    android:id="@+id/frg_settings_rlRate"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp">
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/aladin_regular"
+                    android:padding="5dp"
+                    android:text="@string/frg_settings_rate"
+                    android:textColor="@color/thm_blue_app"
+                    android:textSize="@dimen/fontsize_xxxlarge"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/aladin_regular"
-                        android:padding="5dp"
-                        android:text="@string/frg_settings_rate"
-                        android:textColor="@color/thm_blue_app"
-                        android:textSize="@dimen/fontsize_xxxlarge"
-                        android:textStyle="bold" />
-
-                </RelativeLayout>
+            </RelativeLayout>
 
 
-                <RelativeLayout
-                    android:id="@+id/frg_settings_rlcontact"
+            <RelativeLayout
+                android:id="@+id/frg_settings_rlcontact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp">
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp">
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/aladin_regular"
+                    android:padding="5dp"
+                    android:text="@string/frg_settings_contact"
+                    android:textColor="@color/thm_blue_app"
+                    android:textSize="@dimen/fontsize_xxxlarge"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:fontFamily="@font/aladin_regular"
-                        android:padding="5dp"
-                        android:text="@string/frg_settings_contact"
-                        android:textColor="@color/thm_blue_app"
-                        android:textSize="@dimen/fontsize_xxxlarge"
-                        android:textStyle="bold" />
-
-                </RelativeLayout>
+            </RelativeLayout>
 
 
-                <RelativeLayout
-                    android:id="@+id/frg_settings_rlfaq"
+            <RelativeLayout
+                android:id="@+id/frg_settings_rlfaq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp">
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp">
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/aladin_regular"
+                    android:padding="5dp"
+                    android:text="@string/frg_settings_faq"
+                    android:textColor="@color/thm_blue_app"
+                    android:textSize="@dimen/fontsize_xxxlarge"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/aladin_regular"
-                        android:padding="5dp"
-                        android:text="@string/frg_settings_faq"
-                        android:textColor="@color/thm_blue_app"
-                        android:textSize="@dimen/fontsize_xxxlarge"
-                        android:textStyle="bold" />
+            </RelativeLayout>
 
-                </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/frg_settings_rlAbout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp">
 
-                <RelativeLayout
-                    android:id="@+id/frg_settings_rlAbout"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp">
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/aladin_regular"
+                    android:padding="5dp"
+                    android:text="@string/frg_settings_about"
+                    android:textColor="@color/thm_blue_app"
+                    android:textSize="@dimen/fontsize_xxxlarge"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:fontFamily="@font/aladin_regular"
-                        android:padding="5dp"
-                        android:text="@string/frg_settings_about"
-                        android:textColor="@color/thm_blue_app"
-                        android:textSize="@dimen/fontsize_xxxlarge"
-                        android:textStyle="bold" />
+            </RelativeLayout>
 
-                </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/frg_settings_rlPrivacy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp">
 
-                <RelativeLayout
-                    android:id="@+id/frg_settings_rlPrivacy"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp">
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/aladin_regular"
+                    android:padding="5dp"
+                    android:text="@string/frg_settings_p_t"
+                    android:textColor="@color/thm_blue_app"
+                    android:textSize="@dimen/fontsize_xxxlarge"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/aladin_regular"
-                        android:padding="5dp"
-                        android:text="@string/frg_settings_p_t"
-                        android:textColor="@color/thm_blue_app"
-                        android:textSize="@dimen/fontsize_xxxlarge"
-                        android:textStyle="bold" />
-
-                </RelativeLayout>
-            </LinearLayout>
-
+            </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
 
 
-</FrameLayout>
+
+</RelativeLayout>

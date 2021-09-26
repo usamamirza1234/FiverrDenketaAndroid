@@ -210,6 +210,10 @@ public interface AppConstt {
         String FN_DenketaQuestionFragment = "DenketaQuestionFragment" ;
         String FN_DenketaAnswerFragment = "DenketaAnswerFragment" ;
         String FN_InvestigatorFragment = "InvestigatorFragment" ;
+        String FN_MyResultsFragment = "MyResultsFragment" ;
+        String FN_DenketaInvestigatorQuestionFragment = "DenketaInvestigatorQuestionFragment" ;
+        String FN_BundleDiscountFragment = "BundleDiscountFragment" ;
+        String FN_PaymentFragment = "PaymentFragment" ;
     }
 
 

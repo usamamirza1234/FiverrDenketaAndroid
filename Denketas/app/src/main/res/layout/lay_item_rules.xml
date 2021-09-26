@@ -36,8 +36,23 @@
             android:textSize="@dimen/fontsize_xxlarge"
             android:textStyle="bold" />
 
+        <TextView
+            android:justificationMode="inter_word"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/poppins_regular"
+            android:gravity="center"
+            android:text="@string/rules_master"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fontsize_tiny"
+            android:textStyle="bold" />
+
 
         <TextView
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -47,6 +62,20 @@
             android:text="Investigator"
             android:textColor="@color/thm_red_app"
             android:textSize="@dimen/fontsize_xxlarge"
+            android:textStyle="bold" />
+
+        <TextView   android:justificationMode="inter_word"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/poppins_regular"
+            android:gravity="center"
+
+            android:text="@string/rules_investigators"
+            android:textColor="@color/white"
+            android:textSize="@dimen/fontsize_tiny"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -60,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="15dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -102,7 +131,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="15dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -118,8 +147,15 @@
 
 
                 <CheckBox
-                    android:layout_width="25dp"
-                    android:layout_height="25dp" />
+
+
+                    android:layout_width="@dimen/btmtabbar_icon_size"
+                    android:layout_height="@dimen/btmtabbar_icon_size"
+
+                    android:background="@drawable/slc_chb_tick"
+                    android:button="@null"
+                    android:checked="true"
+                    android:clickable="true" />
 
 
             </LinearLayout>
@@ -130,7 +166,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="15dp"
             app:sl_cornerRadius="32dp"
             app:sl_dx="0dp"
             app:sl_dy="0dp"

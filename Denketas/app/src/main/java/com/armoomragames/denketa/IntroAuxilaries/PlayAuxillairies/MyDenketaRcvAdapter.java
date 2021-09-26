@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,6 +50,7 @@ public class MyDenketaRcvAdapter extends RecyclerView.Adapter<MyDenketaRcvAdapte
 
         holder.txvName.setText((position+1) + ". "  +mData.get(position).getStrName());
         holder.itemView.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_A,position ));
+        holder.imvResults.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_B,position ));
     }
 
 
@@ -65,10 +67,12 @@ public class MyDenketaRcvAdapter extends RecyclerView.Adapter<MyDenketaRcvAdapte
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView txvName, txvToFund;
+        ImageView imvResults;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txvName = itemView.findViewById(R.id.lay_item_my_denekta_txvName);
+            imvResults = itemView.findViewById(R.id.lay_item_my_denekta_imvResults);
 //            txvToFund = itemView.findViewById(R.id.lay_item_my_denekta_txvName);
 
 

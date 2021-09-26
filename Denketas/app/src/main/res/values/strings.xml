@@ -1,7 +1,7 @@
 <resources>
 
     <!--region Application-->
-    <string name="app_name">Denketa
+    <string name="app_name">Danetkas
     </string>
     <string name="goole_maps_key">AIzaSyCczk1b8_C7NOm-ZXkj76y6fjBixUTV5qI</string>
     <string name="frg_signin_login_accoint">Login Your Account</string>
@@ -139,7 +139,7 @@
     <string name="fg_frgt_pass_confrm">Confirm</string>
     <string name="frg_forget_password">My account</string>
     <string name="frg_forget_password_">Forgot password</string>
-    <string name="frg_forget_password_desc">Enter you email and we will send you a link to reset your password</string>
+    <string name="frg_forget_password_desc">Enter your email and we will send you a link to reset your password</string>
     <string name="frg_forget_password_email">E-mail address</string>
     <string name="frg_forget_password_submit">Submit</string>
     <string name="fg_signin_or">OR</string>
@@ -197,5 +197,16 @@
     <string name="more_denketa">More Danetkas</string>
     <string name="make_deneketa">Make My Danetkas</string>
     <string name="facebook_app_id">894882580618030</string>
+    <string name="back_icon"><![CDATA[< -]]></string>
+    <string name="rules_master">
+•  You answer the question the investigator(s) pose. \n
+•  You read the mysterious sentence with the title and picture. Then, additionally, you read the answer (acccompanied by a 2nd picture). \n
+•  You can only answer “Yes/No” \n
+•  You can help using “Rigolettos” (extra hints)</string>
+    <string name="rules_investigators">
+•  You make questions in “Yes/No” form. \n
+•  You get a mysterious sentence with a title and picture \n
+•  You have to find out what happened.
+</string>
 
 </resources>

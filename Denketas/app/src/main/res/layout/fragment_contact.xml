@@ -160,11 +160,11 @@
 
 
             <ImageView
-                android:layout_marginEnd="25dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_alignParentEnd="true"
-                android:padding="5dp"
+
                 android:src="@drawable/ic_logo" />
 
         </RelativeLayout>

@@ -1,7 +1,6 @@
 package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -24,11 +22,11 @@ import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.RulesMianFragment;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
-import com.armoomragames.denketa.Utils.CustomAlertConfirmationInterface;
 
 import java.util.ArrayList;
 
 import static com.armoomragames.denketa.Utils.IAdapterCallback.EVENT_A;
+import static com.armoomragames.denketa.Utils.IAdapterCallback.EVENT_B;
 
 public class MyDenketaFragment extends Fragment implements View.OnClickListener {
 
@@ -104,6 +102,11 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener 
                         onClickDenketaItem(position);
 
                         break;
+
+                    case EVENT_B:
+                        ((IntroActivity)getActivity()).navToMyResultsFragment();
+
+                        break;
                 }
 
             });
@@ -135,36 +138,16 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener 
             case R.id.lay_item_play_txvRules:
 
                 dialog.dismiss();
-                navToRulesFragment();
-                break;            case R.id.lay_item_rules_llOkay:
+                ((IntroActivity)getActivity()).navToRulesFragment();
+                break;
 
+            case R.id.lay_item_rules_llOkay:
                 dialog.dismiss();
-
+                ((IntroActivity)getActivity()).navToDenketaQuestionFragment();
                 break;
         }
     }
 
-    private void navToRulesFragment() {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new RulesMianFragment();
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_RulesMianFragment);
-        ft.addToBackStack(AppConstt.FragTag.FN_RulesMianFragment);
-        ft.hide(this);
-        ft.commit();
-    }
 
-    public void navToDenketaQuestionFragment() {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new DenketaQuestionFragment();
-        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                R.anim.enter_from_left, R.anim.exit_to_right);//not required
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_DenketaQuestionFragment);
-        ft.addToBackStack(AppConstt.FragTag.FN_DenketaQuestionFragment);
-//        ft.hide(this);
-        ft.hide(this);
-        ft.commit();
 
-    }
 }

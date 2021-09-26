@@ -218,7 +218,7 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
             imv_master.setVisibility(View.GONE);
             imv_master_hat.setVisibility(View.VISIBLE);
 //            enableOnclickHat();
-        }, 1000);
+        }, 500);
     }
     //endregion
 

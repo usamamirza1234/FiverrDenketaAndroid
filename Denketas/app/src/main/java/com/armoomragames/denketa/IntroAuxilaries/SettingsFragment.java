@@ -26,7 +26,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     final int amountToMoveDown = 20, amountToMoveRight = 20;
 
-    LinearLayout llParentSettings;
+//    LinearLayout llParentSettings;
     RelativeLayout rlMyAccount, rlLang, rlRate, rlContact, rlFaq, rlAboutus, rlPrivacy;
     FrameLayout pozadi_motyl;
 
@@ -34,17 +34,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View frg = inflater.inflate(R.layout.fragment_settings, container, false);
 
-
-        bindViews(frg);
-        llParentSettings.animate().x(20f).y(50f).setDuration(700);
-
-
-
-
-
-
-
         init();
+        bindViews(frg);
+//        llParentSettings.animate().x(20f).y(50f).setDuration(700);
+
+
         return frg;
     }
 
@@ -109,8 +103,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     private void bindViews(View frg) {
 
-        pozadi_motyl = frg.findViewById(R.id.pozadi0);
-        llParentSettings = frg.findViewById(R.id.llParentSettings);
+//        pozadi_motyl = frg.findViewById(R.id.pozadi0);
+//        llParentSettings = frg.findViewById(R.id.llParentSettings);
         rlMyAccount = frg.findViewById(R.id.frg_settings_rlMyAccount);
         rlLang = frg.findViewById(R.id.frg_settings_rllang);
         rlRate = frg.findViewById(R.id.frg_settings_rlRate);
@@ -182,8 +176,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new PrivacyFragment();
-        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        //ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+              //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PrivacyFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_PrivacyFragment);
         ft.hide(this);
@@ -194,8 +188,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new AboutFragment();
-        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        //ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+              //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_AboutFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_AboutFragment);
         ft.hide(this);
@@ -206,8 +200,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new SignUpFragment();
-        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        //ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+              //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_MyAccountFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_MyAccountFragment);
         ft.hide(this);
@@ -218,8 +212,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new LanguageFragment();
-        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        //ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+              //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_LanguageFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_LanguageFragment);
         ft.hide(this);
@@ -231,8 +225,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new RateAppFragment();
-        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        //ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+              //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_RateAppFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_RateAppFragment);
         ft.hide(this);
@@ -243,8 +237,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new FaqFragment();
-        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        //ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+              //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_FaqFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_FaqFragment);
         ft.hide(this);
@@ -255,8 +249,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new ContactFragment();
-        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        //ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+              //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_ContactFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_ContactFragment);
         ft.hide(this);
