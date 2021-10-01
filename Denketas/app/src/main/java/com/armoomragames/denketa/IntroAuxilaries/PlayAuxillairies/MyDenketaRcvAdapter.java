@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.armoomragames.denketa.IntroAuxilaries.DModelDictionary;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.IAdapterCallback;
 
@@ -19,13 +20,13 @@ import java.util.ArrayList;
 public class MyDenketaRcvAdapter extends RecyclerView.Adapter<MyDenketaRcvAdapter.ViewHolder> {
 
 
-    private final ArrayList<DModel_MyDenketa> mData;
+    private final ArrayList<DModelDictionary> mData;
     private final Context mContext;
     private final IAdapterCallback iAdapterCallback;
 
 
 
-    public MyDenketaRcvAdapter(Context mContext, ArrayList<DModel_MyDenketa> mData,
+    public MyDenketaRcvAdapter(Context mContext, ArrayList<DModelDictionary> mData,
                                IAdapterCallback iAdapterCallback) {
         this.mContext = mContext;
         this.mData = mData;
@@ -48,7 +49,7 @@ public class MyDenketaRcvAdapter extends RecyclerView.Adapter<MyDenketaRcvAdapte
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
-        holder.txvName.setText((position+1) + ". "  +mData.get(position).getStrName());
+        holder.txvName.setText((position+1) + ". "  +mData.get(position).getMeaning());
         holder.itemView.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_A,position ));
         holder.imvResults.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_B,position ));
     }

@@ -185,7 +185,7 @@
                         android:src="@drawable/ic_speaker_red" />
 
                     <RelativeLayout
-                        android:id="@+id/frg_rlFalse"
+                        android:id="@+id/frg_rlSepecify"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"

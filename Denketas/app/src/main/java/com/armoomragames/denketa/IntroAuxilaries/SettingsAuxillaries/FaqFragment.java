@@ -83,7 +83,7 @@ public class FaqFragment extends Fragment implements View.OnClickListener {
 
 
     private void populateData() {
-        for (int i = 0; i < 18; i++) {
+        for (int i = 0; i < 6; i++) {
             lst_Funds.add(new DModelDictionary("Word " + i, "   " + "Meanining"));
 
         }

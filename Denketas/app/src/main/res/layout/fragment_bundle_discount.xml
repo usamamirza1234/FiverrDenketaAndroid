@@ -224,6 +224,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/apply"
                     android:layout_width="0dp"
 
                     android:layout_height="@dimen/edttext_height_medium"
@@ -277,7 +278,7 @@
         </LinearLayout>
 
 
-        <LinearLayout
+        <LinearLayout android:id="@+id/bund"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

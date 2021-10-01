@@ -262,7 +262,10 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
             jsonObject.addProperty("nationality", "German");
 //            jsonObject.addProperty("nationality", edtNationality.getText().toString());
 
-            requestUserProfile(jsonObject.toString());
+//            requestUserProfile(jsonObject.toString());
+
+            AppConfig.getInstance().saveUserProfile();
+            ((IntroActivity) getActivity()).navToPreSignInVAFragment();
         }
     }
 

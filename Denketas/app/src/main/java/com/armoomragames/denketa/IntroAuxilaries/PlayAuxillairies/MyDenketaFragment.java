@@ -44,8 +44,40 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
         init();
         bindViewss(frg);
         requestDenketa();
-//        populatePopulationList();
+        populatePopulationList();
         return frg;
+    }
+
+    private void populatePopulationList() {
+
+        {
+            for (int i = 0; i < 7; i++) {
+
+                lst_MyDenketa.add(new DModel_MyDenketa("Name " + (i + 1), ""));
+
+
+            }
+
+            if (adapter == null) {
+                adapter = new MyDenketaLsvAdapter(new IAdapterCallback() {
+                    @Override
+                    public void onAdapterEventFired(int eventId, int position) {
+                        switch (eventId) {
+                            case EVENT_A:
+                                onClickDenketaItem(position);
+                                break;
+                            case EVENT_B:
+                                ((IntroActivity) getActivity()).navToMyResultsFragment();
+                                break;
+                        }
+                    }
+                }, getActivity(), lst_MyDenketa);
+                rcvMyDenekta.setAdapter(adapter);
+                rcvMyDenekta.setOnScrollListener(this);
+            } else {
+                adapter.notifyDataSetChanged();
+            }
+        }
     }
 
     private void init() {
@@ -80,64 +112,64 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
 //            progressDilogue.stopiOSLoader();
 //        }
 
-        isAlreadyFetching = false;
-        if (getActivity() != null && isAdded())
-            if (isSuccess) {
 
-                if (Intro_WebHit_Get_All_User_Danektas.responseObject != null &&
-                        Intro_WebHit_Get_All_User_Danektas.responseObject.getData() != null &&
-                        Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing() != null &&
-                        Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing().size() > 0) {
-
-//                    txvNoData.setVisibility(View.GONE);
-
-                    for (int i = 0; i < Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing().size(); i++) {
-
-                        lst_MyDenketa.add(new DModel_MyDenketa(Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getName(), Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getImage()));
-
-
-                    }
-
-
-                    if (adapter == null) {
-                        adapter = new MyDenketaLsvAdapter(new IAdapterCallback() {
-                            @Override
-                            public void onAdapterEventFired(int eventId, int position) {
-                                switch (eventId) {
-                                    case EVENT_A:
-                                        onClickDenketaItem(position);
-
-                                        break;
-
-                                    case EVENT_B:
-                                        ((IntroActivity) getActivity()).navToMyResultsFragment();
-
-                                        break;
-                                }
-
-                            }
-                        }, getActivity(), lst_MyDenketa);
-                        rcvMyDenekta.setAdapter(adapter);
-                        rcvMyDenekta.setOnScrollListener(this);
-                    } else {
-                        adapter.notifyDataSetChanged();
-                    }
-                } else {
-                    if (Intro_WebHit_Get_All_User_Danektas.mPaginationInfo.currIndex == 1) {
-////                        lsvMedicines.setVisibility(View.GONE);
-//                        txvNoData.setVisibility(View.VISIBLE);
-////                        imvNoData.setVisibility(View.VISIBLE);
-                        rcvMyDenekta.setOnScrollListener(null);
-                    }
-                }
-            } else {
-                if (Intro_WebHit_Get_All_User_Danektas.mPaginationInfo.currIndex == 1) {
-////                    lsvMedicines.setVisibility(View.GONE);
-//                    txvNoData.setVisibility(View.VISIBLE);
-////                    imvNoData.setVisibility(View.VISIBLE);
-                    rcvMyDenekta.setOnScrollListener(null);
-                }
-            }
+        //HERE UNCOMNT
+//        isAlreadyFetching = false;
+//        if (getActivity() != null && isAdded())
+//            if (isSuccess) {
+//                if (Intro_WebHit_Get_All_User_Danektas.responseObject != null &&
+//                        Intro_WebHit_Get_All_User_Danektas.responseObject.getData() != null &&
+//                        Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing() != null &&
+//                        Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing().size() > 0) {
+//
+////                    txvNoData.setVisibility(View.GONE);
+//
+//                    for (int i = 0; i < Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing().size(); i++) {
+//
+//                        lst_MyDenketa.add(new DModel_MyDenketa(Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getName(), Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getImage()));
+//
+//
+//                    }
+//
+//                    if (adapter == null) {
+//                        adapter = new MyDenketaLsvAdapter(new IAdapterCallback() {
+//                            @Override
+//                            public void onAdapterEventFired(int eventId, int position) {
+//                                switch (eventId) {
+//                                    case EVENT_A:
+//                                        onClickDenketaItem(position);
+//
+//                                        break;
+//
+//                                    case EVENT_B:
+//                                        ((IntroActivity) getActivity()).navToMyResultsFragment();
+//
+//                                        break;
+//                                }
+//
+//                            }
+//                        }, getActivity(), lst_MyDenketa);
+//                        rcvMyDenekta.setAdapter(adapter);
+//                        rcvMyDenekta.setOnScrollListener(this);
+//                    } else {
+//                        adapter.notifyDataSetChanged();
+//                    }
+//                } else {
+//                    if (Intro_WebHit_Get_All_User_Danektas.mPaginationInfo.currIndex == 1) {
+//////                        lsvMedicines.setVisibility(View.GONE);
+////                        txvNoData.setVisibility(View.VISIBLE);
+//////                        imvNoData.setVisibility(View.VISIBLE);
+//                        rcvMyDenekta.setOnScrollListener(null);
+//                    }
+//                }
+//            }  else {
+//                if (Intro_WebHit_Get_All_User_Danektas.mPaginationInfo.currIndex == 1) {
+//////                    lsvMedicines.setVisibility(View.GONE);
+////                    txvNoData.setVisibility(View.VISIBLE);
+//////                    imvNoData.setVisibility(View.VISIBLE);
+//                    rcvMyDenekta.setOnScrollListener(null);
+//                }
+//            }
     }
 
     private void updateDenketaList(boolean isSuccess, boolean isCompleted, String errorMsg) {
@@ -170,29 +202,15 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
 
         dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.lay_item_rules);
+        dialog.setContentView(R.layout.lay_item_master_rules);
         final Window window = dialog.getWindow();
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        TextView txvRules = dialog.findViewById(R.id.lay_item_play_txvRules);
-//        TextView txvMaster = dialog.findViewById(R.id.lay_item_play_txvMaster);
-//        TextView txvInvestigator = dialog.findViewById(R.id.lay_item_play_txvInvestigator);
+
         LinearLayout llOkay = dialog.findViewById(R.id.lay_item_rules_llOkay);
-
-
-//        txvInvestigator.setOnClickListener(this);
-//        txvMaster.setOnClickListener(this);
-        txvRules.setOnClickListener(this);
         llOkay.setOnClickListener(this);
-//        llOkay.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                navToDenketaQuestionFragment();
-//            }
-//        });
-
         dialog.show();
     }
 

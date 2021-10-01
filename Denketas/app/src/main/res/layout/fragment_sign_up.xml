@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
@@ -184,7 +183,7 @@
                     <RelativeLayout
                         android:id="@+id/frg_my_account_rlRegister"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/button_height_large"
 
                         android:background="@drawable/shp_rect_rounded_app_blue"
                         android:padding="10dp">
@@ -273,7 +272,7 @@
                         android:id="@+id/frg_my_account_llGoogle"
 
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/button_height_large"
                         android:layout_gravity="center"
                         android:background="@drawable/shp_rect_rounded_white"
                         android:gravity="center"
@@ -328,7 +327,7 @@
                         android:id="@+id/frg_my_account_llFB"
 
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/button_height_large"
                         android:layout_gravity="center"
                         android:background="@drawable/shp_rect_rounded_white"
                         android:gravity="center"

@@ -37,46 +37,44 @@
             android:textStyle="bold" />
 
         <TextView
-            android:layout_gravity="center"
-            android:justificationMode="inter_word"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:fontFamily="@font/poppins_regular"
             android:gravity="center"
-            android:text="@string/rules_master"
+            android:justificationMode="inter_word"
+            android:text="@string/rules_master_rules"
             android:textColor="@color/white"
             android:textSize="@dimen/fontsize_tiny"
             android:textStyle="bold" />
 
 
         <TextView
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/aladin_regular"
             android:gravity="center"
-
             android:text="Investigator"
             android:textColor="@color/thm_red_app"
             android:textSize="@dimen/fontsize_xxlarge"
             android:textStyle="bold" />
 
         <TextView
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:justificationMode="inter_word"
             android:layout_centerInParent="true"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:fontFamily="@font/poppins_regular"
             android:gravity="center"
-
-            android:text="@string/rules_investigators"
+            android:justificationMode="inter_word"
+            android:text="@string/rules_investigators_rules"
             android:textColor="@color/white"
             android:textSize="@dimen/fontsize_tiny"
             android:textStyle="bold" />
@@ -195,7 +193,7 @@
 
 
                     android:lines="1"
-                    android:text="OK"
+                    android:text="Sumbit"
                     android:textColor="@color/white"
                     android:textSize="@dimen/fontsize_medium"
                     android:textStyle="bold" />

@@ -208,5 +208,16 @@
 •  You get a mysterious sentence with a title and picture \n
 •  You have to find out what happened.
 </string>
+    <string name="frg_popup">The Master can just answer\n “NO”, but it may mislead\n the Investigator who will try\n to find other instruments.\n The Investigator assumed\n that the man plays an\n instrument without asking\n that question. A better\n question would be: “</string>
 
+
+    <string name="rules_master_rules">
+You can see both:the question and the answer. \n
+ Answer Yes/No/Not relevant you can try to \n
+guide the investigators if you want.
+</string>
+    <string name="rules_investigators_rules">
+        You can see ONLY the question. Investigate the \n
+ hint thoroughly and ask Yes/No questions. Don\'t \n
+jump into conclusions, make detailed \n questions.</string>
 </resources>

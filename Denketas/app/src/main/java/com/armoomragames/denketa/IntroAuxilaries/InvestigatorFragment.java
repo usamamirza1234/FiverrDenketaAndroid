@@ -13,17 +13,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.armoomragames.denketa.IntroActivity;
-import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
-import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DenketaQuestionFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.MyDenketaRcvAdapter;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
+import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 
 import java.util.ArrayList;
 
@@ -35,7 +32,7 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
     Dialog dialog;
 
 
-    ArrayList<DModel_MyDenketa> lst_MyDenketa;
+    ArrayList<DModelDictionary> lst_MyDenketa;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,9 +44,7 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
         return frg;
     }
 
-    private void init() {
-        lst_MyDenketa = new ArrayList<>();
-    }
+    IBadgeUpdateListener mBadgeUpdateListener;
 
     private void bindViewss(View frg) {
         rcvMyDenekta = frg.findViewById(R.id.frg_rcv_my_denketa);
@@ -87,6 +82,14 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
         dialog.show();
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!isHidden()) {
+            setToolbar();
+        }
+    }
+
     private void populatePopulationList() {
 
         MyDenketaRcvAdapter myDenketaRcvAdapter = null;
@@ -94,8 +97,8 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
 
         if (myDenketaRcvAdapter == null) {
 
-            lst_MyDenketa.add(new DModel_MyDenketa("First", ""));
-            lst_MyDenketa.add(new DModel_MyDenketa("Second", ""));
+            lst_MyDenketa.add(new DModelDictionary("First", ""));
+            lst_MyDenketa.add(new DModelDictionary("Second", ""));
             myDenketaRcvAdapter = new MyDenketaRcvAdapter(getActivity(), lst_MyDenketa, (eventId, position) -> {
 
                 switch (eventId) {
@@ -127,6 +130,25 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
         return (frag);
     }
 
+    private void init() {
+        setToolbar();
+        lst_MyDenketa = new ArrayList<>();
+    }
+
+    void setToolbar() {
+
+        try {
+            mBadgeUpdateListener = (IBadgeUpdateListener) getActivity();
+        } catch (ClassCastException castException) {
+            castException.printStackTrace(); // The activity does not implement the listener
+        }
+        if (getActivity() != null && isAdded()) {
+            mBadgeUpdateListener.setToolbarState(AppConstt.INTRO_ToolbarStates.TOOLBAR_BACK_HIDDEN);
+
+        }
+
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -134,7 +156,7 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
             case R.id.lay_item_play_txvRules:
 
                 dialog.dismiss();
-                ((IntroActivity)getActivity()).navToRulesFragment();
+                ((IntroActivity) getActivity()).navToRulesFragment();
                 break;
 
             case R.id.lay_item_rules_llOkay:

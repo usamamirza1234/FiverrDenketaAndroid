@@ -177,7 +177,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/button_height_large"
                         android:layout_gravity="center"
                         android:background="@drawable/shp_rect_rounded_app_blue"
                         android:gravity="center"
@@ -272,7 +272,7 @@
                     <LinearLayout  android:id="@+id/fg_signin_llGoogle"
 
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/button_height_large"
                         android:layout_gravity="center"
                         android:background="@drawable/shp_rect_rounded_white"
                         android:gravity="center"
@@ -325,7 +325,7 @@
 
                     <LinearLayout                         android:id="@+id/fg_signin_llFB"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/button_height_large"
                         android:layout_gravity="center"
                         android:background="@drawable/shp_rect_rounded_white"
                         android:gravity="center"

@@ -98,7 +98,7 @@ public class DenketaQuestionFragment extends Fragment implements View.OnClickLis
     private void navToDenketaAnswerFragment() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new DenketaAnswerFragment();
+        Fragment frag = new GameResultsFragment();
         ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
                 R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_DenketaAnswerFragment);

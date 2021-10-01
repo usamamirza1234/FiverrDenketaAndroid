@@ -72,8 +72,8 @@ public class MyDenketaLsvAdapter extends BaseAdapter {
         }
 
         viewHolder.txvName.setText(mData.get(position).getStrName());
-//        viewHolder.txvName.setText(mData.get(position).getName());
-
+        convertView.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_A,position ));
+        viewHolder.imvResults.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_B,position ));
 
         return convertView;
     }

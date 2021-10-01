@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DenketaAnswerFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameResultsFragment;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
@@ -104,7 +105,7 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
     private void navToDenketaAnswerFragment() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new DenketaAnswerFragment();
+        Fragment frag = new GameResultsFragment();
         ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
                 R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_DenketaAnswerFragment);

@@ -333,7 +333,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
     private boolean checkEmailErrorCondition() {
         if (edtEmail.getText().toString().isEmpty()) {
-            Toast.makeText(getActivity(), "Empty Email Feild", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Empty Email Field", Toast.LENGTH_SHORT).show();
 //            AppConfig.getInstance().showErrorMessage(getContext(), "Empty email field");
             return false;
         } else if (!edtEmail.getText().toString().matches(AppConstt.EMAIL_PATTERN)) {
@@ -384,6 +384,11 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
             jsonObject.addProperty("password", edtPassword.getText().toString());
             jsonObject.addProperty("userType", "normal");
             requestUserRegister(jsonObject.toString());
+
+//            AppConfig.getInstance().mUser.Email = edtEmail.getText().toString();
+//            AppConfig.getInstance().mUser.isLoggedIn = true;
+//            AppConfig.getInstance().saveUserProfile();
+//            navtoSignUpContFragment();
         }
     }
 

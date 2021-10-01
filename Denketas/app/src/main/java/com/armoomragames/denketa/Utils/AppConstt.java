@@ -16,7 +16,7 @@ public interface AppConstt {
         //Image url...
         String Artist_Image_Url = "https://art-station-bucket.s3.me-south-1.amazonaws.com/uploads_staging/";
         //DEBUG urls
-        String DEB_BASE_URL = "http://192.168.10.107:2000/";
+        String DEB_BASE_URL = "http://192.168.10.114:2000/";
         String DEB_URL_API = DEB_BASE_URL +"api/v1/denetkas/";
 //        String DEB_URL_API = DEB_BASE_URL + "api/v1/mobile/";
 
@@ -29,7 +29,7 @@ public interface AppConstt {
 
 
         //release server
-        String REL_BASE_URL = "http://192.168.10.107:2000/";//TODO also add staging+live FCM files+ Googlemaps(debug+release) to this project
+        String REL_BASE_URL = "http://192.168.10.114:2000/";//TODO also add staging+live FCM files+ Googlemaps(debug+release) to this project
         String REL_URL_API = REL_BASE_URL + "api/v1/denetkas/";
         String REL_BASE_URL_CHAT = REL_BASE_URL + "/chat";
         String REL_URL_IMG = REL_BASE_URL + "uploads/";
@@ -214,6 +214,10 @@ public interface AppConstt {
         String FN_DenketaInvestigatorQuestionFragment = "DenketaInvestigatorQuestionFragment" ;
         String FN_BundleDiscountFragment = "BundleDiscountFragment" ;
         String FN_PaymentFragment = "PaymentFragment" ;
+        String FN_PaymentFailedFragment = "PaymentFailedFragment";
+        String FN_PaymentApprovedFragment ="PaymentApprovedFragment" ;
+        String FN_ResetPasswordFragment = "ResetPasswordFragment" ;
+        String FN_MyProfileFragment = "MyProfileFragment";
     }
 
 
