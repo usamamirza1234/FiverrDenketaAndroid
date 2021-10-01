@@ -22,6 +22,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.AppConfig;
+import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.SiginInFragment;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
@@ -146,13 +147,19 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         switch (v.getId()) {
 
             case R.id.frg_presigin_rlPlay:
-                openDialoguePlay();
+
+                if (AppConfig.getInstance().mUser.isLoggedIn)
+                    openDialoguePlay();
+                else
+                    navtoSigninFragment();
                 break;
+
             case R.id.lay_item_play_txvRules:
 
                 dialog.dismiss();
                 navToRulesFragment();
                 break;
+
             case R.id.lay_item_play_txvInvestigator:
 
 
@@ -288,6 +295,14 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         ft.hide(this);
         ft.commit();
     }
-
+    private void navtoSigninFragment() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new SiginInFragment();
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_SiginInFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_SiginInFragment);
+        ft.hide(this);
+        ft.commit();
+    }
     //endregion
 }

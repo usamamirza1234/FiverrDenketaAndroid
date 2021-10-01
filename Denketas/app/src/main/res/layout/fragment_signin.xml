@@ -58,7 +58,7 @@
                 android:padding="10dp">
 
 
-                <EditText
+                <EditText android:id="@+id/frg_signup_edtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edttext_height_medium"
                     android:background="@null"
@@ -100,8 +100,8 @@
                     android:background="@null"
                     android:cursorVisible="true"
                     android:hint="@string/fg_signin_set_pass"
-                    android:inputType="textEmailAddress"
-
+                    android:inputType="textPassword"
+                    android:id="@+id/frg_signup_edtPassword"
                     android:lines="1"
                     android:padding="5dp"
                     android:text=""
@@ -385,12 +385,12 @@
                     android:textColor="@color/thm_blue_app"
                     android:textSize="@dimen/fontsize_small" />
 
-                <TextView
+                <TextView android:id="@+id/fg_signin_txvSignup"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/edttext_height_medium"
                     android:layout_centerInParent="true"
                     android:layout_gravity="center"
-                    android:id="@+id/fg_signin_txvLogin"
+
                     android:background="@null"
                     android:gravity="center"
                     android:lines="1"

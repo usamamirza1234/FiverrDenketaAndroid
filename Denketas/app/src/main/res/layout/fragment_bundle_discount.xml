@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            >
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/aladin_regular"
+                android:padding="10dp"
+                android:text="Bundle Discount"
+                android:textColor="@color/thm_orange_app"
+                android:textSize="@dimen/fontsize_extralarge"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingStart="14dp"
+            android:text="The more you buy the cheaper"
+            android:textColor="@color/thm_red_app"
+            android:textSize="@dimen/fontsize_small"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+
+                    android:text="How does it work?"
+                    android:textColor="@color/thm_blue_app"
+                    android:textSize="@dimen/fontsize_mini"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height"
+
+                    android:background="@color/thm_blue_app" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:weightSum="10">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:gravity="start"
+                        android:paddingEnd="5dp"
+                        android:text="Number of"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/fontsize_mini" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+
+                            android:text="Game Credits"
+                            android:textColor="@color/thm_blue_app"
+                            android:textSize="@dimen/fontsize_mini"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/divider_height"
+
+                            android:background="@color/thm_blue_app" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center"
+
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fontsize_mini" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:weightSum="10">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:gravity="start"
+
+                    android:text="Subtotal"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fontsize_mini" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center"
+
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fontsize_mini" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:weightSum="10">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:gravity="start"
+
+                    android:text="Discount"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fontsize_mini" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center"
+
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fontsize_mini" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:weightSum="10">
+
+                <RelativeLayout
+                    android:layout_marginEnd="5dp"
+                    android:layout_width="0dp"
+
+                    android:layout_height="@dimen/edttext_height_medium"
+                    android:layout_weight="7"
+                    android:background="@drawable/shp_rect_rounded_blue_stoke">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+
+                        android:text="PROMOTION CODE"
+                        android:textColor="#BDBDBD"
+                        android:textSize="@dimen/fontsize_mini" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+
+                    android:layout_height="@dimen/edttext_height_medium"
+                    android:layout_weight="3"
+                    android:background="@drawable/shp_rect_rounded_red_stoke">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:gravity="center"
+
+                        android:text="APPLY"
+                        android:textColor="@color/thm_red_app"
+                        android:textSize="@dimen/fontsize_mini" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:weightSum="10">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:fontFamily="@font/poppins_bold"
+
+                    android:gravity="start"
+                    android:text="Total"
+                    android:textColor="@color/thm_blue_app"
+                    android:textSize="@dimen/fontsize_xlarge"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:fontFamily="@font/poppins_bold"
+                    android:gravity="end"
+                    android:text="3$"
+                    android:textColor="@color/thm_blue_app"
+                    android:textSize="@dimen/fontsize_xlarge"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/shp_rect_rounded_app_blue"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@null"
+                android:fontFamily="@font/poppins_bold"
+                android:lines="1"
+
+                android:paddingEnd="10dp"
+                android:text="Proceed to Payment"
+                android:textColor="@color/white"
+                android:textSize="@dimen/fontsize_large"
+                android:textStyle="normal" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -16,8 +16,8 @@ public interface AppConstt {
         //Image url...
         String Artist_Image_Url = "https://art-station-bucket.s3.me-south-1.amazonaws.com/uploads_staging/";
         //DEBUG urls
-        String DEB_BASE_URL = "http://74.208.144.99:9090/";
-        String DEB_URL_API = DEB_BASE_URL + "api/";
+        String DEB_BASE_URL = "http://192.168.10.107:2000/";
+        String DEB_URL_API = DEB_BASE_URL +"api/v1/denetkas/";
 //        String DEB_URL_API = DEB_BASE_URL + "api/v1/mobile/";
 
         String DEB_BASE_URL_CHAT = DEB_BASE_URL + "/chat";
@@ -29,8 +29,8 @@ public interface AppConstt {
 
 
         //release server
-        String REL_BASE_URL = "http://74.208.144.99:9090/";//TODO also add staging+live FCM files+ Googlemaps(debug+release) to this project
-        String REL_URL_API = REL_BASE_URL + "api/v1/";
+        String REL_BASE_URL = "http://192.168.10.107:2000/";//TODO also add staging+live FCM files+ Googlemaps(debug+release) to this project
+        String REL_URL_API = REL_BASE_URL + "api/v1/denetkas/";
         String REL_BASE_URL_CHAT = REL_BASE_URL + "/chat";
         String REL_URL_IMG = REL_BASE_URL + "uploads/";
         String REL_URL_THUMBS = REL_BASE_URL + "thumbs/";

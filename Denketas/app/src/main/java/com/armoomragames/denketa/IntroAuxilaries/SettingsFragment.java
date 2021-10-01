@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.armoomragames.denketa.AppConfig;
+import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.SignUpCompleteProfileFragment;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.AboutFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.FaqFragment;
@@ -129,8 +131,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.frg_settings_rlMyAccount:
 
-
-                navtoMyAccountFragment();
+                if (AppConfig.getInstance().mUser.isLoggedIn)
+                    navtoSignUpContFragment();
+                else
+                    navtoMyAccountFragment();
 
                 break;
             case R.id.frg_settings_rllang:
@@ -204,6 +208,16 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
               //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_MyAccountFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_MyAccountFragment);
+        ft.hide(this);
+        ft.commit();
+    }
+
+    private void navtoSignUpContFragment() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new SignUpCompleteProfileFragment();
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_SignUpCompleteProfileFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_SignUpCompleteProfileFragment);
         ft.hide(this);
         ft.commit();
     }

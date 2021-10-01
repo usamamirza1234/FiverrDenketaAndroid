@@ -50,7 +50,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         fm = getSupportFragmentManager();
         getAppVersion();
 
-
+        AppConfig.getInstance().loadUserProfile();
         if (AppConfig.getInstance().mLanguage.equalsIgnoreCase(AppConstt.AppLang.LANG_UR)) {
             MyApplication.getInstance().setAppLanguage(AppConstt.AppLang.LANG_UR);
         } else {

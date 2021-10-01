@@ -43,6 +43,8 @@
 
 
                 <EditText
+                    android:focusable="false"
+                    android:id="@+id/frg_profile_edtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edttext_height_medium"
                     android:background="@null"
@@ -78,7 +80,7 @@
                 android:padding="10dp">
 
 
-                <EditText
+                <EditText       android:id="@+id/frg_profile_edtname"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edttext_height_medium"
                     android:background="@null"
@@ -116,6 +118,7 @@
 
 
                 <EditText
+                    android:id="@+id/frg_profile_edtdob"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edttext_height_medium"
                     android:background="@null"
@@ -151,7 +154,7 @@
                 android:padding="10dp">
 
 
-                <EditText
+                <EditText  android:id="@+id/frg_profile_edtgender"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edttext_height_medium"
                     android:background="@null"
@@ -187,7 +190,7 @@
                 android:padding="10dp">
 
 
-                <EditText
+                <EditText  android:id="@+id/frg_profile_edtNationality"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edttext_height_medium"
                     android:background="@null"
@@ -259,8 +262,24 @@
                 </com.dd.ShadowLayout>
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/fg_signup_complete_txvSignOut"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/edttext_height_medium"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
 
+                android:background="@null"
+                android:gravity="center"
+                android:lines="1"
+                android:paddingStart="5dp"
+
+                android:text="SignOut"
+                android:textStyle="bold"
+                android:textColor="@color/thm_orange_app"
+                android:textSize="@dimen/fontsize_small" />
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

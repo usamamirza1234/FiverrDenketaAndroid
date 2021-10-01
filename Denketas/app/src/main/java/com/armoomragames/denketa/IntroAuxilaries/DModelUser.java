@@ -12,6 +12,16 @@ public class DModelUser {
 
     public int User_Id;
     public String Name;
+
+    public String getNationality() {
+        return Nationality;
+    }
+
+    public void setNationality(String nationality) {
+        Nationality = nationality;
+    }
+
+    public String Nationality;
     public String Phone;
     public String Email;
     public String Gender;

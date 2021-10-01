@@ -98,35 +98,7 @@ public class AppConfig {
             Gson gson = new Gson();
             String strResponse = new String(responseBody, StandardCharsets.UTF_8);
             RModel_Error responseObjectLocal = gson.fromJson(strResponse, RModel_Error.class);
-
-            StringBuilder str = new StringBuilder();
-
-            // Traversing the ArrayList
-            for (String eachstring : responseObjectLocal.getErrors()) {
-
-                // Each element in ArrayList is appended
-                // followed by comma
-                str.append(eachstring).append(",");
-            }
-
-            // StringBuffer to String conversion
-            String commaseparatedlist = str.toString();
-
-            // By following condition you can remove the last
-            // comma
-            if (commaseparatedlist.length() > 0)
-                commaseparatedlist
-                        = commaseparatedlist.substring(
-                        0, commaseparatedlist.length() - 1);
-
-            System.out.println(commaseparatedlist);
-
-//            for (int i=0;i<responseObjectLocal.getErrors().size();i++)
-//            {
-//
-//            }
-
-            iWebCallback.onWebResult(false, commaseparatedlist);
+            iWebCallback.onWebResult(false, responseObjectLocal.getMessage());
         } catch (Exception ex) {
             ex.printStackTrace();
             iWebCallback.onWebException(ex);
@@ -177,6 +149,25 @@ public class AppConfig {
     //endregion
 
 
+
+    public void parsErrorMessage(final IWebPaginationCallback iWebPaginationCallback, byte[] responseBody,
+                                 final int _index, final int _currIndex) {
+        try {
+            Gson gson = new Gson();
+            String strResponse = new String(responseBody, StandardCharsets.UTF_8);
+            RModel_Message responseObjectLocal = gson.fromJson(strResponse, RModel_Message.class);
+            if (_index == _currIndex)
+                iWebPaginationCallback.onWebInitialResult(false, responseObjectLocal.getMessage());
+            else
+                iWebPaginationCallback.onWebSuccessiveResult(false, false, responseObjectLocal.getMessage());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            if (_index == _currIndex)
+                iWebPaginationCallback.onWebInitialException(ex);
+            else
+                iWebPaginationCallback.onWebSuccessiveException(ex);
+        }
+    }
 
 
     public void closeKeyboard(Activity activity) {
@@ -405,6 +396,7 @@ public class AppConfig {
     public void loadUserProfile() {
         mUser.setUser_Id(sharedPref.getInt("key_user_id", 0));
         mUser.setName(sharedPref.getString("key_user_name", ""));
+        mUser.setNationality(sharedPref.getString("key_user_nationality", ""));
         mUser.setPhone(sharedPref.getString("key_user_phone", ""));
         mUser.setEmail(sharedPref.getString("key_user_email", ""));
         mUser.setGender(sharedPref.getString("key_user_gender", ""));
@@ -437,6 +429,7 @@ public class AppConfig {
 
         editor.putInt("key_user_id", mUser.getUser_Id());
         editor.putString("key_user_name", mUser.getName());
+        editor.putString("key_user_nationality", mUser.getNationality());
         editor.putString("key_user_phone", mUser.getPhone());
         editor.putString("key_user_email", mUser.getEmail());
         editor.putString("key_user_gender", mUser.getGender());

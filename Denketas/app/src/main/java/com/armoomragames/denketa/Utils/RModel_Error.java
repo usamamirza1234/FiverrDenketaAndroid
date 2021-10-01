@@ -3,55 +3,23 @@ package com.armoomragames.denketa.Utils;
 import java.util.List;
 
 public class RModel_Error {
-    private String version;
+    private String status;
 
-    private int statusCode;
-
-    private String errorMessage;
-
-
-    private String timestamp;
-
-    private List<String> errors;
-
-    public String getVersion() {
-        return this.version;
+    public String getStatus() {
+        return this.status;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public int getStatusCode() {
-        return this.statusCode;
+    private String message;
+
+    public String getMessage() {
+        return this.message;
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    public void setMessage(String message) {
+        this.message = message;
     }
-
-    public String getErrorMessage() {
-        return this.errorMessage;
-    }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
-
-    public String getTimestamp() {
-        return this.timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public List<String> getErrors() {
-        return this.errors;
-    }
-
-    public void setErrors(List<String> errors) {
-        this.errors = errors;
-    }
-
 }

@@ -9,32 +9,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
-import com.armoomragames.denketa.IntroAuxilaries.RulesMianFragment;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_All_User_Danektas;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
+import com.armoomragames.denketa.Utils.IAdapterCallback;
+import com.armoomragames.denketa.Utils.IWebPaginationCallback;
 
 import java.util.ArrayList;
 
-import static com.armoomragames.denketa.Utils.IAdapterCallback.EVENT_A;
-import static com.armoomragames.denketa.Utils.IAdapterCallback.EVENT_B;
+public class MyDenketaFragment extends Fragment implements View.OnClickListener, IWebPaginationCallback, AbsListView.OnScrollListener {
 
-public class MyDenketaFragment extends Fragment implements View.OnClickListener {
-
-    RecyclerView rcvMyDenekta;
+    MyDenketaLsvAdapter adapter;
+    ListView rcvMyDenekta;
     Dialog dialog;
-
-
+    Intro_WebHit_Get_All_User_Danektas intro_webHit_get_all_user_danektas;
+    boolean isAlreadyFetching = false;
+    private int nFirstVisibleItem, nVisibleItemCount, nTotalItemCount, nScrollState, nErrorMsgShown;
     ArrayList<DModel_MyDenketa> lst_MyDenketa;
+    private boolean isLoadingMore = false;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,13 +43,122 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener 
 
         init();
         bindViewss(frg);
-        populatePopulationList();
+        requestDenketa();
+//        populatePopulationList();
         return frg;
     }
 
     private void init() {
         lst_MyDenketa = new ArrayList<>();
+        nFirstVisibleItem = 0;
+        nVisibleItemCount = 0;
+        nTotalItemCount = 0;
+        nScrollState = 0;
+        nErrorMsgShown = 0;
+        isLoadingMore = false;
+
+        intro_webHit_get_all_user_danektas = new Intro_WebHit_Get_All_User_Danektas();
+        Intro_WebHit_Get_All_User_Danektas.mPaginationInfo.currIndex = AppConstt.PAGINATION_START_INDEX;
     }
+
+
+    public void requestDenketa() {
+        isAlreadyFetching = true;
+
+
+        Intro_WebHit_Get_All_User_Danektas.mPaginationInfo.currIndex = 1;
+        Intro_WebHit_Get_All_User_Danektas.responseObject = null;
+        intro_webHit_get_all_user_danektas.getCategory(this,
+                Intro_WebHit_Get_All_User_Danektas.mPaginationInfo.currIndex);
+    }
+
+
+    private void populateAllDanektasData(boolean isSuccess, String strMsg) {
+//        srlHome.setRefreshing(false);
+//        llListItemLoader.setVisibility(View.GONE);
+//        if (progressDilogue != null) {
+//            progressDilogue.stopiOSLoader();
+//        }
+
+        isAlreadyFetching = false;
+        if (getActivity() != null && isAdded())
+            if (isSuccess) {
+
+                if (Intro_WebHit_Get_All_User_Danektas.responseObject != null &&
+                        Intro_WebHit_Get_All_User_Danektas.responseObject.getData() != null &&
+                        Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing() != null &&
+                        Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing().size() > 0) {
+
+//                    txvNoData.setVisibility(View.GONE);
+
+                    for (int i = 0; i < Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing().size(); i++) {
+
+                        lst_MyDenketa.add(new DModel_MyDenketa(Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getName(), Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getImage()));
+
+
+                    }
+
+
+                    if (adapter == null) {
+                        adapter = new MyDenketaLsvAdapter(new IAdapterCallback() {
+                            @Override
+                            public void onAdapterEventFired(int eventId, int position) {
+                                switch (eventId) {
+                                    case EVENT_A:
+                                        onClickDenketaItem(position);
+
+                                        break;
+
+                                    case EVENT_B:
+                                        ((IntroActivity) getActivity()).navToMyResultsFragment();
+
+                                        break;
+                                }
+
+                            }
+                        }, getActivity(), lst_MyDenketa);
+                        rcvMyDenekta.setAdapter(adapter);
+                        rcvMyDenekta.setOnScrollListener(this);
+                    } else {
+                        adapter.notifyDataSetChanged();
+                    }
+                } else {
+                    if (Intro_WebHit_Get_All_User_Danektas.mPaginationInfo.currIndex == 1) {
+////                        lsvMedicines.setVisibility(View.GONE);
+//                        txvNoData.setVisibility(View.VISIBLE);
+////                        imvNoData.setVisibility(View.VISIBLE);
+                        rcvMyDenekta.setOnScrollListener(null);
+                    }
+                }
+            } else {
+                if (Intro_WebHit_Get_All_User_Danektas.mPaginationInfo.currIndex == 1) {
+////                    lsvMedicines.setVisibility(View.GONE);
+//                    txvNoData.setVisibility(View.VISIBLE);
+////                    imvNoData.setVisibility(View.VISIBLE);
+                    rcvMyDenekta.setOnScrollListener(null);
+                }
+            }
+    }
+
+    private void updateDenketaList(boolean isSuccess, boolean isCompleted, String errorMsg) {
+        isLoadingMore = false;
+//        llListItemLoader.setVisibility(View.GONE);
+//        if (progressDilogue != null) {
+//            progressDilogue.stopiOSLoader();
+//        }
+
+        if (getActivity() != null && isAdded())//check whether it is attached to an activity
+            if (isSuccess) {
+                if (isCompleted) {
+                    Intro_WebHit_Get_All_User_Danektas.mPaginationInfo.isCompleted = true;
+                } else {
+                    populateAllDanektasData(isSuccess, errorMsg);
+                }
+            } else if (nErrorMsgShown++ < AppConstt.LIMIT_PAGINATION_ERROR) {
+//                CustomToast.showToastMessage(getActivity(), errorMsg, Toast.LENGTH_SHORT, false);
+            }
+    }
+
 
     private void bindViewss(View frg) {
         rcvMyDenekta = frg.findViewById(R.id.frg_rcv_my_denketa);
@@ -86,39 +196,6 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener 
         dialog.show();
     }
 
-    private void populatePopulationList() {
-
-        MyDenketaRcvAdapter myDenketaRcvAdapter = null;
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-
-        if (myDenketaRcvAdapter == null) {
-
-            lst_MyDenketa.add(new DModel_MyDenketa("First", ""));
-            lst_MyDenketa.add(new DModel_MyDenketa("Second", ""));
-            myDenketaRcvAdapter = new MyDenketaRcvAdapter(getActivity(), lst_MyDenketa, (eventId, position) -> {
-
-                switch (eventId) {
-                    case EVENT_A:
-                        onClickDenketaItem(position);
-
-                        break;
-
-                    case EVENT_B:
-                        ((IntroActivity)getActivity()).navToMyResultsFragment();
-
-                        break;
-                }
-
-            });
-
-
-            rcvMyDenekta.setLayoutManager(linearLayoutManager);
-            rcvMyDenekta.setAdapter(myDenketaRcvAdapter);
-
-        } else {
-            myDenketaRcvAdapter.notifyDataSetChanged();
-        }
-    }
 
 
     private static final String KEY_POSITION = "position";
@@ -143,11 +220,56 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener 
 
             case R.id.lay_item_rules_llOkay:
                 dialog.dismiss();
-                ((IntroActivity)getActivity()).navToDenketaQuestionFragment();
+                ((IntroActivity) getActivity()).navToDenketaQuestionFragment();
                 break;
         }
     }
 
 
+    @Override
+    public void onWebInitialResult(boolean isSuccess, String strMsg) {
+        populateAllDanektasData(isSuccess, strMsg);
+    }
 
+    @Override
+    public void onWebSuccessiveResult(boolean isSuccess, boolean isCompleted, String strMsg) {
+        updateDenketaList(isSuccess, isCompleted, strMsg);
+    }
+
+    @Override
+    public void onWebInitialException(Exception ex) {
+        populateAllDanektasData(false, AppConfig.getInstance().getNetworkExceptionMessage(ex.toString()));
+    }
+
+    @Override
+    public void onWebSuccessiveException(Exception ex) {
+        updateDenketaList(false, false, AppConfig.getInstance().getNetworkExceptionMessage(ex.getMessage()));
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+        this.nScrollState = i;
+        this.isScrollCompleted();
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+        this.nFirstVisibleItem = i;
+        this.nVisibleItemCount = i1;
+        this.nTotalItemCount = i2;
+    }
+
+    private void isScrollCompleted() {
+        if (this.nVisibleItemCount > 0 && this.nScrollState == SCROLL_STATE_IDLE &&
+                this.nTotalItemCount == (nFirstVisibleItem + nVisibleItemCount)) {
+            /*** In this way I detect if there's been a scroll which has completed ***/
+            if (!isLoadingMore && !Intro_WebHit_Get_All_User_Danektas.mPaginationInfo.isCompleted) {
+                isLoadingMore = true;
+//                llListItemLoader.setVisibility(View.VISIBLE);
+
+                intro_webHit_get_all_user_danektas.getCategory(this,
+                        Intro_WebHit_Get_All_User_Danektas.mPaginationInfo.currIndex + 1);
+            }
+        }
+    }
 }
