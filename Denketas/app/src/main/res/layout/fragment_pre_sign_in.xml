@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
@@ -8,6 +7,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
@@ -32,6 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:fontFamily="@font/aladin_regular"
                     android:padding="10dp"
                     android:text="@string/frg_presign_play"
                     android:textColor="@color/thm_orange_app"
@@ -53,6 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:fontFamily="@font/aladin_regular"
                     android:lines="1"
                     android:padding="10dp"
                     android:text="@string/frg_presign_what_is_denketa"
@@ -74,6 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:fontFamily="@font/aladin_regular"
                     android:padding="5dp"
                     android:text="@string/rules"
                     android:textColor="@color/thm_orange_app"
@@ -95,6 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/aladin_regular"
                     android:padding="5dp"
                     android:text="@string/frg_presign_dictionary"
                     android:textColor="@color/thm_orange_app"
@@ -116,6 +120,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:fontFamily="@font/aladin_regular"
                     android:padding="5dp"
                     android:text="@string/frg_presign_settings"
                     android:textColor="@color/thm_orange_app"
@@ -129,6 +134,7 @@
 
 
     <RelativeLayout
+        android:layout_below="@id/center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -137,20 +143,20 @@
 
         <ImageView
             android:id="@+id/imv_master_hat"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
+            android:layout_width="55dp"
+            android:layout_height="38dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:src="@drawable/ic_hat_master" />
 
         <ImageView
-       android:visibility="gone"
             android:id="@+id/imv_master"
             android:layout_width="180dp"
             android:layout_height="150dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_master_thinking" />
+            android:src="@drawable/ic_master_thinking"
+            android:visibility="gone" />
     </RelativeLayout>
 
 

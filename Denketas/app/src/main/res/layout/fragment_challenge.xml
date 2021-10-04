@@ -1,15 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/app_bg">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/tollbar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp">
 
+
+            <RelativeLayout
+                android:id="@+id/act_intro_lay_toolbar_rlCross"
+                android:layout_marginEnd="15dp"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_cancl" />
+            </RelativeLayout>
+
+        </RelativeLayout>
 
         <LinearLayout
+            android:layout_below="@id/tollbar"
+            android:id="@+id/topest"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height_large"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <RelativeLayout android:id="@+id/rules"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="25">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/aladin_regular"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="Rules"
+                    android:textSize="@dimen/fontsize_small"
+                    android:textColor="@color/thm_blue_app"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout android:id="@+id/gameplay"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="25">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/aladin_regular"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="Gameplay"
+                    android:textColor="@color/thm_blue_app"
+                    android:textSize="@dimen/fontsize_small"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout android:id="@+id/extra_rules"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="25">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/aladin_regular"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="Extra Rules"
+                    android:textColor="@color/thm_blue_app"
+                    android:textSize="@dimen/fontsize_small"
+
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout android:id="@+id/challenge"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="25">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/aladin_regular"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="Challenge"
+                    android:textColor="@color/thm_blue_app"
+                    android:textSize="@dimen/fontsize_xlarge"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@color/thm_blue_app" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_below="@id/topest"
             android:id="@+id/top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -135,6 +258,7 @@
 
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/top"
@@ -256,7 +380,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/top"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="-70dp">
+            android:layout_marginTop="-90dp">
 
             <ImageView
                 android:layout_width="200dp"

@@ -1,18 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/app_bg">
+    android:layout_height="match_parent">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/tollbar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp">
+
+
+            <RelativeLayout
+                android:id="@+id/act_intro_lay_toolbar_rlCross"
+                android:layout_marginEnd="15dp"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_cancl" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_below="@id/tollbar"
+            android:id="@+id/topest"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height_large"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <RelativeLayout
+                android:id="@+id/rules"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="25">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/aladin_regular"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="Rules"
+                    android:textColor="@color/thm_blue_app"
+                    android:textSize="@dimen/fontsize_small"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/gameplay"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="25">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/aladin_regular"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="Gameplay"
+                    android:textColor="@color/thm_blue_app"
+                    android:textSize="@dimen/fontsize_xlarge"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@color/thm_blue_app" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/extra_rules"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="25">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/aladin_regular"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="Extra Rules"
+                    android:textColor="@color/thm_blue_app"
+                    android:textSize="@dimen/fontsize_small"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/challenge"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="25">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/aladin_regular"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="Challenge"
+                    android:textColor="@color/thm_blue_app"
+                    android:textSize="@dimen/fontsize_small"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
 
 
         <RelativeLayout
-
+            android:layout_below="@id/topest"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -170,6 +296,7 @@
 
                 </RelativeLayout>
 
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -185,7 +312,7 @@
                         android:src="@drawable/ic_speaker_red" />
 
                     <RelativeLayout
-                        android:id="@+id/frg_rlSepecify"
+                        android:id="@+id/frg_rlFalse"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -200,13 +327,14 @@
                             android:padding="15dp"
                             android:paddingStart="25dp"
                             android:paddingEnd="25dp"
-                            android:text="@string/frg_rule_please_spicify"
+                            android:text="@string/frg_rule_false_assumtion"
                             android:textColor="@color/white"
                             android:textSize="@dimen/fontsize_mini"
                             android:textStyle="bold" />
 
                     </RelativeLayout>
                 </RelativeLayout>
+
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -271,6 +399,8 @@
 
                 </RelativeLayout>
 
+
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -282,11 +412,11 @@
                         android:layout_height="25dp"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
-                        android:layout_toStartOf="@id/frg_rlFalse"
+                        android:layout_toStartOf="@id/frg_rlSepecify"
                         android:src="@drawable/ic_speaker_red" />
 
                     <RelativeLayout
-                        android:id="@+id/frg_rlFalse"
+                        android:id="@+id/frg_rlSepecify"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -301,14 +431,13 @@
                             android:padding="15dp"
                             android:paddingStart="25dp"
                             android:paddingEnd="25dp"
-                            android:text="@string/frg_rule_false_assumtion"
+                            android:text="@string/frg_rule_please_spicify"
                             android:textColor="@color/white"
                             android:textSize="@dimen/fontsize_mini"
                             android:textStyle="bold" />
 
                     </RelativeLayout>
                 </RelativeLayout>
-
 
                 <RelativeLayout
                     android:layout_width="wrap_content"

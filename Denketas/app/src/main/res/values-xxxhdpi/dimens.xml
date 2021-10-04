@@ -23,7 +23,7 @@
     <!--    new UI Dimens start here    -->
 
 
-    <dimen name="fontsize_extralarge">46sp</dimen>
+    <dimen name="fontsize_extralarge">42sp</dimen>
 
     <dimen name="fontsize_xxxxlarge">36sp</dimen>
     <dimen name="fontsize_xxxlarge">34sp</dimen>

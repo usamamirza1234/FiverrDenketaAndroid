@@ -1,20 +1,23 @@
 package com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
@@ -25,15 +28,32 @@ import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.IWebCallback;
 import com.google.gson.JsonObject;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+
 public class SignUpCompleteProfileFragment extends Fragment implements View.OnClickListener {
 
+    Spinner spinnerSort = null;
 
-    TextView txvLogin, txvSignout;
+    Spinner spinnerGender = null;
+
+
+
+
+    TextView txv_City, txvLogin, txvSignout, txv_dob;
     RelativeLayout rlGetStarted;
-
-    EditText edtName, edtEmail, edtDOB;
-    EditText edtNationality, edtGender;
+    Calendar calendar;
+    DatePickerDialog.OnDateSetListener date;
+    EditText edtName, edtEmail;
+    TextView txv_Gender;
     IBadgeUpdateListener mBadgeUpdateListener;
+    Calendar todayCalender;
+
+    List<String> lstNationalities;
+    List<String> lstGender;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,21 +62,21 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
 
         init();
         bindViews(frg);
+        initializeDate();
         edtEmail.setText(AppConfig.getInstance().mUser.getEmail());
 
         if (!AppConfig.getInstance().mUser.Name.isEmpty())
             edtName.setText(AppConfig.getInstance().mUser.getName());
         if (!AppConfig.getInstance().mUser.getNationality().isEmpty())
-            edtNationality.setText(AppConfig.getInstance().mUser.getNationality());
+            txv_City.setText(AppConfig.getInstance().mUser.getNationality());
         if (!AppConfig.getInstance().mUser.getGender().isEmpty())
-            edtGender.setText(AppConfig.getInstance().mUser.getGender());
+            txv_Gender.setText(AppConfig.getInstance().mUser.getGender());
         if (!AppConfig.getInstance().mUser.getDOB().isEmpty())
-            edtDOB.setText(AppConfig.getInstance().mUser.getDOB());
+            txv_dob.setText(AppConfig.getInstance().mUser.getDOB());
 
 
         return frg;
     }
-
 
 
     void setToolbar() {
@@ -73,7 +93,25 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
     }
 
     void init() {
+        calendar = Calendar.getInstance();
+
+
         setToolbar();
+
+        lstNationalities = new ArrayList<>();
+
+        lstNationalities.add("German");
+        lstNationalities.add("US");
+        lstNationalities.add("Select Nationality");
+
+        lstGender = new ArrayList<>();
+
+        lstGender.add("Male");
+        lstGender.add("Female");
+        lstGender.add("Other");
+        lstGender.add("Select Gender");
+
+//        lstNationalities.add("U");
     }
 
 
@@ -84,24 +122,68 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
             setToolbar();
         }
     }
+
     private void bindViews(View frg) {
 
+        spinnerSort = frg.findViewById(R.id.act_main_spinr_city);
+        spinnerGender = frg.findViewById(R.id.frg_completeProfile_spinerGender);
 
-//        txvLogin = frg.findViewById(R.id.fg_signup_complete_txvLogin);
         txvSignout = frg.findViewById(R.id.fg_signup_complete_txvSignOut);
         rlGetStarted = frg.findViewById(R.id.fg_signup_complete_rlRegister);
 
         edtName = frg.findViewById(R.id.frg_profile_edtname);
         edtEmail = frg.findViewById(R.id.frg_profile_edtEmail);
-        edtDOB = frg.findViewById(R.id.frg_profile_edtdob);
-        edtGender = frg.findViewById(R.id.frg_profile_edtgender);
-        edtNationality = frg.findViewById(R.id.frg_profile_edtNationality);
+        txv_dob = frg.findViewById(R.id.frg_profile_edtdob);
+        txv_Gender = frg.findViewById(R.id.frg_profile_edtgender);
+        txv_City = frg.findViewById(R.id.frg_profile_edtNationality);
 
-//        txvLogin.setOnClickListener(this);
         rlGetStarted.setOnClickListener(this);
         txvSignout.setOnClickListener(this);
+        txv_dob.setOnClickListener(this);
+        txv_Gender.setOnClickListener(this);
+
+
+
+
+
+
+
+        SpinnerAdpter genderSpiner = new SpinnerAdpter(getContext(), lstGender);
+        spinnerGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = parent.getItemAtPosition(position).toString();
+                int Pos = Integer.parseInt(selectedItem);
+                txv_Gender.setText(lstGender.get(position).toUpperCase());
+
+            } // to close the onItemSelected
+
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinnerGender.setAdapter(genderSpiner);
+        spinnerGender.setSelection(genderSpiner.getCount());
+
+        SpinnerAdpter nationalitySpinner = new SpinnerAdpter(getContext(), lstNationalities);
+        spinnerSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = parent.getItemAtPosition(position).toString();
+                 int Pos = Integer.parseInt(selectedItem);
+                txv_City.setText(lstNationalities.get(Pos));
+
+            } // to close the onItemSelected
+
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinnerSort.setAdapter(nationalitySpinner);
+        spinnerSort.setSelection(nationalitySpinner.getCount());
+
 
         editTextWatchers();
+
+
     }
 
     //region Validation
@@ -143,7 +225,7 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
                 }
             }
         });
-        edtDOB.addTextChangedListener(new TextWatcher() {
+        txv_dob.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -157,11 +239,11 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().startsWith(" ")) {
-                    edtDOB.setText("");
+                    txv_dob.setText("");
                 }
             }
         });
-        edtNationality.addTextChangedListener(new TextWatcher() {
+        txv_City.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -175,11 +257,11 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().startsWith(" ")) {
-                    edtNationality.setText("");
+                    txv_City.setText("");
                 }
             }
         });
-        edtGender.addTextChangedListener(new TextWatcher() {
+        txv_Gender.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -193,7 +275,7 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().startsWith(" ")) {
-                    edtGender.setText("");
+                    txv_Gender.setText("");
                 }
             }
         });
@@ -208,7 +290,7 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
 
     private boolean checkDobErrorCondition() {
 //        if (edtDOB.getText().toString().equalsIgnoreCase("Date of Birth")) {
-        if (edtDOB.getText().toString().isEmpty()) {
+        if (txv_dob.getText().toString().isEmpty()) {
 //            AppConfig.getInstance().showErrorMessage(getContext(), "Date of birth is not selected");
             Toast.makeText(getActivity(), "Date of birth is not selected", Toast.LENGTH_SHORT).show();
             return false;
@@ -228,7 +310,7 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
     }
 
     private boolean checkCityErrorCheck() {
-        if (edtNationality.getText().toString().isEmpty()) {
+        if (txv_City.getText().toString().isEmpty()) {
 //        if (edtNationality.getText().toString().equalsIgnoreCase("Select City")) {
 //            AppConfig.getInstance().showErrorMessage(getContext(), "City is not selected");
             Toast.makeText(getActivity(), "Country is not selected", Toast.LENGTH_SHORT).show();
@@ -240,7 +322,7 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
 
     private boolean checkGenderCheck() {
 //        if (edtGender.getText().toString().equalsIgnoreCase("Select Gender")) {
-        if (edtGender.getText().toString().isEmpty()) {
+        if (txv_Gender.getText().toString().isEmpty()) {
 //            AppConfig.getInstance().showErrorMessage(getContext(), "City is not selected");
             Toast.makeText(getActivity(), "Gender is not selected", Toast.LENGTH_SHORT).show();
             return false;
@@ -258,7 +340,7 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
             jsonObject.addProperty("userName", edtName.getText().toString());
             jsonObject.addProperty("dateOfBirth", "1999-02-02");
 //            jsonObject.addProperty("dateOfBirth", edtDOB.getText().toString());
-            jsonObject.addProperty("gender", edtGender.getText().toString().toLowerCase());
+            jsonObject.addProperty("gender", txv_Gender.getText().toString().toLowerCase());
             jsonObject.addProperty("nationality", "German");
 //            jsonObject.addProperty("nationality", edtNationality.getText().toString());
 
@@ -369,8 +451,80 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
             case R.id.fg_signup_complete_txvSignOut:
                 AppConfig.getInstance().navtoLogin();
                 break;
+            case R.id.frg_profile_edtdob:
+                showCalender();
+
+                break;
         }
-        }
+    }
+
+
+    private void showCalender() {
+//        new SingleDateAndTimePickerDialog.Builder(getContext())
+//                .bottomSheet()
+//                .curved()
+//                .displayMinutes(false)
+//                .displayHours(false)
+//                .displayDays(false)
+//                .displayMonth(true)
+//                .displayYears(true).mainColor(Color.BLACK)
+//                .displayDaysOfMonth(true).listener(new SingleDateAndTimePickerDialog.Listener() {
+//            @Override
+//            public void onDateSelected(Date date) {
+//                DateFormat format = new SimpleDateFormat("dd MMMM, yyyy");
+//                String datee = format.parse(Date.parse( date.toString()));
+//
+//                txvDob.setText(date.toString());
+////                if (date.after(yesterday()))
+////                {
+////                    goalDate =datee;
+////                    txvCalender.setText(datee);
+////                    btnNext.setEnabled(true);
+////                }
+//            }
+//        }).defaultDate(calendar.getTime()).display();
+////
+////
+
+        new DatePickerDialog(getContext(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, date, calendar
+                .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)).show();
+
+//        String myFormat = "dd-MM-yyyy"; //In which you need put here
+//        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+//        txv_dob.setText(sdf.format(calendar.getTime()));
+    }
+
+    private void initializeDate() {
+        todayCalender = Calendar.getInstance(Locale.ENGLISH);
+
+        date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+//                rlUpdate.setClickable(true);
+//                rlUpdate.setEnabled(true);
+
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                String myFormat = "dd-MM-yyyy"; //In which you need put here
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                Log.d("LOG_AS", "calendar " + calendar.getTime());
+                txv_dob.setText(sdf.format(calendar.getTime()));
+//                if (todayCalender.after(calendar)) {
+//
+//                    txv_dob.setText(sdf.format(calendar.getTime()));
+//
+//                }
+            }
+
+        };
 
 
     }
+
+}

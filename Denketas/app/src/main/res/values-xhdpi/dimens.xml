@@ -12,7 +12,7 @@
     <!--FONTS -->
 
     <!--FONTS -->
-    <dimen name="fontsize_extralarge">44sp</dimen>
+    <dimen name="fontsize_extralarge">40sp</dimen>
 
     <dimen name="fontsize_xxxxlarge">34sp</dimen>
     <dimen name="fontsize_xxxlarge">32sp</dimen>

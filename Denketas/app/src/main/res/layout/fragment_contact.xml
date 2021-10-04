@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:clickable="true">
 
@@ -52,9 +52,9 @@
 
                 android:background="@null"
                 android:gravity="center"
-                android:text="@string/frg_contact_app_ask"
                 android:lines="1"
-                android:padding="5dp"
+                android:padding="10dp"
+                android:text="@string/frg_contact_app_ask"
                 android:textColor="@color/black"
 
                 android:textCursorDrawable="@null"
@@ -73,10 +73,9 @@
                     android:background="@drawable/shp_rect_rounded_gray">
 
                     <EditText
-                        android:id="@+id/edt"
+                        android:id="@+id/edtContact"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:background="@null"
                         android:cursorVisible="true"
                         android:ellipsize="end"
@@ -97,10 +96,10 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:layout_below="@id/edt"
+                        android:layout_below="@id/edtContact"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginBottom="15dp"
                         android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="15dp"
 
                         android:src="@drawable/ic_note" />
 
@@ -211,17 +210,11 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_fb_icon" />
+                    android:layout_width="110dp"
+                    android:layout_height="35dp"
 
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:padding="5dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_youtube" />
+                    android:src="@drawable/fb_yt" />
+
 
             </LinearLayout>
 

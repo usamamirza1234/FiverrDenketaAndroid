@@ -17,16 +17,16 @@ import com.armoomragames.denketa.Utils.IAdapterCallback;
 import java.util.ArrayList;
 
 
-public class DictionaryListAdapter extends RecyclerView.Adapter<DictionaryListAdapter.ViewHolder> {
+public class DictionaryRCVAdapter extends RecyclerView.Adapter<DictionaryRCVAdapter.ViewHolder> {
 
     private static View lastClicked = null;
-    private final ArrayList<DModelDictionary> mData;
+    private ArrayList<DModelDictionary> mData;
     private final Context mContext;
     private final IAdapterCallback iAdapterCallback;
 
 
-    public DictionaryListAdapter(Context mContext, ArrayList<DModelDictionary> mData,
-                                 IAdapterCallback iAdapterCallback) {
+    public DictionaryRCVAdapter(Context mContext, ArrayList<DModelDictionary> mData,
+                                IAdapterCallback iAdapterCallback) {
         this.mContext = mContext;
         this.mData = mData;
 
@@ -36,26 +36,37 @@ public class DictionaryListAdapter extends RecyclerView.Adapter<DictionaryListAd
     }
 
 
+
+    public void filterList(ArrayList<DModelDictionary> filterllist) {
+        // below line is to add our filtered
+        // list in our course array list.
+        mData = filterllist;
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
-    public DictionaryListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DictionaryRCVAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lay_dictionary_item, null);
 
 
-        return new DictionaryListAdapter.ViewHolder(view);
+        return new DictionaryRCVAdapter.ViewHolder(view);
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull final DictionaryListAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final DictionaryRCVAdapter.ViewHolder holder, final int position) {
 
         holder.txv_word.setText(mData.get(position).getWord());
         holder.txv_meaning.setText(mData.get(position).getMeaning());
 
         holder.rlLow.setOnClickListener(v -> {
             iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_A, position);
-            holder.rlLowExtended.setVisibility(View.VISIBLE);
-
+            if (holder.rlLowExtended.getVisibility() == View.GONE)
+                holder.rlLowExtended.setVisibility(View.VISIBLE);
+            else holder.rlLowExtended.setVisibility(View.GONE);
         });
     }
 

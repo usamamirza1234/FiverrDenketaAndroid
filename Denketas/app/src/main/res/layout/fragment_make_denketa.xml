@@ -12,6 +12,7 @@
         android:layout_marginBottom="30dp"
         android:orientation="vertical">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,23 +43,26 @@
                 app:sl_shadowRadius="3dp">
 
                 <RelativeLayout
-                    android:padding="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shp_rect_rounded_white_medium">
+                    android:background="@drawable/shp_rect_rounded_white_medium"
+                    android:padding="10dp">
 
-                    <EditText        android:background="@null"
-                        android:textColor="@color/app_thm_txv_gray"
+                    <EditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_alignParentStart="true"
-                        android:layout_centerInParent="true" android:textColorHint="@color/app_thm_txv_gray"
-
+                        android:layout_centerInParent="true"
+                        android:background="@null"
                         android:cursorVisible="true"
                         android:gravity="start|center_vertical"
                         android:hint="Type here..."
                         android:paddingStart="14dp"
-                        android:textCursorDrawable="@null" />
+                        android:paddingEnd="14dp"
+                        android:textColor="@color/app_thm_txv_gray"
+                        android:textColorHint="@color/app_thm_txv_gray"
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/fontsize_mini" />
                 </RelativeLayout>
             </com.dd.ShadowLayout>
         </LinearLayout>
@@ -97,19 +101,22 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/shp_rect_rounded_white_medium">
 
-                    <EditText        android:background="@null"
-                        android:textColor="@color/app_thm_txv_gray"
+                    <EditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_alignParentStart="true"
-                        android:layout_centerInParent="true" android:textColorHint="@color/app_thm_txv_gray"
-
+                        android:layout_centerInParent="true"
+                        android:background="@null"
                         android:cursorVisible="true"
                         android:gravity="start"
+
                         android:hint="Type here..."
                         android:lines="7"
                         android:paddingStart="14dp"
                         android:paddingTop="14dp"
+                        android:paddingEnd="14dp"
+                        android:textColor="@color/app_thm_txv_gray"
+                        android:textColorHint="@color/app_thm_txv_gray"
                         android:textCursorDrawable="@null" />
                 </RelativeLayout>
             </com.dd.ShadowLayout>
@@ -229,17 +236,17 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentStart="true"
                         android:layout_centerInParent="true"
+                        android:background="@null"
                         android:cursorVisible="true"
                         android:gravity="start"
                         android:hint="Type here..."
                         android:lines="7"
                         android:paddingStart="14dp"
                         android:paddingTop="14dp"
-                        android:textCursorDrawable="@null"
-                        android:background="@null"
-                        android:textColorHint="@color/app_thm_txv_gray"
+                        android:paddingEnd="14dp"
                         android:textColor="@color/app_thm_txv_gray"
-                        />
+                        android:textColorHint="@color/app_thm_txv_gray"
+                        android:textCursorDrawable="@null" />
                 </RelativeLayout>
             </com.dd.ShadowLayout>
         </LinearLayout>
@@ -337,6 +344,61 @@
                 android:textColor="@color/thm_red_app"
                 android:textSize="@dimen/fontsize_xxlarge"
                 android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:id="@+id/imv_mast"
+                    android:layout_width="30dp"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_master_2" />
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edttext_height_medium"
+                    android:layout_centerInParent="true"
+                    android:layout_toEndOf="@id/imv_mast"
+                    android:background="@drawable/ic_bg_regi">
+
+
+                    <EditText
+                        android:id="@+id/edt_Search"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginEnd="40dp"
+                        android:layout_toEndOf="@id/imv_search"
+                        android:background="@null"
+                        android:cursorVisible="true"
+                        android:gravity="center_vertical"
+                        android:hint="Type here..."
+                        android:paddingStart="24dp"
+                        android:paddingEnd="24dp"
+                        android:textColor="@color/thm_blue_app"
+                        android:textColorHint="@color/gray"
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/fontsize_mini" />
+
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_below="@id/edtContact"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_note" />
+                </RelativeLayout>
+
+
+            </RelativeLayout>
 
             <ImageView
                 android:layout_width="32dp"

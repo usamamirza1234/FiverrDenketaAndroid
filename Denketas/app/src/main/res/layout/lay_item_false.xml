@@ -25,6 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:justificationMode="inter_word"
+                android:gravity="end"
                 android:padding="15dp"
                 android:paddingStart="25dp"
                 android:paddingEnd="25dp"

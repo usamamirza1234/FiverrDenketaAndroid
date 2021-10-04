@@ -51,7 +51,7 @@
     <string name="rules">Rules</string>
     <string name="frg_presign_dictionary">Dictionary</string>
     <string name="frg_presign_settings">Settings</string>
-    <string name="gameplay">GamePlay</string>
+    <string name="gameplay">Gameplay</string>
     <string name="extra_rules">Extra rules</string>
     <string name="challenge">Challenge</string>
     <string name="frg_rules_desc">"     “Danetkas” is for a minimum of 2 players. One is the Master(who knows the answers) and the rest are Investigators. The Investigators ask questions in the form of “Yes”/”No”. The Master replies according to the answer. The riddle is solved when one of the Investigators can explain everything on the hint card."</string>

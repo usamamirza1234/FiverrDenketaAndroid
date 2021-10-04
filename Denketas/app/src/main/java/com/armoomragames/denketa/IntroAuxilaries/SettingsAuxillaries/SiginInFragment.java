@@ -267,12 +267,12 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
             jsonObject.addProperty("email", edtEmail.getText().toString());
             jsonObject.addProperty("password", edtPassword.getText().toString());
             jsonObject.addProperty("userType", "normal");
-            requestUserSigin(jsonObject.toString());
+//            requestUserSigin(jsonObject.toString());
 
 
-//            AppConfig.getInstance().mUser.isLoggedIn = true;
-//            AppConfig.getInstance().saveUserProfile();
-//            navtoSignUpContFragment();
+            AppConfig.getInstance().mUser.isLoggedIn = true;
+            AppConfig.getInstance().saveUserProfile();
+            navtoSignUpContFragment();
 
         }
     }

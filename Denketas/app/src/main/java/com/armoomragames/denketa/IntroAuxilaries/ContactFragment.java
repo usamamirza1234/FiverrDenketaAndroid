@@ -1,11 +1,14 @@
 package com.armoomragames.denketa.IntroAuxilaries;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
+import android.widget.Scroller;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -15,6 +18,9 @@ import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 
 public class ContactFragment extends Fragment implements View.OnClickListener {
+
+    IBadgeUpdateListener mBadgeUpdateListener;
+    EditText edtContact;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,7 +41,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener {
         return frg;
     }
 
-    IBadgeUpdateListener mBadgeUpdateListener;
+
 
     void setToolbar() {
 
@@ -68,7 +74,12 @@ public class ContactFragment extends Fragment implements View.OnClickListener {
     private void bindViews(View frg)
     {
 
+        edtContact = frg.findViewById(R.id.edtContact);
 
+//        edtContact.setScroller(new Scroller(getContext()));
+//        edtContact.setMaxLines(1);
+//        edtContact.setVerticalScrollBarEnabled(true);
+//        edtContact.setMovementMethod(new ScrollingMovementMethod());
     }
 
 

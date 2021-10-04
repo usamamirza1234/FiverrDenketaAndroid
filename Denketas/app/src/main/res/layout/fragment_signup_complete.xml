@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
@@ -43,12 +42,12 @@
 
 
                 <EditText
-                    android:focusable="false"
                     android:id="@+id/frg_profile_edtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edttext_height_medium"
                     android:background="@null"
                     android:cursorVisible="true"
+                    android:focusable="false"
                     android:hint="@string/fg_signup_complete_email_address"
                     android:inputType="textEmailAddress"
                     android:lines="1"
@@ -80,7 +79,8 @@
                 android:padding="10dp">
 
 
-                <EditText       android:id="@+id/frg_profile_edtname"
+                <EditText
+                    android:id="@+id/frg_profile_edtname"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edttext_height_medium"
                     android:background="@null"
@@ -95,7 +95,7 @@
                     android:textColorHint="@color/thm_gray_app"
                     android:textCursorDrawable="@null"
                     android:textSize="@dimen/fontsize_medium"
-                    android:textStyle="normal" />
+                    android:textStyle="bold" />
 
 
                 <View
@@ -117,7 +117,7 @@
                 android:padding="10dp">
 
 
-                <EditText
+                <TextView
                     android:id="@+id/frg_profile_edtdob"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edttext_height_medium"
@@ -132,7 +132,56 @@
                     android:textColorHint="@color/thm_gray_app"
                     android:textCursorDrawable="@null"
                     android:textSize="@dimen/fontsize_medium"
-                    android:textStyle="normal" />
+                    android:textStyle="bold" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/thm_gray_app"
+                    android:padding="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:padding="10dp">
+                <Spinner
+                    android:id="@+id/frg_completeProfile_spinerGender"
+                    style="@style/spinner_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edttext_height_medium"
+                    android:popupBackground="@color/white"
+
+                    />
+                <TextView
+                    android:id="@+id/frg_profile_edtgender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/edttext_height_medium"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_gravity="start"
+                    android:background="@color/white"
+                    android:gravity="start"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="20dp"
+                    android:lines="1"
+                    android:paddingBottom="@dimen/edttext_font_padding"
+                    android:text=""
+                    android:textAlignment="viewStart"
+
+                    android:textColor="@color/thm_blue_app"
+                    android:textColorHint="@color/thm_gray_app"
+                    android:textSize="@dimen/fontsize_small"
+                    android:textStyle="bold" />
+
+
 
 
                 <View
@@ -153,59 +202,36 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
+                <Spinner
+                    android:id="@+id/act_main_spinr_city"
 
-                <EditText  android:id="@+id/frg_profile_edtgender"
+                    style="@style/spinner_style"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edttext_height_medium"
-                    android:background="@null"
-                    android:cursorVisible="true"
-                    android:hint="@string/fg_signup_complete_gender"
-                    android:inputType="text"
-                    android:lines="1"
-                    android:padding="5dp"
-                    android:text=""
-                    android:textColor="@color/thm_blue_app"
-                    android:textColorHint="@color/thm_gray_app"
-                    android:textCursorDrawable="@null"
-                    android:textSize="@dimen/fontsize_medium"
-                    android:textStyle="normal" />
+                    android:popupBackground="@color/white"
 
+                    />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/thm_gray_app"
-                    android:padding="5dp"
+                <TextView
+                    android:id="@+id/frg_profile_edtNationality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/edttext_height_medium"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_gravity="start"
+                    android:background="@color/white"
+                    android:gravity="start"
                     android:paddingStart="10dp"
-                    android:paddingEnd="10dp" />
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:padding="10dp">
-
-
-                <EditText  android:id="@+id/frg_profile_edtNationality"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/edttext_height_medium"
-                    android:background="@null"
-                    android:cursorVisible="true"
-                    android:hint="@string/fg_signup_complete_nationality"
-                    android:inputType="text"
+                    android:paddingEnd="20dp"
                     android:lines="1"
-                    android:padding="5dp"
-                    android:text=""
+                    android:paddingBottom="@dimen/edttext_font_padding"
+                    android:text="xyz"
+                    android:textAlignment="viewStart"
+
                     android:textColor="@color/thm_blue_app"
                     android:textColorHint="@color/thm_gray_app"
-                    android:textCursorDrawable="@null"
-                    android:textSize="@dimen/fontsize_medium"
-                    android:textStyle="normal" />
-
+                    android:textSize="@dimen/fontsize_small"
+                    android:textStyle="bold" />
 
                 <View
                     android:layout_width="match_parent"
@@ -250,10 +276,8 @@
                             android:layout_centerInParent="true"
                             android:background="@null"
                             android:lines="1"
-
-
                             android:text="@string/fg_signup_complete_start"
-
+                            android:fontFamily="@font/poppins_bold"
                             android:textColor="@color/white"
                             android:textSize="@dimen/fontsize_medium"
                             android:textStyle="normal" />
@@ -274,12 +298,12 @@
                 android:lines="1"
                 android:paddingStart="5dp"
 
-                android:text="SignOut"
-                android:textStyle="bold"
+                android:text="sign out"
                 android:textColor="@color/thm_orange_app"
-                android:textSize="@dimen/fontsize_small" />
+                android:textSize="@dimen/fontsize_small"
+                android:textStyle="bold" />
+
             <LinearLayout
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -289,6 +313,7 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="10dp"
+                android:visibility="gone"
                 android:weightSum="120">
 
 

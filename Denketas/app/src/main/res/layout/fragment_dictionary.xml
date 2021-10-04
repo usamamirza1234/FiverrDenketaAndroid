@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginStart="20dp"
-    android:layout_marginEnd="20dp"
-  >
+    android:layout_marginEnd="20dp">
 
-    <LinearLayout  android:orientation="vertical"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
         <RelativeLayout
 
             android:layout_width="match_parent"
@@ -50,14 +50,24 @@
 
                 android:background="@drawable/shp_rect_rounded_white_medium">
 
-                <TextView
-                    android:layout_width="wrap_content"
+
+                <EditText
+                    android:id="@+id/edt_Search"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
                     android:layout_centerInParent="true"
-                    android:gravity="center"
+                    android:layout_marginEnd="40dp"
+                    android:layout_toEndOf="@id/imv_search"
+                    android:background="@null"
+                    android:cursorVisible="true"
+                    android:gravity="center_vertical"
                     android:hint="Search"
-                    android:paddingStart="14dp" />
+                    android:paddingStart="24dp"
+                    android:paddingEnd="30dp"
+                    android:textColor="@color/thm_blue_app"
+                    android:textColorHint="@color/gray"
+                    android:textCursorDrawable="@null" />
 
                 <ImageView
                     android:id="@+id/imv_search"
@@ -85,8 +95,7 @@
             android:padding="10dp"
             android:paddingBottom="10dp"
             android:scrollbars="none"
-            android:verticalSpacing="7dp"
-            />
+            android:verticalSpacing="7dp" />
     </LinearLayout>
 
 

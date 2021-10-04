@@ -22,6 +22,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.AppConfig;
+import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.RulesFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.SiginInFragment;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
@@ -31,7 +32,7 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
 
 
     RelativeLayout rlPlay, rlDenketa, rlRules, rlSettings, rlDictionary;
-    TextView txvSettings, txvDictionary, txvPlay, txvRules, txvDenketa;
+//    TextView txvSettings, txvDictionary, txvPlay, txvRules, txvDenketa;
     ImageView imv_master, imv_master_hat;
     Dialog dialog;
     IBadgeUpdateListener mBadgeUpdateListener;
@@ -85,11 +86,11 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         rlSettings = frg.findViewById(R.id.frg_presigin_rlSettings);
         rlDictionary = frg.findViewById(R.id.frg_presigin_rldictionary);
 
-        txvSettings = frg.findViewById(R.id.frg_presigin_txvSettings);
-        txvDenketa = frg.findViewById(R.id.frg_presigin_txvDenketas);
-        txvDictionary = frg.findViewById(R.id.frg_presigin_txvDictionary);
-        txvPlay = frg.findViewById(R.id.frg_presigin_txvPlay);
-        txvRules = frg.findViewById(R.id.frg_presigin_txvRules);
+//        txvSettings = frg.findViewById(R.id.frg_presigin_txvSettings);
+//        txvDenketa = frg.findViewById(R.id.frg_presigin_txvDenketas);
+//        txvDictionary = frg.findViewById(R.id.frg_presigin_txvDictionary);
+//        txvPlay = frg.findViewById(R.id.frg_presigin_txvPlay);
+//        txvRules = frg.findViewById(R.id.frg_presigin_txvRules);
 
 
         imv_master = frg.findViewById(R.id.imv_master);
@@ -107,12 +108,12 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
 
         Typeface tfEng = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Aladin_Regular.ttf");
 
-        txvRules.setTypeface(tfEng);
-        txvPlay.setTypeface(tfEng);
-        txvDictionary.setTypeface(tfEng);
-        txvDenketa.setTypeface(tfEng);
-        txvSettings.setTypeface(tfEng);
-        AppConfig.getInstance().tfAppDefault = txvRules.getTypeface();
+//        txvRules.setTypeface(tfEng);
+//        txvPlay.setTypeface(tfEng);
+//        txvDictionary.setTypeface(tfEng);
+//        txvDenketa.setTypeface(tfEng);
+//        txvSettings.setTypeface(tfEng);
+//        AppConfig.getInstance().tfAppDefault = txvRules.getTypeface();
     }
     //endregion
 
@@ -208,7 +209,13 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         Animation Upbottom = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_down);
         imv_master.startAnimation(Upbottom);
         imv_master.setVisibility(View.GONE);
-        imv_master_hat.setVisibility(View.VISIBLE);
+//        imv_master_hat.setVisibility(View.VISIBLE);
+
+                final Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            imv_master_hat.setVisibility(View.VISIBLE);
+
+        }, 1000);
     }
 
     private void showMaster() {
@@ -216,16 +223,20 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         imv_master_hat.setVisibility(View.GONE);
         imv_master.setVisibility(View.VISIBLE);
         imv_master_hat.startAnimation(bottomUp);
-        imv_master.setOnClickListener(null);
 
-        final Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            Animation Upbottom = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_down);
-            imv_master.startAnimation(Upbottom);
-            imv_master.setVisibility(View.GONE);
-            imv_master_hat.setVisibility(View.VISIBLE);
-//            enableOnclickHat();
-        }, 500);
+
+
+
+//        imv_master.setOnClickListener(null);
+
+//        final Handler handler = new Handler();
+//        handler.postDelayed(() -> {
+//            Animation Upbottom = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_down);
+//            imv_master.startAnimation(Upbottom);
+//            imv_master.setVisibility(View.GONE);
+//            imv_master_hat.setVisibility(View.VISIBLE);
+////            enableOnclickHat();
+//        }, 500);
     }
     //endregion
 
@@ -267,9 +278,9 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
     private void navToRulesFragment() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new RulesMianFragment();
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_RulesMianFragment);
-        ft.addToBackStack(AppConstt.FragTag.FN_RulesMianFragment);
+        Fragment frag = new RulesFragment();
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_RulesFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_RulesFragment);
         ft.hide(this);
         ft.commit();
     }

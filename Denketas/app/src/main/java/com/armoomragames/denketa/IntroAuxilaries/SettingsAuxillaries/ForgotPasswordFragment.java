@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
@@ -19,22 +21,19 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
     RelativeLayout rlSubmit;
     RelativeLayout rlEmailsent;
 
+    LinearLayout llBack;
+    IBadgeUpdateListener mBadgeUpdateListener;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View frg = inflater.inflate(R.layout.fragment_forgot_password, container, false);
 
-
-        bindViews(frg);
-
-
-
-
         init();
+        bindViews(frg);
         return frg;
     }
 
-    IBadgeUpdateListener mBadgeUpdateListener;
+
 
     void setToolbar() {
 
@@ -68,9 +67,11 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
 
         rlSubmit = frg.findViewById(R.id.frg_frgtPass_rlSubmit);
         rlEmailsent = frg.findViewById(R.id.frg_frgtPass_rlEmailsent);
+        llBack = frg.findViewById(R.id.frg_forgetpass_llBack);
 
         rlSubmit.setOnClickListener(this);
         rlEmailsent.setOnClickListener(this);
+        llBack.setOnClickListener(this);
 
     }
 
@@ -88,6 +89,11 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
     public void onClick(View v) {
 
         switch (v.getId()) {
+
+
+            case R.id.frg_forgetpass_llBack:
+                ((IntroActivity)getActivity()).onBackPressed();
+                break;
             case R.id.frg_frgtPass_rlSubmit:
             case R.id.frg_frgtPass_rlEmailsent:
                 navToResetPassword();

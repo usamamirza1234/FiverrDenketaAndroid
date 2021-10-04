@@ -25,7 +25,6 @@ import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.ChallengeFragme
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.ExtraRulesFragment;
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.GamePlayFragment;
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.RulesFragment;
-import com.armoomragames.denketa.IntroAuxilaries.RulesMianFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SplashFragment;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
@@ -185,11 +184,22 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 //            }
 //        }
 
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            getSupportFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
+        if (returnStackFragmentTag().equalsIgnoreCase(AppConstt.FragTag.FN_RulesFragment)) {
+            navToPreSignInVAFragment();
+        } else if (returnStackFragmentTag().equalsIgnoreCase(AppConstt.FragTag.FN_ChallengeFragment) ||
+                returnStackFragmentTag().equalsIgnoreCase(AppConstt.FragTag.FN_ExtraRulesFragment) ||
+                returnStackFragmentTag().equalsIgnoreCase(AppConstt.FragTag.FN_GamePlayFragment))
+        {
+            navToRulesFragment();
         }
+        else {
+            if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+                getSupportFragmentManager().popBackStack();
+            } else {
+                super.onBackPressed();
+            }
+        }
+
 
     }
 
@@ -296,9 +306,9 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
     public void navToRulesFragment() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new RulesMianFragment();
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_RulesMianFragment);
-        ft.addToBackStack(AppConstt.FragTag.FN_RulesMianFragment);
+        Fragment frag = new RulesFragment();
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_RulesFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_RulesFragment);
 //        ft.hide(this);
         hideLastStackFragment(ft);
         ft.commit();
