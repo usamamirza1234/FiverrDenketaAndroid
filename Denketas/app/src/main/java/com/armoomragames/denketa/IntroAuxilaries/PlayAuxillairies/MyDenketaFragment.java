@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -27,7 +28,7 @@ import com.armoomragames.denketa.Utils.IWebPaginationCallback;
 import java.util.ArrayList;
 
 public class MyDenketaFragment extends Fragment implements View.OnClickListener, IWebPaginationCallback, AbsListView.OnScrollListener {
-
+    RelativeLayout rlToolbar, rlBack, rlCross;
     MyDenketaLsvAdapter adapter;
     ListView rcvMyDenekta;
     Dialog dialog;
@@ -194,7 +195,12 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
 
     private void bindViewss(View frg) {
         rcvMyDenekta = frg.findViewById(R.id.frg_rcv_my_denketa);
+        rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
+        rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
+        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
 
+        rlBack.setOnClickListener(this);
+        rlCross.setOnClickListener(this);
     }
 
 
@@ -240,6 +246,8 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                 dialog.dismiss();
                 ((IntroActivity) getActivity()).navToDenketaQuestionFragment();
                 break;
+
+
         }
     }
 

@@ -8,12 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
@@ -29,7 +31,7 @@ public class DictionaryFragment extends Fragment implements View.OnClickListener
     DictionaryRCVAdapter dictionaryRCVAdapter = null;
     ImageView imvSearch;
     EditText edt_Search;
-
+    RelativeLayout rlToolbar, rlBack, rlCross;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,7 +46,12 @@ public class DictionaryFragment extends Fragment implements View.OnClickListener
     }
 
     private void bindViews(View frg) {
+        rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
+        rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
+        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
 
+        rlBack.setOnClickListener(this);
+        rlCross.setOnClickListener(this);
 
         imvSearch = frg.findViewById(R.id.imv_search);
         lsvDictionary = frg.findViewById(R.id.frg_lsv_dictionary);
@@ -102,6 +109,14 @@ public class DictionaryFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
 
         switch (v.getId()) {
+            case R.id.act_intro_lay_toolbar_rlBack:
+                ((IntroActivity)getActivity()).  onBackPressed();
+
+                break;
+            case R.id.act_intro_lay_toolbar_rlCross:
+                ((IntroActivity)getActivity()). navToPreSignInVAFragment();
+
+                break;
             case R.id.imv_search:
                 filter(edt_Search.getText().toString());
                 break;

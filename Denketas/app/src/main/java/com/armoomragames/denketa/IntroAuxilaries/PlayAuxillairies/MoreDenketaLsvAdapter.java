@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.armoomragames.denketa.R;
@@ -16,7 +17,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class MoreDenketaLsvAdapter extends BaseAdapter {
-
+    RelativeLayout rlToolbar, rlBack, rlCross;
     private IAdapterCallback iAdapterCallback;
     private LayoutInflater inflater;
     private ArrayList<DModel_MyDenketa> mData;

@@ -4,17 +4,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 
 import com.armoomragames.denketa.R;
 
 public class MakeDenketaFragment extends Fragment implements View.OnClickListener {
-
+    RelativeLayout rlToolbar, rlBack, rlCross;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View frg = inflater.inflate(R.layout.fragment_make_denketa, container, false);
-
 
         return frg;
     }

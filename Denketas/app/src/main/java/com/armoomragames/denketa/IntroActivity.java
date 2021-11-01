@@ -221,29 +221,29 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         switch (mState) {
 
 
-            case AppConstt.INTRO_ToolbarStates.TOOLBAR_HIDDEN:
-                rlToolbar.setVisibility(View.GONE);
-                break;
-
-
-            case AppConstt.INTRO_ToolbarStates.TOOLBAR_VISIBLE:
-                rlToolbar.setVisibility(View.VISIBLE);
-                rlBack.setVisibility(View.VISIBLE);
-                rlCross.setVisibility(View.VISIBLE);
-                break;
-
-            case AppConstt.INTRO_ToolbarStates.TOOLBAR_BACK_HIDDEN:
-                rlToolbar.setVisibility(View.VISIBLE);
-                rlBack.setVisibility(View.GONE);
-                rlCross.setVisibility(View.VISIBLE);
-                break;
-
-            case AppConstt.INTRO_ToolbarStates.TOOLBAR_CROSS_HIDDEN:
-                rlToolbar.setVisibility(View.VISIBLE);
-                rlBack.setVisibility(View.VISIBLE);
-                rlCross.setVisibility(View.GONE);
-
-                break;
+//            case AppConstt.INTRO_ToolbarStates.TOOLBAR_HIDDEN:
+//                rlToolbar.setVisibility(View.GONE);
+//                break;
+//
+//
+//            case AppConstt.INTRO_ToolbarStates.TOOLBAR_VISIBLE:
+//                rlToolbar.setVisibility(View.VISIBLE);
+//                rlBack.setVisibility(View.VISIBLE);
+//                rlCross.setVisibility(View.VISIBLE);
+//                break;
+//
+//            case AppConstt.INTRO_ToolbarStates.TOOLBAR_BACK_HIDDEN:
+//                rlToolbar.setVisibility(View.VISIBLE);
+//                rlBack.setVisibility(View.GONE);
+//                rlCross.setVisibility(View.VISIBLE);
+//                break;
+//
+//            case AppConstt.INTRO_ToolbarStates.TOOLBAR_CROSS_HIDDEN:
+//                rlToolbar.setVisibility(View.VISIBLE);
+//                rlBack.setVisibility(View.VISIBLE);
+//                rlCross.setVisibility(View.GONE);
+//
+//                break;
 
             default:
                 break;

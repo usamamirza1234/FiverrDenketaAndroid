@@ -5,6 +5,7 @@
     android:background="@drawable/app_bg">
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/act_intro_rl_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

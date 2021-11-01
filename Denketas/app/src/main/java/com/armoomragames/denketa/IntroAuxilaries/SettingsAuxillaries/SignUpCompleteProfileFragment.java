@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class SignUpCompleteProfileFragment extends Fragment implements View.OnClickListener {
-
+    RelativeLayout rlToolbar, rlBack, rlCross;
     Spinner spinnerSort = null;
 
     Spinner spinnerGender = null;
@@ -124,7 +124,12 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
     }
 
     private void bindViews(View frg) {
+        rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
+        rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
+        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
 
+        rlBack.setOnClickListener(this);
+        rlCross.setOnClickListener(this);
         spinnerSort = frg.findViewById(R.id.act_main_spinr_city);
         spinnerGender = frg.findViewById(R.id.frg_completeProfile_spinerGender);
 
@@ -444,7 +449,14 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
     public void onClick(View v) {
 
         switch (v.getId()) {
+            case R.id.act_intro_lay_toolbar_rlBack:
+                ((IntroActivity)getActivity()).  onBackPressed();
 
+                break;
+            case R.id.act_intro_lay_toolbar_rlCross:
+                ((IntroActivity)getActivity()). navToPreSignInVAFragment();
+
+                break;
             case R.id.fg_signup_complete_rlRegister:
                 checkErrorConditions();
                 break;

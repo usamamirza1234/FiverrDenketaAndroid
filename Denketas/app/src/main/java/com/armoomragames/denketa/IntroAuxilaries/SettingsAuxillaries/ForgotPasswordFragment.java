@@ -17,7 +17,7 @@ import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 
 public class ForgotPasswordFragment extends Fragment implements View.OnClickListener {
-
+    RelativeLayout rlToolbar, rlBack, rlCross;
     RelativeLayout rlSubmit;
     RelativeLayout rlEmailsent;
 
@@ -68,7 +68,12 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
         rlSubmit = frg.findViewById(R.id.frg_frgtPass_rlSubmit);
         rlEmailsent = frg.findViewById(R.id.frg_frgtPass_rlEmailsent);
         llBack = frg.findViewById(R.id.frg_forgetpass_llBack);
+        rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
+        rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
+        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
 
+        rlBack.setOnClickListener(this);
+        rlCross.setOnClickListener(this);
         rlSubmit.setOnClickListener(this);
         rlEmailsent.setOnClickListener(this);
         llBack.setOnClickListener(this);
@@ -89,7 +94,14 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
     public void onClick(View v) {
 
         switch (v.getId()) {
+            case R.id.act_intro_lay_toolbar_rlBack:
+                ((IntroActivity)getActivity()).  onBackPressed();
 
+                break;
+            case R.id.act_intro_lay_toolbar_rlCross:
+                ((IntroActivity)getActivity()). navToPreSignInVAFragment();
+
+                break;
 
             case R.id.frg_forgetpass_llBack:
                 ((IntroActivity)getActivity()).onBackPressed();

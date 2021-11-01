@@ -3,7 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/act_intro_rl_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
 
+        <include layout="@layout/act_lay_toolabar" />
+
+    </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -122,6 +134,6 @@
             android:src="@drawable/ic_hat_what" />
 
     </RelativeLayout>
-
+    </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

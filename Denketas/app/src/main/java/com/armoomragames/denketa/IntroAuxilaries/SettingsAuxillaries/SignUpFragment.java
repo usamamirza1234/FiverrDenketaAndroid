@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.AppConfig;
+import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_SignUp;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
@@ -36,7 +37,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.gson.JsonObject;
 
 public class SignUpFragment extends Fragment implements View.OnClickListener {
-
+    RelativeLayout rlToolbar, rlBack, rlCross;
     private static final int RC_SIGN_IN = 9001;
     GoogleSignInClient mGoogleSignInClient;
     TextView txvLogin;
@@ -90,7 +91,12 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void bindViews(View frg) {
+    private void bindViews(View frg) {  rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
+        rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
+        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
+
+        rlBack.setOnClickListener(this);
+        rlCross.setOnClickListener(this);
         Animation shake;
         shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
         TextView txvPlay = frg.findViewById(R.id.frg_presigin_txvPlay);
@@ -149,6 +155,14 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
 
         switch (v.getId()) {
+            case R.id.act_intro_lay_toolbar_rlBack:
+                ((IntroActivity)getActivity()).  onBackPressed();
+
+                break;
+            case R.id.act_intro_lay_toolbar_rlCross:
+                ((IntroActivity)getActivity()). navToPreSignInVAFragment();
+
+                break;
             case R.id.frg_my_account_rlRegister:
                 checkErrorConditions();
 

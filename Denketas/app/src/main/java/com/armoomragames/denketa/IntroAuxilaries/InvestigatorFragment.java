@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 import static com.armoomragames.denketa.Utils.IAdapterCallback.EVENT_A;
 
 public class InvestigatorFragment extends Fragment implements View.OnClickListener {
-
+    RelativeLayout rlToolbar, rlBack, rlCross;
     RecyclerView rcvMyDenekta;
     Dialog dialog;
 
@@ -48,7 +49,12 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
 
     private void bindViewss(View frg) {
         rcvMyDenekta = frg.findViewById(R.id.frg_rcv_my_denketa);
+        rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
+        rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
+        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
 
+        rlBack.setOnClickListener(this);
+        rlCross.setOnClickListener(this);
     }
 
 
@@ -153,6 +159,14 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
 
         switch (v.getId()) {
+            case R.id.act_intro_lay_toolbar_rlBack:
+                ((IntroActivity)getActivity()).  onBackPressed();
+
+                break;
+            case R.id.act_intro_lay_toolbar_rlCross:
+                ((IntroActivity)getActivity()). navToPreSignInVAFragment();
+
+                break;
             case R.id.lay_item_play_txvRules:
 
                 dialog.dismiss();

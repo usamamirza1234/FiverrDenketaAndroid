@@ -7,12 +7,14 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.DModelDictionary;
 import com.armoomragames.denketa.IntroAuxilaries.DictionaryRCVAdapter;
 import com.armoomragames.denketa.R;
@@ -25,7 +27,7 @@ import static com.armoomragames.denketa.Utils.IAdapterCallback.EVENT_A;
 
 public class FaqFragment extends Fragment implements View.OnClickListener {
 
-
+    RelativeLayout rlToolbar, rlBack, rlCross;
     RecyclerView lsvFaq;
     ArrayList<DModelDictionary> lst_Funds;
 
@@ -77,7 +79,12 @@ public class FaqFragment extends Fragment implements View.OnClickListener {
         Animation shake;
         shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
 
+        rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
+        rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
+        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
 
+        rlBack.setOnClickListener(this);
+        rlCross.setOnClickListener(this);
         TextView txvPlay = frg.findViewById(R.id.frg_presigin_txvPlay);
         txvPlay.startAnimation(shake); // starts animation
     }
@@ -120,7 +127,16 @@ public class FaqFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()) {
+        switch (v.getId())
+        {
+            case R.id.act_intro_lay_toolbar_rlBack:
+                ((IntroActivity)getActivity()).  onBackPressed();
+
+                break;
+            case R.id.act_intro_lay_toolbar_rlCross:
+                ((IntroActivity)getActivity()). navToPreSignInVAFragment();
+
+                break;
             case R.id.frg_settings_rlMyAccount:
 
 

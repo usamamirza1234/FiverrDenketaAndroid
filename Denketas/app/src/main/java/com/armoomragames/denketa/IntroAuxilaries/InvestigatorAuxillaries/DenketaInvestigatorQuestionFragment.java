@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DenketaAnswerFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameResultsFragment;
 import com.armoomragames.denketa.R;
@@ -19,7 +21,7 @@ import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 
 public class DenketaInvestigatorQuestionFragment extends Fragment implements View.OnClickListener {
 
-
+    RelativeLayout rlToolbar, rlBack, rlCross;
     LinearLayout llSeeAnswer;
     LinearLayout llPaynow;
     LinearLayout llBundleDiscount;
@@ -75,7 +77,12 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
         llSeeAnswer = frg.findViewById(R.id.frg_denketa_question_llSeeAnswer);
         llPaynow = frg.findViewById(R.id.frg_denketa_question_llBuyNow);
         llBundleDiscount = frg.findViewById(R.id.frg_denketa_question_llBundleDiscount);
+        rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
+        rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
+        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
 
+        rlBack.setOnClickListener(this);
+        rlCross.setOnClickListener(this);
 
         llSeeAnswer.setOnClickListener(this);
         llPaynow.setOnClickListener(this);
@@ -87,6 +94,14 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
     public void onClick(View v) {
 
         switch (v.getId()) {
+            case R.id.act_intro_lay_toolbar_rlBack:
+                ((IntroActivity)getActivity()).  onBackPressed();
+
+                break;
+            case R.id.act_intro_lay_toolbar_rlCross:
+                ((IntroActivity)getActivity()). navToPreSignInVAFragment();
+
+                break;
             case R.id.frg_denketa_question_llSeeAnswer:
                 navToDenketaAnswerFragment();
                 break;

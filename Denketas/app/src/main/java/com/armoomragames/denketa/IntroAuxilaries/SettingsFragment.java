@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.AppConfig;
+import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.SignUpCompleteProfileFragment;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.AboutFragment;
@@ -25,7 +26,7 @@ import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener {
-
+    RelativeLayout rlToolbar, rlBack, rlCross;
     final int amountToMoveDown = 20, amountToMoveRight = 20;
 
 //    LinearLayout llParentSettings;
@@ -104,6 +105,21 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
 
     private void bindViews(View frg) {
+        rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
+        rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
+        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
+
+        rlBack.setOnClickListener(this);
+        rlCross.setOnClickListener(this);
+
+
+        //        rlToolbar.setVisibility(View.GONE);
+        rlToolbar.setVisibility(View.VISIBLE);
+        rlBack.setVisibility(View.GONE);
+        rlCross.setVisibility(View.VISIBLE);
+//        rlCross.setVisibility(View.GONE);
+//        rlBack.setVisibility(View.VISIBLE);
+
 
 //        pozadi_motyl = frg.findViewById(R.id.pozadi0);
 //        llParentSettings = frg.findViewById(R.id.llParentSettings);
@@ -171,6 +187,16 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
 
                 navtoPrivacyFragment();
+
+                break;
+
+
+            case R.id.act_intro_lay_toolbar_rlBack:
+                ((IntroActivity)getActivity()).  onBackPressed();
+
+                break;
+            case R.id.act_intro_lay_toolbar_rlCross:
+                ((IntroActivity)getActivity()). navToPreSignInVAFragment();
 
                 break;
         }

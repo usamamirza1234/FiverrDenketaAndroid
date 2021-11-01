@@ -21,7 +21,7 @@ import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 
 public class DenketaQuestionFragment extends Fragment implements View.OnClickListener {
-
+    RelativeLayout rlToolbar, rlBack, rlCross;
     RelativeLayout rlMaster;
     LinearLayout llSeeAnswer;
 
@@ -75,7 +75,12 @@ public class DenketaQuestionFragment extends Fragment implements View.OnClickLis
     private void bindViews(View frg) {
         rlMaster = frg.findViewById(R.id.frg_denketa_question_rlmaster);
         llSeeAnswer = frg.findViewById(R.id.frg_denketa_question_llSeeAnswer);
+        rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
+        rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
+        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
 
+        rlBack.setOnClickListener(this);
+        rlCross.setOnClickListener(this);
         rlMaster.setOnClickListener(this);
         llSeeAnswer.setOnClickListener(this);
     }

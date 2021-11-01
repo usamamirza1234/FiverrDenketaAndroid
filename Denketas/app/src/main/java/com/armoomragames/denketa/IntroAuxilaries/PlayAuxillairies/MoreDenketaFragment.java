@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,7 +24,7 @@ import com.armoomragames.denketa.Utils.IWebPaginationCallback;
 import java.util.ArrayList;
 
 public class MoreDenketaFragment extends Fragment implements View.OnClickListener, IWebPaginationCallback, AbsListView.OnScrollListener  {
-
+    RelativeLayout rlToolbar, rlBack, rlCross;
     ListView rcvMyDenekta;
 
     MoreDenketaLsvAdapter adapter;
