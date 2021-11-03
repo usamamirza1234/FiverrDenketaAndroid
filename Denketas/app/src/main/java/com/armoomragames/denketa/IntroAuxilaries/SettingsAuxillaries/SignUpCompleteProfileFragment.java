@@ -2,16 +2,21 @@ package com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -26,6 +31,7 @@ import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.IWebCallback;
+import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
 
 import java.text.SimpleDateFormat;
@@ -349,10 +355,10 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
             jsonObject.addProperty("nationality", "German");
 //            jsonObject.addProperty("nationality", edtNationality.getText().toString());
 
-//            requestUserProfile(jsonObject.toString());
+            requestUserProfile(jsonObject.toString());
 
-            AppConfig.getInstance().saveUserProfile();
-            ((IntroActivity) getActivity()).navToPreSignInVAFragment();
+//            AppConfig.getInstance().saveUserProfile();
+//            ((IntroActivity) getActivity()).navToPreSignInVAFragment();
         }
     }
 
@@ -414,13 +420,40 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
 //                calendar.get(Calendar.DAY_OF_MONTH)).show();
 //    }
     //endregion
+private Dialog progressDialog;
 
+    private void dismissProgDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
+
+    private void showProgDialog() {
+
+        progressDialog = new Dialog(getActivity(), R.style.AppTheme);
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.setContentView(R.layout.dialog_progress);
+        WindowManager.LayoutParams wmlp = progressDialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER | Gravity.CENTER;
+        wmlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        wmlp.height = ViewGroup.LayoutParams.MATCH_PARENT;
+
+        ImageView imageView = (ImageView) progressDialog.findViewById(R.id.img_anim);
+        Glide.with(getContext()).asGif().load(R.raw.loading).into(imageView);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+
+    }
 
     private void requestUserProfile(String _signUpEntity) {
+        showProgDialog();
         Intro_WebHit_Post_AddUserProfile intro_webHit_post_addUserProfile = new Intro_WebHit_Post_AddUserProfile();
         intro_webHit_post_addUserProfile.postAddProfile(getContext(), new IWebCallback() {
             @Override
             public void onWebResult(boolean isSuccess, String strMsg) {
+                dismissProgDialog();
                 if (isSuccess) {
 
                     AppConfig.getInstance().mUser.Name = Intro_WebHit_Post_AddUserProfile.responseObject.getData().getName();
@@ -439,6 +472,7 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
 
             @Override
             public void onWebException(Exception ex) {
+                dismissProgDialog();
                 Toast.makeText(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT).show();
 //                AppConfig.getInstance().showErrorMessage(getContext(), ex.toString());
             }

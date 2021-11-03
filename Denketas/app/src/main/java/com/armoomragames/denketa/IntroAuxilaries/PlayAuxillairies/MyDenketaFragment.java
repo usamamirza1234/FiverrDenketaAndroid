@@ -4,12 +4,14 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -24,6 +26,7 @@ import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IAdapterCallback;
 import com.armoomragames.denketa.Utils.IWebPaginationCallback;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -45,7 +48,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
         init();
         bindViewss(frg);
         requestDenketa();
-        populatePopulationList();
+//        populatePopulationList();
         return frg;
     }
 
@@ -98,13 +101,38 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
     public void requestDenketa() {
         isAlreadyFetching = true;
 
-
+        showProgDialog();
         Intro_WebHit_Get_All_User_Danektas.mPaginationInfo.currIndex = 1;
         Intro_WebHit_Get_All_User_Danektas.responseObject = null;
         intro_webHit_get_all_user_danektas.getCategory(this,
                 Intro_WebHit_Get_All_User_Danektas.mPaginationInfo.currIndex);
     }
+    private Dialog progressDialog;
 
+    private void dismissProgDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
+
+    private void showProgDialog() {
+
+        progressDialog = new Dialog(getActivity(), R.style.AppTheme);
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.setContentView(R.layout.dialog_progress);
+        WindowManager.LayoutParams wmlp = progressDialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER | Gravity.CENTER;
+        wmlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        wmlp.height = ViewGroup.LayoutParams.MATCH_PARENT;
+
+        ImageView imageView = (ImageView) progressDialog.findViewById(R.id.img_anim);
+        Glide.with(getContext()).asGif().load(R.raw.loading).into(imageView);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+
+    }
 
     private void populateAllDanektasData(boolean isSuccess, String strMsg) {
 //        srlHome.setRefreshing(false);
@@ -113,68 +141,69 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
 //            progressDilogue.stopiOSLoader();
 //        }
 
+        dismissProgDialog();
+//        HERE UNCOMNT
+        isAlreadyFetching = false;
+        if (getActivity() != null && isAdded())
+            if (isSuccess) {
+                if (Intro_WebHit_Get_All_User_Danektas.responseObject != null &&
+                        Intro_WebHit_Get_All_User_Danektas.responseObject.getData() != null &&
+                        Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing() != null &&
+                        Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing().size() > 0) {
 
-        //HERE UNCOMNT
-//        isAlreadyFetching = false;
-//        if (getActivity() != null && isAdded())
-//            if (isSuccess) {
-//                if (Intro_WebHit_Get_All_User_Danektas.responseObject != null &&
-//                        Intro_WebHit_Get_All_User_Danektas.responseObject.getData() != null &&
-//                        Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing() != null &&
-//                        Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing().size() > 0) {
-//
-////                    txvNoData.setVisibility(View.GONE);
-//
-//                    for (int i = 0; i < Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing().size(); i++) {
-//
-//                        lst_MyDenketa.add(new DModel_MyDenketa(Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getName(), Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getImage()));
-//
-//
-//                    }
-//
-//                    if (adapter == null) {
-//                        adapter = new MyDenketaLsvAdapter(new IAdapterCallback() {
-//                            @Override
-//                            public void onAdapterEventFired(int eventId, int position) {
-//                                switch (eventId) {
-//                                    case EVENT_A:
-//                                        onClickDenketaItem(position);
-//
-//                                        break;
-//
-//                                    case EVENT_B:
-//                                        ((IntroActivity) getActivity()).navToMyResultsFragment();
-//
-//                                        break;
-//                                }
-//
-//                            }
-//                        }, getActivity(), lst_MyDenketa);
-//                        rcvMyDenekta.setAdapter(adapter);
-//                        rcvMyDenekta.setOnScrollListener(this);
-//                    } else {
-//                        adapter.notifyDataSetChanged();
-//                    }
-//                } else {
-//                    if (Intro_WebHit_Get_All_User_Danektas.mPaginationInfo.currIndex == 1) {
-//////                        lsvMedicines.setVisibility(View.GONE);
-////                        txvNoData.setVisibility(View.VISIBLE);
-//////                        imvNoData.setVisibility(View.VISIBLE);
-//                        rcvMyDenekta.setOnScrollListener(null);
-//                    }
-//                }
-//            }  else {
-//                if (Intro_WebHit_Get_All_User_Danektas.mPaginationInfo.currIndex == 1) {
-//////                    lsvMedicines.setVisibility(View.GONE);
-////                    txvNoData.setVisibility(View.VISIBLE);
-//////                    imvNoData.setVisibility(View.VISIBLE);
-//                    rcvMyDenekta.setOnScrollListener(null);
-//                }
-//            }
+//                    txvNoData.setVisibility(View.GONE);
+
+                    for (int i = 0; i < Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing().size(); i++) {
+
+                        lst_MyDenketa.add(new DModel_MyDenketa(Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getName(), Intro_WebHit_Get_All_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getImage()));
+
+
+                    }
+
+                    if (adapter == null) {
+                        adapter = new MyDenketaLsvAdapter(new IAdapterCallback() {
+                            @Override
+                            public void onAdapterEventFired(int eventId, int position) {
+                                switch (eventId) {
+                                    case EVENT_A:
+                                        onClickDenketaItem(position);
+
+                                        break;
+
+                                    case EVENT_B:
+                                        ((IntroActivity) getActivity()).navToMyResultsFragment();
+
+                                        break;
+                                }
+
+                            }
+                        }, getActivity(), lst_MyDenketa);
+                        rcvMyDenekta.setAdapter(adapter);
+                        rcvMyDenekta.setOnScrollListener(this);
+                    } else {
+                        adapter.notifyDataSetChanged();
+                    }
+                } else {
+                    if (Intro_WebHit_Get_All_User_Danektas.mPaginationInfo.currIndex == 1) {
+////                        lsvMedicines.setVisibility(View.GONE);
+//                        txvNoData.setVisibility(View.VISIBLE);
+////                        imvNoData.setVisibility(View.VISIBLE);
+                        rcvMyDenekta.setOnScrollListener(null);
+                    }
+                }
+            }  else {
+                if (Intro_WebHit_Get_All_User_Danektas.mPaginationInfo.currIndex == 1) {
+////                    lsvMedicines.setVisibility(View.GONE);
+//                    txvNoData.setVisibility(View.VISIBLE);
+////                    imvNoData.setVisibility(View.VISIBLE);
+                    rcvMyDenekta.setOnScrollListener(null);
+                }
+            }
     }
 
     private void updateDenketaList(boolean isSuccess, boolean isCompleted, String errorMsg) {
         isLoadingMore = false;
+        dismissProgDialog();
 //        llListItemLoader.setVisibility(View.GONE);
 //        if (progressDilogue != null) {
 //            progressDilogue.stopiOSLoader();
@@ -195,12 +224,12 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
 
     private void bindViewss(View frg) {
         rcvMyDenekta = frg.findViewById(R.id.frg_rcv_my_denketa);
-        rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
-        rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
-        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
-
-        rlBack.setOnClickListener(this);
-        rlCross.setOnClickListener(this);
+//        rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
+//        rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
+//        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
+//
+//        rlBack.setOnClickListener(this);
+//        rlCross.setOnClickListener(this);
     }
 
 

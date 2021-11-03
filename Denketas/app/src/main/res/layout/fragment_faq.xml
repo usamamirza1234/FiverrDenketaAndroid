@@ -20,6 +20,7 @@
     <LinearLayout
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -61,6 +62,44 @@
             android:scrollbars="none"
             android:verticalSpacing="7dp"
             android:visibility="visible" />
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+            android:layout_marginTop="20dp"
+
+            android:background="@null"
+
+            android:text="Still have questions?
+"
+
+
+            android:textColor="@color/black"
+
+            android:textStyle="bold"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/fontsize_small" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+
+            android:background="@null"
+
+            android:text="Contact us."
+
+
+            android:textColor="@color/thm_blue_app"
+
+            android:textStyle="bold"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/fontsize_small" />
     </LinearLayout>
 
     </LinearLayout>

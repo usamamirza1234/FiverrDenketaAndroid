@@ -1,12 +1,18 @@
 package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,8 +24,10 @@ import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Al
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_All__Danektas;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
+import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IAdapterCallback;
 import com.armoomragames.denketa.Utils.IWebPaginationCallback;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -47,6 +55,32 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
         return frg;
     }
 
+    private Dialog progressDialog;
+
+    private void dismissProgDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
+
+    private void showProgDialog() {
+
+        progressDialog = new Dialog(getActivity(), R.style.AppTheme);
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.setContentView(R.layout.dialog_progress);
+        WindowManager.LayoutParams wmlp = progressDialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER | Gravity.CENTER;
+        wmlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        wmlp.height = ViewGroup.LayoutParams.MATCH_PARENT;
+
+        ImageView imageView = (ImageView) progressDialog.findViewById(R.id.img_anim);
+        Glide.with(getContext()).asGif().load(R.raw.loading).into(imageView);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+
+    }
     private void init()
     {
         lst_MyDenketa = new ArrayList<>();
@@ -70,7 +104,7 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 
     public void requestDenketa() {
         isAlreadyFetching = true;
-
+        showProgDialog();
 
         Intro_WebHit_Get_All__Danektas.mPaginationInfo.currIndex = 1;
         Intro_WebHit_Get_All__Danektas.responseObject = null;
@@ -85,9 +119,7 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
     private void populateAllDanektasData(boolean isSuccess, String strMsg) {
 //        srlHome.setRefreshing(false);
 //        llListItemLoader.setVisibility(View.GONE);
-//        if (progressDilogue != null) {
-//            progressDilogue.stopiOSLoader();
-//        }
+   dismissProgDialog();
 
         isAlreadyFetching = false;
         if (getActivity() != null && isAdded())
@@ -102,7 +134,9 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 
                     for (int i = 0; i < Intro_WebHit_Get_All__Danektas.responseObject.getData().getListing().size(); i++) {
 
-                        lst_MyDenketa.add(new DModel_MyDenketa(Intro_WebHit_Get_All__Danektas.responseObject.getData().getListing().get(i).getName(), Intro_WebHit_Get_All__Danektas.responseObject.getData().getListing().get(i).getImage()));
+                        lst_MyDenketa.add(
+                                new DModel_MyDenketa(Intro_WebHit_Get_All__Danektas.responseObject.getData().getListing().get(i).getName(),
+                                Intro_WebHit_Get_All__Danektas.responseObject.getData().getListing().get(i).getImage()));
 
 
                     }
@@ -147,6 +181,7 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 //        if (progressDilogue != null) {
 //            progressDilogue.stopiOSLoader();
 //        }
+        dismissProgDialog();
 
         if (getActivity() != null && isAdded())//check whether it is attached to an activity
             if (isSuccess) {

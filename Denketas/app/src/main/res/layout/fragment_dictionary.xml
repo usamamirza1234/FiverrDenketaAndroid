@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="20dp"
-    android:layout_marginEnd="20dp">
+>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +21,8 @@
         </RelativeLayout>
 
         <RelativeLayout
-
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
@@ -43,7 +43,8 @@
 
         </RelativeLayout>
 
-        <com.dd.ShadowLayout
+        <com.dd.ShadowLayout    android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -94,7 +95,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/frg_lsv_dictionary"
-
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/ic_shp_game_creator"
@@ -106,6 +108,10 @@
             android:paddingBottom="10dp"
             android:scrollbars="none"
             android:verticalSpacing="7dp" />
+
+
+
+
     </LinearLayout>
 
 

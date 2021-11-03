@@ -220,4 +220,6 @@ guide the investigators if you want.
         You can see ONLY the question. Investigate the \n
  hint thoroughly and ask Yes/No questions. Don\'t \n
 jump into conclusions, make detailed \n questions.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,12 +1,17 @@
 package com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,8 +26,10 @@ import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_LogIn;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
+import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.IWebCallback;
+import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
 
 public class SiginInFragment extends Fragment implements View.OnClickListener {
@@ -156,14 +163,41 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
         ft.commit();
     }
 
+    private Dialog progressDialog;
+
+    private void dismissProgDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
+
+    private void showProgDialog() {
+
+        progressDialog = new Dialog(getActivity(), R.style.AppTheme);
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.setContentView(R.layout.dialog_progress);
+        WindowManager.LayoutParams wmlp = progressDialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER | Gravity.CENTER;
+        wmlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        wmlp.height = ViewGroup.LayoutParams.MATCH_PARENT;
+
+        ImageView imageView = (ImageView) progressDialog.findViewById(R.id.img_anim);
+        Glide.with(getContext()).asGif().load(R.raw.loading).into(imageView);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+
+    }
 
     private void requestUserSigin(String _signUpEntity) {
+        showProgDialog();
         Intro_WebHit_Post_LogIn intro_webHit_post_logIn = new Intro_WebHit_Post_LogIn();
         intro_webHit_post_logIn.postSignIn(getContext(), new IWebCallback() {
             @Override
             public void onWebResult(boolean isSuccess, String strMsg) {
                 if (isSuccess) {
-
+                    dismissProgDialog();
                     //Save user login data
                     AppConfig.getInstance().mUser.User_Id = Intro_WebHit_Post_LogIn.responseObject.getData().getId();
                     AppConfig.getInstance().mUser.Email = Intro_WebHit_Post_LogIn.responseObject.getData().getEmail();
@@ -188,14 +222,18 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
                     navtoSignUpContFragment();
 
                 } else {
-                    Toast.makeText(getActivity(), strMsg, Toast.LENGTH_SHORT).show();
+
+                    dismissProgDialog();
+                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
+//                    Toast.makeText(getActivity(), strMsg, Toast.LENGTH_SHORT).show();
 //                    AppConfig.getInstance().showErrorMessage(getContext(), strMsg);
                 }
             }
 
             @Override
             public void onWebException(Exception ex) {
-                Toast.makeText(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
+//                Toast.makeText(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT).show();
 //                AppConfig.getInstance().showErrorMessage(getContext(), ex.toString());
             }
         }, _signUpEntity);
@@ -281,12 +319,12 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
             jsonObject.addProperty("email", edtEmail.getText().toString());
             jsonObject.addProperty("password", edtPassword.getText().toString());
             jsonObject.addProperty("userType", "normal");
-//            requestUserSigin(jsonObject.toString());
+            requestUserSigin(jsonObject.toString());
 
-
-            AppConfig.getInstance().mUser.isLoggedIn = true;
-            AppConfig.getInstance().saveUserProfile();
-            navtoSignUpContFragment();
+//
+//            AppConfig.getInstance().mUser.isLoggedIn = true;
+//            AppConfig.getInstance().saveUserProfile();
+//            navtoSignUpContFragment();
 
         }
     }

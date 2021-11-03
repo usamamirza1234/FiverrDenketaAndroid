@@ -120,12 +120,12 @@ public class PlayMianFragment extends Fragment implements View.OnClickListener {
     }
 
     private void bindViews(View frg) {
-        rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
-        rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
-        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
-
-        rlBack.setOnClickListener(this);
-        rlCross.setOnClickListener(this);
+//        rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
+//        rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
+//        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
+//
+//        rlBack.setOnClickListener(this);
+//        rlCross.setOnClickListener(this);
     }
 
 

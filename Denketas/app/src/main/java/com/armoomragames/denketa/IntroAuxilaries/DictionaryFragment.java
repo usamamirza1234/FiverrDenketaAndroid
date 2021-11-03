@@ -129,9 +129,14 @@ public class DictionaryFragment extends Fragment implements View.OnClickListener
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 
-        if (dictionaryRCVAdapter == null) {
+        if (dictionaryRCVAdapter == null)
+        {
+
+
+
+
             for (int i = 0; i < 18; i++) {
-                lst_Funds.add(new DModelDictionary("Word " + i, "   " + "Meanining"));
+                lst_Funds.add(new DModelDictionary(" Word "+"Word " + i, "   " + "Meanining"));
 
             }
 
