@@ -12,7 +12,15 @@
 
 
         android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/act_intro_rl_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true">
 
+            <include layout="@layout/act_lay_toolabar" />
+
+        </RelativeLayout>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/frag_review_tab_reviewTab"

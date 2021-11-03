@@ -12,27 +12,29 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-public class Intro_WebHit_Get_All__Danektas {
-    private AsyncHttpClient mClient = new AsyncHttpClient();
+public class Intro_WebHit_Get_Free_Danektas {
     public static ResponseModel responseObject = null;
     public static DModel_PaginationInfo mPaginationInfo = new DModel_PaginationInfo();
+    private final AsyncHttpClient mClient = new AsyncHttpClient();
 
-    public void getCategory(final IWebPaginationCallback iWebPaginationCallback, final int _index)  {
-        String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.fetchDanetkas;
+    public void getMyDanekta(final IWebPaginationCallback iWebPaginationCallback, final int _index) {
+        String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.GET.fetchFreeDanetkas;
 
         RequestParams params = new RequestParams();
 
         params.put("page", _index);
         params.put("per_page", "10");
+        params.put("sortBy", "id");
+        params.put("sortOrder", "DESC");
 
 
-        Log.d("LOG_AS", "getOutletListing: " + myUrl + params);
+        Log.d("LOG_AS", "getAllDanketa:  " + myUrl + params);
 
-//        mClient.addHeader(ApiMethod.HEADER.Lang, AppConfig.getInstance().getCurrentLang());
         mClient.addHeader(ApiMethod.HEADER.Authorization, AppConfig.getInstance().mUser.getAuthorization());
         mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS);
         mClient.get(myUrl, params, new AsyncHttpResponseHandler() {
@@ -41,8 +43,8 @@ public class Intro_WebHit_Get_All__Danektas {
                         String strResponse;
                         try {
                             Gson gson = new Gson();
-                            strResponse = new String(responseBody, "UTF-8");
-                            Log.d("LOG_AS", "onSuccess: " + strResponse);
+                            strResponse = new String(responseBody, StandardCharsets.UTF_8);
+                            Log.d("LOG_AS", "getAllDanketa: onSuccess: " + strResponse);
                             ResponseModel responseObjectLocal = null;
 
                             responseObjectLocal = gson.fromJson(strResponse, ResponseModel.class);
@@ -67,12 +69,14 @@ public class Intro_WebHit_Get_All__Danektas {
                                             responseObject = responseObjectLocal;
                                             mPaginationInfo.currIndex = _index;
                                         }
-
+                                        Log.d("LOG_AS", "getAllDanketa: onSuccess: tmpIsDataFetched " + tmpIsDataFetched);
                                         //No need to save
 
                                         if (mPaginationInfo != null) {
                                             iWebPaginationCallback.onWebSuccessiveResult(true, !tmpIsDataFetched, responseObjectLocal.getMessage());
                                         }
+
+
                                     }
                                     break;
 
@@ -89,7 +93,7 @@ public class Intro_WebHit_Get_All__Danektas {
                                 iWebPaginationCallback.onWebInitialException(ex);
                             else
                                 iWebPaginationCallback.onWebSuccessiveException(ex);
-                            Log.d("LOG_AS", "all medicines exception: " + ex.toString());
+                            Log.d("LOG_AS", "getAllDanketa: exception: " + ex.toString());
                         }
                     }
 
@@ -97,7 +101,7 @@ public class Intro_WebHit_Get_All__Danektas {
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable
                             error) {
 
-                        Log.d("LOG_AS", "onFailure called: " + error.toString() + "   " + statusCode + "");
+                        Log.d("LOG_AS", "getAllDanketa: onFailure called: " + error.toString() + "   " + statusCode + "");
 
 
                         switch (statusCode) {
@@ -132,53 +136,107 @@ public class Intro_WebHit_Get_All__Danektas {
 
     public class ResponseModel {
 
-        public class Listing
-        {
+
+        private int code;
+        private String status;
+        private String message;
+        private Data data;
+
+        public int getCode() {
+            return this.code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public String getStatus() {
+            return this.status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public String getMessage() {
+            return this.message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public Data getData() {
+            return this.data;
+        }
+
+        public void setData(Data data) {
+            this.data = data;
+        }
+
+        public class Listing {
             private int id;
 
             private String name;
 
             private String image;
 
+            private String paymentStatus;
+
             private boolean status;
 
             private int updatedTime;
 
-            public void setId(int id){
-                this.id = id;
-            }
-            public int getId(){
+            public int getId() {
                 return this.id;
             }
-            public void setName(String name){
-                this.name = name;
+
+            public void setId(int id) {
+                this.id = id;
             }
-            public String getName(){
+
+            public String getName() {
                 return this.name;
             }
-            public void setImage(String image){
-                this.image = image;
+
+            public void setName(String name) {
+                this.name = name;
             }
-            public String getImage(){
+
+            public String getImage() {
                 return this.image;
             }
-            public void setStatus(boolean status){
-                this.status = status;
+
+            public void setImage(String image) {
+                this.image = image;
             }
-            public boolean getStatus(){
+
+            public String getPaymentStatus() {
+                return this.paymentStatus;
+            }
+
+            public void setPaymentStatus(String paymentStatus) {
+                this.paymentStatus = paymentStatus;
+            }
+
+            public boolean getStatus() {
                 return this.status;
             }
-            public void setUpdatedTime(int updatedTime){
-                this.updatedTime = updatedTime;
+
+            public void setStatus(boolean status) {
+                this.status = status;
             }
-            public int getUpdatedTime(){
+
+            public int getUpdatedTime() {
                 return this.updatedTime;
+            }
+
+            public void setUpdatedTime(int updatedTime) {
+                this.updatedTime = updatedTime;
             }
         }
 
-
-        public class Pagination
-        {
+        public class Pagination {
             private int page;
 
             private int count;
@@ -189,97 +247,69 @@ public class Intro_WebHit_Get_All__Danektas {
 
             private String sortOrder;
 
-            public void setPage(int page){
-                this.page = page;
-            }
-            public int getPage(){
+            public int getPage() {
                 return this.page;
             }
-            public void setCount(int count){
-                this.count = count;
+
+            public void setPage(int page) {
+                this.page = page;
             }
-            public int getCount(){
+
+            public int getCount() {
                 return this.count;
             }
-            public void setPages(int pages){
-                this.pages = pages;
+
+            public void setCount(int count) {
+                this.count = count;
             }
-            public int getPages(){
+
+            public int getPages() {
                 return this.pages;
             }
-            public void setSortBy(String sortBy){
-                this.sortBy = sortBy;
+
+            public void setPages(int pages) {
+                this.pages = pages;
             }
-            public String getSortBy(){
+
+            public String getSortBy() {
                 return this.sortBy;
             }
-            public void setSortOrder(String sortOrder){
-                this.sortOrder = sortOrder;
+
+            public void setSortBy(String sortBy) {
+                this.sortBy = sortBy;
             }
-            public String getSortOrder(){
+
+            public String getSortOrder() {
                 return this.sortOrder;
+            }
+
+            public void setSortOrder(String sortOrder) {
+                this.sortOrder = sortOrder;
             }
         }
 
-
-        public class Data
-        {
+        public class Data {
             private List<Listing> listing;
 
             private Pagination pagination;
 
-            public void setListing(List<Listing> listing){
-                this.listing = listing;
-            }
-            public List<Listing> getListing(){
+            public List<Listing> getListing() {
                 return this.listing;
             }
-            public void setPagination(Pagination pagination){
-                this.pagination = pagination;
+
+            public void setListing(List<Listing> listing) {
+                this.listing = listing;
             }
-            public Pagination getPagination(){
+
+            public Pagination getPagination() {
                 return this.pagination;
             }
-        }
 
-
-
-        private int code;
-
-        private String status;
-
-        private String message;
-
-        private Data data;
-
-        public void setCode(int code){
-            this.code = code;
+            public void setPagination(Pagination pagination) {
+                this.pagination = pagination;
+            }
         }
-        public int getCode(){
-            return this.code;
-        }
-        public void setStatus(String status){
-            this.status = status;
-        }
-        public String getStatus(){
-            return this.status;
-        }
-        public void setMessage(String message){
-            this.message = message;
-        }
-        public String getMessage(){
-            return this.message;
-        }
-        public void setData(Data data){
-            this.data = data;
-        }
-        public Data getData(){
-            return this.data;
-        }
-
-
     }
-
 
 
 }

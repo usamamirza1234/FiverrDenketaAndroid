@@ -8,7 +8,7 @@ public interface ApiMethod {
 
     interface GET {
 
-
+        String fetchFreeDanetkas="fetch/free/danetkas";
     }
 
     interface POST {
@@ -18,6 +18,7 @@ public interface ApiMethod {
         String fetchUserDanetkas ="fetch/user/danetkas" ;
         String addDanetkas ="add/user/danetkas" ;
         String fetchDanetkas ="fetch/danetkas" ;
+
     }
 
 

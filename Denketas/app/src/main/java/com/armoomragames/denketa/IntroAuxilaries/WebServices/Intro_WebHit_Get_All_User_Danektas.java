@@ -23,8 +23,8 @@ public class Intro_WebHit_Get_All_User_Danektas {
     public static ResponseModel responseObject = null;
     public static DModel_PaginationInfo mPaginationInfo = new DModel_PaginationInfo();
 
-    public void getCategory(final IWebPaginationCallback iWebPaginationCallback, final int _index)  {
-        String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.fetchUserDanetkas;
+    public  void getMyDanekta(final IWebPaginationCallback iWebPaginationCallback, final int _index)  {
+        String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.GET.fetchFreeDanetkas;
 
         RequestParams params = new RequestParams();
 
@@ -32,9 +32,8 @@ public class Intro_WebHit_Get_All_User_Danektas {
         params.put("per_page", "10");
 
 
-        Log.d("LOG_AS", "getOutletListing: " + myUrl + params);
+        Log.d("LOG_AS", "getMyDanketa: " + myUrl +" params "+ params);
 
-//        mClient.addHeader(ApiMethod.HEADER.Lang, AppConfig.getInstance().getCurrentLang());
         mClient.addHeader(ApiMethod.HEADER.Authorization, AppConfig.getInstance().mUser.getAuthorization());
         mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS);
         mClient.get(myUrl, params, new AsyncHttpResponseHandler() {
@@ -44,7 +43,7 @@ public class Intro_WebHit_Get_All_User_Danektas {
                         try {
                             Gson gson = new Gson();
                             strResponse = new String(responseBody, "UTF-8");
-                            Log.d("LOG_AS", "onSuccess: " + strResponse);
+                            Log.d("LOG_AS", "getMyDanketa: onSuccess: " + strResponse);
                             ResponseModel responseObjectLocal = null;
 
                             responseObjectLocal = gson.fromJson(strResponse, ResponseModel.class);
@@ -91,7 +90,7 @@ public class Intro_WebHit_Get_All_User_Danektas {
                                 iWebPaginationCallback.onWebInitialException(ex);
                             else
                                 iWebPaginationCallback.onWebSuccessiveException(ex);
-                            Log.d("LOG_AS", "all medicines exception: " + ex.toString());
+                            Log.d("LOG_AS", "getMyDanketa:  exception: " + ex.toString());
                         }
                     }
 
@@ -99,7 +98,7 @@ public class Intro_WebHit_Get_All_User_Danektas {
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable
                             error) {
 
-                        Log.d("LOG_AS", "onFailure called: " + error.toString() + "   " + statusCode + "");
+                        Log.d("LOG_AS", "getMyDanketa: onFailure called: " + error.toString() + "   " + statusCode + "");
 
 
                         switch (statusCode) {

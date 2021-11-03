@@ -82,4 +82,14 @@ public class MyDenketaLsvAdapter extends BaseAdapter {
         TextView txvName;
         ImageView imvResults;
     }
+
+
+    public void filterList(ArrayList<DModel_MyDenketa> filterllist) {
+        // below line is to add our filtered
+        // list in our course array list.
+        mData = filterllist;
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged();
+    }
 }

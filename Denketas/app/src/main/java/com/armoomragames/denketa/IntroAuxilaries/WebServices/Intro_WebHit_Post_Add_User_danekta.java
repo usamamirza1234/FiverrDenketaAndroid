@@ -32,9 +32,10 @@ public class Intro_WebHit_Post_Add_User_danekta {
         Log.d("LOG_AS", "postAddUserDanekta: " + myUrl + _signInEntity);
         StringEntity entity = null;
         entity = new StringEntity(_signInEntity, "UTF-8");
-        mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS);
-        Log.d("currentLang", AppConfig.getInstance().loadDefLanguage());
 
+
+        mClient.addHeader(ApiMethod.HEADER.Authorization, AppConfig.getInstance().mUser.getAuthorization());
+        mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS);
         mClient.post(mContext, myUrl, entity, "application/json", new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -48,32 +49,6 @@ public class Intro_WebHit_Post_Add_User_danekta {
                             switch (statusCode) {
 
                                 case AppConstt.ServerStatus.OK:
-                                    //Save user login data
-//                                    AppConfig.getInstance().mUserData.id = responseObject.getData().getUser().getId();
-//                                    AppConfig.getInstance().mUserData.name = responseObject.getData().getUser().getName();
-//                                    AppConfig.getInstance().mUserData.email = responseObject.getData().getUser().getEmail();
-//                                    AppConfig.getInstance().mUserData.phone = responseObject.getData().getUser().getPhone();
-//                                    AppConfig.getInstance().mUserData.mSelectedCity = responseObject.getData().getUser().getCity();
-//                                    AppConfig.getInstance().mUserData.residency_city = responseObject.getData().getUser().getCity();
-//                                    AppConfig.getInstance().mUserData.DOB = responseObject.getData().getUser().getDOB();
-//                                    AppConfig.getInstance().mUserData.device_token = responseObject.getData().getUser().getDevice_token();
-//                                    AppConfig.getInstance().mUserData.authToken = responseObject.getData().getAuth_token();
-//                                    AppConfig.getInstance().mUserData.isPushAllowed = responseObject.getData().getUser().isAllowPush();
-//                                    AppConfig.getInstance().mUserData.isLoggedIn = true;
-//                                    AppConfig.getInstance().saveUserProfileData();
-
-//                                    Log.d("LOG_AS", "DOB " + responseObject.getData().getUser().getDOB());
-//                                    AppConfig.getInstance().mUser.City = responseObject.getData().getUser().getCity();
-//                                    if (responseObject.getData().getType() == AppConstt.UserType.CUSTOMER) {
-//                                        AppConfig.getInstance().mUser.Type = AppConstt.UserType.CUSTOMER;
-//                                    } else {
-//                                        AppConfig.getInstance().mUser.Type = AppConstt.UserType.DRIVER;
-//                                    } // "";//responseObject.getData().getImage();
-//                                    AppConfig.getInstance().mUser.isPushOn = true;//responseObject.getData().getProfileOnOff().equals("1");
-//                                    AppConfig.getInstance().mUser.isLoggedIn = true;
-//                                    AppConfig.getInstance().mUser.Authorization = responseObject.getData().getAuth_token();
-//
-//                                    AppConfig.getInstance().saveUserProfile();
 
                                     iWebCallback.onWebResult(true, "");
                                     break;

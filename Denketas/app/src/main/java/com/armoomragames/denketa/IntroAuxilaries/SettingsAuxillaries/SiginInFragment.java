@@ -1,9 +1,11 @@
 package com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,12 +26,19 @@ import androidx.fragment.app.FragmentTransaction;
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_LogIn;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_SignUp;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.IWebCallback;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.gson.JsonObject;
 
 public class SiginInFragment extends Fragment implements View.OnClickListener {
@@ -39,7 +48,9 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
     LinearLayout llGoogle, llFB;
     EditText edtPassword, edtEmail;
     IBadgeUpdateListener mBadgeUpdateListener;
-
+    private static final int RC_SIGN_IN = 9001;
+    GoogleSignInClient mGoogleSignInClient;
+    GoogleSignInAccount acct, account;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,7 +61,6 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
 
         return frg;
     }
-
 
 
     void setToolbar() {
@@ -68,6 +78,7 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
 
     void init() {
         setToolbar();
+        googleInit();
     }
 
 
@@ -128,6 +139,10 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.fg_signin_txvforgot:
                 navToForgotPassword();
+                break;
+
+            case R.id.fg_signin_llGoogle:
+                googleSignIn();
                 break;
         }
     }
@@ -412,5 +427,127 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
 //                .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
 //                calendar.get(Calendar.DAY_OF_MONTH)).show();
 //    }
+    //endregion
+
+
+    //region Google Integration
+    private void googleInit() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+
+//        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity());
+//        if (acct != null) {
+//
+////            String personName = acct.getDisplayName();
+////            String personGivenName = acct.getGivenName();
+////            String personFamilyName = acct.getFamilyName();
+////            String personEmail = acct.getEmail();
+////            String personId = acct.getId();
+////            Uri personPhoto = acct.getPhotoUrl();
+////            CustomToast.showToastMessage(getActivity(), "Signed in successfully with Google " + acct.getDisplayName(), Toast.LENGTH_LONG);
+//        }
+    }
+
+    public void googleSignIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            Log.d("LOG_AS", "onActivityResult: google sign in " + data.toString());
+            // The Task returned from this call is always completed, no need to attach
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            account = completedTask.getResult(ApiException.class);
+            acct = GoogleSignIn.getLastSignedInAccount(getActivity());
+            Log.d("LOG_AS", "Google Obj : " + acct.getId());
+
+            if (acct != null) {
+//                googleUserEmail = acct.getEmail();
+//                googleSocailID = acct.getId();
+
+
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("email", acct.getEmail());
+//                jsonObject.addProperty("password", edtPassword.getText().toString());
+                jsonObject.addProperty("userType", "social");
+                requestUserRegister(jsonObject.toString());
+//
+//                JsonObject jsonObject = new JsonObject();
+//                jsonObject.addProperty("name", acct.getDisplayName());
+//                jsonObject.addProperty("email", googleUserEmail);
+//                jsonObject.addProperty("social_id", googleSocailID);
+//                jsonObject.addProperty("social_platform", "google");
+//                jsonObject.addProperty("user_type", "user");
+//                jsonObject.addProperty("city_id", "1");
+//                jsonObject.addProperty("city", "jaddah");
+//                jsonObject.addProperty("device_token", AppConfig.getInstance().loadFCMDeviceToken());
+//                jsonObject.addProperty("login_type", "social");
+//                jsonObject.addProperty("device_type", "android");
+//                Log.d("LOG_AS", "Google Sign IN JSON : " + jsonObject.toString());
+//
+//                requestSignInGoogle(jsonObject.toString());
+            }
+
+
+            //    updateUI(account);
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.w("LOG_AS", "signInResult:failed code=" + e.toString());
+            CustomToast.showToastMessage(getActivity(), "Sign in to google is FAILED!" + e.toString(), Toast.LENGTH_LONG);
+            // updateUI(null);
+        }
+    }
+
+    private void requestUserRegister(String _signUpEntity) {
+        showProgDialog();
+        Intro_WebHit_Post_SignUp intro_webHit_post_signUp = new Intro_WebHit_Post_SignUp();
+        intro_webHit_post_signUp.postSignIn(getContext(), new IWebCallback() {
+            @Override
+            public void onWebResult(boolean isSuccess, String strMsg) {
+                if (isSuccess) {
+                    dismissProgDialog();
+                    //Save user login data
+                    AppConfig.getInstance().mUser.User_Id = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getId();
+                    AppConfig.getInstance().mUser.Email = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getEmail();
+
+                    AppConfig.getInstance().mUser.isLoggedIn = true;
+                    AppConfig.getInstance().mUser.Authorization = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getAccessToken();
+
+                    AppConfig.getInstance().saveUserProfile();
+                    if (!Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getIsProfileSet())
+                        navtoSignUpContFragment();
+                    else
+                        ((IntroActivity) getActivity()).navToPreSignInVAFragment();
+
+                } else {
+                    dismissProgDialog();
+                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
+//                    Toast.makeText(getActivity(), strMsg, Toast.LENGTH_SHORT).show();
+//                    AppConfig.getInstance().showErrorMessage(getContext(), strMsg);
+                }
+            }
+
+            @Override
+            public void onWebException(Exception ex) {
+                dismissProgDialog();
+                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
+//                Toast.makeText(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+//                AppConfig.getInstance().showErrorMessage(getContext(), ex.toString());
+            }
+        }, _signUpEntity);
+    }
     //endregion
 }

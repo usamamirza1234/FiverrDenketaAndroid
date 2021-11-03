@@ -1,14 +1,12 @@
 package com.armoomragames.denketa.IntroAuxilaries.WebServices;
 
-import android.content.Context;
 import android.util.Log;
-
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.Utils.ApiMethod;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.DModel_PaginationInfo;
-import com.armoomragames.denketa.Utils.IWebCallback;
+import com.armoomragames.denketa.Utils.IWebPaginationCallback;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -23,23 +21,21 @@ public class Intro_WebHit_Get_All_Danektas {
     public static ResponseModel responseObject = null;
     public static DModel_PaginationInfo mPaginationInfo = new DModel_PaginationInfo();
 
-    public void getCategory(Context context, final IWebCallback iWebCallback, String _cityId)  {
+    public void getCategory(final IWebPaginationCallback iWebPaginationCallback, final int _index)  {
         String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.fetchDanetkas;
-        RequestParams params = new RequestParams();
-//        params.put("page",_index );
-        params.put("per_page", 20);
-        params.put("city_id", _cityId);
-        params.put("sort_by", "sort_id");
-        params.put("sort_order", "ASC");
 
-        Log.d("LOG_AS", "getCategory: " + myUrl+params.toString());
-//        if (AppConfig.getInstance().getGuestLogin()) {
-//            mClient.addHeader(ApiMethod.HEADER.Authorization, AppConstt.guestAuth.guestAuth);
-//        } else {
-//            mClient.addHeader(ApiMethod.HEADER.Authorization, AppConfig.getInstance().mUserData.authToken);
-//        }
+        RequestParams params = new RequestParams();
+
+        params.put("page", _index);
+        params.put("per_page", "10");
+        params.put("sortBy", "id");
+        params.put("sortOrder", "DESC");
+
+
+        Log.d("LOG_AS", "getAllDanketa:  " + myUrl + params);
+
+        mClient.addHeader(ApiMethod.HEADER.Authorization, AppConfig.getInstance().mUser.getAuthorization());
         mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS);
-        Log.d("currentLang", AppConfig.getInstance().loadDefLanguage());
         mClient.get(myUrl, params, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -47,63 +43,95 @@ public class Intro_WebHit_Get_All_Danektas {
                         try {
                             Gson gson = new Gson();
                             strResponse = new String(responseBody, "UTF-8");
-                            responseObject = gson.fromJson(strResponse, ResponseModel.class);
-                            switch (statusCode) {
-                                case AppConstt.ServerStatus.OK:
-                                    //Save user login data
-//                                    AppConfig.getInstance().mUser.User_Id = responseObject.getData().getId();
-//                                    AppConfig.getInstance().mUser.Name = responseObject.getData().getName();
-//                                    AppConfig.getInstance().mUser.Email = responseObject.getData().getEmail();
-//                                    AppConfig.getInstance().mUser.Phone = responseObject.getData().getPhone();
-//                                    AppConfig.getInstance().mUser.Image = "";//responseObject.getData().getImage();
-//                                    if (responseObject.getData().getType() == AppConstt.UserType.CUSTOMER) {
-//                                        AppConfig.getInstance().mUser.Type = AppConstt.UserType.CUSTOMER;
-//                                    } else {
-//                                        AppConfig.getInstance().mUser.Type = AppConstt.UserType.DRIVER;
-//                                    } // "";//responseObject.getData().getImage();
-//                                    AppConfig.getInstance().mUser.isPushOn = true;//responseObject.getData().getProfileOnOff().equals("1");
-//                                    AppConfig.getInstance().mUser.isLoggedIn = true;
-//                                    AppConfig.getInstance().mUser.Authorization = responseObject.getData().getAuthorization();
-//
-//                                    AppConfig.getInstance().saveUserProfile();
+                            Log.d("LOG_AS", "getAllDanketa: onSuccess: " + strResponse);
+                            ResponseModel responseObjectLocal = null;
 
-                                    iWebCallback.onWebResult(true, "");
+                            responseObjectLocal = gson.fromJson(strResponse, ResponseModel.class);
+
+                            switch (statusCode) {
+
+                                case AppConstt.ServerStatus.CREATED:
+                                case AppConstt.ServerStatus.OK:
+                                    if (_index == mPaginationInfo.currIndex) {
+                                        //First page
+                                        responseObject = responseObjectLocal;
+
+                                        mPaginationInfo.isCompleted = false;
+
+                                        iWebPaginationCallback.onWebInitialResult(true, responseObject.getMessage());
+                                    } else {
+//                                    //Subsequent pages
+                                        boolean tmpIsDataFetched = (statusCode == AppConstt.ServerStatus.OK);
+                                        if (tmpIsDataFetched) {
+//                                            for (int i = 0; i < responseObjectLocal.getData().size(); i++)
+//                                                responseObject.getData().add(responseObjectLocal.getData().get(i));
+                                            responseObject = responseObjectLocal;
+                                            mPaginationInfo.currIndex = _index;
+                                        }
+                                        Log.d("LOG_AS", "getAllDanketa: onSuccess: tmpIsDataFetched " + tmpIsDataFetched);
+                                        //No need to save
+
+                                        if (mPaginationInfo != null) {
+                                            iWebPaginationCallback.onWebSuccessiveResult(true, !tmpIsDataFetched, responseObjectLocal.getMessage());
+                                        }
+
+
+                                    }
                                     break;
 
                                 default:
-                                    AppConfig.getInstance().parsErrorMessage(iWebCallback, responseBody);
+                                    //Server error
+                                    if (_index == mPaginationInfo.currIndex)
+                                        iWebPaginationCallback.onWebInitialResult(false, responseObjectLocal.getMessage());
+                                    else
+                                        iWebPaginationCallback.onWebSuccessiveResult(false, false, responseObjectLocal.getMessage());
                                     break;
                             }
-
                         } catch (Exception ex) {
-                            ex.printStackTrace();
-                            iWebCallback.onWebException(ex);
+                            if (_index == mPaginationInfo.currIndex)
+                                iWebPaginationCallback.onWebInitialException(ex);
+                            else
+                                iWebPaginationCallback.onWebSuccessiveException(ex);
+                            Log.d("LOG_AS", "getAllDanketa: exception: " + ex.toString());
                         }
                     }
 
-
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable
+                            error) {
+
+                        Log.d("LOG_AS", "getAllDanketa: onFailure called: " + error.toString() + "   " + statusCode + "");
+
 
                         switch (statusCode) {
                             case AppConstt.ServerStatus.NETWORK_ERROR:
-                                iWebCallback.onWebResult(false, AppConfig.getInstance().getNetworkErrorMessage());
+                                if (_index == mPaginationInfo.currIndex)
+                                    iWebPaginationCallback.onWebInitialResult(false, AppConfig.getInstance().getNetworkErrorMessage());
+                                else
+                                    iWebPaginationCallback.onWebSuccessiveResult(false, false, AppConfig.getInstance().getNetworkErrorMessage());
                                 break;
 
                             case AppConstt.ServerStatus.UNAUTHORIZED:
                                 AppConfig.getInstance().navtoLogin();
                                 break;
-                            case AppConstt.ServerStatus.FORBIDDEN:
+
+                            case AppConstt.ServerStatus.DATABASE_NOT_FOUND:
+                                if (_index == mPaginationInfo.currIndex) {
+                                    //Save orders data
+//                                    AppConfig.getInstance().saveHomeOrders("");
+                                }
+                                AppConfig.getInstance().parsErrorMessage(iWebPaginationCallback, responseBody, _index, mPaginationInfo.currIndex);
+                                break;
+
                             default:
-                                AppConfig.getInstance().parsErrorMessage(iWebCallback, responseBody);
+                                AppConfig.getInstance().parsErrorMessage(iWebPaginationCallback, responseBody, _index, mPaginationInfo.currIndex);
                                 break;
                         }
                     }
                 }
-
         );
-
     }
+
 
     public class ResponseModel {
 
@@ -254,6 +282,7 @@ public class Intro_WebHit_Get_All_Danektas {
 
 
     }
+
 
 
 }

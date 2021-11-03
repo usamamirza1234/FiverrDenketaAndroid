@@ -169,7 +169,10 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                     AppConfig.getInstance().mUser.Authorization = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getAccessToken();
 
                     AppConfig.getInstance().saveUserProfile();
-                    navtoSignUpContFragment();
+                    if (!Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getIsProfileSet())
+                        navtoSignUpContFragment();
+                    else
+                        ((IntroActivity)getActivity()).navToPreSignInVAFragment();
 
                 } else {
                     dismissProgDialog();
@@ -287,7 +290,13 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
             if (acct != null) {
 //                googleUserEmail = acct.getEmail();
 //                googleSocailID = acct.getId();
-//
+
+
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("email", acct.getEmail());
+//                jsonObject.addProperty("password", edtPassword.getText().toString());
+                jsonObject.addProperty("userType", "social");
+                requestUserRegister(jsonObject.toString());
 //
 //                JsonObject jsonObject = new JsonObject();
 //                jsonObject.addProperty("name", acct.getDisplayName());

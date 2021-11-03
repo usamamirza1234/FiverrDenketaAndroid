@@ -16,6 +16,9 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.armoomragames.denketa.IntroAuxilaries.DModelUser;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -469,7 +472,15 @@ public class AppConfig {
             NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.cancelAll();
         }
+        try {
+            GoogleSignInOptions gso = new GoogleSignInOptions.
+                    Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
+                    build();
 
+            GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(mContext, gso);
+            googleSignInClient.signOut();
+        } catch (Exception e) {
+        }
         saveFCMDeviceToken(tmpToken);
         saveDefLanguage(appLangTemp);
     }

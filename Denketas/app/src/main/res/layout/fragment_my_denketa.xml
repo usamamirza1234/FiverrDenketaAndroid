@@ -26,17 +26,23 @@
 
             android:background="@drawable/shp_rect_rounded_white_medium">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <EditText       android:background="@null"
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
+                android:id="@+id/frg_my_dankta_edt_search"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
-                android:gravity="center"
+                android:gravity="start|center"
                 android:hint="Search"
+                android:textColor="@color/thm_blue_app"
+                android:textSize="@dimen/fontsize_mini"
+                android:paddingEnd="14dp"
                 android:paddingStart="14dp" />
 
             <ImageView
-
+                android:id="@+id/frg_my_dankta_imv_search"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"

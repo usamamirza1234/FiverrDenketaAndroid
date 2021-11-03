@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
@@ -26,17 +25,24 @@
 
             android:background="@drawable/shp_rect_rounded_white_medium">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/frg_more_dankta_edt_search"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
-                android:gravity="center"
+                android:background="@null"
+                android:cursorVisible="true"
+                android:gravity="start|center"
+                android:paddingEnd="14dp"
                 android:hint="Search"
+                android:textColor="@color/thm_blue_app"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/fontsize_mini"
                 android:paddingStart="14dp" />
 
             <ImageView
-
+                android:id="@+id/frg_more_dankta_imv_search"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
