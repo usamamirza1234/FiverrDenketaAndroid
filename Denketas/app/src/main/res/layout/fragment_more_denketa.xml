@@ -10,7 +10,8 @@
     <com.dd.ShadowLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"    android:layout_marginStart="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
         app:sl_cornerRadius="24dp"
@@ -34,12 +35,12 @@
                 android:background="@null"
                 android:cursorVisible="true"
                 android:gravity="start|center"
-                android:paddingEnd="14dp"
                 android:hint="Search"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
                 android:textColor="@color/thm_blue_app"
                 android:textCursorDrawable="@null"
-                android:textSize="@dimen/fontsize_mini"
-                android:paddingStart="14dp" />
+                android:textSize="@dimen/fontsize_mini" />
 
             <ImageView
                 android:id="@+id/frg_more_dankta_imv_search"
@@ -56,17 +57,18 @@
 
 
     <TextView
-        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:textStyle="bold"
+        android:padding="10dp"
         android:text="Game Credits available - 00"
         android:textColor="@color/thm_orange_app"
         android:textSize="@dimen/fontsize_small"
-         />
+        android:textStyle="bold" />
+
+
 
     <ListView
         android:id="@+id/frg_rcv_my_denketa"

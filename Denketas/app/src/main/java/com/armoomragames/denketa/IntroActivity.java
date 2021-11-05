@@ -1,5 +1,6 @@
 package com.armoomragames.denketa;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -10,8 +11,13 @@ import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -29,19 +35,31 @@ import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.GamePlayFragmen
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.RulesFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SplashFragment;
 import com.armoomragames.denketa.Utils.AppConstt;
+import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.LocaleHelper;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalFuturePaymentActivity;
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 
 public class IntroActivity extends AppCompatActivity implements IBadgeUpdateListener, View.OnClickListener {
 
-
     private FragmentManager fm;
-
     RelativeLayout rlToolbar, rlBack, rlCross;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +87,13 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         }
 
         setMyScreenSize();
-
-        bindViews();
+//
+//        bindViews();
+//        Intent intent = new Intent(this, PayPalService.class);
+//
+//        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+//
+//        startService(intent);
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     getPackageName(), PackageManager.GET_SIGNATURES);
@@ -83,6 +106,14 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         } catch (NoSuchAlgorithmException e) {
         }
     }
+    @Override
+    public void onDestroy() {
+        stopService(new Intent(this, PayPalService.class));
+        super.onDestroy();
+    }
+
+
+
 
     private void bindViews() {
         rlToolbar = findViewById(R.id.act_intro_rl_toolbar);
@@ -422,6 +453,20 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         }
 
     }
+//
+//    public void sendPayment(PayPalPayment payment) {
+//        // Creating Paypal Payment activity intent
+//        Intent intent = new Intent(this, PaymentActivity.class);
+//        //putting the paypal configuration to the intent
+//        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+//
+//        // Putting paypal payment to the intent
+//        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+//
+//        // Starting the intent activity for result
+//        // the request code will be used on the method onActivityResult
+//        startActivityForResult(intent, PAYPAL_REQUEST_CODE);
+//    }
 
 
     //endregion
