@@ -40,6 +40,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.JsonObject;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
 
 public class SiginInFragment extends Fragment implements View.OnClickListener {
     RelativeLayout rlToolbar, rlBack, rlCross;
@@ -205,54 +208,7 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    private void requestUserSigin(String _signUpEntity) {
-        showProgDialog();
-        Intro_WebHit_Post_LogIn intro_webHit_post_logIn = new Intro_WebHit_Post_LogIn();
-        intro_webHit_post_logIn.postSignIn(getContext(), new IWebCallback() {
-            @Override
-            public void onWebResult(boolean isSuccess, String strMsg) {
-                if (isSuccess) {
-                    dismissProgDialog();
-                    //Save user login data
-                    AppConfig.getInstance().mUser.User_Id = Intro_WebHit_Post_LogIn.responseObject.getData().getId();
-                    AppConfig.getInstance().mUser.Email = Intro_WebHit_Post_LogIn.responseObject.getData().getEmail();
 
-
-                    if (Intro_WebHit_Post_LogIn.responseObject.getData().getName() != null)
-                        AppConfig.getInstance().mUser.Name = Intro_WebHit_Post_LogIn.responseObject.getData().getName();
-                    if (Intro_WebHit_Post_LogIn.responseObject.getData().getNationality() != null)
-                        AppConfig.getInstance().mUser.Nationality = Intro_WebHit_Post_LogIn.responseObject.getData().getNationality();
-
-                    if (Intro_WebHit_Post_LogIn.responseObject.getData().getGender() != null)
-                        AppConfig.getInstance().mUser.Gender = Intro_WebHit_Post_LogIn.responseObject.getData().getGender();
-
-                    if (Intro_WebHit_Post_LogIn.responseObject.getData().getDateOfBirth() != null)
-                        AppConfig.getInstance().mUser.DOB = Intro_WebHit_Post_LogIn.responseObject.getData().getDateOfBirth();
-
-
-                    AppConfig.getInstance().mUser.isLoggedIn = true;
-                    AppConfig.getInstance().mUser.Authorization = Intro_WebHit_Post_LogIn.responseObject.getData().getAccessToken();
-
-                    AppConfig.getInstance().saveUserProfile();
-                    navtoSignUpContFragment();
-
-                } else {
-
-                    dismissProgDialog();
-                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
-//                    Toast.makeText(getActivity(), strMsg, Toast.LENGTH_SHORT).show();
-//                    AppConfig.getInstance().showErrorMessage(getContext(), strMsg);
-                }
-            }
-
-            @Override
-            public void onWebException(Exception ex) {
-                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
-//                Toast.makeText(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT).show();
-//                AppConfig.getInstance().showErrorMessage(getContext(), ex.toString());
-            }
-        }, _signUpEntity);
-    }
 
     //region Validation
     private void editTextWatchers() {
@@ -344,7 +300,58 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    private void requestUserSigin(String _signUpEntity) {
+        showProgDialog();
+        Intro_WebHit_Post_LogIn intro_webHit_post_logIn = new Intro_WebHit_Post_LogIn();
+        intro_webHit_post_logIn.postSignIn(getContext(), new IWebCallback() {
+            @Override
+            public void onWebResult(boolean isSuccess, String strMsg) {
+                if (isSuccess) {
+                    dismissProgDialog();
+                    //Save user login data
+                    AppConfig.getInstance().mUser.User_Id = Intro_WebHit_Post_LogIn.responseObject.getData().getId();
+                    AppConfig.getInstance().mUser.Email = Intro_WebHit_Post_LogIn.responseObject.getData().getEmail();
 
+
+                    if (Intro_WebHit_Post_LogIn.responseObject.getData().getName() != null)
+                        AppConfig.getInstance().mUser.Name = Intro_WebHit_Post_LogIn.responseObject.getData().getName();
+                    if (Intro_WebHit_Post_LogIn.responseObject.getData().getNationality() != null)
+                        AppConfig.getInstance().mUser.Nationality = Intro_WebHit_Post_LogIn.responseObject.getData().getNationality();
+
+                    if (Intro_WebHit_Post_LogIn.responseObject.getData().getGender() != null)
+                        AppConfig.getInstance().mUser.Gender = Intro_WebHit_Post_LogIn.responseObject.getData().getGender();
+
+                    if (Intro_WebHit_Post_LogIn.responseObject.getData().getDateOfBirth() != null)
+                        AppConfig.getInstance().mUser.DOB = Intro_WebHit_Post_LogIn.responseObject.getData().getDateOfBirth();
+
+
+                    AppConfig.getInstance().mUser.isLoggedIn = true;
+                    AppConfig.getInstance().mUser.Authorization = Intro_WebHit_Post_LogIn.responseObject.getData().getAccessToken();
+
+                    AppConfig.getInstance().saveUserProfile();
+                    if (!Intro_WebHit_Post_LogIn.responseObject.getData().getIsProfileSet())
+                        navtoSignUpContFragment();
+                    else
+                        ((IntroActivity) getActivity()).navToPreSignInVAFragment();
+
+                } else {
+
+                    dismissProgDialog();
+                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
+//                    Toast.makeText(getActivity(), strMsg, Toast.LENGTH_SHORT).show();
+//                    AppConfig.getInstance().showErrorMessage(getContext(), strMsg);
+                }
+            }
+
+            @Override
+            public void onWebException(Exception ex) {
+                Log.d("LOG_AS", "postSignIn: Exception" + ex.getMessage());
+                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
+//                Toast.makeText(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+//                AppConfig.getInstance().showErrorMessage(getContext(), ex.toString());
+            }
+        }, _signUpEntity);
+    }
 //
 //    private boolean termCndtionErrorCondition() {
 //        if (chbTermCondition.isChecked()) {
@@ -482,7 +489,7 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
                 jsonObject.addProperty("email", acct.getEmail());
 //                jsonObject.addProperty("password", edtPassword.getText().toString());
                 jsonObject.addProperty("userType", "social");
-                requestUserRegister(jsonObject.toString());
+                requestUserSigin(jsonObject.toString());
 //
 //                JsonObject jsonObject = new JsonObject();
 //                jsonObject.addProperty("name", acct.getDisplayName());

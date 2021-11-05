@@ -3,6 +3,12 @@
     <!--region Application-->
     <string name="app_name">Danetkas
     </string>
+
+
+    <string name="facebook_app_id">283620003654295</string>
+    <string name="fb_login_protocol_scheme">fb283620003654295</string>
+
+
     <string name="goole_maps_key">AIzaSyCczk1b8_C7NOm-ZXkj76y6fjBixUTV5qI</string>
     <string name="frg_signin_login_accoint">Login Your Account</string>
     <string name="frg_signin_username">User Name</string>
@@ -196,7 +202,7 @@
     <string name="my_denketa">My Danetkas</string>
     <string name="more_denketa">More Danetkas</string>
     <string name="make_deneketa">Make My Danetkas</string>
-    <string name="facebook_app_id">894882580618030</string>
+
     <string name="back_icon"><![CDATA[< -]]></string>
     <string name="rules_master">
 •  You answer the question the investigator(s) pose. \n

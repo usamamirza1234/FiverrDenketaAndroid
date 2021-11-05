@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -25,6 +26,7 @@ import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Free_Danektas;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
+import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IAdapterCallback;
 import com.armoomragames.denketa.Utils.IWebPaginationCallback;
 import com.bumptech.glide.Glide;
@@ -142,9 +144,18 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                             public void onAdapterEventFired(int eventId, int position) {
                                 switch (eventId) {
                                     case EVENT_A:
-                                        onClickDenketaItem(position);
-
+                                        if (AppConfig.getInstance().mUser.isLoggedIn())
+                                        {
+                                            onClickDenketaItem(position);
+                                        }
+                                        else
+                                        {
+                                            CustomToast.showToastMessage(getActivity(),"Sign in / Sign Up to PLAY!", Toast.LENGTH_LONG);
+                                        }
                                         break;
+
+
+
 
                                     case EVENT_B:
                                         ((IntroActivity) getActivity()).navToMyResultsFragment();
@@ -264,7 +275,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
 
             case R.id.lay_item_rules_llOkay:
                 dialog.dismiss();
-                ((IntroActivity) getActivity()).navToDenketaQuestionFragment();
+//                ((IntroActivity) getActivity()).navToDenketaQuestionFragment();
                 break;
 
 

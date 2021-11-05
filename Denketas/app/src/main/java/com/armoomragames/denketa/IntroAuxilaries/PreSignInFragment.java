@@ -1,11 +1,17 @@
 package com.armoomragames.denketa.IntroAuxilaries;
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +34,16 @@ import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.SiginInFrag
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+
+import java.security.MessageDigest;
+import java.security.Signature;
+import java.util.Arrays;
 
 public class PreSignInFragment extends Fragment implements View.OnClickListener {
 
@@ -46,9 +62,11 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         init();
         bindViews(frg);
 
-
         return frg;
     }
+
+
+
 
 
     //region init
@@ -167,11 +185,13 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         switch (v.getId()) {
 
             case R.id.frg_presigin_rlPlay:
+//
+//                if (AppConfig.getInstance().mUser.isLoggedIn)
+//                    openDialoguePlay();
+//                else
+//                    navtoSigninFragment();
 
-                if (AppConfig.getInstance().mUser.isLoggedIn)
-                    openDialoguePlay();
-                else
-                    navtoSigninFragment();
+                openDialoguePlay();
                 break;
 
             case R.id.lay_item_play_txvRules:

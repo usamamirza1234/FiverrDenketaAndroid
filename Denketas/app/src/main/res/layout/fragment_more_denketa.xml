@@ -63,7 +63,7 @@
         android:layout_centerInParent="true"
         android:gravity="center"
         android:textStyle="bold"
-        android:text="Game Credits available - 10"
+        android:text="Game Credits available - 00"
         android:textColor="@color/thm_orange_app"
         android:textSize="@dimen/fontsize_small"
          />

@@ -34,6 +34,12 @@ import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.IWebCallback;
 import com.bumptech.glide.Glide;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -42,9 +48,11 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.JsonObject;
 
+import java.util.Arrays;
+
 public class SignUpFragment extends Fragment implements View.OnClickListener {
-    RelativeLayout rlToolbar, rlBack, rlCross;
     private static final int RC_SIGN_IN = 9001;
+    RelativeLayout rlToolbar, rlBack, rlCross;
     GoogleSignInClient mGoogleSignInClient;
     TextView txvLogin;
     RelativeLayout rlRegister;
@@ -52,8 +60,10 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     GoogleSignInAccount acct, account;
     IBadgeUpdateListener mBadgeUpdateListener;
 
-    EditText edtPassword, edtEmail, editConfirmPass;
 
+    CallbackManager callbackManager;
+    EditText edtPassword, edtEmail, editConfirmPass;
+    private Dialog progressDialog;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,10 +74,8 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         bindViews(frg);
 
 
-
         return frg;
     }
-
 
     void setToolbar() {
 
@@ -87,8 +95,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         setToolbar();
 
     }
-
-
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
@@ -97,7 +103,8 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void bindViews(View frg) {  rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
+    private void bindViews(View frg) {
+        rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
         rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
         rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
 
@@ -125,9 +132,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         editTextWatchers();
     }
 
-
-    private Dialog progressDialog;
-
     private void dismissProgDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
@@ -144,7 +148,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         wmlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
         wmlp.height = ViewGroup.LayoutParams.MATCH_PARENT;
 
-        ImageView imageView = (ImageView) progressDialog.findViewById(R.id.img_anim);
+        ImageView imageView = progressDialog.findViewById(R.id.img_anim);
         Glide.with(getContext()).asGif().load(R.raw.loading).into(imageView);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
@@ -172,7 +176,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                     if (!Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getIsProfileSet())
                         navtoSignUpContFragment();
                     else
-                        ((IntroActivity)getActivity()).navToPreSignInVAFragment();
+                        ((IntroActivity) getActivity()).navToPreSignInVAFragment();
 
                 } else {
                     dismissProgDialog();
@@ -197,11 +201,11 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.act_intro_lay_toolbar_rlBack:
-                ((IntroActivity)getActivity()).  onBackPressed();
+                getActivity().onBackPressed();
 
                 break;
             case R.id.act_intro_lay_toolbar_rlCross:
-                ((IntroActivity)getActivity()). navToPreSignInVAFragment();
+                ((IntroActivity) getActivity()).navToPreSignInVAFragment();
 
                 break;
             case R.id.frg_my_account_rlRegister:
@@ -216,6 +220,35 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.frg_my_account_llGoogle:
                 googleSignIn();
+                break;
+            case R.id.frg_my_account_llFB:
+                callbackManager = CallbackManager.Factory.create();
+
+                LoginManager.getInstance().registerCallback(callbackManager,
+                        new FacebookCallback<LoginResult>() {
+                            @Override
+                            public void onSuccess(LoginResult loginResult) {
+                                // App code
+                            }
+
+                            @Override
+                            public void onCancel() {
+                                // App code
+                            }
+
+                            @Override
+                            public void onError(FacebookException exception) {
+                                // App code
+                            }
+                        });
+
+
+                AccessToken accessToken = AccessToken.getCurrentAccessToken();
+                boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+
+
+                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
+
                 break;
 
 

@@ -140,6 +140,7 @@
     <color name="thm_red_app">#9D3630</color>
     <color name="dull_white2">#DFE1E4</color>
     <color name="app_thm_txv_gray">#40000000</color>
+    <color name="thm_green_graph_indicator">#73BF04</color>
 
 
 </resources>

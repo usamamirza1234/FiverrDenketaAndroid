@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PlayViewPagerAdapter;
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.RulesViewPagerAdapter;
 import com.armoomragames.denketa.R;
@@ -142,7 +143,10 @@ public class PlayMianFragment extends Fragment implements View.OnClickListener {
 
         switch (v.getId()) {
 
+            case R.id.act_intro_lay_toolbar_rlCross:
+                ((IntroActivity)getActivity()). navToPreSignInVAFragment();
 
+                break;
 
         }
     }

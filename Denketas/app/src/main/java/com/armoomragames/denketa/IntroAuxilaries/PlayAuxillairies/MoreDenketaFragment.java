@@ -1,9 +1,13 @@
 package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,17 +19,31 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_All_Danektas;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
+import com.armoomragames.denketa.Utils.CustomAlertConfirmationInterface;
+import com.armoomragames.denketa.Utils.CustomAlertDialog;
+import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IAdapterCallback;
 import com.armoomragames.denketa.Utils.IWebPaginationCallback;
 import com.bumptech.glide.Glide;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class MoreDenketaFragment extends Fragment implements View.OnClickListener, IWebPaginationCallback, AbsListView.OnScrollListener  {
@@ -34,7 +52,7 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 
     EditText edtSearch;
     ImageView imvSearch;
-
+    CustomAlertDialog customAlertDialog;
     MoreDenketaLsvAdapter adapter;
     Intro_WebHit_Get_All_Danektas intro_webHit_get_all__danektas;
     boolean isAlreadyFetching = false;
@@ -42,6 +60,19 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
     ArrayList<DModel_MyDenketa> lst_MyDenketa;
     private boolean isLoadingMore = false;
 
+
+
+    public static final String clientKey = "ARI3v6ZG_ALH2WFuE00RXHA3Da_BANneiJyJtj1sNGsVU_LImvon1MrWGdhw2EkrTDGvVgNOUxBU2VIh";
+    public static final int PAYPAL_REQUEST_CODE = 123;
+
+    // Paypal Configuration Object
+    private static PayPalConfiguration config = new PayPalConfiguration()
+            // Start with mock environment.  When ready,
+            // switch to sandbox (ENVIRONMENT_SANDBOX)
+            // or live (ENVIRONMENT_PRODUCTION)
+            .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
+            // on below line we are passing a client id.
+            .clientId(clientKey);
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -166,7 +197,16 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
                             @Override
                             public void onAdapterEventFired(int eventId, int position) {
                                 switch (eventId) {
-
+                                    case EVENT_A:
+                                        if (AppConfig.getInstance().mUser.isLoggedIn())
+                                        {
+                                            showInternetConnectionStableMessage(getContext(),"This is random dialogue to process payment flow");
+                                        }
+                                        else
+                                        {
+                                            CustomToast.showToastMessage(getActivity(),"Sign in/ Sign Up to get this Danetka", Toast.LENGTH_LONG);
+                                        }
+                                        break;
                                 }
 
                             }
@@ -216,8 +256,26 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 
 
 
+    public void showInternetConnectionStableMessage(Context context, String _errorMsg)
+    {
+        customAlertDialog = new CustomAlertDialog(context, "", _errorMsg, "Allow", "Deny", true, new CustomAlertConfirmationInterface() {
+            @Override
+            public void callConfirmationDialogPositive() {
+
+                getPayment();
+                customAlertDialog.dismiss();
+            }
+
+            @Override
+            public void callConfirmationDialogNegative() {
 
 
+                customAlertDialog.dismiss();
+            }
+        });
+        customAlertDialog.show();
+
+    }
 
 
 
@@ -313,6 +371,73 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
             // list to our adapter class.
             adapter.filterList(filteredlist);
 //            Toast.makeText(getContext(), "Data Found.." + text, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    private void getPayment() {
+
+        // Getting the amount from editText
+//        String amount = amountEdt.getText().toString();
+
+        String amount="10";
+
+        // Creating a paypal payment on below line.
+        PayPalPayment payment = new PayPalPayment(new BigDecimal(String.valueOf(amount)), "Eu", "Course Fees",
+                PayPalPayment.PAYMENT_INTENT_SALE);
+
+        // Creating Paypal Payment activity intent
+        Intent intent = new Intent(getContext(), PaymentActivity.class);
+
+        //putting the paypal configuration to the intent
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+
+        // Putting paypal payment to the intent
+        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+
+        // Starting the intent activity for result
+        // the request code will be used on the method onActivityResult
+        startActivityForResult(intent, PAYPAL_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // If the result is from paypal
+        if (requestCode == PAYPAL_REQUEST_CODE) {
+
+            // If the result is OK i.e. user has not canceled the payment
+            if (resultCode == Activity.RESULT_OK) {
+
+                // Getting the payment confirmation
+                PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+
+                // if confirmation is not null
+                if (confirm != null) {
+                    try {
+                        // Getting the payment details
+                        String paymentDetails = confirm.toJSONObject().toString(4);
+                        // on below line we are extracting json response and displaying it in a text view.
+                        JSONObject payObj = new JSONObject(paymentDetails);
+                        String payID = payObj.getJSONObject("response").getString("id");
+                        String state = payObj.getJSONObject("response").getString("state");
+//                        paymentTV.setText("Payment " + state + "\n with payment id is " + payID);
+
+                        CustomToast.showToastMessage(getActivity(),"Payment " + state + "\n with payment id is " + payID,Toast.LENGTH_LONG);
+
+                    } catch (JSONException e) {
+                        // handling json exception on below line
+                        Log.e("Error", "an extremely unlikely failure occurred: ", e);
+                    }
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                // on below line we are checking the payment status.
+                Log.i("paymentExample", "The user canceled.");
+            } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
+                // on below line when the invalid paypal config is submitted.
+                Log.i("paymentExample", "An invalid Payment or PayPalConfiguration was submitted. Please see the docs.");
+            }
         }
     }
 }
