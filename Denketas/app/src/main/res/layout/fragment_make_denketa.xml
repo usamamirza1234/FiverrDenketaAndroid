@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -49,6 +50,7 @@
                     android:padding="10dp">
 
                     <EditText
+                        android:id="@+id/frg_make_edtTitle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_alignParentStart="true"
@@ -101,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/shp_rect_rounded_white_medium">
 
-                    <EditText
+                    <EditText        android:id="@+id/frg_make_edtRidle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_alignParentStart="true"
@@ -181,7 +183,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:background="@null"
-                            android:lines="1"
+                            
                             android:padding="5dp"
 
                             android:paddingStart="15dp"
@@ -195,12 +197,12 @@
                 </com.dd.ShadowLayout>
 
                 <ImageView
-                    android:layout_centerInParent="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentEnd="true"
                     android:id="@+id/frg_make_inset1Imv"
                     android:layout_width="50dp"
-                    android:layout_height="50dp"/>
+                    android:layout_height="50dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -240,6 +242,7 @@
                     android:background="@drawable/shp_rect_rounded_white_medium">
 
                     <EditText
+                        android:id="@+id/frg_make_edtAnswer"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_alignParentStart="true"
@@ -319,7 +322,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:background="@null"
-                            android:lines="1"
+                            
                             android:padding="5dp"
 
                             android:paddingStart="15dp"
@@ -333,14 +336,13 @@
                 </com.dd.ShadowLayout>
 
 
-
                 <ImageView
-                    android:layout_centerInParent="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentEnd="true"
                     android:id="@+id/frg_make_inset2Imv"
                     android:layout_width="50dp"
-                    android:layout_height="50dp"/>
+                    android:layout_height="50dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true" />
 
             </RelativeLayout>
         </LinearLayout>
@@ -365,9 +367,24 @@
                 android:textSize="@dimen/fontsize_xxlarge"
                 android:textStyle="bold" />
 
-            <RelativeLayout
+
+
+
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/frg_make_rcv_regilto"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                tools:itemCount="5"
+                tools:listitem="@layout/lay_item_regilto" />
+            <RelativeLayout
+                android:visibility="gone"
+
+                android:id="@+id/frg_make_rlRegiltoItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp">
 
 
                 <ImageView
@@ -380,6 +397,7 @@
 
 
                 <RelativeLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edttext_height_medium"
                     android:layout_centerInParent="true"
@@ -388,7 +406,7 @@
 
 
                     <EditText
-                        android:id="@+id/edt_Search"
+                        android:id="@+id/frg_make_edtRegilto"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_alignParentStart="true"
@@ -408,9 +426,9 @@
 
 
                     <ImageView
+                        android:id="@+id/frg_make_imvRegilto"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_below="@id/frg_cont_edtConact"
                         android:layout_alignParentEnd="true"
                         android:layout_centerInParent="true"
                         android:layout_marginEnd="10dp"
@@ -419,17 +437,17 @@
 
 
             </RelativeLayout>
-
             <ImageView
+                android:id="@+id/frg_make_imv_addRegiltoMain"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:paddingStart="14dp"
                 android:src="@drawable/ic_plus_circle" />
-
         </LinearLayout>
 
 
         <LinearLayout
+            android:id="@+id/frg_make_llSubmit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -442,13 +460,13 @@
 
 
             <TextView
+                android:id="@+id/frg_make_txvSubmit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:background="@null"
-                android:lines="1"
-
-
+                
+                android:fontFamily="@font/aladin_regular"
                 android:text="Submit"
 
                 android:textColor="@color/white"
