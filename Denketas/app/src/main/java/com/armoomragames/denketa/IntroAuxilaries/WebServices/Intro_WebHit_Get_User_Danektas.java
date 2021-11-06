@@ -17,13 +17,13 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-public class Intro_WebHit_Get_Free_Danektas {
+public class Intro_WebHit_Get_User_Danektas {
     public static ResponseModel responseObject = null;
     public static DModel_PaginationInfo mPaginationInfo = new DModel_PaginationInfo();
     private final AsyncHttpClient mClient = new AsyncHttpClient();
 
     public void getMyDanekta(final IWebPaginationCallback iWebPaginationCallback, final int _index) {
-        String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.GET.fetchFreeDanetkas;
+        String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.GET.fetchUserDanetkas;
 
         RequestParams params = new RequestParams();
 
@@ -137,44 +137,8 @@ public class Intro_WebHit_Get_Free_Danektas {
     public class ResponseModel {
 
 
-        private int code;
-        private String status;
-        private String message;
-        private Data data;
-
-        public int getCode() {
-            return this.code;
-        }
-
-        public void setCode(int code) {
-            this.code = code;
-        }
-
-        public String getStatus() {
-            return this.status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
-
-        public String getMessage() {
-            return this.message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        public Data getData() {
-            return this.data;
-        }
-
-        public void setData(Data data) {
-            this.data = data;
-        }
-
-        public class Listing {
+        public class Danetkas
+        {
             private int id;
 
             private String name;
@@ -187,56 +151,217 @@ public class Intro_WebHit_Get_Free_Danektas {
 
             private int updatedTime;
 
-            public int getId() {
-                return this.id;
-            }
-
-            public void setId(int id) {
+            public void setId(int id){
                 this.id = id;
             }
-
-            public String getName() {
-                return this.name;
+            public int getId(){
+                return this.id;
             }
-
-            public void setName(String name) {
+            public void setName(String name){
                 this.name = name;
             }
-
-            public String getImage() {
-                return this.image;
+            public String getName(){
+                return this.name;
             }
-
-            public void setImage(String image) {
+            public void setImage(String image){
                 this.image = image;
             }
-
-            public String getPaymentStatus() {
-                return this.paymentStatus;
+            public String getImage(){
+                return this.image;
             }
-
-            public void setPaymentStatus(String paymentStatus) {
+            public void setPaymentStatus(String paymentStatus){
                 this.paymentStatus = paymentStatus;
             }
-
-            public boolean getStatus() {
-                return this.status;
+            public String getPaymentStatus(){
+                return this.paymentStatus;
             }
-
-            public void setStatus(boolean status) {
+            public void setStatus(boolean status){
                 this.status = status;
             }
-
-            public int getUpdatedTime() {
-                return this.updatedTime;
+            public boolean getStatus(){
+                return this.status;
             }
-
-            public void setUpdatedTime(int updatedTime) {
+            public void setUpdatedTime(int updatedTime){
                 this.updatedTime = updatedTime;
+            }
+            public int getUpdatedTime(){
+                return this.updatedTime;
             }
         }
 
-        public class Pagination {
+
+        public class User
+        {
+            private int id;
+
+            private String name;
+
+            private String userName;
+
+            private String dateOfBirth;
+
+            private String gender;
+
+            private String nationality;
+
+            private String language;
+
+            private String email;
+
+            private String accessToken;
+
+            private String userType;
+
+            private boolean isProfileSet;
+
+            private boolean status;
+
+            private int updatedTime;
+
+            public void setId(int id){
+                this.id = id;
+            }
+            public int getId(){
+                return this.id;
+            }
+            public void setName(String name){
+                this.name = name;
+            }
+            public String getName(){
+                return this.name;
+            }
+            public void setUserName(String userName){
+                this.userName = userName;
+            }
+            public String getUserName(){
+                return this.userName;
+            }
+            public void setDateOfBirth(String dateOfBirth){
+                this.dateOfBirth = dateOfBirth;
+            }
+            public String getDateOfBirth(){
+                return this.dateOfBirth;
+            }
+            public void setGender(String gender){
+                this.gender = gender;
+            }
+            public String getGender(){
+                return this.gender;
+            }
+            public void setNationality(String nationality){
+                this.nationality = nationality;
+            }
+            public String getNationality(){
+                return this.nationality;
+            }
+            public void setLanguage(String language){
+                this.language = language;
+            }
+            public String getLanguage(){
+                return this.language;
+            }
+            public void setEmail(String email){
+                this.email = email;
+            }
+            public String getEmail(){
+                return this.email;
+            }
+            public void setAccessToken(String accessToken){
+                this.accessToken = accessToken;
+            }
+            public String getAccessToken(){
+                return this.accessToken;
+            }
+            public void setUserType(String userType){
+                this.userType = userType;
+            }
+            public String getUserType(){
+                return this.userType;
+            }
+            public void setIsProfileSet(boolean isProfileSet){
+                this.isProfileSet = isProfileSet;
+            }
+            public boolean getIsProfileSet(){
+                return this.isProfileSet;
+            }
+            public void setStatus(boolean status){
+                this.status = status;
+            }
+            public boolean getStatus(){
+                return this.status;
+            }
+            public void setUpdatedTime(int updatedTime){
+                this.updatedTime = updatedTime;
+            }
+            public int getUpdatedTime(){
+                return this.updatedTime;
+            }
+        }
+
+
+        public class Listing
+        {
+            private int id;
+
+            private int userId;
+
+            private int danetkasId;
+
+            private boolean status;
+
+            private int updatedTime;
+
+            private Danetkas danetkas;
+
+            private User user;
+
+            public void setId(int id){
+                this.id = id;
+            }
+            public int getId(){
+                return this.id;
+            }
+            public void setUserId(int userId){
+                this.userId = userId;
+            }
+            public int getUserId(){
+                return this.userId;
+            }
+            public void setDanetkasId(int danetkasId){
+                this.danetkasId = danetkasId;
+            }
+            public int getDanetkasId(){
+                return this.danetkasId;
+            }
+            public void setStatus(boolean status){
+                this.status = status;
+            }
+            public boolean getStatus(){
+                return this.status;
+            }
+            public void setUpdatedTime(int updatedTime){
+                this.updatedTime = updatedTime;
+            }
+            public int getUpdatedTime(){
+                return this.updatedTime;
+            }
+            public void setDanetkas(Danetkas danetkas){
+                this.danetkas = danetkas;
+            }
+            public Danetkas getDanetkas(){
+                return this.danetkas;
+            }
+            public void setUser(User user){
+                this.user = user;
+            }
+            public User getUser(){
+                return this.user;
+            }
+        }
+
+
+        public class Pagination
+        {
             private int page;
 
             private int count;
@@ -247,68 +372,94 @@ public class Intro_WebHit_Get_Free_Danektas {
 
             private String sortOrder;
 
-            public int getPage() {
-                return this.page;
-            }
-
-            public void setPage(int page) {
+            public void setPage(int page){
                 this.page = page;
             }
-
-            public int getCount() {
-                return this.count;
+            public int getPage(){
+                return this.page;
             }
-
-            public void setCount(int count) {
+            public void setCount(int count){
                 this.count = count;
             }
-
-            public int getPages() {
-                return this.pages;
+            public int getCount(){
+                return this.count;
             }
-
-            public void setPages(int pages) {
+            public void setPages(int pages){
                 this.pages = pages;
             }
-
-            public String getSortBy() {
-                return this.sortBy;
+            public int getPages(){
+                return this.pages;
             }
-
-            public void setSortBy(String sortBy) {
+            public void setSortBy(String sortBy){
                 this.sortBy = sortBy;
             }
-
-            public String getSortOrder() {
-                return this.sortOrder;
+            public String getSortBy(){
+                return this.sortBy;
             }
-
-            public void setSortOrder(String sortOrder) {
+            public void setSortOrder(String sortOrder){
                 this.sortOrder = sortOrder;
+            }
+            public String getSortOrder(){
+                return this.sortOrder;
             }
         }
 
-        public class Data {
+
+        public class Data
+        {
             private List<Listing> listing;
 
             private Pagination pagination;
 
-            public List<Listing> getListing() {
-                return this.listing;
-            }
-
-            public void setListing(List<Listing> listing) {
+            public void setListing(List<Listing> listing){
                 this.listing = listing;
             }
-
-            public Pagination getPagination() {
-                return this.pagination;
+            public List<Listing> getListing(){
+                return this.listing;
             }
-
-            public void setPagination(Pagination pagination) {
+            public void setPagination(Pagination pagination){
                 this.pagination = pagination;
             }
+            public Pagination getPagination(){
+                return this.pagination;
+            }
         }
+
+
+            private int code;
+
+            private String status;
+
+            private String message;
+
+            private Data data;
+
+            public void setCode(int code){
+                this.code = code;
+            }
+            public int getCode(){
+                return this.code;
+            }
+            public void setStatus(String status){
+                this.status = status;
+            }
+            public String getStatus(){
+                return this.status;
+            }
+            public void setMessage(String message){
+                this.message = message;
+            }
+            public String getMessage(){
+                return this.message;
+            }
+            public void setData(Data data){
+                this.data = data;
+            }
+            public Data getData(){
+                return this.data;
+            }
+
+
     }
 
 

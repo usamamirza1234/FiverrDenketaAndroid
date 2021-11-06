@@ -150,6 +150,7 @@
                 <CheckBox
 
 
+                    android:id="@+id/lay_prog_chb"
                     android:layout_width="@dimen/btmtabbar_icon_size"
                     android:layout_height="@dimen/btmtabbar_icon_size"
 

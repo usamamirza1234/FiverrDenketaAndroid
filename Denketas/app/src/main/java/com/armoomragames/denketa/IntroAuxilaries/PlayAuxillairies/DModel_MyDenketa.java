@@ -6,6 +6,22 @@ public class DModel_MyDenketa {
 
     String strName;
 
+    public DModel_MyDenketa(String strName, String strId, String strImage) {
+        this.strName = strName;
+        StrId = strId;
+        this.strImage = strImage;
+    }
+
+    public String getStrId() {
+        return StrId;
+    }
+
+    public void setStrId(String strId) {
+        StrId = strId;
+    }
+
+    String StrId;
+
     public String getStrName() {
         return strName;
     }

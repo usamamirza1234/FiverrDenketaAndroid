@@ -3,6 +3,7 @@ package com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -431,14 +432,15 @@ private Dialog progressDialog;
     private void showProgDialog() {
 
         progressDialog = new Dialog(getActivity(), R.style.AppTheme);
-        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        progressDialog.setContentView(R.layout.dialog_progress);
+//        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog.setContentView(R.layout.dialog_progress_loading);
         WindowManager.LayoutParams wmlp = progressDialog.getWindow().getAttributes();
         wmlp.gravity = Gravity.CENTER | Gravity.CENTER;
         wmlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
         wmlp.height = ViewGroup.LayoutParams.MATCH_PARENT;
 
-        ImageView imageView = (ImageView) progressDialog.findViewById(R.id.img_anim);
+        ImageView imageView = progressDialog.findViewById(R.id.img_anim);
         Glide.with(getContext()).asGif().load(R.raw.loading).into(imageView);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);

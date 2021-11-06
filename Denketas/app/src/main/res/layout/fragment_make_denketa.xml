@@ -141,7 +141,7 @@
                 android:textSize="@dimen/fontsize_xxlarge"
                 android:textStyle="bold" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -160,7 +160,7 @@
                     app:sl_shadowRadius="9dp">
 
                     <LinearLayout
-                        android:id="@+id/fg_signin_llGoogle"
+                        android:id="@+id/frg_make_llInsert1"
 
                         android:layout_width="130dp"
                         android:layout_height="wrap_content"
@@ -193,7 +193,15 @@
 
                     </LinearLayout>
                 </com.dd.ShadowLayout>
-            </LinearLayout>
+
+                <ImageView
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/frg_make_inset1Imv"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"/>
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -270,7 +278,7 @@
                 android:textSize="@dimen/fontsize_xxlarge"
                 android:textStyle="bold" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -289,7 +297,8 @@
                     app:sl_shadowRadius="9dp">
 
                     <LinearLayout
-                        android:id="@+id/fg_signin_llGoogle"
+                        android:id="@+id/frg_make_llInsert2"
+
 
                         android:layout_width="130dp"
                         android:layout_height="wrap_content"
@@ -322,7 +331,18 @@
 
                     </LinearLayout>
                 </com.dd.ShadowLayout>
-            </LinearLayout>
+
+
+
+                <ImageView
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/frg_make_inset2Imv"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"/>
+
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -390,7 +410,7 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_below="@id/edtContact"
+                        android:layout_below="@id/frg_cont_edtConact"
                         android:layout_alignParentEnd="true"
                         android:layout_centerInParent="true"
                         android:layout_marginEnd="10dp"

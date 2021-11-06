@@ -26,7 +26,7 @@
                 android:textStyle="bold"
                 android:fontFamily="@font/aladin_regular"
                 android:textColor="@color/thm_blue_app"
-                android:textSize="@dimen/fontsize_medium" />
+                android:textSize="@dimen/fontsize_small" />
 
 
             <ImageView
@@ -51,9 +51,9 @@
             <ImageView
                 android:padding="5dp"
                 android:scaleType="fitXY"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:paddingEnd="15dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:paddingEnd="10dp"
                 android:src="@drawable/ic_artboard" />
         </RelativeLayout>
 

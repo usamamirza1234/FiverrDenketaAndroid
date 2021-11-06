@@ -57,7 +57,7 @@
                     android:layout_gravity="center"
                     android:ellipsize="end"
                     android:gravity="start"
-
+                    android:justificationMode="inter_word"
                     android:text="XYZ"
                     android:textColor="@color/app_black_color"
                     android:textSize="@dimen/fontsize_mini"

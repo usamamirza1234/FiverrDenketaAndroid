@@ -7,15 +7,16 @@ public interface ApiMethod {
 
 
     interface GET {
-
+        String fetchUserDanetkas ="fetch/user/danetkas" ;
         String fetchFreeDanetkas="fetch/free/danetkas";
+        String fetchInvestagatorDanetkas="fetch/all/danetkas";
     }
 
     interface POST {
         String signUp = "add/user/email";
         String signIn = "login";
         String addProfile ="add/user/profile" ;
-        String fetchUserDanetkas ="fetch/user/danetkas" ;
+
         String addDanetkas ="add/user/danetkas" ;
         String fetchDanetkas ="fetch/danetkas" ;
 

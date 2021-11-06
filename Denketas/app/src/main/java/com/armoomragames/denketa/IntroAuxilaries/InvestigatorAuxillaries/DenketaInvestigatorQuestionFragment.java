@@ -79,10 +79,10 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
         llBundleDiscount = frg.findViewById(R.id.frg_denketa_question_llBundleDiscount);
         rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
         rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
-        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
+//        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
 
         rlBack.setOnClickListener(this);
-        rlCross.setOnClickListener(this);
+//        rlCross.setOnClickListener(this);
 
         llSeeAnswer.setOnClickListener(this);
         llPaynow.setOnClickListener(this);

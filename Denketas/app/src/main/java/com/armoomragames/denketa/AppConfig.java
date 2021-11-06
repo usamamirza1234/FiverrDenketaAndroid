@@ -626,7 +626,15 @@ public class AppConfig {
     }
 
 
+    public Boolean getProgDialogs() {
+        return sharedPref.getBoolean("key_prog_dialogs", false);
+    }
 
+    public void setProgDialogs(boolean _notification) {
+        editor.putBoolean("key_prog_dialogs", _notification);
+        editor.commit();
+
+    }
 
 
 

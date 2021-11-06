@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,28 +16,28 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.armoomragames.denketa.AppConfig;
-import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_All_Danektas;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddUserDanetkas;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.CustomAlertConfirmationInterface;
 import com.armoomragames.denketa.Utils.CustomAlertDialog;
 import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IAdapterCallback;
+import com.armoomragames.denketa.Utils.IWebCallback;
 import com.armoomragames.denketa.Utils.IWebPaginationCallback;
 import com.bumptech.glide.Glide;
+import com.google.gson.JsonObject;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
@@ -52,7 +53,7 @@ import java.util.ArrayList;
 public class MoreDenketaFragment extends Fragment implements View.OnClickListener, IWebPaginationCallback, AbsListView.OnScrollListener  {
     RelativeLayout rlToolbar, rlBack, rlCross;
     ListView rcvMyDenekta;
-
+    String strID ="0";
     EditText edtSearch;
     ImageView imvSearch;
     CustomAlertDialog customAlertDialog;
@@ -105,6 +106,12 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
         // If the result is from paypal
         if (requestCode == PAYPAL_REQUEST_CODE) {
 
+
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("danetkasId", strID.toString());
+            requestAddUserDanetkas(jsonObject.toString());
+            strID="0";
+
             // If the result is OK i.e. user has not canceled the payment
             if (resultCode == Activity.RESULT_OK) {
 
@@ -137,7 +144,32 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
         }
     }
 
+    private void requestAddUserDanetkas(String _signUpEntity) {
+        showProgDialog();
+        Intro_WebHit_Post_AddUserDanetkas intro_webHit_post_addUserDanetkas = new Intro_WebHit_Post_AddUserDanetkas();
+        intro_webHit_post_addUserDanetkas.postAddUserDanetkas(getContext(), new IWebCallback() {
+            @Override
+            public void onWebResult(boolean isSuccess, String strMsg) {
+                if (isSuccess) {
+                    dismissProgDialog();
 
+
+
+                } else {
+                    dismissProgDialog();
+                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
+
+                }
+            }
+
+            @Override
+            public void onWebException(Exception ex) {
+                dismissProgDialog();
+                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
+
+            }
+        }, _signUpEntity);
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -160,18 +192,18 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
             progressDialog.dismiss();
         }
     }
-
     private void showProgDialog() {
 
         progressDialog = new Dialog(getActivity(), R.style.AppTheme);
-        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        progressDialog.setContentView(R.layout.dialog_progress);
+//        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog.setContentView(R.layout.dialog_progress_loading);
         WindowManager.LayoutParams wmlp = progressDialog.getWindow().getAttributes();
         wmlp.gravity = Gravity.CENTER | Gravity.CENTER;
         wmlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
         wmlp.height = ViewGroup.LayoutParams.MATCH_PARENT;
 
-        ImageView imageView = (ImageView) progressDialog.findViewById(R.id.img_anim);
+        ImageView imageView = progressDialog.findViewById(R.id.img_anim);
         Glide.with(getContext()).asGif().load(R.raw.loading).into(imageView);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
@@ -253,6 +285,7 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 
                         lst_MyDenketa.add(
                                 new DModel_MyDenketa(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getName(),
+                                Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getId()+"",
                                 Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getImage()));
 
 
@@ -267,6 +300,7 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
                                     case EVENT_A:
                                         if (AppConfig.getInstance().mUser.isLoggedIn())
                                         {
+                                         strID =   lst_MyDenketa.get(position).getStrId();
                                             showInternetConnectionStableMessage(getContext(),"This is random dialogue to process payment flow");
                                         }
                                         else
