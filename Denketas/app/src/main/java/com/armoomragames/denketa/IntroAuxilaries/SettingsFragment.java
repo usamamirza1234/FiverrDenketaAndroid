@@ -147,7 +147,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.frg_settings_rlMyAccount:
 
-                if (AppConfig.getInstance().mUser.isLoggedIn)
+                if (AppConfig.getInstance().mUser.isLoggedIn())
                     navtoSignUpContFragment();
                 else
                     navtoMyAccountFragment();

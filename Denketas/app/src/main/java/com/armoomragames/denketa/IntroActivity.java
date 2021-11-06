@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.armoomragames.denketa.IntroAuxilaries.InvestigatorAuxillaries.DenketaInvestigatorQuestionFragment;
 import com.armoomragames.denketa.IntroAuxilaries.InvestigatorFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DenketaQuestionFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.LearnMoreFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.MyResultsFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayMianFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PreSignInFragment;
@@ -305,21 +306,43 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
     }
 
-    public void navToDenketaQuestionFragment() {
+    public void navToDenketaQuestionFragment(String name) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new DenketaQuestionFragment();
-        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                R.anim.enter_from_left, R.anim.exit_to_right);//not required
+
+//        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+//                R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_DenketaQuestionFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_DenketaQuestionFragment);
+        Bundle bundle = new Bundle();
+        bundle.putString("key_danetka_name", name);
+        frag.setArguments(bundle);
         hideLastStackFragment(ft);
 //        ft.hide(this);
         ft.commit();
 
     }
 
-    public void navToDenketaInvestigatorQuestionFragment() {
+
+    public void navToLearnmoreFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new LearnMoreFragment();
+
+
+//        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+//                R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_LearnMoreFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_LearnMoreFragment);
+
+        hideLastStackFragment(ft);
+//        ft.hide(this);
+        ft.commit();
+
+    }
+
+    public void navToDenketaInvestigatorQuestionFragment(String name) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new DenketaInvestigatorQuestionFragment();
@@ -327,6 +350,9 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
                 R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_DenketaInvestigatorQuestionFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_DenketaInvestigatorQuestionFragment);
+        Bundle bundle = new Bundle();
+        bundle.putString("key_danetka_name", name);
+        frag.setArguments(bundle);
         hideLastStackFragment(ft);
 //        ft.hide(this);
         ft.commit();
@@ -413,7 +439,6 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
             if (frg instanceof PreSignInFragment && frg.isVisible()) {
                 ft.hide(frg);
             }
-
             if (frg instanceof ChallengeFragment && frg.isVisible()) {
                 ft.hide(frg);
             } else if (frg instanceof RulesFragment && frg.isVisible()) {
@@ -429,6 +454,8 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
             } else if (frg instanceof MyResultsFragment && frg.isVisible()) {
                 ft.hide(frg);
             } else if (frg instanceof InvestigatorFragment && frg.isVisible()) {
+                ft.hide(frg);
+            } else if (frg instanceof LearnMoreFragment && frg.isVisible()) {
                 ft.hide(frg);
             }
 

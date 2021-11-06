@@ -38,9 +38,44 @@ public class DModelUser {
     public String createdAt;
     public int Active;
     public boolean isPushOn;
-    public boolean isLoggedIn;
+    private boolean isLoggedIn;
+    public boolean isGuest;
     public String Authorization;
     public String Password_Token;
+
+    public DModelUser(int user_Id, String name, String nationality, String phone, String email, String gender, String DOB, String iqama_Id, String iqama_Expiry, String iqama_Image, String address, String image, String role, int status, int is_Under_Review, String additional_Notes, String createdAt, int active, boolean isPushOn, boolean isLoggedIn, boolean isGuest, String authorization, String password_Token) {
+        User_Id = user_Id;
+        Name = name;
+        Nationality = nationality;
+        Phone = phone;
+        Email = email;
+        Gender = gender;
+        this.DOB = DOB;
+        Iqama_Id = iqama_Id;
+        Iqama_Expiry = iqama_Expiry;
+        Iqama_Image = iqama_Image;
+        Address = address;
+        Image = image;
+        Role = role;
+        Status = status;
+        Is_Under_Review = is_Under_Review;
+        Additional_Notes = additional_Notes;
+        this.createdAt = createdAt;
+        Active = active;
+        this.isPushOn = isPushOn;
+        this.isLoggedIn = isLoggedIn;
+        this.isGuest = isGuest;
+        Authorization = authorization;
+        Password_Token = password_Token;
+    }
+
+    public boolean isGuest() {
+        return isGuest;
+    }
+
+    public void setGuest(boolean guest) {
+        isGuest = guest;
+    }
 
     public DModelUser() {
         this.User_Id = 0;
@@ -61,6 +96,7 @@ public class DModelUser {
         this.Active = 0;
         this.isPushOn = true;
         this.isLoggedIn = false;
+        this.isGuest = false;
         this.Authorization = "";
         this.Password_Token = "";
         this.createdAt = "";

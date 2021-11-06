@@ -353,7 +353,9 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
                         AppConfig.getInstance().mUser.DOB = Intro_WebHit_Post_LogIn.responseObject.getData().getDateOfBirth();
 
 
-                    AppConfig.getInstance().mUser.isLoggedIn = true;
+                    AppConfig.getInstance().mUser.setGuest(false);
+                    AppConfig.getInstance().mUser.setLoggedIn(true);
+
                     AppConfig.getInstance().mUser.Authorization = Intro_WebHit_Post_LogIn.responseObject.getData().getAccessToken();
 
 
@@ -420,7 +422,8 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
                         AppConfig.getInstance().mUser.DOB = Intro_WebHit_Post_LogIn.responseObject.getData().getDateOfBirth();
 
 
-                    AppConfig.getInstance().mUser.isLoggedIn = true;
+                    AppConfig.getInstance().mUser.setGuest(false);
+                    AppConfig.getInstance().mUser.setLoggedIn(true);
                     AppConfig.getInstance().mUser.Authorization = Intro_WebHit_Post_LogIn.responseObject.getData().getAccessToken();
 
 
@@ -472,7 +475,8 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
                     AppConfig.getInstance().mUser.User_Id = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getId();
                     AppConfig.getInstance().mUser.Email = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getEmail();
 
-                    AppConfig.getInstance().mUser.isLoggedIn = true;
+                    AppConfig.getInstance().mUser.setGuest(false);
+                    AppConfig.getInstance().mUser.setLoggedIn(true);
                     AppConfig.getInstance().mUser.Authorization = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getAccessToken();
 
                     AppConfig.getInstance().saveUserProfile();

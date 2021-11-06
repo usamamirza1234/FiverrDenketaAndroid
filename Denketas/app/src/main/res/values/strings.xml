@@ -228,4 +228,5 @@ guide the investigators if you want.
 jump into conclusions, make detailed \n questions.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="frg_my_account_play_guest">play as a guest</string>
 </resources>

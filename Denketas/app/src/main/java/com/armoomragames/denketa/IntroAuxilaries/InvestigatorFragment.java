@@ -126,13 +126,13 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
                             public void onAdapterEventFired(int eventId, int position) {
                                 switch (eventId) {
                                     case EVENT_A:
-                                        if (AppConfig.getInstance().mUser.isLoggedIn())
+                                        if (AppConfig.getInstance().mUser.isLoggedIn() ||AppConfig.getInstance().mUser.isGuest() )
                                         {
                                             onClickDenketaItem(position);
                                         }
                                         else
                                         {
-                                            CustomToast.showToastMessage(getActivity(),"Sign in / Sign Up to PLAY!", Toast.LENGTH_LONG);
+                                            CustomToast.showToastMessage(getActivity(),"Sign in / Sign Up Or Play as a guest  to PLAY!", Toast.LENGTH_LONG);
                                         }
                                         break;
 
@@ -243,7 +243,13 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
 //        txvInvestigator.setOnClickListener(this);
 //        txvMaster.setOnClickListener(this);
         txvRules.setOnClickListener(this);
-        llOkay.setOnClickListener(this);
+        llOkay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                ((IntroActivity)getActivity()).navToDenketaInvestigatorQuestionFragment(lst_MyDenketa.get(position).getStrName());
+            }
+        });
 //        llOkay.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -321,10 +327,7 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
                 ((IntroActivity) getActivity()).navToRulesFragment();
                 break;
 
-            case R.id.lay_item_rules_llOkay:
-                dialog.dismiss();
-//                ((IntroActivity)getActivity()).navToDenketaInvestigatorQuestionFragment();
-                break;
+
         }
     }
 

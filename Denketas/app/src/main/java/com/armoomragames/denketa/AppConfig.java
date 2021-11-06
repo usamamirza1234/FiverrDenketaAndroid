@@ -419,6 +419,7 @@ public class AppConfig {
         mUser.setAuthorization(sharedPref.getString("key_user_auth", ""));
         mUser.setPassword_Token(sharedPref.getString("key_user_password_token", ""));
         mUser.setCreatedAt(sharedPref.getString("key_user_created_at", ""));
+        mUser.setGuest(sharedPref.getBoolean("key_user_is_guest", false));
     }
 
     public void saveUserProfile() {
@@ -449,6 +450,7 @@ public class AppConfig {
         editor.putInt("key_user_active", mUser.getActive());
         editor.putBoolean("key_user_ispush", mUser.isPushOn());
         editor.putBoolean("key_user_isloggedin", mUser.isLoggedIn());
+        editor.putBoolean("key_user_is_guest", mUser.isGuest());
         editor.putString("key_user_auth", mUser.getAuthorization());
         editor.putString("key_user_password_token", mUser.getPassword_Token());
         editor.putString("key_user_created_at", mUser.getCreatedAt());

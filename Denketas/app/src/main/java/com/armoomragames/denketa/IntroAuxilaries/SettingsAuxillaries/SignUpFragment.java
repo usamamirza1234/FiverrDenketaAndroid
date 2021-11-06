@@ -11,7 +11,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -62,6 +61,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     LinearLayout llGoogle, llFB;
     GoogleSignInAccount acct, account;
     IBadgeUpdateListener mBadgeUpdateListener;
+    TextView txvGuest;
 
 
     CallbackManager callbackManager;
@@ -98,6 +98,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         setToolbar();
 
     }
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
@@ -127,7 +128,9 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         editConfirmPass = frg.findViewById(R.id.frg_signup_edtCnfirmPassword);
         edtEmail = frg.findViewById(R.id.frg_signup_edtEmail);
         edtPassword = frg.findViewById(R.id.frg_signup_edtPassword);
+        txvGuest = frg.findViewById(R.id.frg_signup_txv_guest);
 
+        txvGuest.setOnClickListener(this);
         llFB.setOnClickListener(this);
         llGoogle.setOnClickListener(this);
         txvLogin.setOnClickListener(this);
@@ -140,6 +143,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
             progressDialog.dismiss();
         }
     }
+
     private void showProgDialog() {
 
         progressDialog = new Dialog(getActivity(), R.style.AppTheme);
@@ -172,7 +176,8 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                     AppConfig.getInstance().mUser.User_Id = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getId();
                     AppConfig.getInstance().mUser.Email = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getEmail();
 
-                    AppConfig.getInstance().mUser.isLoggedIn = true;
+                    AppConfig.getInstance().mUser.setGuest(false);
+                    AppConfig.getInstance().mUser.setLoggedIn(true);
                     AppConfig.getInstance().mUser.Authorization = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getAccessToken();
 
                     AppConfig.getInstance().saveUserProfile();
@@ -212,7 +217,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     }
 
 
-
     private void requestUserRegisterSocail(String _signUpEntity) {
         showProgDialog();
         Intro_WebHit_Post_SignUp intro_webHit_post_signUp = new Intro_WebHit_Post_SignUp();
@@ -225,7 +229,8 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                     AppConfig.getInstance().mUser.User_Id = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getId();
                     AppConfig.getInstance().mUser.Email = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getEmail();
 
-                    AppConfig.getInstance().mUser.isLoggedIn = true;
+                    AppConfig.getInstance().mUser.setGuest(false);
+                    AppConfig.getInstance().mUser.setLoggedIn(true);
                     AppConfig.getInstance().mUser.Authorization = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getAccessToken();
 
                     AppConfig.getInstance().saveUserProfile();
@@ -293,9 +298,9 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                         AppConfig.getInstance().mUser.DOB = Intro_WebHit_Post_LogIn.responseObject.getData().getDateOfBirth();
 
 
-                    AppConfig.getInstance().mUser.isLoggedIn = true;
+                    AppConfig.getInstance().mUser.setGuest(false);
+                    AppConfig.getInstance().mUser.setLoggedIn(true);
                     AppConfig.getInstance().mUser.Authorization = Intro_WebHit_Post_LogIn.responseObject.getData().getAccessToken();
-
 
 
 //                    JsonObject jsonObject = new JsonObject();
@@ -332,6 +337,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
             }
         }, _signUpEntity);
     }
+
     @Override
     public void onClick(View v) {
 
@@ -365,19 +371,19 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                             @Override
                             public void onSuccess(LoginResult loginResult) {
                                 // App code
-                                Log.i("LoginActivity","FB Login Success");
+                                Log.i("LoginActivity", "FB Login Success");
                             }
 
                             @Override
                             public void onCancel() {
                                 // App code
-                                Log.i("LoginActivity","FB Login Cancel");
+                                Log.i("LoginActivity", "FB Login Cancel");
                             }
 
                             @Override
                             public void onError(FacebookException exception) {
                                 // App code
-                                Log.i("LoginActivity","FB Login Error");
+                                Log.i("LoginActivity", "FB Login Error");
                             }
                         });
 
@@ -389,12 +395,16 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email"));
 
                 break;
-
-
+            case R.id.frg_signup_txv_guest:
+                AppConfig.getInstance().mUser.setGuest(true);
+                AppConfig.getInstance().mUser.setLoggedIn(false);
+                AppConfig.getInstance().mUser.setAuthorization("guest");
+                AppConfig.getInstance().saveUserProfile();
+                CustomToast.showToastMessage(getActivity(),"You are playing as GUEST",Toast.LENGTH_LONG);
+                ((IntroActivity)getActivity()).navToPreSignInVAFragment();
+                break;
         }
     }
-
-
 
 
     private void navtoSigninFragment() {
@@ -426,8 +436,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onWebResult(boolean isSuccess, String strMsg) {
                 if (isSuccess) {
-
-
 
 
                 } else {
@@ -475,9 +483,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
             callbackManager.onActivityResult(requestCode, resultCode, data);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
         super.onActivityResult(requestCode, resultCode, data);

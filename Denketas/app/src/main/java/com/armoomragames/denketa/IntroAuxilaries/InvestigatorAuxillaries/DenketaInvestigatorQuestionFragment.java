@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -26,50 +27,31 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
     LinearLayout llPaynow;
     LinearLayout llBundleDiscount;
     IBadgeUpdateListener mBadgeUpdateListener;
-
+    Bundle bundle;
+    String danetka_name = "";
+    TextView txvDanetkaName;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View frg = inflater.inflate(R.layout.fragment_denketa_investigator_question, container, false);
 
         init();
         bindViews(frg);
-
+        txvDanetkaName.setText(danetka_name.toUpperCase());
         return frg;
     }
 
-    public void openDialog() {
-        final Dialog dialog = new Dialog(getContext()); // Context, this, etc.
-        dialog.setContentView(R.layout.dialog_master);
 
-        dialog.show();
-    }
 
-    void setToolbar() {
-
-        try {
-            mBadgeUpdateListener = (IBadgeUpdateListener) getActivity();
-        } catch (ClassCastException castException) {
-            castException.printStackTrace(); // The activity does not implement the listener
-        }
-        if (getActivity() != null && isAdded()) {
-            mBadgeUpdateListener.setToolbarState(AppConstt.INTRO_ToolbarStates.TOOLBAR_HIDDEN);
-
-        }
-
-    }
 
     void init() {
-        setToolbar();
-    }
-
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!isHidden()) {
-            setToolbar();
+        bundle = this.getArguments();
+        if (bundle != null) {
+            danetka_name = bundle.getString("key_danetka_name");
         }
+
     }
+
+
 
 
     private void bindViews(View frg) {

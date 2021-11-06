@@ -5,22 +5,338 @@
     android:layout_height="match_parent">
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
     <RelativeLayout
-        android:id="@+id/act_intro_rl_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
+        android:layout_height="wrap_content">
 
-        <include layout="@layout/act_lay_toolabar" />
+        <RelativeLayout
+            android:id="@+id/top"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height"
+            android:layout_alignParentTop="true">
+
+
+            <RelativeLayout
+                android:id="@+id/act_intro_lay_toolbar_rlBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="15dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_back" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/act_intro_lay_toolbar_rlCross"
+                android:layout_marginEnd="15dp"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_cancl" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/top"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/shp_round_bg_gray"
+                android:padding="10dp">
+
+
+                <RelativeLayout
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+
+                    android:background="@drawable/ic_bg_about"
+                    android:padding="6dp">
+
+
+                    <TextView
+                        android:id="@+id/frg_my_results_txv_danetkaname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center"
+                        android:text="Danektas Name"
+                        android:textColor="@color/thm_red_app"
+                        android:textSize="@dimen/fontsize_large"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:id="@+id/detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/frg_my_results_txv_danetkaname"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="5dp"
+                        android:alpha="20"
+                        android:gravity="center"
+                        android:justificationMode="inter_word"
+                        android:text="This would come with backend\n..................................\n..................................\n..................................\n..................................\n.................................."
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/fontsize_mini" />
+
+                    <ImageView
+                        android:id="@+id/img"
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        android:layout_below="@id/detail"
+
+                        android:paddingTop="20dp"
+                        android:src="@drawable/ic_copy2" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/img"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp">
+
+
+                            <ImageView
+                                android:id="@+id/imv_mast"
+                                android:layout_width="30dp"
+                                android:layout_height="45dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:src="@drawable/ic_master_2" />
+
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/edttext_height_medium"
+                                android:layout_centerInParent="true"
+                                android:layout_toEndOf="@id/imv_mast"
+                               >
+
+
+                                <TextView
+                                    android:id="@+id/edt_Search"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerInParent="true"
+                                    android:layout_marginEnd="40dp"
+                                    android:layout_toEndOf="@id/imv_search"
+                                    android:background="@null"
+                                    android:cursorVisible="true"
+                                    android:gravity="center_vertical"
+                                    android:text="Example text1"
+                                    android:paddingStart="24dp"
+                                    android:paddingEnd="24dp"
+                                    android:textColor="@color/thm_blue_app"
+                                    android:textColorHint="@color/gray"
+                                    android:textCursorDrawable="@null"
+                                    android:textSize="@dimen/fontsize_mini" />
+
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp">
+
+
+                            <ImageView
+                                android:id="@+id/imv_mast"
+                                android:layout_width="30dp"
+                                android:layout_height="45dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:src="@drawable/ic_master_2" />
+
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/edttext_height_medium"
+                                android:layout_centerInParent="true"
+                                android:layout_toEndOf="@id/imv_mast"
+                                >
+
+
+                                <TextView
+                                    android:id="@+id/edt_Search"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerInParent="true"
+                                    android:layout_marginEnd="40dp"
+                                    android:layout_toEndOf="@id/imv_search"
+                                    android:background="@null"
+                                    android:cursorVisible="true"
+                                    android:gravity="center_vertical"
+                                    android:text="Example text2"
+                                    android:paddingStart="24dp"
+                                    android:paddingEnd="24dp"
+                                    android:textColor="@color/thm_blue_app"
+                                    android:textColorHint="@color/gray"
+                                    android:textCursorDrawable="@null"
+                                    android:textSize="@dimen/fontsize_mini" />
+
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp">
+
+
+                            <ImageView
+                                android:id="@+id/imv_mast"
+                                android:layout_width="30dp"
+                                android:layout_height="45dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:src="@drawable/ic_master_2" />
+
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/edttext_height_medium"
+                                android:layout_centerInParent="true"
+                                android:layout_toEndOf="@id/imv_mast"
+                                >
+
+
+                                <TextView
+                                    android:id="@+id/edt_Search"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerInParent="true"
+                                    android:layout_marginEnd="40dp"
+                                    android:layout_toEndOf="@id/imv_search"
+                                    android:background="@null"
+                                    android:cursorVisible="true"
+                                    android:gravity="center_vertical"
+                                    android:text="Example text3"
+                                    android:paddingStart="24dp"
+                                    android:paddingEnd="24dp"
+                                    android:textColor="@color/thm_blue_app"
+                                    android:textColorHint="@color/gray"
+                                    android:textCursorDrawable="@null"
+                                    android:textSize="@dimen/fontsize_mini" />
+
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:id="@+id/frg_denketa_answer_llAddmy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="5dp"
+
+                android:background="@drawable/shp_rect_rounded_app_blue"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@null"
+                    android:fontFamily="@font/poppins_bold"
+                    android:lines="1"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="See the answer"
+
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/fontsize_medium"
+                    android:textStyle="normal" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/frg_denketa_answer_llLearnmore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+
+                android:layout_marginBottom="20dp"
+
+                android:background="@drawable/shp_rect_rounded_app_blue"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@null"
+                    android:fontFamily="@font/poppins_bold"
+                    android:lines="1"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="Learn more"
+
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/fontsize_medium"
+                    android:textStyle="normal" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
 
     </RelativeLayout>
-    </LinearLayout>
-
-
 
 
 </androidx.core.widget.NestedScrollView>

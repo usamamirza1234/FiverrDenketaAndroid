@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -81,7 +82,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
         nErrorMsgShown = 0;
         isLoadingMore = false;
 
-        if (AppConfig.getInstance().mUser.isLoggedIn) {
+        if (AppConfig.getInstance().mUser.isLoggedIn()) {
             intro_webHit_get_user_danektas = new Intro_WebHit_Get_User_Danektas();
             Intro_WebHit_Get_User_Danektas.mPaginationInfo.currIndex = AppConstt.PAGINATION_START_INDEX;
         } else {
@@ -96,7 +97,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
 
         showProgDialog();
 
-        if (AppConfig.getInstance().mUser.isLoggedIn) {
+        if (AppConfig.getInstance().mUser.isLoggedIn()) {
             Intro_WebHit_Get_User_Danektas.mPaginationInfo.currIndex = 1;
             Intro_WebHit_Get_User_Danektas.responseObject = null;
             intro_webHit_get_user_danektas.getMyDanekta(this,
@@ -112,7 +113,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
     }
 
 
-    //        if (AppConfig.getInstance().mUser.isLoggedIn){
+    //        if (AppConfig.getInstance().mUser.isLoggedIn()){
     //                    if (Intro_WebHit_Get_User_Danektas.responseObject != null &&
     //                            Intro_WebHit_Get_User_Danektas.responseObject.getData() != null &&
     //                            Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing() != null &&
@@ -133,7 +134,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
     //                                public void onAdapterEventFired(int eventId, int position) {
     //                                    switch (eventId) {
     //                                        case EVENT_A:
-    //                                            if (AppConfig.getInstance().mUser.isLoggedIn())
+    //                                            if (AppConfig.getInstance().mUser.isLoggedIn()())
     //                                            {
     //                                                if (!AppConfig.getInstance().getProgDialogs())
     //                                                    onClickDenketaItem(position);
@@ -218,7 +219,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
         isAlreadyFetching = false;
         if (getActivity() != null && isAdded())
 
-            if (AppConfig.getInstance().mUser.isLoggedIn) {
+            if (AppConfig.getInstance().mUser.isLoggedIn()) {
                 if (isSuccess) {
                     if (Intro_WebHit_Get_User_Danektas.responseObject != null &&
                             Intro_WebHit_Get_User_Danektas.responseObject.getData() != null &&
@@ -240,14 +241,16 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                 public void onAdapterEventFired(int eventId, int position) {
                                     switch (eventId) {
                                         case EVENT_A:
-                                            if (AppConfig.getInstance().mUser.isLoggedIn()) {
+                                            if (AppConfig.getInstance().mUser.isLoggedIn() ||AppConfig.getInstance().mUser.isGuest())
+                                            {
                                                 if (!AppConfig.getInstance().getProgDialogs())
                                                     onClickDenketaItem(position);
                                                 else {
-
+                                                    ((IntroActivity) getActivity()).navToDenketaQuestionFragment(lst_MyDenketa.get(position).getStrName());
                                                 }
-                                            } else {
-                                                CustomToast.showToastMessage(getActivity(), "Sign in / Sign Up to PLAY!", Toast.LENGTH_LONG);
+                                            }
+                                            else {
+                                                CustomToast.showToastMessage(getActivity(), "Sign in / Sign Up or Play as Guest  to PLAY!", Toast.LENGTH_LONG);
                                             }
                                             break;
 
@@ -301,14 +304,14 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                 public void onAdapterEventFired(int eventId, int position) {
                                     switch (eventId) {
                                         case EVENT_A:
-                                            if (AppConfig.getInstance().mUser.isLoggedIn()) {
+                                            if (AppConfig.getInstance().mUser.isLoggedIn()||AppConfig.getInstance().mUser.isGuest()) {
                                                 if (!AppConfig.getInstance().getProgDialogs())
                                                     onClickDenketaItem(position);
                                                 else {
-
+                                                    ((IntroActivity) getActivity()).navToDenketaQuestionFragment(lst_MyDenketa.get(position).getStrName());
                                                 }
                                             } else {
-                                                CustomToast.showToastMessage(getActivity(), "Sign in / Sign Up to PLAY!", Toast.LENGTH_LONG);
+                                                CustomToast.showToastMessage(getActivity(), "Sign in / Sign Up or Play as Guest to PLAY!", Toast.LENGTH_LONG);
                                             }
                                             break;
 
@@ -351,7 +354,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
         if (getActivity() != null && isAdded())//check whether it is attached to an activity
             if (isSuccess) {
                 if (isCompleted) {
-                    if (AppConfig.getInstance().mUser.isLoggedIn) {
+                    if (AppConfig.getInstance().mUser.isLoggedIn()) {
                         Intro_WebHit_Get_User_Danektas.mPaginationInfo.isCompleted = true;
                     }
                     else {
@@ -406,20 +409,24 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
 
         CheckBox checkBox;
         checkBox = dialog.findViewById(R.id.lay_prog_chb);
+        TextView txvRules = dialog.findViewById(R.id.lay_item_play_txvRules);
 
+        txvRules.setOnClickListener(this);
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AppConfig.getInstance().setProgDialogs(true);
             }
         });
-//        if (checkBox.isChecked())
-//        {
-
-//        }
 
         LinearLayout llOkay = dialog.findViewById(R.id.lay_item_rules_llOkay);
-        llOkay.setOnClickListener(this);
+        llOkay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                ((IntroActivity) getActivity()).navToDenketaQuestionFragment(lst_MyDenketa.get(position).getStrName());
+            }
+        });
         dialog.show();
     }
 
@@ -432,10 +439,6 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                 ((IntroActivity) getActivity()).navToRulesFragment();
                 break;
 
-            case R.id.lay_item_rules_llOkay:
-                dialog.dismiss();
-                ((IntroActivity) getActivity()).navToDenketaQuestionFragment();
-                break;
 
 
         }
