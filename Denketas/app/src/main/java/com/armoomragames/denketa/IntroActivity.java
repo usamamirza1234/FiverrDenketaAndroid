@@ -1,6 +1,5 @@
 package com.armoomragames.denketa;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -11,13 +10,8 @@ import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -35,31 +29,18 @@ import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.GamePlayFragmen
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.RulesFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SplashFragment;
 import com.armoomragames.denketa.Utils.AppConstt;
-import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.LocaleHelper;
-import com.paypal.android.sdk.payments.PayPalConfiguration;
-import com.paypal.android.sdk.payments.PayPalFuturePaymentActivity;
-import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
-import com.paypal.android.sdk.payments.PaymentActivity;
-import com.paypal.android.sdk.payments.PaymentConfirmation;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 
 public class IntroActivity extends AppCompatActivity implements IBadgeUpdateListener, View.OnClickListener {
 
-    private FragmentManager fm;
     RelativeLayout rlToolbar, rlBack, rlCross;
-
-
-
+    private FragmentManager fm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,19 +81,18 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
-                Log.d("KeyHash","key  >"+ Base64.encodeToString(md.digest(), Base64.DEFAULT));
+                Log.d("KeyHash", "key  >" + Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
         } catch (PackageManager.NameNotFoundException e) {
         } catch (NoSuchAlgorithmException e) {
         }
     }
+
     @Override
     public void onDestroy() {
         stopService(new Intent(this, PayPalService.class));
         super.onDestroy();
     }
-
-
 
 
     private void bindViews() {
@@ -233,11 +213,9 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
             navToPreSignInVAFragment();
         } else if (returnStackFragmentTag().equalsIgnoreCase(AppConstt.FragTag.FN_ChallengeFragment) ||
                 returnStackFragmentTag().equalsIgnoreCase(AppConstt.FragTag.FN_ExtraRulesFragment) ||
-                returnStackFragmentTag().equalsIgnoreCase(AppConstt.FragTag.FN_GamePlayFragment))
-        {
+                returnStackFragmentTag().equalsIgnoreCase(AppConstt.FragTag.FN_GamePlayFragment)) {
             navToRulesFragment();
-        }
-        else {
+        } else {
             if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
                 getSupportFragmentManager().popBackStack();
             } else {
@@ -312,15 +290,19 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
     //region Navigations
 
-    public void navToMyResultsFragment() {
+    public void navToMyResultsFragment(String name) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new MyResultsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("key_danetka_name", name);
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_MyResultsFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_RulesMianFragment);
+        frag.setArguments(bundle);
+//            ft.hide(this);
         hideLastStackFragment(ft);
-//        ft.hide(this);
         ft.commit();
+
     }
 
     public void navToDenketaQuestionFragment() {
@@ -336,6 +318,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         ft.commit();
 
     }
+
     public void navToDenketaInvestigatorQuestionFragment() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -348,6 +331,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 //        ft.hide(this);
         ft.commit();
     }
+
     public void navToRulesFragment() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -438,8 +422,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
                 ft.hide(frg);
             } else if (frg instanceof GamePlayFragment && frg.isVisible()) {
                 ft.hide(frg);
-            }
-            else if (frg instanceof DenketaQuestionFragment && frg.isVisible()) {
+            } else if (frg instanceof DenketaQuestionFragment && frg.isVisible()) {
                 ft.hide(frg);
             } else if (frg instanceof PlayMianFragment && frg.isVisible()) {
                 ft.hide(frg);

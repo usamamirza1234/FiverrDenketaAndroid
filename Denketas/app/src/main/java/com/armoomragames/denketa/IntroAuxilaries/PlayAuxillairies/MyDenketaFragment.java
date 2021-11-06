@@ -21,6 +21,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
@@ -251,7 +253,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
 
 
                                         case EVENT_B:
-                                            ((IntroActivity) getActivity()).navToMyResultsFragment();
+                                            ((IntroActivity)getActivity()).navToMyResultsFragment(lst_MyDenketa.get(position).getStrName());
 
                                             break;
                                     }
@@ -312,7 +314,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
 
 
                                         case EVENT_B:
-                                            ((IntroActivity) getActivity()).navToMyResultsFragment();
+                                            ((IntroActivity)getActivity()). navToMyResultsFragment(lst_MyDenketa.get(position).getStrName());
 
                                             break;
                                     }
@@ -362,6 +364,10 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
 //                CustomToast.showToastMessage(getActivity(), errorMsg, Toast.LENGTH_SHORT, false);
             }
     }
+
+
+
+
 
     private void bindViewss(View frg) {
         rcvMyDenekta = frg.findViewById(R.id.frg_rcv_my_denketa);

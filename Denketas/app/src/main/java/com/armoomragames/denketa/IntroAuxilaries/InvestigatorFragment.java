@@ -139,10 +139,10 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
 
 
 
-                                    case EVENT_B:
-                                        ((IntroActivity) getActivity()).navToMyResultsFragment();
-
-                                        break;
+//                                    case EVENT_B:
+//                                        ((IntroActivity) getActivity()).navToMyResultsFragment();
+//
+//                                        break;
                                 }
 
                             }
