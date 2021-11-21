@@ -10,6 +10,8 @@ import android.util.LongSparseArray;
 
 import androidx.multidex.MultiDex;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.lang.reflect.Field;
@@ -81,6 +83,8 @@ public class MyApplication extends Application {
         applicationContext = this;
 
         AppConfig.initInstance(mContext);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
 //        if (AppConfig.getInstance().loadFCMDeviceToken().equals(""))
 //        {
 //            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {

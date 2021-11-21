@@ -116,7 +116,7 @@ public class SplashFragment extends Fragment {
     }
 
     public void navToPreSignInVAFragment() {
-        PreSignInFragment frg = new PreSignInFragment();
+        Fragment frg = new PreSignInFragment();
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,

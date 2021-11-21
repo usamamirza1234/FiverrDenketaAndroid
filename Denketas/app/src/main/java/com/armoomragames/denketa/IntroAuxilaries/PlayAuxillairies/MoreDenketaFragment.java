@@ -65,7 +65,7 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
     private boolean isLoadingMore = false;
 
 
-    public static final String clientKey = "ARI3v6ZG_ALH2WFuE00RXHA3Da_BANneiJyJtj1sNGsVU_LImvon1MrWGdhw2EkrTDGvVgNOUxBU2VIh";
+    public static final String clientKey = "AQxyBWkhclOXBj9jlkr3eV_F9PQ2O6yBD5f8i1oO2fJNQ5Xy_Ir6N45881igN7lyfIPvxr59JSGnH0B1";
     public static final int PAYPAL_REQUEST_CODE = 123;
 
     // Paypal Configuration Object
@@ -152,8 +152,6 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
             public void onWebResult(boolean isSuccess, String strMsg) {
                 if (isSuccess) {
                     dismissProgDialog();
-
-
 
                 } else {
                     dismissProgDialog();

@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -16,12 +17,21 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.armoomragames.denketa.IntroAuxilaries.DModelUser;
+import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.Profile;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
@@ -62,6 +72,7 @@ public class AppConfig {
     private Context mContext;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
+    private String TAG="APP_DEBUG";
 
     private AppConfig(Context _mContext) {
         if (_mContext != null) {
@@ -483,18 +494,51 @@ public class AppConfig {
             googleSignInClient.signOut();
         } catch (Exception e) {
         }
+
+        try {
+            graphRevokeUserStatusPermission();
+
+
+        }
+        catch (Exception e)
+        {   Log.d(TAG, e.getMessage().toString());}
+
         saveFCMDeviceToken(tmpToken);
         saveDefLanguage(appLangTemp);
     }
     //endregion
 
 
+    public void graphRevokeUserStatusPermission(){
+//        FacebookSdk.sdkInitialize(mContext);
+//        AppEventsLogger.activateApp(mContext);
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if(accessToken == null)
+            return;
 
+        GraphRequest request = GraphRequest.newGraphPathRequest(
+                accessToken,
+                "/me/permissions/",
+                new GraphRequest.Callback() {
+                    @Override
+                    public void onCompleted(GraphResponse response) {
+                        // response
+
+                        LoginManager.getInstance().logOut();
+                        Log.d(TAG, "success" );
+                    }
+                }
+        );
+        request.setHttpMethod(HttpMethod.DELETE);
+        request.executeAsync();
+    }
 
 
     public void navtoLogin() {
 
         if (mUser.isLoggedIn()) {
+
+
             deleteUserData();
 
             try {

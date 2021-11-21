@@ -2,6 +2,8 @@ package com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -37,9 +39,15 @@ import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.IWebCallback;
 import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphRequestAsyncTask;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -50,6 +58,10 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.JsonObject;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.security.Signature;
 import java.util.Arrays;
 
 public class SignUpFragment extends Fragment implements View.OnClickListener {
@@ -62,11 +74,15 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     GoogleSignInAccount acct, account;
     IBadgeUpdateListener mBadgeUpdateListener;
     TextView txvGuest;
-
+    private static final String EMAIL = "email";
 
     CallbackManager callbackManager;
     EditText edtPassword, edtEmail, editConfirmPass;
     private Dialog progressDialog;
+
+
+    private String TAG ="LoginActivity";
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -94,6 +110,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     }
 
     void init() {
+
 
         setToolbar();
 
@@ -217,7 +234,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    private void requestUserRegisterSocail(String _signUpEntity) {
+    private void requestUserRegisterSocail(String _signUpEntity,String name) {
         showProgDialog();
         Intro_WebHit_Post_SignUp intro_webHit_post_signUp = new Intro_WebHit_Post_SignUp();
         intro_webHit_post_signUp.postSignIn(getContext(), new IWebCallback() {
@@ -228,6 +245,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                     //Save user login data
                     AppConfig.getInstance().mUser.User_Id = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getId();
                     AppConfig.getInstance().mUser.Email = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getEmail();
+                    AppConfig.getInstance().mUser.Name = name;
 
                     AppConfig.getInstance().mUser.setGuest(false);
                     AppConfig.getInstance().mUser.setLoggedIn(true);
@@ -254,7 +272,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 } else {
                     dismissProgDialog();
 
-                    requestUserSiginSocial(_signUpEntity);
+                    requestUserSiginSocial(_signUpEntity,name);
 //                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
 //                    Toast.makeText(getActivity(), strMsg, Toast.LENGTH_SHORT).show();
 //                    AppConfig.getInstance().showErrorMessage(getContext(), strMsg);
@@ -271,7 +289,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         }, _signUpEntity);
     }
 
-    private void requestUserSiginSocial(String _signUpEntity) {
+    private void requestUserSiginSocial(String _signUpEntity,String name) {
         showProgDialog();
         Intro_WebHit_Post_LogIn intro_webHit_post_logIn = new Intro_WebHit_Post_LogIn();
         intro_webHit_post_logIn.postSignIn(getContext(), new IWebCallback() {
@@ -297,7 +315,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                     if (Intro_WebHit_Post_LogIn.responseObject.getData().getDateOfBirth() != null)
                         AppConfig.getInstance().mUser.DOB = Intro_WebHit_Post_LogIn.responseObject.getData().getDateOfBirth();
 
-
+                    AppConfig.getInstance().mUser.Name = name;
                     AppConfig.getInstance().mUser.setGuest(false);
                     AppConfig.getInstance().mUser.setLoggedIn(true);
                     AppConfig.getInstance().mUser.Authorization = Intro_WebHit_Post_LogIn.responseObject.getData().getAccessToken();
@@ -365,25 +383,79 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.frg_my_account_llFB:
                 callbackManager = CallbackManager.Factory.create();
-
+//                llFB.setReadPermissions(Arrays.asList(EMAIL));
                 LoginManager.getInstance().registerCallback(callbackManager,
                         new FacebookCallback<LoginResult>() {
                             @Override
                             public void onSuccess(LoginResult loginResult) {
                                 // App code
                                 Log.i("LoginActivity", "FB Login Success");
+//                                final AccessToken accessToken = loginResult.getAccessToken();
+
+//                                GraphRequestAsyncTask request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
+//                                    @Override
+//                                    public void onCompleted(JSONObject user, GraphResponse graphResponse) {
+//                                        Log.d(TAG, user.optString("email"));
+//                                        Log.d(TAG, user.optString("name"));
+//                                        Log.d(TAG, user.optString("id"));
+//                                        Log.d(TAG, user.toString());
+//
+//                                        requestSocial( user.optString("id")+"@facebook.com", user.optString("name"));
+//                                    }
+//                                });
+
+
+                                AccessToken accessToken = loginResult.getAccessToken();
+                                Profile profile = Profile.getCurrentProfile();
+
+                                // Facebook Email address
+                                GraphRequest request = GraphRequest.newMeRequest(
+                                        loginResult.getAccessToken(),
+                                        new GraphRequest.GraphJSONObjectCallback() {
+                                            @Override
+                                            public void onCompleted(
+                                                    JSONObject object,
+                                                    GraphResponse response) {
+                                                Log.v("LoginActivity Response ", response.toString());
+                                                String Name,FEmail;
+
+                                                try {
+                                                    Name = object.getString("name");
+
+                                                    FEmail = object.getString("email");
+                                                    Log.v("Email = ", " " + FEmail);
+//                                                    CustomToast.showToastMessage(getActivity(), "Name " + Name, Toast.LENGTH_LONG);
+
+
+                                                    requestSocial( FEmail, Name);
+
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        });
+                                Bundle parameters = new Bundle();
+                                parameters.putString("fields", "id,name,email,gender, birthday");
+                                request.setParameters(parameters);
+                                request.executeAsync();
+
+
+
                             }
 
                             @Override
                             public void onCancel() {
                                 // App code
                                 Log.i("LoginActivity", "FB Login Cancel");
+                                LoginManager.getInstance().logOut();
+                                Toast.makeText(getContext(), "Cancel", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
                             public void onError(FacebookException exception) {
                                 // App code
                                 Log.i("LoginActivity", "FB Login Error");
+                                Toast.makeText(getContext(), "error_login", Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -400,8 +472,8 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 AppConfig.getInstance().mUser.setLoggedIn(false);
                 AppConfig.getInstance().mUser.setAuthorization("guest");
                 AppConfig.getInstance().saveUserProfile();
-                CustomToast.showToastMessage(getActivity(),"You are playing as GUEST",Toast.LENGTH_LONG);
-                ((IntroActivity)getActivity()).navToPreSignInVAFragment();
+                CustomToast.showToastMessage(getActivity(), "You are playing as GUEST", Toast.LENGTH_LONG);
+                ((IntroActivity) getActivity()).navToPreSignInVAFragment();
                 break;
         }
     }
@@ -481,12 +553,12 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         try {
             callbackManager.onActivityResult(requestCode, resultCode, data);
         } catch (Exception e) {
 
         }
-        super.onActivityResult(requestCode, resultCode, data);
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Log.d("LOG_AS", "onActivityResult: google sign in " + data.toString());
@@ -502,16 +574,11 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
             acct = GoogleSignIn.getLastSignedInAccount(getActivity());
             Log.d("LOG_AS", "Google Obj : " + acct.getId());
 
-            if (acct != null) {
+            if (acct != null)
+            {
 //                googleUserEmail = acct.getEmail();
-//                googleSocailID = acct.getId();
-
-
-                JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("email", acct.getEmail());
-//                jsonObject.addProperty("password", edtPassword.getText().toString());
-                jsonObject.addProperty("userType", "social");
-                requestUserRegisterSocail(jsonObject.toString());
+//                googleSocailID = acct.getId()
+                requestSocial(acct.getEmail(),"");
 //
 //                JsonObject jsonObject = new JsonObject();
 //                jsonObject.addProperty("name", acct.getDisplayName());
@@ -539,6 +606,15 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
             // updateUI(null);
         }
     }
+
+    public void requestSocial(String EMAIL,String name){
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("email", EMAIL);
+//                jsonObject.addProperty("password", edtPassword.getText().toString());
+        jsonObject.addProperty("userType", "social");
+        requestUserRegisterSocail(jsonObject.toString(),name);
+    }
+
     //endregion
 
 
@@ -755,5 +831,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 //                calendar.get(Calendar.DAY_OF_MONTH)).show();
 //    }
     //endregion
+
+
 
 }

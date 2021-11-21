@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.armoomragames.denketa.IntroAuxilaries.DModelDictionary;
-import com.armoomragames.denketa.IntroAuxilaries.DictionaryRCVAdapter;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.IAdapterCallback;
 

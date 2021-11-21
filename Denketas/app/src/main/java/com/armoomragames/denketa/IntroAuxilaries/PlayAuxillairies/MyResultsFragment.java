@@ -98,6 +98,7 @@ public class MyResultsFragment extends Fragment implements View.OnClickListener 
         rlCross.setOnClickListener(this);
         imvAddResults.setOnClickListener(this);
         llSaveResult.setOnClickListener(this);
+        llEditdetails.setOnClickListener(this);
 
     }
 
@@ -118,6 +119,14 @@ public class MyResultsFragment extends Fragment implements View.OnClickListener 
                 llNoResults.setVisibility(View.GONE);
                 llAddResult.setVisibility(View.GONE);
                 llNewResults.setVisibility(View.VISIBLE);
+
+                break;
+            case R.id.frg_my_results_ll_Editdetails:
+                llNoResults.setVisibility(View.GONE);
+                llAddResult.setVisibility(View.GONE);
+                llNewResults.setVisibility(View.VISIBLE);
+                llSavedResults.setVisibility(View.GONE);
+                llSaveResult.setVisibility(View.VISIBLE);
 
                 break;
 
