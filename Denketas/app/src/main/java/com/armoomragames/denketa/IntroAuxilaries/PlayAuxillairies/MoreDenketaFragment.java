@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,6 +27,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.armoomragames.denketa.AppConfig;
+import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_All_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddUserDanetkas;
 import com.armoomragames.denketa.R;
@@ -65,84 +67,7 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
     private boolean isLoadingMore = false;
 
 
-    public static final String clientKey = "AQxyBWkhclOXBj9jlkr3eV_F9PQ2O6yBD5f8i1oO2fJNQ5Xy_Ir6N45881igN7lyfIPvxr59JSGnH0B1";
-    public static final int PAYPAL_REQUEST_CODE = 123;
 
-    // Paypal Configuration Object
-    private static PayPalConfiguration config = new PayPalConfiguration()
-            // Start with mock environment. When ready,
-            // switch to sandbox (ENVIRONMENT_SANDBOX)
-            // or live (ENVIRONMENT_PRODUCTION)
-            .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
-            // on below line we are passing a client id.
-            .clientId(clientKey);
-
-    private void getPayment(String amountEdt) {
-
-        // Getting the amount from editText
-        String amount = amountEdt;
-
-        // Creating a paypal payment on below line.
-        PayPalPayment payment = new PayPalPayment(new BigDecimal(String.valueOf(amount)), "EUR", "Danekta Fees",
-                PayPalPayment.PAYMENT_INTENT_SALE);
-
-        // Creating Paypal Payment activity intent
-        Intent intent = new Intent(getActivity(), PaymentActivity.class);
-
-        //putting the paypal configuration to the intent
-        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
-
-        // Putting paypal payment to the intent
-        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
-
-        // Starting the intent activity for result
-        // the request code will be used on the method onActivityResult
-        startActivityForResult(intent, PAYPAL_REQUEST_CODE);
-    }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // If the result is from paypal
-        if (requestCode == PAYPAL_REQUEST_CODE) {
-
-
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("danetkasId", strID.toString());
-            requestAddUserDanetkas(jsonObject.toString());
-            strID="0";
-
-            // If the result is OK i.e. user has not canceled the payment
-            if (resultCode == Activity.RESULT_OK) {
-
-                // Getting the payment confirmation
-                PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
-
-                // if confirmation is not null
-                if (confirm != null) {
-                    try {
-                        // Getting the payment details
-                        String paymentDetails = confirm.toJSONObject().toString(4);
-                        // on below line we are extracting json response and displaying it in a text view.
-                        JSONObject payObj = new JSONObject(paymentDetails);
-                        String payID = payObj.getJSONObject("response").getString("id");
-                        String state = payObj.getJSONObject("response").getString("state");
-
-                        CustomToast.showToastMessage(getActivity(),"Payment " + state + "\n with payment id is " + payID,Toast.LENGTH_LONG);
-                    } catch (JSONException e) {
-                        // handling json exception on below line
-                        Log.e("Error", "an extremely unlikely failure occurred: ", e);
-                    }
-                }
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                // on below line we are checking the payment status.
-                Log.i("paymentExample", "The user canceled.");
-            } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
-                // on below line when the invalid paypal config is submitted.
-                Log.i("paymentExample", "An invalid Payment or PayPalConfiguration was submitted. Please see the docs.");
-            }
-        }
-    }
 
     private void requestAddUserDanetkas(String _signUpEntity) {
         showProgDialog();
@@ -224,6 +149,8 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
         Intro_WebHit_Get_All_Danektas.mPaginationInfo.currIndex = AppConstt.PAGINATION_START_INDEX;
     }
 
+
+
     private void bindViewss(View frg)
     {
         rcvMyDenekta = frg.findViewById(R.id.frg_rcv_my_denketa);
@@ -299,7 +226,7 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
                                         if (AppConfig.getInstance().mUser.isLoggedIn())
                                         {
                                          strID =   lst_MyDenketa.get(position).getStrId();
-                                            showInternetConnectionStableMessage(getContext(),"This is random dialogue to process payment flow");
+                                            ((IntroActivity)getActivity()). onBuyPressed();
                                         }
                                         else
                                         {
@@ -355,26 +282,6 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 
 
 
-    public void showInternetConnectionStableMessage(Context context, String _errorMsg)
-    {
-        customAlertDialog = new CustomAlertDialog(context, "", _errorMsg, "Allow", "Deny", true, new CustomAlertConfirmationInterface() {
-            @Override
-            public void callConfirmationDialogPositive() {
-
-                getPayment("213");
-                customAlertDialog.dismiss();
-            }
-
-            @Override
-            public void callConfirmationDialogNegative() {
-
-
-                customAlertDialog.dismiss();
-            }
-        });
-        customAlertDialog.show();
-
-    }
 
 
 

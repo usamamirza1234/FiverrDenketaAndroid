@@ -1,10 +1,12 @@
 package com.armoomragames.denketa;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -32,8 +34,15 @@ import com.armoomragames.denketa.IntroAuxilaries.SplashFragment;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.LocaleHelper;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
 
+import org.json.JSONException;
+
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
@@ -42,6 +51,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
     RelativeLayout rlToolbar, rlBack, rlCross;
     private FragmentManager fm;
+    public static final String clientKey = "AQxyBWkhclOXBj9jlkr3eV_F9PQ2O6yBD5f8i1oO2fJNQ5Xy_Ir6N45881igN7lyfIPvxr59JSGnH0B1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +60,11 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         AppConfig.getInstance().regulateFontScale(getResources().getConfiguration(), getBaseContext());
         setContentView(R.layout.activity_intro);
 
+        Intent intent = new Intent(this, PayPalService.class);
+
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+
+        startService(intent);
         fm = getSupportFragmentManager();
         getAppVersion();
 
@@ -105,12 +120,64 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         }
     }
 
-    @Override
-    public void onDestroy() {
-        stopService(new Intent(this, PayPalService.class));
-        super.onDestroy();
+    public void onBuyPressed() {
+
+        // PAYMENT_INTENT_SALE will cause the payment to complete immediately.
+        // Change PAYMENT_INTENT_SALE to
+        //   - PAYMENT_INTENT_AUTHORIZE to only authorize payment and capture funds later.
+        //   - PAYMENT_INTENT_ORDER to create a payment for authorization and capture
+        //     later via calls from your server.
+
+        PayPalPayment payment = new PayPalPayment(new BigDecimal("1.75"), "USD", "sample item",
+                PayPalPayment.PAYMENT_INTENT_SALE);
+
+        Intent intent = new Intent(this, PaymentActivity.class);
+
+        // send the same configuration for restart resiliency
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+
+        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+
+        startActivityForResult(intent, 0);
     }
 
+
+    private static PayPalConfiguration config = new PayPalConfiguration()
+
+            // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
+            // or live (ENVIRONMENT_PRODUCTION)
+            .environment(PayPalConfiguration.ENVIRONMENT_NO_NETWORK)
+
+            .clientId(clientKey)     .merchantName("Hipster Store")
+            .merchantPrivacyPolicyUri(
+                    Uri.parse("https://www.example.com/privacy"))
+            .merchantUserAgreementUri(
+                    Uri.parse("https://www.example.com/legal"));
+
+
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+            if (confirm != null) {
+                try {
+                    Log.i("paymentExample", confirm.toJSONObject().toString(4));
+
+                    // TODO: send 'confirm' to your server for verification.
+                    // see https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
+                    // for more details.
+
+                } catch (JSONException e) {
+                    Log.e("paymentExample", "an extremely unlikely failure occurred: ", e);
+                }
+            }
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+            Log.i("paymentExample", "The user canceled.");
+        } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
+            Log.i("paymentExample", "An invalid Payment or PayPalConfiguration was submitted. Please see the docs.");
+        }
+    }
 
     private void bindViews() {
         rlToolbar = findViewById(R.id.act_intro_rl_toolbar);
