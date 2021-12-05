@@ -247,7 +247,8 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                ((IntroActivity)getActivity()).navToDenketaInvestigatorQuestionFragment(lst_MyDenketa.get(position).getStrName(),lst_MyDenketa.get(position).getStrId());
+                ((IntroActivity)getActivity()).navToDenketaInvestigatorQuestionFragment(lst_MyDenketa.get(position).getStrName(),lst_MyDenketa.get(position).getStrId(),
+                        lst_MyDenketa.get(position).getStrId(),true,false);
             }
         });
 //        llOkay.setOnClickListener(new View.OnClickListener() {

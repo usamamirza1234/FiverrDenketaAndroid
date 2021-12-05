@@ -447,7 +447,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
     }
 
 
-    public void navToDenketaInvestigatorQuestionFragment(String name,String id) {
+    public void navToDenketaInvestigatorQuestionFragment(String name,String id,String danetkaID,boolean isInvestigator,boolean isMoreDanetka) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new DenketaInvestigatorQuestionFragment();
@@ -458,6 +458,9 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         Bundle bundle = new Bundle();
         bundle.putString("key_danetka_name", name);
         bundle.putString("key_danetka_id", id);
+        bundle.putString("key_danetka_danetkaID", danetkaID);
+        bundle.putBoolean("key_danetka_is_investigator", isInvestigator);
+        bundle.putBoolean("key_danetka_is_more_danetka", isMoreDanetka);
         frag.setArguments(bundle);
         hideLastStackFragment(ft);
 //        ft.hide(this);

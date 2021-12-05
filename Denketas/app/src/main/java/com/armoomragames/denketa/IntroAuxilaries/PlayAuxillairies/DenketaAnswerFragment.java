@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,14 +18,17 @@ import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
+import com.bumptech.glide.Glide;
 
 public class DenketaAnswerFragment extends Fragment implements View.OnClickListener {
     RelativeLayout  rlBack, rlCross;
     Bundle bundle;
     String danetka_name = "";
+    String danetka_image = "";
+    String danetkaID = "";
     TextView txvDanetkaName;
     IBadgeUpdateListener mBadgeUpdateListener;
-
+    ImageView img;
     LinearLayout llLearnMore;
 
 
@@ -35,6 +39,7 @@ public class DenketaAnswerFragment extends Fragment implements View.OnClickListe
         init();
         bindViews(frg);
         txvDanetkaName.setText(danetka_name.toUpperCase());
+        Glide.with(getContext()).load(danetka_image).into(img);
         return frg;
     }
     //region init
@@ -57,6 +62,8 @@ public class DenketaAnswerFragment extends Fragment implements View.OnClickListe
         bundle = this.getArguments();
         if (bundle != null) {
             danetka_name = bundle.getString("key_danetka_name");
+            danetka_image = bundle.getString("key_danetka_danetka_image");
+            danetkaID = bundle.getString("key_danetka_danetkaID");
         }
     }
 
@@ -70,7 +77,7 @@ public class DenketaAnswerFragment extends Fragment implements View.OnClickListe
 
     private void bindViews(View frg) {
         txvDanetkaName = frg.findViewById(R.id.frg_my_results_txv_danetkaname);
-
+        img = frg.findViewById(R.id.img);
         llLearnMore = frg.findViewById(R.id.frg_denketa_answer_llLearnmore);
         rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
         rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);

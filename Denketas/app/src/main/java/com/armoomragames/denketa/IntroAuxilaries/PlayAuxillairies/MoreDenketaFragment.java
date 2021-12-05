@@ -219,7 +219,7 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
                                         {
 
 //                                            ((IntroActivity)getActivity()).navToBundleDiscountFragment(strID);
-                                            ((IntroActivity)getActivity()).navToDenketaInvestigatorQuestionFragment(lst_MyDenketa.get(position).getStrName(),lst_MyDenketa.get(position).getStrId());
+                                            ((IntroActivity)getActivity()).navToDenketaInvestigatorQuestionFragment(lst_MyDenketa.get(position).getStrName(),lst_MyDenketa.get(position).getStrImage(),lst_MyDenketa.get(position).getStrId(),false,true);
 
 //                                            ((IntroActivity)getActivity()). onBuyPressed();
 //                                            if (
