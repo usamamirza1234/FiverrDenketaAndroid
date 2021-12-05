@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <RelativeLayout
             android:id="@+id/tollbar"
             android:layout_width="match_parent"
@@ -17,11 +18,11 @@
 
             <RelativeLayout
                 android:id="@+id/act_intro_lay_toolbar_rlCross"
-                android:layout_marginEnd="15dp"
-                android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true">
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="15dp">
 
                 <ImageView
                     android:layout_width="20dp"
@@ -32,10 +33,10 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:layout_below="@id/tollbar"
             android:id="@+id/topest"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height_large"
+            android:layout_below="@id/tollbar"
             android:orientation="horizontal"
             android:weightSum="100">
 
@@ -138,9 +139,9 @@
 
 
         <RelativeLayout
-            android:layout_below="@id/topest"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@id/topest"
             android:orientation="vertical"
             android:padding="20dp">
 
@@ -167,10 +168,10 @@
                         android:src="@drawable/ic_investigator" />
 
                     <TextView
-                        android:fontFamily="@font/poppins_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:fontFamily="@font/poppins_bold"
                         android:padding="15dp"
                         android:text="@string/frg_game_play_hint"
                         android:textColor="@color/thm_red_app"
@@ -202,11 +203,12 @@
                         android:layout_gravity="center"
                         android:src="@drawable/ic_master" />
 
-                    <TextView     android:fontFamily="@font/poppins_bold"
-
+                    <TextView
                         android:layout_width="wrap_content"
+
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:fontFamily="@font/poppins_bold"
                         android:padding="15dp"
                         android:text="@string/frg_game_play_anser"
                         android:textColor="@color/thm_red_app"
@@ -235,13 +237,16 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-                    android:background="@drawable/ic_cloud_remi">
+                    android:background="@drawable/ic_cloud_remi"
+                    android:paddingStart="15dp"
+                    android:paddingTop="20dp"
+                    android:paddingEnd="15dp"
+                    android:paddingBottom="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
+
                         android:paddingStart="25dp"
                         android:paddingEnd="25dp"
                         android:text="@string/frg_game_play_was_musian"
@@ -260,13 +265,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-
-                        android:background="@drawable/ic_yes_game_playe">
+                        android:background="@drawable/ic_yes_game_playe"
+                        android:paddingStart="15dp"
+                        android:paddingTop="20dp"
+                        android:paddingEnd="15dp"
+                        android:paddingBottom="10dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="15dp"
+
                             android:paddingStart="25dp"
                             android:paddingEnd="25dp"
                             android:text="@string/frg_rule_yes"
@@ -280,13 +288,16 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-                    android:background="@drawable/ic_cloud_remi">
+                    android:background="@drawable/ic_cloud_remi"
+                    android:paddingStart="15dp"
+                    android:paddingTop="20dp"
+                    android:paddingEnd="15dp"
+                    android:paddingBottom="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
+
                         android:paddingStart="25dp"
                         android:paddingEnd="25dp"
                         android:text="@string/frg_game_play_play_villian"
@@ -339,13 +350,16 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-                    android:background="@drawable/ic_does_he_play">
+                    android:background="@drawable/ic_does_he_play"
+                    android:paddingStart="15dp"
+                    android:paddingTop="20dp"
+                    android:paddingEnd="15dp"
+                    android:paddingBottom="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
+
                         android:paddingStart="25dp"
                         android:paddingEnd="25dp"
                         android:text="@string/frg_game_play_does_he"
@@ -363,13 +377,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-
-                        android:background="@drawable/ic_yes_game_playe">
+                        android:background="@drawable/ic_yes_game_playe"
+                        android:paddingStart="15dp"
+                        android:paddingTop="20dp"
+                        android:paddingEnd="15dp"
+                        android:paddingBottom="10dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="15dp"
+
                             android:paddingStart="25dp"
                             android:paddingEnd="25dp"
                             android:text="@string/frg_rule_no"
@@ -383,13 +400,16 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-                    android:background="@drawable/ic_does_he_play">
+                    android:background="@drawable/ic_does_he_play"
+                    android:paddingStart="15dp"
+                    android:paddingTop="20dp"
+                    android:paddingEnd="15dp"
+                    android:paddingBottom="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
+
                         android:paddingStart="25dp"
                         android:paddingEnd="25dp"
                         android:text="@string/frg_game_play_did_die"
@@ -398,7 +418,6 @@
                         android:textStyle="bold" />
 
                 </RelativeLayout>
-
 
 
                 <RelativeLayout
@@ -442,13 +461,16 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-                    android:background="@drawable/ic_cloud_remi">
+                    android:background="@drawable/ic_cloud_remi"
+                    android:paddingStart="15dp"
+                    android:paddingTop="20dp"
+                    android:paddingEnd="15dp"
+                    android:paddingBottom="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
+
                         android:paddingStart="25dp"
                         android:paddingEnd="25dp"
                         android:text="@string/frg_game_play_did_he_die_right"
@@ -467,13 +489,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-
-                        android:background="@drawable/ic_yes_game_playe">
+                        android:background="@drawable/ic_yes_game_playe"
+                        android:paddingStart="15dp"
+                        android:paddingTop="20dp"
+                        android:paddingEnd="15dp"
+                        android:paddingBottom="10dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="15dp"
+
                             android:paddingStart="25dp"
                             android:paddingEnd="25dp"
                             android:text="@string/frg_rule_no"
@@ -487,13 +512,16 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-                    android:background="@drawable/ic_cloud_remi">
+                    android:background="@drawable/ic_cloud_remi"
+                    android:paddingStart="15dp"
+                    android:paddingTop="20dp"
+                    android:paddingEnd="15dp"
+                    android:paddingBottom="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
+
                         android:paddingStart="25dp"
                         android:paddingEnd="25dp"
                         android:text="@string/frg_game_play_did_he_end"
@@ -511,13 +539,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-
-                        android:background="@drawable/ic_yes_game_playe">
+                        android:background="@drawable/ic_yes_game_playe"
+                        android:paddingStart="15dp"
+                        android:paddingTop="20dp"
+                        android:paddingEnd="15dp"
+                        android:paddingBottom="10dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="15dp"
+
                             android:paddingStart="25dp"
                             android:paddingEnd="25dp"
                             android:text="@string/frg_rule_yes"
@@ -552,11 +583,11 @@
         </RelativeLayout>
 
         <ImageView
-            android:layout_marginTop="-12dp"
-            android:layout_marginEnd="-2dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="-12dp"
+            android:layout_marginEnd="-2dp"
             android:src="@drawable/ic_gameplay_hand" />
 
     </RelativeLayout>

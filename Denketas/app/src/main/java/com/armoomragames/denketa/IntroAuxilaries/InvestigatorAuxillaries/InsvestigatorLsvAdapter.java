@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.IAdapterCallback;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -62,7 +63,7 @@ public class InsvestigatorLsvAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
 
             viewHolder.txvName  = convertView.findViewById(R.id.lay_item_my_denekta_txvName);
-            viewHolder.imvResults = convertView.findViewById(R.id.lay_item_my_denekta_imvResults);
+            viewHolder.imvDanetka = convertView.findViewById(R.id.imvDanetka);
 
 
 
@@ -73,14 +74,15 @@ public class InsvestigatorLsvAdapter extends BaseAdapter {
 
         viewHolder.txvName.setText(mData.get(position).getStrName());
         convertView.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_A,position ));
-        viewHolder.imvResults.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_B,position ));
-
+        Glide.with(context)
+                .load("http://18.118.228.171:2000/images/"+mData.get(position).getStrImage())
+                .into(viewHolder.imvDanetka);
         return convertView;
     }
 
     class ViewHolder {
         TextView txvName;
-        ImageView imvResults;
+        ImageView imvDanetka;
     }
 
 

@@ -50,6 +50,7 @@
             android:gravity="center">
 
             <ImageView
+                android:id="@+id/imvDanetka"
                 android:padding="5dp"
                 android:scaleType="fitXY"
                 android:layout_width="100dp"

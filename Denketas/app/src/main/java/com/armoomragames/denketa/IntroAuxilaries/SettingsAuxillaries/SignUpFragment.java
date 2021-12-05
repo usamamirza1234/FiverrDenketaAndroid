@@ -576,24 +576,9 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
             if (acct != null)
             {
-//                googleUserEmail = acct.getEmail();
-//                googleSocailID = acct.getId()
+
                 requestSocial(acct.getEmail(),"");
-//
-//                JsonObject jsonObject = new JsonObject();
-//                jsonObject.addProperty("name", acct.getDisplayName());
-//                jsonObject.addProperty("email", googleUserEmail);
-//                jsonObject.addProperty("social_id", googleSocailID);
-//                jsonObject.addProperty("social_platform", "google");
-//                jsonObject.addProperty("user_type", "user");
-//                jsonObject.addProperty("city_id", "1");
-//                jsonObject.addProperty("city", "jaddah");
-//                jsonObject.addProperty("device_token", AppConfig.getInstance().loadFCMDeviceToken());
-//                jsonObject.addProperty("login_type", "social");
-//                jsonObject.addProperty("device_type", "android");
-//                Log.d("LOG_AS", "Google Sign IN JSON : " + jsonObject.toString());
-//
-//                requestSignInGoogle(jsonObject.toString());
+
             }
 
 

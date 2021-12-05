@@ -1,17 +1,11 @@
 package com.armoomragames.denketa.IntroAuxilaries;
 
 import android.app.Dialog;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,23 +21,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.RulesFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.SiginInFragment;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-
-import java.security.MessageDigest;
-import java.security.Signature;
-import java.util.Arrays;
 
 public class PreSignInFragment extends Fragment implements View.OnClickListener {
 
@@ -159,7 +142,7 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
 
         dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.lay_item_play);
+        dialog.setContentView(R.layout.dialogue_play_as);
         final Window window = dialog.getWindow();
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
@@ -270,7 +253,7 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         Animation bottomUp = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_up);
         imv_master_hat.setVisibility(View.GONE);
         imv_master.setVisibility(View.VISIBLE);
-        imv_master_hat.startAnimation(bottomUp);
+//        imv_master_hat.startAnimation(bottomUp);
 
 
 

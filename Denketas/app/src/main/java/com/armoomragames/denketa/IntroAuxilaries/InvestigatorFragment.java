@@ -82,19 +82,19 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
     private void showProgDialog() {
 
         progressDialog = new Dialog(getActivity(), R.style.AppTheme);
-        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         progressDialog.setContentView(R.layout.dialog_progress_loading);
         WindowManager.LayoutParams wmlp = progressDialog.getWindow().getAttributes();
         wmlp.gravity = Gravity.CENTER | Gravity.CENTER;
         wmlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
         wmlp.height = ViewGroup.LayoutParams.MATCH_PARENT;
 
-        ImageView imageView = (ImageView) progressDialog.findViewById(R.id.img_anim);
+        ImageView imageView = progressDialog.findViewById(R.id.img_anim);
         Glide.with(getContext()).asGif().load(R.raw.loading).into(imageView);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
         progressDialog.show();
-
 
     }
 
@@ -228,7 +228,7 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
 
         dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.lay_item_rules);
+        dialog.setContentView(R.layout.dialogue_rules);
         final Window window = dialog.getWindow();
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
