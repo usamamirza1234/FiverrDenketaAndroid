@@ -227,6 +227,26 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
                                         {
                                          strID =   lst_MyDenketa.get(position).getStrId();
                                             ((IntroActivity)getActivity()). onBuyPressed();
+                                            if (
+                                                    AppConfig.getInstance().responseObject!=null&&
+                                                    AppConfig.getInstance().responseObject.getResponse()!=null
+                                            )
+                                            {
+                                                if (AppConfig.getInstance().responseObject.getResponse().getState().equalsIgnoreCase("approved"))
+                                                {
+                                                    JsonObject jsonObject = new JsonObject();
+                                                    jsonObject.addProperty("danetkasId", strID.toString());
+                                                    jsonObject.addProperty("create_time", AppConfig.getInstance().responseObject.getResponse().getCreate_time().toString());
+                                                    jsonObject.addProperty("id",AppConfig.getInstance().responseObject.getResponse().getId().toString());
+                                                    jsonObject.addProperty("intent",AppConfig.getInstance().responseObject.getResponse().getIntent().toString());
+                                                    jsonObject.addProperty("state", AppConfig.getInstance().responseObject.getResponse().getState().toString());
+//                                                    jsonObject.addProperty("response_type", strID.toString());
+//                                                    jsonObject.addProperty("environment", strID.toString());
+//                                                    jsonObject.addProperty("platform", strID.toString());
+                                                    requestAddUserDanetkas(jsonObject.toString());
+                                                    strID="0";
+                                                }
+                                            }
                                         }
                                         else
                                         {

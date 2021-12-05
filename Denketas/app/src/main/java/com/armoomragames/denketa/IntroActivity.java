@@ -13,6 +13,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -31,9 +32,13 @@ import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.ExtraRulesFragm
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.GamePlayFragment;
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.RulesFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SplashFragment;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_LogIn;
 import com.armoomragames.denketa.Utils.AppConstt;
+import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.LocaleHelper;
+import com.armoomragames.denketa.Utils.RModel_Paypal;
+import com.google.gson.Gson;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
@@ -43,6 +48,7 @@ import com.paypal.android.sdk.payments.PaymentConfirmation;
 import org.json.JSONException;
 
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
@@ -142,6 +148,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
     }
 
 
+
     private static PayPalConfiguration config = new PayPalConfiguration()
 
             // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
@@ -162,19 +169,35 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
             PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
             if (confirm != null) {
                 try {
-                    Log.i("paymentExample", confirm.toJSONObject().toString(4));
-
                     // TODO: send 'confirm' to your server for verification.
                     // see https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
                     // for more details.
 
+
+                    String strResponse = confirm.toJSONObject().toString(4);
+
+                    Log.i("paymentExample", strResponse);
+                    CustomToast.showToastMessage(this,"Congragulations! you Paid for Danetka(s). ", Toast.LENGTH_SHORT);
+
+
+                    Gson gson = new Gson();
+                    Log.d("LOG_AS", "postSignIn: strResponse" + strResponse);
+                   AppConfig.getInstance().responseObject = gson.fromJson(strResponse, RModel_Paypal.class);
+
+
+
+
                 } catch (JSONException e) {
+                    CustomToast.showToastMessage(this,"an extremely unlikely failure occurred: "+e, Toast.LENGTH_SHORT);
                     Log.e("paymentExample", "an extremely unlikely failure occurred: ", e);
                 }
             }
         } else if (resultCode == Activity.RESULT_CANCELED) {
             Log.i("paymentExample", "The user canceled.");
+            CustomToast.showToastMessage(this,"The user canceled.: ", Toast.LENGTH_SHORT);
+
         } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
+            CustomToast.showToastMessage(this,"An invalid Payment or PayPalConfiguration was submitted. Please see the docs. ", Toast.LENGTH_SHORT);
             Log.i("paymentExample", "An invalid Payment or PayPalConfiguration was submitted. Please see the docs.");
         }
     }

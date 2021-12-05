@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.armoomragames.denketa.IntroAuxilaries.DModelUser;
+import com.armoomragames.denketa.Utils.RModel_Paypal;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
@@ -51,7 +52,7 @@ import com.armoomragames.denketa.Utils.RModel_onFailureError;
 
 public class AppConfig {
     private static AppConfig ourInstance;// = new AppConfig(null);
-
+    public RModel_Paypal responseObject;
     //endregion
     public Gson gson;
     public String mRole;
@@ -216,7 +217,7 @@ public class AppConfig {
         this.isEnglishMode = true;
         this.mRole = "";
         this.mUser = new DModelUser();
-
+        responseObject = new RModel_Paypal();
         loadUserProfile();
 
 
