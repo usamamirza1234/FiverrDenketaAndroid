@@ -13,11 +13,14 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddUserDanetkas;
 import com.armoomragames.denketa.R;
+import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IWebCallback;
 import com.bumptech.glide.Glide;
@@ -74,27 +77,8 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
                 ((IntroActivity)getActivity()). navToPreSignInVAFragment();
 
                 break;            case R.id.rlPaypal:
-                                            ((IntroActivity)getActivity()). onBuyPressed();
-                                            if (
-                                                    AppConfig.getInstance().responseObject!=null&&
-                                                            AppConfig.getInstance().responseObject.getResponse()!=null
-                                            )
-                                            {
-                                                if (AppConfig.getInstance().responseObject.getResponse().getState().equalsIgnoreCase("approved"))
-                                                {
-                                                    JsonObject jsonObject = new JsonObject();
-                                                    jsonObject.addProperty("danetkasId", danetkaID.toString());
-                                                    jsonObject.addProperty("create_time", AppConfig.getInstance().responseObject.getResponse().getCreate_time().toString());
-                                                    jsonObject.addProperty("id",AppConfig.getInstance().responseObject.getResponse().getId().toString());
-                                                    jsonObject.addProperty("intent",AppConfig.getInstance().responseObject.getResponse().getIntent().toString());
-                                                    jsonObject.addProperty("state", AppConfig.getInstance().responseObject.getResponse().getState().toString());
-//                                                    jsonObject.addProperty("response_type", strID.toString());
-//                                                    jsonObject.addProperty("environment", strID.toString());
-//                                                    jsonObject.addProperty("platform", strID.toString());
-                                                    requestAddUserDanetkas(jsonObject.toString());
-                                                    danetkaID="0";
-                                                }
-                                            }
+                                            ((IntroActivity)getActivity()). onBuyPressed(danetkaID);
+
 
                 break;
         }
@@ -107,7 +91,7 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
             public void onWebResult(boolean isSuccess, String strMsg) {
                 if (isSuccess) {
                     dismissProgDialog();
-
+                    navToPayentApprovedFragment();
                 } else {
                     dismissProgDialog();
                     CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
@@ -152,4 +136,30 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
 
     }
     //endregion
+
+
+    private void navToPayentDisapprovedFragment() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new PaymentFailedFragment();
+//        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+//                R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PaymentFailedFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_PaymentFailedFragment);
+        ft.hide(this);
+        ft.commit();
+    }
+
+    private void navToPayentApprovedFragment() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new PaymentApprovedFragment();
+//        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+//                R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PaymentApprovedFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_PaymentApprovedFragment);
+        ft.hide(this);
+        ft.commit();
+    }
+
 }

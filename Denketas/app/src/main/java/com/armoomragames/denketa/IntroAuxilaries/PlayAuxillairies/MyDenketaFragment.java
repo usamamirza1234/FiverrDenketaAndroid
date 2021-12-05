@@ -36,6 +36,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import static com.armoomragames.denketa.Utils.IAdapterCallback.EVENT_B;
+
 public class MyDenketaFragment extends Fragment implements View.OnClickListener, IWebPaginationCallback, AbsListView.OnScrollListener {
 
     private static final String KEY_POSITION = "position";
@@ -245,11 +247,16 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                             if (!AppConfig.getInstance().getProgDialogs())
                                                 onClickDenketaItem(position);
                                             else {
-                                                ((IntroActivity)getActivity()).navToDenketaInvestigatorQuestionFragment(lst_MyDenketa.get(position).getStrName(),lst_MyDenketa.get(position).getStrImage(),lst_MyDenketa.get(position).getStrId(),false,true);
+                                                ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(lst_MyDenketa.get(position).getStrName(), lst_MyDenketa.get(position).getStrImage(), lst_MyDenketa.get(position).getStrId(), false, false);
                                             }
                                         } else {
                                             CustomToast.showToastMessage(getActivity(), "Sign in / Sign Up or Play as Guest  to PLAY!", Toast.LENGTH_LONG);
                                         }
+                                        break;
+
+                                    case EVENT_B:
+                                        ((IntroActivity) getActivity()).navToMyResultsFragment(lst_MyDenketa.get(position).getStrName());
+
                                         break;
 
                                 }
@@ -300,7 +307,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                                 if (!AppConfig.getInstance().getProgDialogs())
                                                     onClickDenketaItem(position);
                                                 else {
-                                                    ((IntroActivity)getActivity()).navToDenketaInvestigatorQuestionFragment(lst_MyDenketa.get(position).getStrName(),lst_MyDenketa.get(position).getStrImage(),lst_MyDenketa.get(position).getStrId(),false,true);
+                                                    ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(lst_MyDenketa.get(position).getStrName(), lst_MyDenketa.get(position).getStrImage(), lst_MyDenketa.get(position).getStrId(), false, false);
                                                 }
                                             } else {
                                                 CustomToast.showToastMessage(getActivity(), "Sign in / Sign Up or Play as Guest to PLAY!", Toast.LENGTH_LONG);
@@ -410,8 +417,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                 dialog.dismiss();
 //                ((IntroActivity) getActivity()).navToDenketaQuestionFragment(lst_MyDenketa.get(position).getStrName(), lst_MyDenketa.get(position).getStrImage() + "");
 
-                ((IntroActivity)getActivity()).navToDenketaInvestigatorQuestionFragment(lst_MyDenketa.get(position).getStrName(),lst_MyDenketa.get(position).getStrImage(),lst_MyDenketa.get(position).getStrId(),false,true);
-
+                ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(lst_MyDenketa.get(position).getStrName(), lst_MyDenketa.get(position).getStrImage(), lst_MyDenketa.get(position).getStrId(), false, false);
             }
         });
         dialog.show();

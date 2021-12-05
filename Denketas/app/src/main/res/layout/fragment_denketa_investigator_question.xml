@@ -7,6 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <RelativeLayout
             android:id="@+id/top"
             android:layout_width="match_parent"
@@ -35,8 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/top"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
 
             <RelativeLayout
@@ -64,33 +64,41 @@
                         android:paddingTop="20dp"
                         android:src="@drawable/ic_copy1" />
 
-                    <TextView
-                        android:id="@+id/frg_my_results_txv_danetkaname"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/img"
-                        android:layout_centerInParent="true"
-                        android:layout_gravity="center"
+                        android:layout_margin="20dp"
                         android:layout_marginTop="20dp"
-                        android:gravity="center"
-                        android:text="Danektas Name"
-                        android:textColor="@color/thm_red_app"
-                        android:textSize="@dimen/fontsize_large"
-                        android:textStyle="bold" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/frg_my_results_txv_danetkaname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:gravity="start"
+                            android:text="Danektas Name"
+                            android:textColor="@color/thm_red_app"
+                            android:textSize="@dimen/fontsize_large"
+                            android:textStyle="bold" />
 
 
-                    <TextView
-                        android:layout_marginTop="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/frg_my_results_txv_danetkaname"
-                        android:layout_centerInParent="true"
-                        android:gravity="center"
-                        android:justificationMode="inter_word"
-                        android:text="This is design data images\n required bg img.. \n mentioned in pdf \nthis is sample text..."
-                        android:textColor="@color/black"
-                        android:alpha="20"
-                        android:textSize="@dimen/fontsize_mini" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/frg_my_results_txv_danetkaname"
+                            android:layout_centerInParent="true"
+
+                            android:alpha="20"                            android:padding="10dp"
+                            android:gravity="start"
+
+                            android:justificationMode="inter_word"
+                            android:text="This is design data images\n required bg img.. \n mentioned in pdf \nthis is sample text..."
+                            android:textColor="@color/light_gray3"
+                            android:textSize="@dimen/fontsize_mini" />
+                    </LinearLayout>
+
 
                 </RelativeLayout>
 
@@ -100,15 +108,15 @@
 
             <LinearLayout
                 android:id="@+id/frg_denketa_question_llSeeAnswer"
-
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/button_height_large"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="10dp"
 
                 android:background="@drawable/shp_rect_rounded_app_blue"
                 android:gravity="center"
+
 
                 android:orientation="horizontal"
                 android:paddingStart="30dp"

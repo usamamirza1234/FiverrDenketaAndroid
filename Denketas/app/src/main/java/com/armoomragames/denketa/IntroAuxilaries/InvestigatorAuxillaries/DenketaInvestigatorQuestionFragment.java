@@ -175,8 +175,8 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new GameResultsFragment();
-        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                R.anim.enter_from_left, R.anim.exit_to_right);//not required
+//        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+//                R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_DenketaAnswerFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_DenketaAnswerFragment);
         ft.hide(this);
@@ -187,8 +187,8 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new BundleDiscountFragment();
-        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                R.anim.enter_from_left, R.anim.exit_to_right);//not required
+//        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+//                R.anim.enter_from_left, R.anim.exit_to_right);//not required
         Bundle bundle = new Bundle();
 
         bundle.putString("key_danetka_danetkaID", danetka_danetkaID);
@@ -203,8 +203,8 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new PaymentDetailFragment();
-        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                R.anim.enter_from_left, R.anim.exit_to_right);//not required
+//        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+//                R.anim.enter_from_left, R.anim.exit_to_right);//not required
         Bundle bundle = new Bundle();
 
         bundle.putString("key_danetka_danetkaID", danetka_danetkaID);

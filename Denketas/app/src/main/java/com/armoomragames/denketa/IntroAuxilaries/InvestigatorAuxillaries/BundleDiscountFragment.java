@@ -61,9 +61,9 @@ public class BundleDiscountFragment extends Fragment implements View.OnClickList
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.apply:
-                navToPayentDisapprovedFragment();
-                break;
+//            case R.id.apply:
+//                navToPayentDisapprovedFragment();
+//                break;
             case R.id.act_intro_lay_toolbar_rlBack:
                 ((IntroActivity)getActivity()).  onBackPressed();
 
@@ -73,33 +73,10 @@ public class BundleDiscountFragment extends Fragment implements View.OnClickList
 
                 break;
 
-            case R.id.bund:
-                navToPayentApprovedFragment();
-                    break;
+//            case R.id.bund:
+//                navToPayentApprovedFragment();
+//                    break;
         }
-    }
-    private void navToPayentDisapprovedFragment() {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new PaymentFailedFragment();
-//        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-//                R.anim.enter_from_left, R.anim.exit_to_right);//not required
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PaymentFailedFragment);
-        ft.addToBackStack(AppConstt.FragTag.FN_PaymentFailedFragment);
-        ft.hide(this);
-        ft.commit();
-    }
-
-    private void navToPayentApprovedFragment() {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new PaymentApprovedFragment();
-//        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-//                R.anim.enter_from_left, R.anim.exit_to_right);//not required
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PaymentApprovedFragment);
-        ft.addToBackStack(AppConstt.FragTag.FN_PaymentApprovedFragment);
-        ft.hide(this);
-        ft.commit();
     }
 
 }
