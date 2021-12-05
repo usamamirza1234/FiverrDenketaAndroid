@@ -20,7 +20,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.armoomragames.denketa.IntroAuxilaries.InvestigatorAuxillaries.BundleDiscountFragment;
 import com.armoomragames.denketa.IntroAuxilaries.InvestigatorAuxillaries.DenketaInvestigatorQuestionFragment;
+import com.armoomragames.denketa.IntroAuxilaries.InvestigatorAuxillaries.PaymentDetailFragment;
 import com.armoomragames.denketa.IntroAuxilaries.InvestigatorFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DenketaQuestionFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.LearnMoreFragment;
@@ -32,7 +34,6 @@ import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.ExtraRulesFragm
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.GamePlayFragment;
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.RulesFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SplashFragment;
-import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_LogIn;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
@@ -48,7 +49,6 @@ import com.paypal.android.sdk.payments.PaymentConfirmation;
 import org.json.JSONException;
 
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
@@ -148,14 +148,13 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
     }
 
 
-
     private static PayPalConfiguration config = new PayPalConfiguration()
 
             // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
             // or live (ENVIRONMENT_PRODUCTION)
             .environment(PayPalConfiguration.ENVIRONMENT_NO_NETWORK)
 
-            .clientId(clientKey)     .merchantName("Hipster Store")
+            .clientId(clientKey).merchantName("Hipster Store")
             .merchantPrivacyPolicyUri(
                     Uri.parse("https://www.example.com/privacy"))
             .merchantUserAgreementUri(
@@ -163,7 +162,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
 
     @Override
-    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
@@ -177,27 +176,25 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
                     String strResponse = confirm.toJSONObject().toString(4);
 
                     Log.i("paymentExample", strResponse);
-                    CustomToast.showToastMessage(this,"Congragulations! you Paid for Danetka(s). ", Toast.LENGTH_SHORT);
+                    CustomToast.showToastMessage(this, "Congragulations! you Paid for Danetka(s). ", Toast.LENGTH_SHORT);
 
 
                     Gson gson = new Gson();
                     Log.d("LOG_AS", "postSignIn: strResponse" + strResponse);
-                   AppConfig.getInstance().responseObject = gson.fromJson(strResponse, RModel_Paypal.class);
-
-
+                    AppConfig.getInstance().responseObject = gson.fromJson(strResponse, RModel_Paypal.class);
 
 
                 } catch (JSONException e) {
-                    CustomToast.showToastMessage(this,"an extremely unlikely failure occurred: "+e, Toast.LENGTH_SHORT);
+                    CustomToast.showToastMessage(this, "an extremely unlikely failure occurred: " + e, Toast.LENGTH_SHORT);
                     Log.e("paymentExample", "an extremely unlikely failure occurred: ", e);
                 }
             }
         } else if (resultCode == Activity.RESULT_CANCELED) {
             Log.i("paymentExample", "The user canceled.");
-            CustomToast.showToastMessage(this,"The user canceled.: ", Toast.LENGTH_SHORT);
+            CustomToast.showToastMessage(this, "The user canceled.: ", Toast.LENGTH_SHORT);
 
         } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
-            CustomToast.showToastMessage(this,"An invalid Payment or PayPalConfiguration was submitted. Please see the docs. ", Toast.LENGTH_SHORT);
+            CustomToast.showToastMessage(this, "An invalid Payment or PayPalConfiguration was submitted. Please see the docs. ", Toast.LENGTH_SHORT);
             Log.i("paymentExample", "An invalid Payment or PayPalConfiguration was submitted. Please see the docs.");
         }
     }
@@ -412,7 +409,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
     }
 
-    public void navToDenketaQuestionFragment(String name) {
+    public void navToDenketaQuestionFragment(String name,String position) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new DenketaQuestionFragment();
@@ -423,6 +420,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         ft.addToBackStack(AppConstt.FragTag.FN_DenketaQuestionFragment);
         Bundle bundle = new Bundle();
         bundle.putString("key_danetka_name", name);
+        bundle.putString("key_danetka_position", position);
         frag.setArguments(bundle);
         hideLastStackFragment(ft);
 //        ft.hide(this);
@@ -448,7 +446,8 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
     }
 
-    public void navToDenketaInvestigatorQuestionFragment(String name) {
+
+    public void navToDenketaInvestigatorQuestionFragment(String name,String id) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new DenketaInvestigatorQuestionFragment();
@@ -458,16 +457,12 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         ft.addToBackStack(AppConstt.FragTag.FN_DenketaInvestigatorQuestionFragment);
         Bundle bundle = new Bundle();
         bundle.putString("key_danetka_name", name);
+        bundle.putString("key_danetka_id", id);
         frag.setArguments(bundle);
         hideLastStackFragment(ft);
 //        ft.hide(this);
         ft.commit();
     }
-
-
-
-
-
     public void navToRulesFragment() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -540,6 +535,32 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         ft.commit();
     }
 
+    public void navToBundleDiscountFragment(String id) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new BundleDiscountFragment();
+        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+                R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_BundleDiscountFragment);
+        Bundle bundle = new Bundle();
+        bundle.putString("danetkaID",id);
+        frag.setArguments(bundle);
+        ft.addToBackStack(AppConstt.FragTag.FN_BundleDiscountFragment);
+        hideLastStackFragment(ft);
+        ft.commit();
+    }
+
+    public void navToPaymentFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new PaymentDetailFragment();
+        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+                R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PaymentFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_PaymentFragment);
+        hideLastStackFragment(ft);
+        ft.commit();
+    }
 
     public void hideLastStackFragment(FragmentTransaction ft) {
         Fragment frg = null;
@@ -566,6 +587,10 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
             } else if (frg instanceof InvestigatorFragment && frg.isVisible()) {
                 ft.hide(frg);
             } else if (frg instanceof LearnMoreFragment && frg.isVisible()) {
+                ft.hide(frg);
+            } else if (frg instanceof BundleDiscountFragment && frg.isVisible()) {
+                ft.hide(frg);
+            } else if (frg instanceof PaymentDetailFragment && frg.isVisible()) {
                 ft.hide(frg);
             }
 

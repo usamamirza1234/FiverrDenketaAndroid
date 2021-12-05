@@ -95,8 +95,8 @@
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/aladin_regular"
                 android:gravity="center"
-                android:lines="1"
-                android:maxLines="1"
+
+                android:maxLines="2"
                 android:text="Extra Rules"
                 android:textColor="@color/thm_blue_app"
 

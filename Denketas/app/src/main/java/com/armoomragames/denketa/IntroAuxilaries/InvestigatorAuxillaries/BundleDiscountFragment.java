@@ -20,6 +20,7 @@ public class BundleDiscountFragment extends Fragment implements View.OnClickList
     RelativeLayout rlApply;
 
     LinearLayout llBundle;
+    private String strID="";
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,7 +33,11 @@ public class BundleDiscountFragment extends Fragment implements View.OnClickList
     }
 
     private void init() {
-
+        Bundle bundle = getArguments();
+        if (bundle!=null)
+        {
+            strID = bundle.getString("danetkaID");
+        }
     }
 
     private void bindViewss(View frg) {

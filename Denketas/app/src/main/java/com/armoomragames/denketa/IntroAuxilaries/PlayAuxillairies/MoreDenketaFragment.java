@@ -54,7 +54,7 @@ import java.util.ArrayList;
 
 public class MoreDenketaFragment extends Fragment implements View.OnClickListener, IWebPaginationCallback, AbsListView.OnScrollListener  {
     RelativeLayout rlToolbar, rlBack, rlCross;
-    ListView rcvMyDenekta;
+    ListView lsvMoreDenekta;
     String strID ="0";
     EditText edtSearch;
     ImageView imvSearch;
@@ -108,34 +108,21 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
         return frg;
     }
 
-    private Dialog progressDialog;
 
-    private void dismissProgDialog() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
+
+    //region init
+    private static final String KEY_POSITION = "position";
+
+    public static Fragment newInstance(int position) {
+        Fragment frag = new MoreDenketaFragment();
+        Bundle args = new Bundle();
+        args.putInt(KEY_POSITION, position);
+        frag.setArguments(args);
+        return (frag);
     }
-    private void showProgDialog() {
-
-        progressDialog = new Dialog(getActivity(), R.style.AppTheme);
-//        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        progressDialog.setContentView(R.layout.dialog_progress_loading);
-        WindowManager.LayoutParams wmlp = progressDialog.getWindow().getAttributes();
-        wmlp.gravity = Gravity.CENTER | Gravity.CENTER;
-        wmlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        wmlp.height = ViewGroup.LayoutParams.MATCH_PARENT;
-
-        ImageView imageView = progressDialog.findViewById(R.id.img_anim);
-        Glide.with(getContext()).asGif().load(R.raw.loading).into(imageView);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
 
 
-    }
-    private void init()
-    {
+    private void init() {
         lst_MyDenketa = new ArrayList<>();
 
         nFirstVisibleItem = 0;
@@ -151,9 +138,8 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 
 
 
-    private void bindViewss(View frg)
-    {
-        rcvMyDenekta = frg.findViewById(R.id.frg_rcv_my_denketa);
+    private void bindViewss(View frg) {
+        lsvMoreDenekta = frg.findViewById(R.id.frg_rcv_my_denketa);
         edtSearch = frg.findViewById(R.id.frg_more_dankta_edt_search);
         imvSearch = frg.findViewById(R.id.frg_more_dankta_imv_search);
 
@@ -186,11 +172,17 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
         intro_webHit_get_all__danektas.getCategory(this,
                 Intro_WebHit_Get_All_Danektas.mPaginationInfo.currIndex);
     }
+    //endregion
 
+    @Override
+    public void onClick(View v) {
 
+        switch (v.getId()) {
 
+        }
+    }
 
-
+    //region Api and population more danetka
     private void populateAllDanektasData(boolean isSuccess, String strMsg) {
 
         dismissProgDialog();
@@ -210,8 +202,8 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 
                         lst_MyDenketa.add(
                                 new DModel_MyDenketa(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getName(),
-                                Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getId()+"",
-                                Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getImage()));
+                                        Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getId()+"",
+                                        Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getImage()));
 
 
                     }
@@ -225,28 +217,31 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
                                     case EVENT_A:
                                         if (AppConfig.getInstance().mUser.isLoggedIn())
                                         {
-                                         strID =   lst_MyDenketa.get(position).getStrId();
-                                            ((IntroActivity)getActivity()). onBuyPressed();
-                                            if (
-                                                    AppConfig.getInstance().responseObject!=null&&
-                                                    AppConfig.getInstance().responseObject.getResponse()!=null
-                                            )
-                                            {
-                                                if (AppConfig.getInstance().responseObject.getResponse().getState().equalsIgnoreCase("approved"))
-                                                {
-                                                    JsonObject jsonObject = new JsonObject();
-                                                    jsonObject.addProperty("danetkasId", strID.toString());
-                                                    jsonObject.addProperty("create_time", AppConfig.getInstance().responseObject.getResponse().getCreate_time().toString());
-                                                    jsonObject.addProperty("id",AppConfig.getInstance().responseObject.getResponse().getId().toString());
-                                                    jsonObject.addProperty("intent",AppConfig.getInstance().responseObject.getResponse().getIntent().toString());
-                                                    jsonObject.addProperty("state", AppConfig.getInstance().responseObject.getResponse().getState().toString());
-//                                                    jsonObject.addProperty("response_type", strID.toString());
-//                                                    jsonObject.addProperty("environment", strID.toString());
-//                                                    jsonObject.addProperty("platform", strID.toString());
-                                                    requestAddUserDanetkas(jsonObject.toString());
-                                                    strID="0";
-                                                }
-                                            }
+
+//                                            ((IntroActivity)getActivity()).navToBundleDiscountFragment(strID);
+                                            ((IntroActivity)getActivity()).navToDenketaInvestigatorQuestionFragment(lst_MyDenketa.get(position).getStrName(),lst_MyDenketa.get(position).getStrId());
+
+//                                            ((IntroActivity)getActivity()). onBuyPressed();
+//                                            if (
+//                                                    AppConfig.getInstance().responseObject!=null&&
+//                                                            AppConfig.getInstance().responseObject.getResponse()!=null
+//                                            )
+//                                            {
+//                                                if (AppConfig.getInstance().responseObject.getResponse().getState().equalsIgnoreCase("approved"))
+//                                                {
+//                                                    JsonObject jsonObject = new JsonObject();
+//                                                    jsonObject.addProperty("danetkasId", strID.toString());
+//                                                    jsonObject.addProperty("create_time", AppConfig.getInstance().responseObject.getResponse().getCreate_time().toString());
+//                                                    jsonObject.addProperty("id",AppConfig.getInstance().responseObject.getResponse().getId().toString());
+//                                                    jsonObject.addProperty("intent",AppConfig.getInstance().responseObject.getResponse().getIntent().toString());
+//                                                    jsonObject.addProperty("state", AppConfig.getInstance().responseObject.getResponse().getState().toString());
+////                                                    jsonObject.addProperty("response_type", strID.toString());
+////                                                    jsonObject.addProperty("environment", strID.toString());
+////                                                    jsonObject.addProperty("platform", strID.toString());
+//                                                    requestAddUserDanetkas(jsonObject.toString());
+//                                                    strID="0";
+//                                                }
+//                                            }
                                         }
                                         else
                                         {
@@ -257,8 +252,8 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 
                             }
                         }, getActivity(), lst_MyDenketa);
-                        rcvMyDenekta.setAdapter(adapter);
-                        rcvMyDenekta.setOnScrollListener(this);
+                        lsvMoreDenekta.setAdapter(adapter);
+                        lsvMoreDenekta.setOnScrollListener(this);
                     } else {
                         adapter.notifyDataSetChanged();
                     }
@@ -267,7 +262,7 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 ////                        lsvMedicines.setVisibility(View.GONE);
 //                        txvNoData.setVisibility(View.VISIBLE);
 ////                        imvNoData.setVisibility(View.VISIBLE);
-                        rcvMyDenekta.setOnScrollListener(null);
+                        lsvMoreDenekta.setOnScrollListener(null);
                     }
                 }
             } else {
@@ -275,7 +270,7 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 ////                    lsvMedicines.setVisibility(View.GONE);
 //                    txvNoData.setVisibility(View.VISIBLE);
 ////                    imvNoData.setVisibility(View.VISIBLE);
-                    rcvMyDenekta.setOnScrollListener(null);
+                    lsvMoreDenekta.setOnScrollListener(null);
                 }
             }
     }
@@ -299,31 +294,6 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 //                CustomToast.showToastMessage(getActivity(), errorMsg, Toast.LENGTH_SHORT, false);
             }
     }
-
-
-
-
-
-
-
-    private static final String KEY_POSITION = "position";
-
-    public static Fragment newInstance(int position) {
-        Fragment frag = new MoreDenketaFragment();
-        Bundle args = new Bundle();
-        args.putInt(KEY_POSITION, position);
-        frag.setArguments(args);
-        return (frag);
-    }
-
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-
-        }
-    }
-
 
 
     @Override
@@ -399,4 +369,36 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 //            Toast.makeText(getContext(), "Data Found.." + text, Toast.LENGTH_SHORT).show();
         }
     }
+
+    //endregion
+
+    //region progdialog
+    private Dialog progressDialog;
+
+    private void dismissProgDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
+
+    private void showProgDialog() {
+
+        progressDialog = new Dialog(getActivity(), R.style.AppTheme);
+//        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog.setContentView(R.layout.dialog_progress_loading);
+        WindowManager.LayoutParams wmlp = progressDialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER | Gravity.CENTER;
+        wmlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        wmlp.height = ViewGroup.LayoutParams.MATCH_PARENT;
+
+        ImageView imageView = progressDialog.findViewById(R.id.img_anim);
+        Glide.with(getContext()).asGif().load(R.raw.loading).into(imageView);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+
+    }
+    //endregion
 }

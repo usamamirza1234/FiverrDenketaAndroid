@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.R;
 
-public class PaymentFragment extends Fragment implements View.OnClickListener {
+public class PaymentDetailFragment extends Fragment implements View.OnClickListener {
     RelativeLayout rlToolbar, rlBack, rlCross;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

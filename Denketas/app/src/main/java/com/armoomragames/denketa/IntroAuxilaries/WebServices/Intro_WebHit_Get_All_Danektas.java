@@ -22,7 +22,12 @@ public class Intro_WebHit_Get_All_Danektas {
     public static DModel_PaginationInfo mPaginationInfo = new DModel_PaginationInfo();
 
     public void getCategory(final IWebPaginationCallback iWebPaginationCallback, final int _index)  {
-        String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.fetchDanetkas;
+        String myUrl="";
+        if (AppConfig.getInstance().mUser.isLoggedIn())
+             myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.fetchDanetkas;
+        else
+             myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.fetchAllDanetkas;
+
 
         RequestParams params = new RequestParams();
 

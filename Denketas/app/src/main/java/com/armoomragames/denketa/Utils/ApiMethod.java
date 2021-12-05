@@ -19,6 +19,7 @@ public interface ApiMethod {
 
         String addDanetkas ="add/user/danetkas" ;
         String fetchDanetkas ="fetch/danetkas" ;
+        String fetchAllDanetkas ="fetch/all/danetkas" ;
 
     }
 

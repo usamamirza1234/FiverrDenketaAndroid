@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.IAdapterCallback;
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class MoreDenketaLsvAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
 
             viewHolder.txvName  = convertView.findViewById(R.id.lay_item_my_denekta_txvName);
-            viewHolder.imvResults = convertView.findViewById(R.id.imv);
+            viewHolder.imvDanetka = convertView.findViewById(R.id.imv);
 
 
 
@@ -74,11 +75,10 @@ public class MoreDenketaLsvAdapter extends BaseAdapter {
 
         viewHolder.txvName.setText(mData.get(position).getStrName());
 
+        Glide.with(context)
+                .load("http://18.118.228.171:2000/images/"+mData.get(position).getStrImage())
+                .into(viewHolder.imvDanetka);
 
-        Picasso.get()
-                .load(mData.get(position).getStrImage())
-                .placeholder(R.drawable.ic_user_placeholder)
-                .into(  viewHolder.imvResults);
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +91,7 @@ public class MoreDenketaLsvAdapter extends BaseAdapter {
 
     class ViewHolder {
         TextView txvName;
-        ImageView imvResults;
+        ImageView imvDanetka;
     }
 
 

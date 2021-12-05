@@ -1,7 +1,9 @@
 package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,11 @@ import android.widget.TextView;
 
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.IAdapterCallback;
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MyDenketaLsvAdapter extends BaseAdapter {
@@ -62,7 +68,7 @@ public class MyDenketaLsvAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
 
             viewHolder.txvName  = convertView.findViewById(R.id.lay_item_my_denekta_txvName);
-            viewHolder.imvResults = convertView.findViewById(R.id.lay_item_my_denekta_imvResults);
+            viewHolder.imvDanetka = convertView.findViewById(R.id.imvDanetka);
 
 
 
@@ -73,16 +79,24 @@ public class MyDenketaLsvAdapter extends BaseAdapter {
 
         viewHolder.txvName.setText(mData.get(position).getStrName());
         convertView.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_A,position ));
-        viewHolder.imvResults.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_B,position ));
 
+        Log.d("LOG_AS", "getView: "+mData.get(position).getStrImage());
+//        Picasso.get()
+//                .load(mData.get(position).getStrImage())
+//                .into( viewHolder.imvDanetka);
+//
+
+
+        Glide.with(context)
+                .load("http://18.118.228.171:2000/images/"+mData.get(position).getStrImage())
+                .into(viewHolder.imvDanetka);
         return convertView;
     }
 
     class ViewHolder {
         TextView txvName;
-        ImageView imvResults;
+        ImageView imvDanetka;
     }
-
 
     public void filterList(ArrayList<DModel_MyDenketa> filterllist) {
         // below line is to add our filtered

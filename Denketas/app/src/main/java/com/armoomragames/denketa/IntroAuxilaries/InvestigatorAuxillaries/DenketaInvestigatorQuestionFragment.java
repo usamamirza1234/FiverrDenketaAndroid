@@ -1,6 +1,5 @@
 package com.armoomragames.denketa.IntroAuxilaries.InvestigatorAuxillaries;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.IntroActivity;
-import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DenketaAnswerFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameResultsFragment;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
@@ -29,6 +27,7 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
     IBadgeUpdateListener mBadgeUpdateListener;
     Bundle bundle;
     String danetka_name = "";
+    String danetka_id = "";
     TextView txvDanetkaName;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,8 +46,9 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
         bundle = this.getArguments();
         if (bundle != null) {
             danetka_name = bundle.getString("key_danetka_name");
-        }
+            danetka_id = bundle.getString("key_danetka_id");
 
+        }
     }
 
 
@@ -57,6 +57,7 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
     private void bindViews(View frg) {
 
         llSeeAnswer = frg.findViewById(R.id.frg_denketa_question_llSeeAnswer);
+        txvDanetkaName = frg.findViewById(R.id.frg_my_results_txv_danetkaname);
         llPaynow = frg.findViewById(R.id.frg_denketa_question_llBuyNow);
         llBundleDiscount = frg.findViewById(R.id.frg_denketa_question_llBundleDiscount);
         rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
@@ -69,6 +70,11 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
         llSeeAnswer.setOnClickListener(this);
         llPaynow.setOnClickListener(this);
         llBundleDiscount.setOnClickListener(this);
+
+
+
+
+
     }
 
 
@@ -90,9 +96,10 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
 
             case R.id.frg_denketa_question_llBundleDiscount:
                 navToBundleDiscountFragment();
+
                 break;
             case R.id.frg_denketa_question_llBuyNow:
-                navToPaymentFragment();
+                navToPaymentDetailFragment();
                 break;
 
         }
@@ -121,18 +128,18 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
         ft.addToBackStack(AppConstt.FragTag.FN_BundleDiscountFragment);
         ft.hide(this);
         ft.commit();
-    }
-
-    private void navToPaymentFragment() {
+    }    private void navToPaymentDetailFragment() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new PaymentFragment();
+        Fragment frag = new PaymentDetailFragment();
         ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
                 R.anim.enter_from_left, R.anim.exit_to_right);//not required
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PaymentFragment);
-        ft.addToBackStack(AppConstt.FragTag.FN_PaymentFragment);
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PaymentDetailFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_PaymentDetailFragment);
         ft.hide(this);
         ft.commit();
     }
+
+
 
 }

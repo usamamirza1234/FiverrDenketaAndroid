@@ -55,6 +55,7 @@ public class FaqListAdapter extends RecyclerView.Adapter<FaqListAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         holder.txv_word.setText(mData.get(position).getWord());
+        holder.txvDetails.setText(mData.get(position).getMeaning());
 
         holder.imvExtended.setOnClickListener(v -> {
             iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_A, position);
@@ -80,6 +81,7 @@ public class FaqListAdapter extends RecyclerView.Adapter<FaqListAdapter.ViewHold
         RelativeLayout rlParent,rlBottom;
         ImageView imvExtended;
         TextView txv_word;
+        TextView txvDetails;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -92,6 +94,7 @@ public class FaqListAdapter extends RecyclerView.Adapter<FaqListAdapter.ViewHold
            rlBottom = itemView.findViewById(R.id.lay_dictionary_rlBottom);
             imvExtended = itemView.findViewById(R.id.lay_dictionary_ll_extended);
            txv_word = itemView.findViewById(R.id.lay_dictionary_txv_word);
+            txvDetails = itemView.findViewById(R.id.txvDetails);
 
         }
     }

@@ -45,12 +45,12 @@ public class ContactFragment extends Fragment implements View.OnClickListener {
 
         bindViews(frg);
 
-        Animation shake;
-        shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
-
-
-        TextView txvPlay = frg.findViewById(R.id.frg_presigin_txvPlay);
-        txvPlay.startAnimation(shake); // starts animation
+//        Animation shake;
+//        shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
+//
+//
+//        TextView txvPlay = frg.findViewById(R.id.frg_presigin_txvPlay);
+//        txvPlay.startAnimation(shake); // starts animation
 
         init();
         return frg;

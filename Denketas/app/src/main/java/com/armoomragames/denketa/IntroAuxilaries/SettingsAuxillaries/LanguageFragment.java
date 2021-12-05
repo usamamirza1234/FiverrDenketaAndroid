@@ -25,13 +25,13 @@ public class LanguageFragment extends Fragment implements View.OnClickListener {
 
 
         bindViews(frg);
+//
+//        Animation shake;
+//        shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
 
-        Animation shake;
-        shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
 
-
-        TextView txvPlay = frg.findViewById(R.id.frg_presigin_txvPlay);
-        txvPlay.startAnimation(shake); // starts animation
+//        TextView txvPlay = frg.findViewById(R.id.frg_presigin_txvPlay);
+//        txvPlay.startAnimation(shake); // starts animation
 
         init();
         return frg;

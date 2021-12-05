@@ -131,10 +131,10 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
         rlBack.setOnClickListener(this);
         rlCross.setOnClickListener(this);
-        Animation shake;
-        shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
-        TextView txvPlay = frg.findViewById(R.id.frg_presigin_txvPlay);
-        txvPlay.startAnimation(shake); // starts animation
+//        Animation shake;
+//        shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
+//        TextView txvPlay = frg.findViewById(R.id.frg_presigin_txvPlay);
+//        txvPlay.startAnimation(shake); // starts animation
 
         llFB = frg.findViewById(R.id.frg_my_account_llFB);
         llGoogle = frg.findViewById(R.id.frg_my_account_llGoogle);

@@ -74,8 +74,7 @@
 
             android:background="@null"
 
-            android:text="Still have questions?
-"
+            android:text="Still have questions?"
 
 
             android:textColor="@color/black"
@@ -85,6 +84,7 @@
             android:textSize="@dimen/fontsize_small" />
 
         <TextView
+            android:id="@+id/txvContactus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
