@@ -158,22 +158,26 @@
             </RelativeLayout>
 
 
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical"
                 android:padding="10dp">
+
                 <Spinner
-                    android:id="@+id/frg_completeProfile_spinerGender"
+                    android:id="@+id/frg_signup_cmplt_spinr_gender"
+
                     style="@style/spinner_style"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edttext_height_medium"
                     android:popupBackground="@color/white"
 
                     />
+
                 <TextView
-                    android:id="@+id/frg_profile_edtgender"
+                    android:id="@+id/frg_signup_cmplt_spinr_txvGend"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/edttext_height_medium"
                     android:layout_alignParentStart="true"
@@ -184,16 +188,13 @@
                     android:paddingEnd="50dp"
                     android:lines="1"
                     android:paddingBottom="@dimen/edttext_font_padding"
-                    android:text=""
+                    android:text="xyz"
                     android:textAlignment="viewStart"
-
+                    android:clickable="false"
                     android:textColor="@color/thm_blue_app"
                     android:textColorHint="@color/thm_gray_app"
                     android:textSize="@dimen/fontsize_small"
-   />
-
-
-
+                    />
 
                 <View
                     android:layout_width="match_parent"
@@ -204,7 +205,6 @@
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp" />
             </RelativeLayout>
-
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -237,7 +237,7 @@
                     android:paddingBottom="@dimen/edttext_font_padding"
                     android:text="xyz"
                     android:textAlignment="viewStart"
-
+                    android:clickable="false"
                     android:textColor="@color/thm_blue_app"
                     android:textColorHint="@color/thm_gray_app"
                     android:textSize="@dimen/fontsize_small"

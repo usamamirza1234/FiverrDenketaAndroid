@@ -37,6 +37,13 @@
             {
               "client_id": "97905994585-04sfigdvqvfto9gsvuqqrrsnggs1nh88.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "97905994585-91ji73pikjd1v94js08jaa9lnasatifh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.armoomragames.denketa"
+              }
             }
           ]
         }

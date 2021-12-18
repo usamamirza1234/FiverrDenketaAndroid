@@ -25,10 +25,13 @@ import java.util.ArrayList;
 import static com.armoomragames.denketa.Utils.IAdapterCallback.EVENT_A;
 
 public class DictionaryFragment extends Fragment implements View.OnClickListener {
-    ArrayList<DModelDictionary> lst_Funds;
-    RecyclerView lsvDictionary;
+
+
     IBadgeUpdateListener mBadgeUpdateListener;
     DictionaryRCVAdapter dictionaryRCVAdapter = null;
+    RecyclerView lsvDictionary;
+    ArrayList<DModelDictionary> lst_Funds;
+
     ImageView imvSearch;
     EditText edt_Search;
     RelativeLayout rlToolbar, rlBack, rlCross;

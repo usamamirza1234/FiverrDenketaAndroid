@@ -3,11 +3,11 @@
     <!--region Application-->
     <string name="app_name">Danetkas</string>
 
-<!--    <string name="facebook_app_id">282369060471206</string>-->
-<!--    <string name="fb_login_protocol_scheme">fb282369060471206</string>-->
+    <string name="facebook_app_id">273576737957121</string>
+    <string name="fb_login_protocol_scheme">fb273576737957121</string>
 
-    <string name="facebook_app_id">608972723852676</string>
-    <string name="fb_login_protocol_scheme">fb608972723852676</string>
+<!--    <string name="facebook_app_id">608972723852676</string>
+    <string name="fb_login_protocol_scheme">fb608972723852676</string>-->
 
 
     <string name="goole_maps_key">AIzaSyCczk1b8_C7NOm-ZXkj76y6fjBixUTV5qI</string>

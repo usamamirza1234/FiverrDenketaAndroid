@@ -2,8 +2,6 @@ package com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,15 +35,12 @@ import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.IWebCallback;
 import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
-import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
-import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -61,7 +54,6 @@ import com.google.gson.JsonObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.Signature;
 import java.util.Arrays;
 
 public class SignUpFragment extends Fragment implements View.OnClickListener {
@@ -81,7 +73,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     private Dialog progressDialog;
 
 
-    private String TAG ="LoginActivity";
+    private final String TAG = "LoginActivity";
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -234,7 +226,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    private void requestUserRegisterSocail(String _signUpEntity,String name) {
+    private void requestUserRegisterSocail(String _signUpEntity, String name) {
         showProgDialog();
         Intro_WebHit_Post_SignUp intro_webHit_post_signUp = new Intro_WebHit_Post_SignUp();
         intro_webHit_post_signUp.postSignIn(getContext(), new IWebCallback() {
@@ -272,7 +264,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 } else {
                     dismissProgDialog();
 
-                    requestUserSiginSocial(_signUpEntity,name);
+                    requestUserSiginSocial(_signUpEntity, name);
 //                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
 //                    Toast.makeText(getActivity(), strMsg, Toast.LENGTH_SHORT).show();
 //                    AppConfig.getInstance().showErrorMessage(getContext(), strMsg);
@@ -289,7 +281,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         }, _signUpEntity);
     }
 
-    private void requestUserSiginSocial(String _signUpEntity,String name) {
+    private void requestUserSiginSocial(String _signUpEntity, String name) {
         showProgDialog();
         Intro_WebHit_Post_LogIn intro_webHit_post_logIn = new Intro_WebHit_Post_LogIn();
         intro_webHit_post_logIn.postSignIn(getContext(), new IWebCallback() {
@@ -382,90 +374,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 googleSignIn();
                 break;
             case R.id.frg_my_account_llFB:
-                callbackManager = CallbackManager.Factory.create();
-//                llFB.setReadPermissions(Arrays.asList(EMAIL));
-                LoginManager.getInstance().registerCallback(callbackManager,
-                        new FacebookCallback<LoginResult>() {
-                            @Override
-                            public void onSuccess(LoginResult loginResult) {
-                                // App code
-                                Log.i("LoginActivity", "FB Login Success");
-//                                final AccessToken accessToken = loginResult.getAccessToken();
-
-//                                GraphRequestAsyncTask request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
-//                                    @Override
-//                                    public void onCompleted(JSONObject user, GraphResponse graphResponse) {
-//                                        Log.d(TAG, user.optString("email"));
-//                                        Log.d(TAG, user.optString("name"));
-//                                        Log.d(TAG, user.optString("id"));
-//                                        Log.d(TAG, user.toString());
-//
-//                                        requestSocial( user.optString("id")+"@facebook.com", user.optString("name"));
-//                                    }
-//                                });
-
-
-                                AccessToken accessToken = loginResult.getAccessToken();
-                                Profile profile = Profile.getCurrentProfile();
-
-                                // Facebook Email address
-                                GraphRequest request = GraphRequest.newMeRequest(
-                                        loginResult.getAccessToken(),
-                                        new GraphRequest.GraphJSONObjectCallback() {
-                                            @Override
-                                            public void onCompleted(
-                                                    JSONObject object,
-                                                    GraphResponse response) {
-                                                Log.v("LoginActivity Response ", response.toString());
-                                                String Name,FEmail;
-
-                                                try {
-                                                    Name = object.getString("name");
-
-                                                    FEmail = object.getString("email");
-                                                    Log.v("Email = ", " " + FEmail);
-//                                                    CustomToast.showToastMessage(getActivity(), "Name " + Name, Toast.LENGTH_LONG);
-
-
-                                                    requestSocial( FEmail, Name);
-
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        });
-                                Bundle parameters = new Bundle();
-                                parameters.putString("fields", "id,name,email,gender, birthday");
-                                request.setParameters(parameters);
-                                request.executeAsync();
-
-
-
-                            }
-
-                            @Override
-                            public void onCancel() {
-                                // App code
-                                Log.i("LoginActivity", "FB Login Cancel");
-                                LoginManager.getInstance().logOut();
-                                Toast.makeText(getContext(), "Cancel", Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onError(FacebookException exception) {
-                                // App code
-                                Log.i("LoginActivity", "FB Login Error");
-                                Toast.makeText(getContext(), "error_login", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-
-                AccessToken accessToken = AccessToken.getCurrentAccessToken();
-                boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-
-
-                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email"));
-
+                signUpFaceBook();
                 break;
             case R.id.frg_signup_txv_guest:
                 AppConfig.getInstance().mUser.setGuest(true);
@@ -574,10 +483,9 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
             acct = GoogleSignIn.getLastSignedInAccount(getActivity());
             Log.d("LOG_AS", "Google Obj : " + acct.getId());
 
-            if (acct != null)
-            {
+            if (acct != null) {
 
-                requestSocial(acct.getEmail(),"");
+                requestSocial(acct.getEmail(), "");
 
             }
 
@@ -592,12 +500,11 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void requestSocial(String EMAIL,String name){
+    public void requestSocial(String EMAIL, String name) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("email", EMAIL);
-//                jsonObject.addProperty("password", edtPassword.getText().toString());
         jsonObject.addProperty("userType", "social");
-        requestUserRegisterSocail(jsonObject.toString(),name);
+        requestUserRegisterSocail(jsonObject.toString(), name);
     }
 
     //endregion
@@ -773,7 +680,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 //    }
 
 
-//
+    //
 //    private boolean checkNameErrorCondition() {
 //        if (edtName.getText().toString().isEmpty()) {
 //            AppConfig.getInstance().showErrorMessage(getContext(), "Empty name field");
@@ -816,7 +723,72 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 //                calendar.get(Calendar.DAY_OF_MONTH)).show();
 //    }
     //endregion
+    private void signUpFaceBook() {
+        callbackManager = CallbackManager.Factory.create();
 
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+
+                        Log.i("LoginActivity", "FB Login Success");
+
+
+                        AccessToken accessToken = loginResult.getAccessToken();
+                        Profile profile = Profile.getCurrentProfile();
+
+                        // Facebook Email address
+                        GraphRequest request = GraphRequest.newMeRequest(
+                                loginResult.getAccessToken(),
+                                new GraphRequest.GraphJSONObjectCallback() {
+                                    @Override
+                                    public void onCompleted(
+                                            JSONObject object,
+                                            GraphResponse response) {
+                                        Log.v("LoginActivity Response ", response.toString());
+                                        String Name, FEmail;
+
+                                        try {
+                                            Name = object.getString("name");
+                                            FEmail = object.getString("email");
+                                            requestSocial(FEmail, Name);
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                        Bundle parameters = new Bundle();
+                        parameters.putString("fields", "id,name,email,gender, birthday");
+                        request.setParameters(parameters);
+                        request.executeAsync();
+
+
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // App code
+                        Log.i("LoginActivity", "FB Login Cancel");
+                        LoginManager.getInstance().logOut();
+                        Toast.makeText(getContext(), "Cancel", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        // App code
+                        Log.i("LoginActivity", "FB Login Error");
+                        Toast.makeText(getContext(), "error_login", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+
+
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email"));
+    }
 
 
 }

@@ -18,8 +18,12 @@ public interface ApiMethod {
         String addProfile ="add/user/profile" ;
 
         String addDanetkas ="add/user/danetkas" ;
+        String addCustomDanetkas ="add/danetkas" ;
         String fetchDanetkas ="fetch/danetkas" ;
         String fetchAllDanetkas ="fetch/all/danetkas" ;
+        String contactUs ="contactUs" ;
+        String verifyAndUpdate ="verifyAndUpdate" ;
+        String forgotPassword ="forgotPassword" ;
 
     }
 

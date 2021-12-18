@@ -1,28 +1,30 @@
 package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
 
 import android.app.Dialog;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
+import com.armoomragames.denketa.IntroAuxilaries.ResultsAdapter;
+import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.ForgotPasswordFragment;
 import com.armoomragames.denketa.R;
-import com.armoomragames.denketa.Utils.CustomToast;
-import com.bumptech.glide.Glide;
+import com.armoomragames.denketa.Utils.AppConstt;
+
+import java.util.ArrayList;
+
+import static com.armoomragames.denketa.Utils.IAdapterCallback.EVENT_A;
 
 public class MyResultsFragment extends Fragment implements View.OnClickListener {
 
@@ -30,31 +32,31 @@ public class MyResultsFragment extends Fragment implements View.OnClickListener 
     Bundle bundle;
     String danetka_name = "";
     TextView txvDanetkaName;
-    LinearLayout llDetails, llNoResults, llNewResults, llEditdetails, llAddResult;
+    LinearLayout llAddResult, llNoResults;
     ImageView imvAddResults;
-    TextView txvUsed, txvMaster, txvInvestigator, txvTime, txvDate;
-    EditText edtUsed, edtMaster, edtInvestigator, edtTime;
-    LinearLayout llSaveResult, llSavedResults;
+
+
+    ResultsAdapter resultsAdapter = null;
+    RecyclerView rcvResults;
+    ArrayList<DModelResults> lst_results;
+
     private Dialog progressDialog;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View frg = inflater.inflate(R.layout.fragment_my_results, container, false);
 
         init();
         bindViewss(frg);
 
         setStates();
+        populatePopulationList();
 
         return frg;
     }
 
     private void setStates() {
         txvDanetkaName.setText(danetka_name);
-        llDetails.setVisibility(View.GONE);
-        llEditdetails.setVisibility(View.GONE);
-        llNoResults.setVisibility(View.VISIBLE);
-        llNewResults.setVisibility(View.GONE);
+
     }
 
     private void init() {
@@ -62,6 +64,8 @@ public class MyResultsFragment extends Fragment implements View.OnClickListener 
         if (bundle != null) {
             danetka_name = bundle.getString("key_danetka_name");
         }
+
+        lst_results = new ArrayList<>();
     }
 
     private void bindViewss(View frg) {
@@ -71,37 +75,50 @@ public class MyResultsFragment extends Fragment implements View.OnClickListener 
 
         txvDanetkaName = frg.findViewById(R.id.frg_my_results_txv_danetkaname);
 
-        llDetails = frg.findViewById(R.id.frg_my_results_ll_details);
+
+        rcvResults = frg.findViewById(R.id.frg_lsv_results);
         llNoResults = frg.findViewById(R.id.frg_my_results_ll_NoResults);
-        llNewResults = frg.findViewById(R.id.frg_my_results_ll_NewResults);
-        llEditdetails = frg.findViewById(R.id.frg_my_results_ll_Editdetails);
+
         imvAddResults = frg.findViewById(R.id.frg_my_results_imv_AddResults);
         llAddResult = frg.findViewById(R.id.frg_my_results_ll_AddResults);
 
-        llSavedResults = frg.findViewById(R.id.frg_my_results_ll_saved_results);
-        llSaveResult = frg.findViewById(R.id.frg_my_results_ll_save_results);
-
-
-        txvUsed = frg.findViewById(R.id.frg_my_results_txv_used);
-        txvDate = frg.findViewById(R.id.frg_my_results_txv_date);
-        txvTime = frg.findViewById(R.id.frg_my_results_txv_time);
-        txvMaster = frg.findViewById(R.id.frg_my_results_txv_master);
-        txvInvestigator = frg.findViewById(R.id.frg_my_results_txv_invest);
-
-
-        edtUsed = frg.findViewById(R.id.frg_my_results_edt_used);
-        edtTime = frg.findViewById(R.id.frg_my_results_edt_time);
-        edtMaster = frg.findViewById(R.id.frg_my_results_edt_master);
-        edtInvestigator = frg.findViewById(R.id.frg_my_results_edt_invest);
 
         rlBack.setOnClickListener(this);
         rlCross.setOnClickListener(this);
         imvAddResults.setOnClickListener(this);
-        llSaveResult.setOnClickListener(this);
-        llEditdetails.setOnClickListener(this);
+
 
     }
 
+    private void populatePopulationList() {
+
+        lst_results.add(new DModelResults("Usama", "Mirza", "10", "10", "10"));
+        lst_results.add(new DModelResults("Ali", "Usama", "10", "10", "10"));
+        lst_results.add(new DModelResults("Mirza", "Usama", "10", "10", "10"));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+
+        if (resultsAdapter == null) {
+            resultsAdapter = new ResultsAdapter(getActivity(), lst_results, (eventId, position) -> {
+
+                switch (eventId) {
+                    case EVENT_A:
+
+                        break;
+                }
+            });
+
+
+            rcvResults.setLayoutManager(linearLayoutManager);
+            rcvResults.setAdapter(resultsAdapter);
+
+        } else {
+            resultsAdapter.notifyDataSetChanged();
+        }
+        if (lst_results.size() <= 0) {
+            llNoResults.setVisibility(View.VISIBLE);
+        }
+
+    }
 
     @Override
     public void onClick(View v) {
@@ -116,79 +133,23 @@ public class MyResultsFragment extends Fragment implements View.OnClickListener 
 
                 break;
             case R.id.frg_my_results_imv_AddResults:
-                llNoResults.setVisibility(View.GONE);
-                llAddResult.setVisibility(View.GONE);
-                llNewResults.setVisibility(View.VISIBLE);
-
-                break;
-            case R.id.frg_my_results_ll_Editdetails:
-                llNoResults.setVisibility(View.GONE);
-                llAddResult.setVisibility(View.GONE);
-                llNewResults.setVisibility(View.VISIBLE);
-                llSavedResults.setVisibility(View.GONE);
-                llSaveResult.setVisibility(View.VISIBLE);
-
+                navToAddResultFragment();
                 break;
 
 
-            case R.id.frg_my_results_ll_save_results:
-
-                AppConfig.getInstance().closeKeyboard(getActivity());
-                if (!edtInvestigator.getText().toString().equals("") && !edtMaster.getText().toString().equals("")
-                        && !edtTime.getText().toString().equals("")
-                        && !edtUsed.getText().toString().equals("")) {
-
-
-                    llSavedResults.setVisibility(View.VISIBLE);
-                    llSaveResult.setVisibility(View.GONE);
-
-                    showProgDialog();
-                    new Handler().postDelayed(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            //do something
-                            dismissProgDialog();
-                            txvMaster.setText(edtMaster.getText().toString());
-                            txvInvestigator.setText(edtInvestigator.getText().toString());
-                            txvUsed.setText(edtUsed.getText().toString());
-                            txvTime.setText(edtTime.getText().toString());
-                            txvDate.setText(edtTime.getText().toString());
-                            llEditdetails.setVisibility(View.VISIBLE);
-                            llDetails.setVisibility(View.VISIBLE);
-                            llNewResults.setVisibility(View.GONE);
-                            llAddResult.setVisibility(View.VISIBLE);
-                        }
-                    }, 2000);//time in milisecond
-                } else
-                    CustomToast.showToastMessage(getActivity(), "Please fill all fields", Toast.LENGTH_LONG);
-                break;
         }
     }
 
-    private void dismissProgDialog() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
-    }
-
-    private void showProgDialog() {
-
-        progressDialog = new Dialog(getActivity(), R.style.AppTheme);
-//        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        progressDialog.setContentView(R.layout.dialog_progress_loading);
-        WindowManager.LayoutParams wmlp = progressDialog.getWindow().getAttributes();
-        wmlp.gravity = Gravity.CENTER | Gravity.CENTER;
-        wmlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        wmlp.height = ViewGroup.LayoutParams.MATCH_PARENT;
-
-        ImageView imageView = progressDialog.findViewById(R.id.img_anim);
-        Glide.with(getContext()).asGif().load(R.raw.loading).into(imageView);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-
-
+    private void navToAddResultFragment() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new AddResultsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("key_danetka_name", txvDanetkaName.getText().toString());
+        frag.setArguments(bundle);
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_AddResultFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_AddResultFragment);
+        ft.hide(this);
+        ft.commit();
     }
 }

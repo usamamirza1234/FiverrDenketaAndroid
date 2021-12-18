@@ -31,9 +31,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.armoomragames.denketa.AppConfig;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddUserCustomsDanetkas;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_Contactus;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.CustomToast;
+import com.armoomragames.denketa.Utils.IWebCallback;
 import com.bumptech.glide.Glide;
+import com.google.gson.JsonObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -136,16 +140,13 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
 
                 if (!edtTitle.getText().toString().equals("") && !edtRidle.getText().toString().equals("") && !edtAns.getText().toString().equals("")) {
                     showProgDialog();
-                    new Handler().postDelayed(new Runnable() {
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("title", edtTitle.getText().toString());
+                    jsonObject.addProperty("question", edtRidle.getText().toString());
+                    jsonObject.addProperty("answer", edtAns.getText().toString());
 
-                        @Override
-                        public void run() {
-                            //do something
-                            dismissProgDialog();
-                            llSubmit.setBackground(getActivity().getResources().getDrawable(R.drawable.shp_rect_rounded_app_green));
-                            txvSubmit.setText("Submitted");
-                        }
-                    }, 5000);//time in milisecond
+                    requestAddCustomDanteka(jsonObject.toString());
+
                 } else
                     CustomToast.showToastMessage(getActivity(), "Please fill all fields", Toast.LENGTH_LONG);
 
@@ -175,6 +176,33 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
                     CustomToast.showToastMessage(getActivity(), "Maximum Added", Toast.LENGTH_LONG);
                 break;
         }
+    }
+
+    private void requestAddCustomDanteka(String toString)
+    {
+
+
+        Intro_WebHit_Post_AddUserCustomsDanetkas intro_webHit_post_addUserCustomsDanetkas = new Intro_WebHit_Post_AddUserCustomsDanetkas();
+        intro_webHit_post_addUserCustomsDanetkas.postCustomDanetka(getContext(), new IWebCallback() {
+            @Override
+            public void onWebResult(boolean isSuccess, String strMsg) {
+                if (isSuccess) {
+                    dismissProgDialog();
+                    CustomToast.showToastMessage(getActivity(),"Added Soon!", Toast.LENGTH_SHORT);
+                    llSubmit.setBackground(getActivity().getResources().getDrawable(R.drawable.shp_rect_rounded_app_green));
+                    txvSubmit.setText("Submitted");
+                } else {
+                    dismissProgDialog();
+                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
+                }
+            }
+
+            @Override
+            public void onWebException(Exception ex) {
+                dismissProgDialog();
+                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
+            }
+        }, toString);
     }
 
 
