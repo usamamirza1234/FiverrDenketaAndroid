@@ -1,0 +1,7 @@
+Client ID
+97905994585-ovb22g4l12gvdv3g5h0ra9ns0048lfig.apps.googleusercontent.com
+
+
+Client Secret
+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
+
