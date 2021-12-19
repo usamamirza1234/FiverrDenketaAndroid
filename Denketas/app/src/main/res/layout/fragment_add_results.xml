@@ -132,7 +132,7 @@
                         android:textSize="@dimen/fontsize_small"
                         android:textStyle="bold" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/frg_my_results_edt_master"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/button_height_large"
@@ -229,19 +229,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/button_height_large"
                         android:layout_alignParentEnd="true"
-                        android:layout_centerInParent="true"
+                        android:layout_centerHorizontal="true"
                         android:background="@null"
                         android:cursorVisible="true"
-                        android:textCursorDrawable="@null"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
+                        android:hint="type here.."
+                        android:inputType="number"
                         android:paddingStart="25dp"
                         android:paddingEnd="25dp"
-                        android:hint="type here.."
 
                         android:textColor="@color/black"
-                        android:textSize="@dimen/fontsize_small"
-                        />
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/fontsize_small" />
                 </RelativeLayout>
 
                 <View
@@ -277,6 +277,7 @@
                         android:layout_height="@dimen/button_height_large"
                         android:layout_alignParentEnd="true"
                         android:layout_centerInParent="true"
+                        android:inputType="time"
                         android:background="@null"
                         android:cursorVisible="true"
                         android:textCursorDrawable="@null"

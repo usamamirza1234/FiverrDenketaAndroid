@@ -5,13 +5,16 @@ import android.content.Context;
 import android.util.Log;
 
 import com.armoomragames.denketa.AppConfig;
+import com.armoomragames.denketa.IntroAuxilaries.DModelCustomDanetka;
 import com.armoomragames.denketa.Utils.ApiMethod;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IWebCallback;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
+import java.io.FileNotFoundException;
 import java.nio.charset.StandardCharsets;
 
 import cz.msebera.android.httpclient.Header;
@@ -25,17 +28,33 @@ public class Intro_WebHit_Post_AddUserCustomsDanetkas {
     public Context mContext;
 
     public void postCustomDanetka(Context context, final IWebCallback iWebCallback,
-                           final String _signInEntity) {
+                                  DModelCustomDanetka dModelCustomDanetka) {
         mContext = context;
         String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.addCustomDanetkas ;
-        Log.d("LOG_AS", "postCustomDanetka: " + myUrl + _signInEntity);
-        StringEntity entity = null;
-        entity = new StringEntity(_signInEntity, "UTF-8");
+
         mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS);
         mClient.addHeader(ApiMethod.HEADER.Authorization, AppConfig.getInstance().mUser.getAuthorization());
 
 
-        mClient.post(mContext, myUrl, entity, "application/json", new AsyncHttpResponseHandler() {
+
+        RequestParams params = new RequestParams();
+        try {
+            params.put("image", dModelCustomDanetka.getImage(), "image/jpeg");
+            params.put("answerImage", dModelCustomDanetka.getAnswerImage(), "image/jpeg");
+            params.put("title", dModelCustomDanetka.getTitle());
+            params.put("answer", dModelCustomDanetka.getAnswer());
+            params.put("hint", dModelCustomDanetka.getHint());
+            params.put("question", dModelCustomDanetka.getQuestion());
+            params.put("learnMore", dModelCustomDanetka.getLearnMore());
+            params.put("masterId", dModelCustomDanetka.getMasterId());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        Log.d("LOG_AS", "postCustomDanetka: " + myUrl +params);
+
+        mClient.post(myUrl, params,  new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                         String strResponse;
@@ -92,16 +111,34 @@ public class Intro_WebHit_Post_AddUserCustomsDanetkas {
 
         public class Data
         {
+            private String masterId;
+
             private boolean status;
 
             private int id;
 
-            private int userId;
+            private String title;
 
-            private String danetkasId;
+            private String hint;
+
+            private String answer;
+
+            private String question;
+
+            private String image;
+
+            private String answerImage;
+
+            private String learnMore;
 
             private int updatedTime;
 
+            public void setMasterId(String masterId){
+                this.masterId = masterId;
+            }
+            public String getMasterId(){
+                return this.masterId;
+            }
             public void setStatus(boolean status){
                 this.status = status;
             }
@@ -114,17 +151,47 @@ public class Intro_WebHit_Post_AddUserCustomsDanetkas {
             public int getId(){
                 return this.id;
             }
-            public void setUserId(int userId){
-                this.userId = userId;
+            public void setTitle(String title){
+                this.title = title;
             }
-            public int getUserId(){
-                return this.userId;
+            public String getTitle(){
+                return this.title;
             }
-            public void setDanetkasId(String danetkasId){
-                this.danetkasId = danetkasId;
+            public void setHint(String hint){
+                this.hint = hint;
             }
-            public String getDanetkasId(){
-                return this.danetkasId;
+            public String getHint(){
+                return this.hint;
+            }
+            public void setAnswer(String answer){
+                this.answer = answer;
+            }
+            public String getAnswer(){
+                return this.answer;
+            }
+            public void setQuestion(String question){
+                this.question = question;
+            }
+            public String getQuestion(){
+                return this.question;
+            }
+            public void setImage(String image){
+                this.image = image;
+            }
+            public String getImage(){
+                return this.image;
+            }
+            public void setAnswerImage(String answerImage){
+                this.answerImage = answerImage;
+            }
+            public String getAnswerImage(){
+                return this.answerImage;
+            }
+            public void setLearnMore(String learnMore){
+                this.learnMore = learnMore;
+            }
+            public String getLearnMore(){
+                return this.learnMore;
             }
             public void setUpdatedTime(int updatedTime){
                 this.updatedTime = updatedTime;
@@ -133,6 +200,7 @@ public class Intro_WebHit_Post_AddUserCustomsDanetkas {
                 return this.updatedTime;
             }
         }
+
 
 
             private int code;
@@ -167,7 +235,8 @@ public class Intro_WebHit_Post_AddUserCustomsDanetkas {
             public Data getData(){
                 return this.data;
             }
-      
-    }
+        }
+
+
 
 }

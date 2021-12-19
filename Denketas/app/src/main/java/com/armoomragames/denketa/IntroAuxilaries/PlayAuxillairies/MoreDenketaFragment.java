@@ -199,13 +199,10 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 //                    txvNoData.setVisibility(View.GONE);
 
                     for (int i = 0; i < Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().size(); i++) {
-
                         lst_MyDenketa.add(
-                                new DModel_MyDenketa(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getName(),
-                                        Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getId()+"",
-                                        Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getImage()));
-
-
+                                new DModel_MyDenketa(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getTitle(),
+                                        Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getId()+""
+                                        , Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getImage() ) );
                     }
 
 

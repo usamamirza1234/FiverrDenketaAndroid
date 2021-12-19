@@ -82,13 +82,13 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
     RelativeLayout rlToolbar, rlBack, rlCross;
     private FragmentManager fm;
-    public static final String clientKey = "AQxyBWkhclOXBj9jlkr3eV_F9PQ2O6yBD5f8i1oO2fJNQ5Xy_Ir6N45881igN7lyfIPvxr59JSGnH0B1";
+
     String danetkaID = "";
 
 
 
     LoginButton loginButton;
-    CallbackManager callbackManager;
+
     ImageView imageView;
     TextView txtUsername, txtEmail;
 
@@ -107,48 +107,6 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 //        facebook();
     }
 
-    public void facebook()
-    {
-        boolean loggedOut = AccessToken.getCurrentAccessToken() == null;
-
-        if (!loggedOut) {
-            Glide.with(IntroActivity.this)
-                    .load(Profile.getCurrentProfile().getProfilePictureUri(200, 200))
-                    .into(imageView);
-
-
-            Log.d("TAG", "Username is: " + Profile.getCurrentProfile().getName());
-
-            //Using Graph API
-            getUserProfile(AccessToken.getCurrentAccessToken());
-        }
-
-        loginButton.setReadPermissions(Arrays.asList("email", "public_profile"));
-        callbackManager = CallbackManager.Factory.create();
-
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                // App code
-                //loginResult.getAccessToken();
-                //loginResult.getRecentlyDeniedPermissions()
-                //loginResult.getRecentlyGrantedPermissions()
-                boolean loggedIn = AccessToken.getCurrentAccessToken() == null;
-                Log.d("API123", loggedIn + " ??");
-
-            }
-
-            @Override
-            public void onCancel() {
-                // App code
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                // App code
-            }
-        });
-    }
 
 
     private void getUserProfile(AccessToken currentAccessToken) {
@@ -189,11 +147,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
     private void init()
     {
 
-        Intent intent = new Intent(this, PayPalService.class);
 
-        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
-
-        startService(intent);
         fm = getSupportFragmentManager();
         getAppVersion();
 
@@ -438,12 +392,13 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
     }
 
 
-    public void navToMyResultsFragment(String name) {
+    public void navToMyResultsFragment(String name, String strId) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new MyResultsFragment();
         Bundle bundle = new Bundle();
         bundle.putString("key_danetka_name", name);
+        bundle.putString("key_danetka_id", strId);
         frag.setArguments(bundle);
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_MyResultsFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_RulesMianFragment);
@@ -584,32 +539,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         ft.commit();
     }
 
-    public void navToBundleDiscountFragment(String id) {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new BundleDiscountFragment();
-        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                R.anim.enter_from_left, R.anim.exit_to_right);//not required
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_BundleDiscountFragment);
-        Bundle bundle = new Bundle();
-        bundle.putString("danetkaID", id);
-        frag.setArguments(bundle);
-        ft.addToBackStack(AppConstt.FragTag.FN_BundleDiscountFragment);
-        hideLastStackFragment(ft);
-        ft.commit();
-    }
 
-    public void navToPaymentFragment() {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new PaymentDetailFragment();
-        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                R.anim.enter_from_left, R.anim.exit_to_right);//not required
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PaymentFragment);
-        ft.addToBackStack(AppConstt.FragTag.FN_PaymentFragment);
-        hideLastStackFragment(ft);
-        ft.commit();
-    }
 
     public void hideLastStackFragment(FragmentTransaction ft) {
         Fragment frg = null;
@@ -729,132 +659,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
     }
     //region Navigations
-    private void requestAddUserDanetkas(String _signUpEntity) {
-        showProgDialog();
-        Intro_WebHit_Post_AddUserDanetkas intro_webHit_post_addUserDanetkas = new Intro_WebHit_Post_AddUserDanetkas();
-        intro_webHit_post_addUserDanetkas.postAddUserDanetkas(this, new IWebCallback() {
-            @Override
-            public void onWebResult(boolean isSuccess, String strMsg) {
-                if (isSuccess) {
-                    dismissProgDialog();
 
-                } else {
-                    dismissProgDialog();
-                    CustomToast.showToastMessage(IntroActivity.this, strMsg, Toast.LENGTH_SHORT);
-
-                }
-            }
-
-            @Override
-            public void onWebException(Exception ex) {
-                dismissProgDialog();
-                CustomToast.showToastMessage(IntroActivity.this, ex.getMessage(), Toast.LENGTH_SHORT);
-
-            }
-        }, _signUpEntity);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        try {
-            callbackManager.onActivityResult(requestCode, resultCode, data);
-        }
-        catch (Exception e)
-        {
-
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == Activity.RESULT_OK) {
-            PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
-            if (confirm != null) {
-                try {
-                    // TODO: send 'confirm' to your server for verification.
-                    // see https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
-                    // for more details.
-
-
-                    String strResponse = confirm.toJSONObject().toString(4);
-
-                    Log.i("paymentExample", strResponse);
-                    CustomToast.showToastMessage(this, "Congragulations! you Paid for Danetka(s). ", Toast.LENGTH_SHORT);
-
-
-                    Gson gson = new Gson();
-                    Log.d("LOG_AS", "postSignIn: strResponse" + strResponse);
-                    AppConfig.getInstance().responseObject = gson.fromJson(strResponse, RModel_Paypal.class);
-
-                    if (
-                            AppConfig.getInstance().responseObject != null &&
-                                    AppConfig.getInstance().responseObject.getResponse() != null
-                    ) {
-                        if (AppConfig.getInstance().responseObject.getResponse().getState().equalsIgnoreCase("approved")) {
-                            JsonObject jsonObject = new JsonObject();
-                            jsonObject.addProperty("danetkasId", danetkaID);
-                            jsonObject.addProperty("create_time", AppConfig.getInstance().responseObject.getResponse().getCreate_time());
-                            jsonObject.addProperty("id", AppConfig.getInstance().responseObject.getResponse().getId());
-                            jsonObject.addProperty("intent", AppConfig.getInstance().responseObject.getResponse().getIntent());
-                            jsonObject.addProperty("state", AppConfig.getInstance().responseObject.getResponse().getState());
-//                                                    jsonObject.addProperty("response_type", strID.toString());
-//                                                    jsonObject.addProperty("environment", strID.toString());
-//                                                    jsonObject.addProperty("platform", strID.toString());
-                            requestAddUserDanetkas(jsonObject.toString());
-                            danetkaID = "0";
-                            navToPayentApprovedFragment();
-                        }
-                    }
-
-
-                } catch (JSONException e) {
-                    navToPayentDisapprovedFragment();
-                    CustomToast.showToastMessage(this, "an extremely unlikely failure occurred: " + e, Toast.LENGTH_SHORT);
-                    Log.e("paymentExample", "an extremely unlikely failure occurred: ", e);
-                }
-            }
-        } else if (resultCode == Activity.RESULT_CANCELED) {
-            Log.i("paymentExample", "The user canceled.");
-            navToPayentDisapprovedFragment();
-            CustomToast.showToastMessage(this, "The user canceled.: ", Toast.LENGTH_SHORT);
-
-        } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
-            navToPayentDisapprovedFragment();
-            CustomToast.showToastMessage(this, "An invalid Payment or PayPalConfiguration was submitted. Please see the docs. ", Toast.LENGTH_SHORT);
-            Log.i("paymentExample", "An invalid Payment or PayPalConfiguration was submitted. Please see the docs.");
-        }
-    }
-
-    public void onBuyPressed(String _danetkaID) {
-        danetkaID = _danetkaID;
-        // PAYMENT_INTENT_SALE will cause the payment to complete immediately.
-        // Change PAYMENT_INTENT_SALE to
-        //   - PAYMENT_INTENT_AUTHORIZE to only authorize payment and capture funds later.
-        //   - PAYMENT_INTENT_ORDER to create a payment for authorization and capture
-        //     later via calls from your server.
-
-        PayPalPayment payment = new PayPalPayment(new BigDecimal("0.99"), "EUR", "1 Danetka",
-                PayPalPayment.PAYMENT_INTENT_SALE);
-
-        Intent intent = new Intent(this, PaymentActivity.class);
-
-        // send the same configuration for restart resiliency
-        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
-
-        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
-
-        startActivityForResult(intent, 0);
-    }
-
-    private static final PayPalConfiguration config = new PayPalConfiguration()
-
-            // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
-            // or live (ENVIRONMENT_PRODUCTION)
-            .environment(PayPalConfiguration.ENVIRONMENT_NO_NETWORK)
-
-            .clientId(clientKey).merchantName("Armoomra games")
-            .merchantPrivacyPolicyUri(
-                    Uri.parse("https://www.example.com/privacy"))
-            .merchantUserAgreementUri(
-                    Uri.parse("https://www.example.com/legal"));
 
     //endregion
 }

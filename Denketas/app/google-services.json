@@ -1,49 +1,42 @@
 {
   "project_info": {
-    "project_number": "97905994585",
-    "project_id": "denketaapp",
-    "storage_bucket": "denketaapp.appspot.com"
+    "project_number": "125326017722",
+    "project_id": "armomragames",
+    "storage_bucket": "armomragames.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:97905994585:android:688b07685f788d6e413a48",
+        "mobilesdk_app_id": "1:125326017722:android:ee95793ec97d92bfa8ee83",
         "android_client_info": {
           "package_name": "com.armoomragames.denketa"
         }
       },
       "oauth_client": [
         {
-          "client_id": "97905994585-ru9j05bqqtpkndu59t20e76k44t9pju2.apps.googleusercontent.com",
+          "client_id": "125326017722-cgq2fmr8kt7nok8lgqk0rh99fd4koh63.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.armoomragames.denketa",
-            "certificate_hash": "fd7d1fc330688485bfbfe5c5e560d2076c5a3cf9"
+            "certificate_hash": "15c2308c2c1f736aa6210266e4ef373e8d880a1e"
           }
         },
         {
-          "client_id": "97905994585-04sfigdvqvfto9gsvuqqrrsnggs1nh88.apps.googleusercontent.com",
+          "client_id": "125326017722-r4afqskdonvgqa2l14curm5t3b2nfr4q.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAYiEIZJOm6L9dp-1e1ZKMjkhP4v9MaN6Q"
+          "current_key": "AIzaSyBsprngou_Yrcg0XOrDmzMqCxY1Jamj5yE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "97905994585-04sfigdvqvfto9gsvuqqrrsnggs1nh88.apps.googleusercontent.com",
+              "client_id": "125326017722-r4afqskdonvgqa2l14curm5t3b2nfr4q.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "97905994585-91ji73pikjd1v94js08jaa9lnasatifh.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.armoomragames.denketa"
-              }
             }
           ]
         }

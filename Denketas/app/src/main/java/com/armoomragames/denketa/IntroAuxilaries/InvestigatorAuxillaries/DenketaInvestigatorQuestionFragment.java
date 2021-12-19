@@ -54,33 +54,40 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
     }
 
     private void setData() {
-        txvDanetkaName.setText(danetka_name.toUpperCase());
-        Log.d("LOG_AS", "Image: " + "http://18.118.228.171:2000/images/" + danetka_id);
-        Log.d("LOG_AS", "isMoreDanetka: " + isMoreDanetka);
-        Log.d("LOG_AS", "isInvestigator: " +  isInvestigator);
-        danetka_Image="http://18.118.228.171:2000/images/" + danetka_id;
-        Glide.with(getContext())
-                .load(danetka_Image)
-                .into(img);
+        try {
+            txvDanetkaName.setText(danetka_name.toUpperCase());
+            Log.d("LOG_AS", "Image: " + "http://18.118.228.171:2000/images/" + danetka_id);
+            Log.d("LOG_AS", "isMoreDanetka: " + isMoreDanetka);
+            Log.d("LOG_AS", "isInvestigator: " +  isInvestigator);
+            danetka_Image="http://18.118.228.171:2000/images/" + danetka_id;
 
-        if (!isInvestigator) {
-            if (isMoreDanetka)
-            {
-                llPaynow.setVisibility(View.VISIBLE);
-                llBundleDiscount.setVisibility(View.VISIBLE);
-                llSeeAnswer.setVisibility(View.GONE);
+            Glide.with(getContext()).load(danetka_Image).into(img);
+
+            if (!isInvestigator) {
+                if (isMoreDanetka)
+                {
+                    llPaynow.setVisibility(View.VISIBLE);
+                    llBundleDiscount.setVisibility(View.VISIBLE);
+                    llSeeAnswer.setVisibility(View.GONE);
+                }
+                else {
+                    llPaynow.setVisibility(View.GONE);
+                    llBundleDiscount.setVisibility(View.GONE);
+                    llSeeAnswer.setVisibility(View.VISIBLE);
+                }
+
             }
             else {
-                llPaynow.setVisibility(View.GONE);
-                llBundleDiscount.setVisibility(View.GONE);
+                llPaynow.setVisibility(View.VISIBLE);
+                llBundleDiscount.setVisibility(View.VISIBLE);
                 llSeeAnswer.setVisibility(View.VISIBLE);
             }
-
-        } else {
-            llPaynow.setVisibility(View.VISIBLE);
-            llBundleDiscount.setVisibility(View.VISIBLE);
-            llSeeAnswer.setVisibility(View.VISIBLE);
         }
+        catch (Exception e)
+        {
+
+        }
+
     }
 
 
@@ -206,8 +213,11 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
 //        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
 //                R.anim.enter_from_left, R.anim.exit_to_right);//not required
         Bundle bundle = new Bundle();
-
+        bundle.putBoolean("key_is_coming_from_bundle",false);
         bundle.putString("key_danetka_danetkaID", danetka_danetkaID);
+        bundle.putString("key_danetka_sub_total", "1");
+        bundle.putString("key_danetka_total", "1.00");
+        bundle.putString("key_danetka_number", "1");
         frag.setArguments(bundle);
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PaymentDetailFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_PaymentDetailFragment);

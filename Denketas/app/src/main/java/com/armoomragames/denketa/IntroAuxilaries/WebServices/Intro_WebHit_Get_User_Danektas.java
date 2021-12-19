@@ -141,11 +141,23 @@ public class Intro_WebHit_Get_User_Danektas {
         {
             private int id;
 
-            private String name;
+            private String masterId;
+
+            private String title;
+
+            private String question;
+
+            private String answer;
+
+            private String hint;
 
             private String image;
 
+            private String answerImage;
+
             private String paymentStatus;
+
+            private String learnMore;
 
             private boolean status;
 
@@ -157,11 +169,35 @@ public class Intro_WebHit_Get_User_Danektas {
             public int getId(){
                 return this.id;
             }
-            public void setName(String name){
-                this.name = name;
+            public void setMasterId(String masterId){
+                this.masterId = masterId;
             }
-            public String getName(){
-                return this.name;
+            public String getMasterId(){
+                return this.masterId;
+            }
+            public void setTitle(String title){
+                this.title = title;
+            }
+            public String getTitle(){
+                return this.title;
+            }
+            public void setQuestion(String question){
+                this.question = question;
+            }
+            public String getQuestion(){
+                return this.question;
+            }
+            public void setAnswer(String answer){
+                this.answer = answer;
+            }
+            public String getAnswer(){
+                return this.answer;
+            }
+            public void setHint(String hint){
+                this.hint = hint;
+            }
+            public String getHint(){
+                return this.hint;
             }
             public void setImage(String image){
                 this.image = image;
@@ -169,11 +205,23 @@ public class Intro_WebHit_Get_User_Danektas {
             public String getImage(){
                 return this.image;
             }
+            public void setAnswerImage(String answerImage){
+                this.answerImage = answerImage;
+            }
+            public String getAnswerImage(){
+                return this.answerImage;
+            }
             public void setPaymentStatus(String paymentStatus){
                 this.paymentStatus = paymentStatus;
             }
             public String getPaymentStatus(){
                 return this.paymentStatus;
+            }
+            public void setLearnMore(String learnMore){
+                this.learnMore = learnMore;
+            }
+            public String getLearnMore(){
+                return this.learnMore;
             }
             public void setStatus(boolean status){
                 this.status = status;
@@ -188,7 +236,6 @@ public class Intro_WebHit_Get_User_Danektas {
                 return this.updatedTime;
             }
         }
-
 
         public class User
         {
@@ -207,6 +254,8 @@ public class Intro_WebHit_Get_User_Danektas {
             private String language;
 
             private String email;
+
+            private String otpCode;
 
             private String accessToken;
 
@@ -266,6 +315,12 @@ public class Intro_WebHit_Get_User_Danektas {
             public String getEmail(){
                 return this.email;
             }
+            public void setOtpCode(String otpCode){
+                this.otpCode = otpCode;
+            }
+            public String getOtpCode(){
+                return this.otpCode;
+            }
             public void setAccessToken(String accessToken){
                 this.accessToken = accessToken;
             }
@@ -309,7 +364,7 @@ public class Intro_WebHit_Get_User_Danektas {
 
             private boolean status;
 
-            private int updatedTime;
+            private String updatedTime;
 
             private Danetkas danetkas;
 
@@ -339,10 +394,10 @@ public class Intro_WebHit_Get_User_Danektas {
             public boolean getStatus(){
                 return this.status;
             }
-            public void setUpdatedTime(int updatedTime){
+            public void setUpdatedTime(String updatedTime){
                 this.updatedTime = updatedTime;
             }
-            public int getUpdatedTime(){
+            public String getUpdatedTime(){
                 return this.updatedTime;
             }
             public void setDanetkas(Danetkas danetkas){
@@ -425,7 +480,6 @@ public class Intro_WebHit_Get_User_Danektas {
             }
         }
 
-
             private int code;
 
             private String status;
@@ -458,9 +512,5 @@ public class Intro_WebHit_Get_User_Danektas {
             public Data getData(){
                 return this.data;
             }
-
-
     }
-
-
 }

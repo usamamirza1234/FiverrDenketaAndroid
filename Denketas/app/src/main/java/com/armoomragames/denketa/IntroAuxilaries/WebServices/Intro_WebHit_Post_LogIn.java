@@ -88,6 +88,7 @@ public class Intro_WebHit_Post_LogIn {
 
 
     public class RModel_SignIn {
+
         public class Data
         {
             private int id;
@@ -105,6 +106,8 @@ public class Intro_WebHit_Post_LogIn {
             private String language;
 
             private String email;
+
+            private String otpCode;
 
             private String accessToken;
 
@@ -164,6 +167,12 @@ public class Intro_WebHit_Post_LogIn {
             public String getEmail(){
                 return this.email;
             }
+            public void setOtpCode(String otpCode){
+                this.otpCode = otpCode;
+            }
+            public String getOtpCode(){
+                return this.otpCode;
+            }
             public void setAccessToken(String accessToken){
                 this.accessToken = accessToken;
             }
@@ -195,9 +204,6 @@ public class Intro_WebHit_Post_LogIn {
                 return this.updatedTime;
             }
         }
-
-
-
 
 
             private int code;
@@ -233,6 +239,5 @@ public class Intro_WebHit_Post_LogIn {
                 return this.data;
             }
         }
-
 
     }

@@ -10,6 +10,7 @@ public interface ApiMethod {
         String fetchUserDanetkas ="fetch/user/danetkas" ;
         String fetchFreeDanetkas="fetch/free/danetkas";
         String fetchInvestagatorDanetkas="fetch/all/danetkas";
+        String fetchResults="find/result/";
     }
 
     interface POST {
@@ -18,12 +19,13 @@ public interface ApiMethod {
         String addProfile ="add/user/profile" ;
 
         String addDanetkas ="add/user/danetkas" ;
-        String addCustomDanetkas ="add/danetkas" ;
+        String addCustomDanetkas ="add/master/danetkas" ;
         String fetchDanetkas ="fetch/danetkas" ;
         String fetchAllDanetkas ="fetch/all/danetkas" ;
         String contactUs ="contactUs" ;
         String verifyAndUpdate ="verifyAndUpdate" ;
         String forgotPassword ="forgotPassword" ;
+        String addResults ="add/result" ;
 
     }
 

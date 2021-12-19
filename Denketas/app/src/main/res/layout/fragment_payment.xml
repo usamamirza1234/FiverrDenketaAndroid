@@ -49,12 +49,13 @@
                 android:layout_marginTop="30dp">
 
                 <TextView
+                    android:id="@+id/txvPaymentDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:gravity="center"
                     android:justificationMode="inter_word"
-                    android:text="1 Danetka 0,99€"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="@dimen/fontsize_small"
                     android:textStyle="bold" />
@@ -251,7 +252,7 @@
                         app:sl_shadowRadius="9dp">
 
                         <LinearLayout
-
+                            android:id="@+id/frg_getmore"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/button_height_large"
                             android:layout_gravity="center"

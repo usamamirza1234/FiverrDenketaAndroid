@@ -113,78 +113,6 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
     }
 
 
-    //        if (AppConfig.getInstance().mUser.isLoggedIn()){
-    //                    if (Intro_WebHit_Get_User_Danektas.responseObject != null &&
-    //                            Intro_WebHit_Get_User_Danektas.responseObject.getData() != null &&
-    //                            Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing() != null &&
-    //                            Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().size() > 0) {
-    //
-    ////                    txvNoData.setVisibility(View.GONE);
-    //
-    //                        for (int i = 0; i < Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().size(); i++) {
-    //
-    //                            lst_MyDenketa.add(new DModel_MyDenketa(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getName(), Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getImage()));
-    //
-    //
-    //                        }
-    //
-    //                        if (adapter == null) {
-    //                            adapter = new MyDenketaLsvAdapter(new IAdapterCallback() {
-    //                                @Override
-    //                                public void onAdapterEventFired(int eventId, int position) {
-    //                                    switch (eventId) {
-    //                                        case EVENT_A:
-    //                                            if (AppConfig.getInstance().mUser.isLoggedIn()())
-    //                                            {
-    //                                                if (!AppConfig.getInstance().getProgDialogs())
-    //                                                    onClickDenketaItem(position);
-    //                                                else {
-    //
-    //                                                }
-    //                                            }
-    //                                            else
-    //                                            {
-    //                                                CustomToast.showToastMessage(getActivity(),"Sign in / Sign Up to PLAY!", Toast.LENGTH_LONG);
-    //                                            }
-    //                                            break;
-    //
-    //
-    //
-    //
-    //                                        case EVENT_B:
-    //                                            ((IntroActivity) getActivity()).navToMyResultsFragment();
-    //
-    //                                            break;
-    //                                    }
-    //
-    //                                }
-    //                            }, getActivity(), lst_MyDenketa);
-    //                            rcvMyDenekta.setAdapter(adapter);
-    //                            rcvMyDenekta.setOnScrollListener(this);
-    //                        } else {
-    //                            adapter.notifyDataSetChanged();
-    //                        }
-    //                    } else {
-    //                        if (Intro_WebHit_Get_User_Danektas.mPaginationInfo.currIndex == 1) {
-    //////                        lsvMedicines.setVisibility(View.GONE);
-    ////                        txvNoData.setVisibility(View.VISIBLE);
-    //////                        imvNoData.setVisibility(View.VISIBLE);
-    //                            rcvMyDenekta.setOnScrollListener(null);
-    //                        }
-    //                    }
-    //                }
-    //                else
-    //
-    //                    } else {
-    //                        if (Intro_WebHit_Get_User_Danektas.mPaginationInfo.currIndex == 1) {
-    //////                        lsvMedicines.setVisibility(View.GONE);
-    ////                        txvNoData.setVisibility(View.VISIBLE);
-    //////                        imvNoData.setVisibility(View.VISIBLE);
-    //                            rcvMyDenekta.setOnScrollListener(null);
-    //                        }
-    //                    }
-    //                }
-
     private void dismissProgDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
@@ -231,7 +159,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                         for (int i = 0; i < Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().size(); i++) {
 
                             lst_MyDenketa.add(new DModel_MyDenketa(
-                                            Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getName(),
+                                            Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getTitle(),
                                             Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getImage()
                                     )
                             );
@@ -255,7 +183,8 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                         break;
 
                                     case EVENT_B:
-                                        ((IntroActivity) getActivity()).navToMyResultsFragment(lst_MyDenketa.get(position).getStrName());
+                                        ((IntroActivity) getActivity()).navToMyResultsFragment(lst_MyDenketa.get(position).getStrName(),"1");
+//                                        ((IntroActivity) getActivity()).navToMyResultsFragment(lst_MyDenketa.get(position).getStrName(),lst_MyDenketa.get(position).getStrId());
 
                                         break;
 
@@ -292,9 +221,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
 
                         for (int i = 0; i < Intro_WebHit_Get_OLD_Danektas.responseObject.getData().getListing().size(); i++) {
 
-                            lst_MyDenketa.add(new DModel_MyDenketa(Intro_WebHit_Get_OLD_Danektas.responseObject.getData().getListing().get(i).getName(), Intro_WebHit_Get_OLD_Danektas.responseObject.getData().getListing().get(i).getImage()));
-
-
+                            lst_MyDenketa.add(new DModel_MyDenketa(Intro_WebHit_Get_OLD_Danektas.responseObject.getData().getListing().get(i).getTitle(), Intro_WebHit_Get_OLD_Danektas.responseObject.getData().getListing().get(i).getImage()));
                         }
 
                         if (adapter == null) {

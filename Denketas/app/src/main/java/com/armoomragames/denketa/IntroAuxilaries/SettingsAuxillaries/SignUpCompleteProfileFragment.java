@@ -367,18 +367,15 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
 
             closeKeyboard();
             JsonObject jsonObject = new JsonObject();
+//            jsonObject.addProperty("email", edtEmail.getText().toString());
             jsonObject.addProperty("name", edtName.getText().toString());
             jsonObject.addProperty("userName", edtName.getText().toString());
             jsonObject.addProperty("dateOfBirth", txv_dob.getText().toString());
-//            jsonObject.addProperty("dateOfBirth", edtDOB.getText().toString());
             jsonObject.addProperty("gender", txv_Gend.getText().toString().toLowerCase());
             jsonObject.addProperty("nationality", txv_Nationality.getText().toString().toLowerCase());
-//            jsonObject.addProperty("nationality", edtNationality.getText().toString());
 
             requestUserProfile(jsonObject.toString());
 
-//            AppConfig.getInstance().saveUserProfile();
-//            ((IntroActivity) getActivity()).navToPreSignInVAFragment();
         }
     }
 

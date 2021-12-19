@@ -1,15 +1,21 @@
 package com.armoomragames.denketa.IntroAuxilaries.InvestigatorAuxillaries;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -23,15 +29,44 @@ import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IWebCallback;
+import com.armoomragames.denketa.Utils.RModel_Paypal;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
+
+import org.json.JSONException;
+
+import java.math.BigDecimal;
 
 public class PaymentDetailFragment extends Fragment implements View.OnClickListener {
+    public static final String clientKey = "AQxyBWkhclOXBj9jlkr3eV_F9PQ2O6yBD5f8i1oO2fJNQ5Xy_Ir6N45881igN7lyfIPvxr59JSGnH0B1";
+    private static final PayPalConfiguration config = new PayPalConfiguration()
+            // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
+            // or live (ENVIRONMENT_PRODUCTION)
+            .environment(PayPalConfiguration.ENVIRONMENT_NO_NETWORK)
+            .clientId(clientKey).merchantName("Armoomra games")
+            .merchantPrivacyPolicyUri(Uri.parse("https://www.example.com/privacy"))
+            .merchantUserAgreementUri(Uri.parse("https://www.example.com/legal"));
     RelativeLayout rlToolbar, rlBack, rlCross;
     RelativeLayout rlPaypal;
+    LinearLayout getmore;
     Bundle bundle;
-
     String danetkaID = "";
+    String sub_total = "";
+    String total = "";
+    String number = "";
+    boolean is_coming_from_bundle = false;
+    GoogleSignInClient mGoogleSignInClient;
+    TextView txvPaymentDescription;
+
+    private Dialog progressDialog;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View frg = inflater.inflate(R.layout.fragment_payment, container, false);
@@ -39,59 +74,87 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
         init();
         bindViewss(frg);
 
+        if (is_coming_from_bundle)
+            txvPaymentDescription.setText(number + " Danetka " + total + "€");
+        else txvPaymentDescription.setText("1 Danetka 0,99€");
         return frg;
     }
 
+    //region init
     private void init() {
         bundle = this.getArguments();
         if (bundle != null) {
-
             danetkaID = bundle.getString("key_danetka_danetkaID");
+            is_coming_from_bundle = bundle.getBoolean("key_is_coming_from_bundle");
+            sub_total = bundle.getString("key_danetka_sub_total");
+            total = bundle.getString("key_danetka_total");
+            number = bundle.getString("key_danetka_number");
         }
+        paypalInit();
+
     }
+    //endregion
 
     private void bindViewss(View frg) {
         rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
         rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
         rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
         rlPaypal = frg.findViewById(R.id.rlPaypal);
+        txvPaymentDescription = frg.findViewById(R.id.txvPaymentDescription);
+        getmore = frg.findViewById(R.id.frg_getmore);
 
         rlBack.setOnClickListener(this);
         rlCross.setOnClickListener(this);
         rlPaypal.setOnClickListener(this);
+        getmore.setOnClickListener(this);
     }
-
-
-
-
 
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
             case R.id.act_intro_lay_toolbar_rlBack:
-                ((IntroActivity)getActivity()).  onBackPressed();
+                getActivity().onBackPressed();
 
                 break;
             case R.id.act_intro_lay_toolbar_rlCross:
-                ((IntroActivity)getActivity()). navToPreSignInVAFragment();
+                ((IntroActivity) getActivity()).navToPreSignInVAFragment();
 
-                break;            case R.id.rlPaypal:
-                                            ((IntroActivity)getActivity()). onBuyPressed(danetkaID);
+                break;
+            case R.id.rlPaypal:
+                onBuyPressed(danetkaID);
+                break;
 
-
+                case R.id.frg_getmore:
+                    navToBundleDiscountFragment(danetkaID);
                 break;
         }
     }
+    private void navToBundleDiscountFragment(String danetka_danetkaID) {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new BundleDiscountFragment();
+//        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+//                R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        Bundle bundle = new Bundle();
+
+        bundle.putString("key_danetka_danetkaID", danetka_danetkaID);
+        frag.setArguments(bundle);
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_BundleDiscountFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_BundleDiscountFragment);
+        ft.hide(this);
+        ft.commit();
+    }
+    //region Paypal Callbacks Google Callbacks
     private void requestAddUserDanetkas(String _signUpEntity) {
         showProgDialog();
         Intro_WebHit_Post_AddUserDanetkas intro_webHit_post_addUserDanetkas = new Intro_WebHit_Post_AddUserDanetkas();
-        intro_webHit_post_addUserDanetkas.postAddUserDanetkas(getContext(), new IWebCallback() {
+        intro_webHit_post_addUserDanetkas.postAddUserDanetkas(getActivity(), new IWebCallback() {
             @Override
             public void onWebResult(boolean isSuccess, String strMsg) {
                 if (isSuccess) {
                     dismissProgDialog();
-                    navToPayentApprovedFragment();
+
                 } else {
                     dismissProgDialog();
                     CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
@@ -107,9 +170,122 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
             }
         }, _signUpEntity);
     }
-    //region progdialog
-    private Dialog progressDialog;
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+            if (confirm != null) {
+                try {
+                    String strResponse = confirm.toJSONObject().toString(4);
+                    Log.i("paymentExample", strResponse);
+                    CustomToast.showToastMessage(getActivity(), "Congragulations! you Paid for Danetka(s). ", Toast.LENGTH_SHORT);
+                    Gson gson = new Gson();
+                    Log.d("LOG_AS", "postSignIn: strResponse" + strResponse);
+                    AppConfig.getInstance().responseObject = gson.fromJson(strResponse, RModel_Paypal.class);
+                    if (
+                            AppConfig.getInstance().responseObject != null &&
+                                    AppConfig.getInstance().responseObject.getResponse() != null
+                    ) {
+                        if (AppConfig.getInstance().responseObject.getResponse().getState().equalsIgnoreCase("approved")) {
+                            JsonObject jsonObject = new JsonObject();
+                            jsonObject.addProperty("danetkasId", danetkaID);
+                            jsonObject.addProperty("create_time", AppConfig.getInstance().responseObject.getResponse().getCreate_time());
+                            jsonObject.addProperty("id", AppConfig.getInstance().responseObject.getResponse().getId());
+                            jsonObject.addProperty("intent", AppConfig.getInstance().responseObject.getResponse().getIntent());
+                            jsonObject.addProperty("state", AppConfig.getInstance().responseObject.getResponse().getState());
+//                                                    jsonObject.addProperty("response_type", strID.toString());
+//                                                    jsonObject.addProperty("environment", strID.toString());
+//                                                    jsonObject.addProperty("platform", strID.toString());
+//                            requestAddUserDanetkas(jsonObject.toString());
+                            danetkaID = "0";
+                            navToPayentApprovedFragment(number,total);
+                        }
+                    }
+
+
+                } catch (JSONException e) {
+                    navToPayentDisapprovedFragment();
+                    CustomToast.showToastMessage(getActivity(), "an extremely unlikely failure occurred: " + e, Toast.LENGTH_SHORT);
+                    Log.e("paymentExample", "an extremely unlikely failure occurred: ", e);
+                }
+            }
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+            Log.i("paymentExample", "The user canceled.");
+            navToPayentDisapprovedFragment();
+            CustomToast.showToastMessage(getActivity(), "The user canceled.: ", Toast.LENGTH_SHORT);
+
+        } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
+            navToPayentDisapprovedFragment();
+            CustomToast.showToastMessage(getActivity(), "An invalid Payment or PayPalConfiguration was submitted. Please see the docs. ", Toast.LENGTH_SHORT);
+            Log.i("paymentExample", "An invalid Payment or PayPalConfiguration was submitted. Please see the docs.");
+        }
+
+    }
+
+    public void onBuyPressed(String _danetkaID) {
+        danetkaID = _danetkaID;
+        // PAYMENT_INTENT_SALE will cause the payment to complete immediately.
+        // Change PAYMENT_INTENT_SALE to
+        //   - PAYMENT_INTENT_AUTHORIZE to only authorize payment and capture funds later.
+        //   - PAYMENT_INTENT_ORDER to create a payment for authorization and capture
+        //     later via calls from your server.
+
+        PayPalPayment payment = new PayPalPayment(new BigDecimal(""+total), "EUR", number+" Danetka(s)",
+                PayPalPayment.PAYMENT_INTENT_SALE);
+
+        Intent intent = new Intent(getActivity(), PaymentActivity.class);
+
+        // send the same configuration for restart resiliency
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+
+        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+
+        startActivityForResult(intent, 0);
+    }
+
+
+    //endregion
+
+    private void paypalInit() {
+        Intent intent = new Intent(getContext(), PayPalService.class);
+
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+
+        getActivity().startService(intent);
+    }
+
+    //region Navigation
+    private void navToPayentDisapprovedFragment() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new PaymentFailedFragment();
+//        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+//                R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PaymentFailedFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_PaymentFailedFragment);
+        ft.hide(this);
+        ft.commit();
+    }
+    //endregion
+
+    private void navToPayentApprovedFragment(String credit, String total) {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new PaymentApprovedFragment();
+        Bundle bundle = new Bundle();
+
+        bundle.putString("key_danetka_credit", credit);
+        bundle.putString("key_danetka_total", total);
+        frag.setArguments(bundle);
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PaymentApprovedFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_PaymentApprovedFragment);
+        ft.hide(this);
+        ft.commit();
+    }
+    //region progdialog
     private void dismissProgDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
@@ -136,30 +312,5 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
 
     }
     //endregion
-
-
-    private void navToPayentDisapprovedFragment() {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new PaymentFailedFragment();
-//        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-//                R.anim.enter_from_left, R.anim.exit_to_right);//not required
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PaymentFailedFragment);
-        ft.addToBackStack(AppConstt.FragTag.FN_PaymentFailedFragment);
-        ft.hide(this);
-        ft.commit();
-    }
-
-    private void navToPayentApprovedFragment() {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new PaymentApprovedFragment();
-//        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-//                R.anim.enter_from_left, R.anim.exit_to_right);//not required
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PaymentApprovedFragment);
-        ft.addToBackStack(AppConstt.FragTag.FN_PaymentApprovedFragment);
-        ft.hide(this);
-        ft.commit();
-    }
 
 }

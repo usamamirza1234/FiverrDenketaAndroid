@@ -20,20 +20,25 @@ import androidx.fragment.app.Fragment;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_Contactus;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_Results;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.CustomToast;
+import com.armoomragames.denketa.Utils.IWebCallback;
 import com.bumptech.glide.Glide;
+import com.google.gson.JsonObject;
 
 public class AddResultsFragment extends Fragment implements View.OnClickListener {
 
     RelativeLayout rlToolbar, rlBack, rlCross;
     Bundle bundle;
     String danetka_name = "";
+    String danetka_id = "";
     TextView txvDanetkaName;
     LinearLayout llDetails, llNewResults, llEditdetails ;
 
-    TextView txvUsed, txvMaster, txvInvestigator, txvTime, txvDate;
-    EditText edtUsed, edtMaster, edtInvestigator, edtTime;
+    TextView txvUsed, txvMaster, txvInvestigator, txvTime, txvDate , edtMaster;
+    EditText edtUsed, edtInvestigator, edtTime;
     LinearLayout llSaveResult, llSavedResults;
     private Dialog progressDialog;
 
@@ -51,6 +56,7 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
 
     private void setStates() {
         txvDanetkaName.setText(danetka_name);
+        edtMaster.setText(AppConfig.getInstance().mUser.getName());
         llDetails.setVisibility(View.GONE);
         llEditdetails.setVisibility(View.VISIBLE);
 
@@ -61,6 +67,7 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
         bundle = this.getArguments();
         if (bundle != null) {
             danetka_name = bundle.getString("key_danetka_name");
+            danetka_id = bundle.getString("key_danetka_id");
         }
     }
 
@@ -102,7 +109,6 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
 
     }
 
-
     @Override
     public void onClick(View v) {
 
@@ -134,31 +140,58 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
                         && !edtUsed.getText().toString().equals("")) {
 
 
-                    llSavedResults.setVisibility(View.VISIBLE);
-                    llSaveResult.setVisibility(View.GONE);
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("investigatorName", edtInvestigator.getText().toString());
+                    jsonObject.addProperty("text", edtMaster.getText().toString());
+                    jsonObject.addProperty("riglettosUsed", edtUsed.getText().toString());
+                    jsonObject.addProperty("date", edtTime.getText().toString());
+                    jsonObject.addProperty("time", edtTime.getText().toString());
+                    jsonObject.addProperty("masterId", AppConfig.getInstance().mUser.getUser_Id());
+                    jsonObject.addProperty("danetkaId", danetka_id);
+                    requestContactUs(jsonObject.toString());
 
-                    showProgDialog();
-                    new Handler().postDelayed(new Runnable() {
 
-                        @Override
-                        public void run() {
-                            //do something
-                            dismissProgDialog();
-                            txvMaster.setText(edtMaster.getText().toString());
-                            txvInvestigator.setText(edtInvestigator.getText().toString());
-                            txvUsed.setText(edtUsed.getText().toString());
-                            txvTime.setText(edtTime.getText().toString());
-                            txvDate.setText(edtTime.getText().toString());
-                            llEditdetails.setVisibility(View.VISIBLE);
-                            llDetails.setVisibility(View.VISIBLE);
-                            llNewResults.setVisibility(View.GONE);
 
-                        }
-                    }, 2000);//time in milisecond
                 } else
                     CustomToast.showToastMessage(getActivity(), "Please fill all fields", Toast.LENGTH_LONG);
                 break;
         }
+    }
+
+
+
+    private void requestContactUs(String _signUpEntity) {
+        llSavedResults.setVisibility(View.VISIBLE);
+        llSaveResult.setVisibility(View.GONE);
+
+        Intro_WebHit_Post_Results intro_webHit_post_results = new Intro_WebHit_Post_Results();
+        intro_webHit_post_results.postResults(getContext(), new IWebCallback() {
+            @Override
+            public void onWebResult(boolean isSuccess, String strMsg) {
+                if (isSuccess) {
+                    dismissProgDialog();
+                    CustomToast.showToastMessage(getActivity(),"Success! Result Added", Toast.LENGTH_SHORT);
+                    txvMaster.setText(edtMaster.getText().toString());
+                    txvInvestigator.setText(edtInvestigator.getText().toString());
+                    txvUsed.setText(edtUsed.getText().toString());
+                    txvTime.setText(edtTime.getText().toString());
+                    txvDate.setText(edtTime.getText().toString());
+                    llEditdetails.setVisibility(View.VISIBLE);
+                    llDetails.setVisibility(View.VISIBLE);
+                    llNewResults.setVisibility(View.GONE);
+                } else {
+                    dismissProgDialog();
+
+                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
+                }
+            }
+
+            @Override
+            public void onWebException(Exception ex) {
+                dismissProgDialog();
+                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
+            }
+        }, _signUpEntity);
     }
 
     private void dismissProgDialog() {

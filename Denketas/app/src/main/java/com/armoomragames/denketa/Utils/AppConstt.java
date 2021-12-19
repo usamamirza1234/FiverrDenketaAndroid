@@ -7,6 +7,16 @@ import java.io.File;
 
 public interface AppConstt {
 
+
+    int GALLERY_INTENT_CALLED = 50;
+    int GALLERY_KITKAT_INTENT_CALLED = 51;
+    int CAMERA_INTENT_CALLED = 52;//;1337
+    int REQ_CODE_PERM_STORAGE = 220;
+    int REQ_CODE_PERM_CAMERA = 221;
+    int REQ_CODE_WRITE_EXTERNAL_STORAGE = 224;
+    int REQ_CODE_PERM_CAMERA_STORAGE = 222;
+    int REQ_CODE_PERM_LOCATION = 223;
+
     interface ServerUrl {
 
         //Weather icon url...
@@ -74,10 +84,6 @@ public interface AppConstt {
     }
 
     //validateRequestPermissionsRequestCode requires requestCode to be of 8 bits, i.e. range: 0-255.
-    int REQ_CODE_PERM_STORAGE = 220;
-    int REQ_CODE_PERM_CAMERA = 221;
-    int REQ_CODE_PERM_CAMERA_STORAGE = 222;
-    int REQ_CODE_PERM_LOCATION = 223;
     int REQ_CODE_SETTINGS_SCREEN = 224;
 
     String IMAGE_DIR_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/Artstation" + File.separator;

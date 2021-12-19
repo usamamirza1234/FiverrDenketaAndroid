@@ -1,5 +1,6 @@
 package com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -33,6 +34,7 @@ import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.IWebCallback;
+import com.armoomragames.denketa.Utils.RModel_Paypal;
 import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -49,7 +51,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -437,6 +442,8 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
     //region Google Integration
     private void googleInit() {
+
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -454,7 +461,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 ////            CustomToast.showToastMessage(getActivity(), "Signed in successfully with Google " + acct.getDisplayName(), Toast.LENGTH_LONG);
 //        }
     }
-
     public void googleSignIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -470,7 +476,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         }
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            Log.d("LOG_AS", "onActivityResult: google sign in " + data.toString());
+            Log.d("LoginActivity", "Google SignIn " + data.toString());
             // The Task returned from this call is always completed, no need to attach
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
@@ -723,6 +729,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 //                calendar.get(Calendar.DAY_OF_MONTH)).show();
 //    }
     //endregion
+
     private void signUpFaceBook() {
         callbackManager = CallbackManager.Factory.create();
 

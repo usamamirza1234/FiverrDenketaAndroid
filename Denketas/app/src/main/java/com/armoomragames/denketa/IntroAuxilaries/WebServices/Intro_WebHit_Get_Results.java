@@ -16,17 +16,15 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-public class Intro_WebHit_Get_All_Danektas {
+public class Intro_WebHit_Get_Results {
     private AsyncHttpClient mClient = new AsyncHttpClient();
     public static ResponseModel responseObject = null;
     public static DModel_PaginationInfo mPaginationInfo = new DModel_PaginationInfo();
 
     public void getCategory(final IWebPaginationCallback iWebPaginationCallback, final int _index)  {
         String myUrl="";
-        if (AppConfig.getInstance().mUser.isLoggedIn())
-             myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.fetchDanetkas;
-        else
-             myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.fetchAllDanetkas;
+             myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.GET.fetchResults;
+
 
 
         RequestParams params = new RequestParams();
@@ -37,7 +35,7 @@ public class Intro_WebHit_Get_All_Danektas {
         params.put("sortOrder", "DESC");
 
 
-        Log.d("LOG_AS", "getAllDanketa:  " + myUrl + params);
+        Log.d("LOG_AS", "getAllResults:  " + myUrl + params);
 
         mClient.addHeader(ApiMethod.HEADER.Authorization, AppConfig.getInstance().mUser.getAuthorization());
         mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS);
@@ -48,7 +46,7 @@ public class Intro_WebHit_Get_All_Danektas {
                         try {
                             Gson gson = new Gson();
                             strResponse = new String(responseBody, "UTF-8");
-                            Log.d("LOG_AS", "getAllDanketa: onSuccess: " + strResponse);
+                            Log.d("LOG_AS", "getAllResults: onSuccess: " + strResponse);
                             ResponseModel responseObjectLocal = null;
 
                             responseObjectLocal = gson.fromJson(strResponse, ResponseModel.class);
@@ -73,7 +71,7 @@ public class Intro_WebHit_Get_All_Danektas {
                                             responseObject = responseObjectLocal;
                                             mPaginationInfo.currIndex = _index;
                                         }
-                                        Log.d("LOG_AS", "getAllDanketa: onSuccess: tmpIsDataFetched " + tmpIsDataFetched);
+                                        Log.d("LOG_AS", "getAllResults: onSuccess: tmpIsDataFetched " + tmpIsDataFetched);
                                         //No need to save
 
                                         if (mPaginationInfo != null) {
@@ -97,7 +95,7 @@ public class Intro_WebHit_Get_All_Danektas {
                                 iWebPaginationCallback.onWebInitialException(ex);
                             else
                                 iWebPaginationCallback.onWebSuccessiveException(ex);
-                            Log.d("LOG_AS", "getAllDanketa: exception: " + ex.toString());
+                            Log.d("LOG_AS", "getAllResults: exception: " + ex.toString());
                         }
                     }
 
@@ -105,7 +103,7 @@ public class Intro_WebHit_Get_All_Danektas {
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable
                             error) {
 
-                        Log.d("LOG_AS", "getAllDanketa: onFailure called: " + error.toString() + "   " + statusCode + "");
+                        Log.d("LOG_AS", "getAllResults: onFailure called: " + error.toString() + "   " + statusCode + "");
 
 
                         switch (statusCode) {
