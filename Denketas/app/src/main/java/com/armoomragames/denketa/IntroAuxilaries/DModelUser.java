@@ -12,15 +12,6 @@ public class DModelUser {
 
     public int User_Id;
     public String Name;
-
-    public String getNationality() {
-        return Nationality;
-    }
-
-    public void setNationality(String nationality) {
-        Nationality = nationality;
-    }
-
     public String Nationality;
     public String Phone;
     public String Email;
@@ -34,7 +25,7 @@ public class DModelUser {
     public String Role;
     public int Status;
     public int Is_Under_Review;
-    public String Additional_Notes;
+    public String GameCredits;
     public String createdAt;
     public int Active;
     public boolean isPushOn;
@@ -43,7 +34,7 @@ public class DModelUser {
     public String Authorization;
     public String Password_Token;
 
-    public DModelUser(int user_Id, String name, String nationality, String phone, String email, String gender, String DOB, String iqama_Id, String iqama_Expiry, String iqama_Image, String address, String image, String role, int status, int is_Under_Review, String additional_Notes, String createdAt, int active, boolean isPushOn, boolean isLoggedIn, boolean isGuest, String authorization, String password_Token) {
+    public DModelUser(int user_Id, String name, String nationality, String phone, String email, String gender, String DOB, String iqama_Id, String iqama_Expiry, String iqama_Image, String address, String image, String role, int status, int is_Under_Review, String gameCredits, String createdAt, int active, boolean isPushOn, boolean isLoggedIn, boolean isGuest, String authorization, String password_Token) {
         User_Id = user_Id;
         Name = name;
         Nationality = nationality;
@@ -59,7 +50,7 @@ public class DModelUser {
         Role = role;
         Status = status;
         Is_Under_Review = is_Under_Review;
-        Additional_Notes = additional_Notes;
+        GameCredits = gameCredits;
         this.createdAt = createdAt;
         Active = active;
         this.isPushOn = isPushOn;
@@ -92,7 +83,7 @@ public class DModelUser {
         this.Role = "";
         this.Status = 0;
         this.Is_Under_Review = 0;
-        this.Additional_Notes = "";
+        this.GameCredits = "";
         this.Active = 0;
         this.isPushOn = true;
         this.isLoggedIn = false;
@@ -238,12 +229,12 @@ public class DModelUser {
         Is_Under_Review = is_Under_Review;
     }
 
-    public String getAdditional_Notes() {
-        return Additional_Notes;
+    public String getGameCredits() {
+        return GameCredits;
     }
 
-    public void setAdditional_Notes(String additional_Notes) {
-        Additional_Notes = additional_Notes;
+    public void setGameCredits(String gameCredits) {
+        GameCredits = gameCredits;
     }
 
     public int getActive() {
@@ -284,5 +275,13 @@ public class DModelUser {
 
     public void setPassword_Token(String password_Token) {
         Password_Token = password_Token;
+    }
+
+    public String getNationality() {
+        return Nationality;
+    }
+
+    public void setNationality(String nationality) {
+        Nationality = nationality;
     }
 }

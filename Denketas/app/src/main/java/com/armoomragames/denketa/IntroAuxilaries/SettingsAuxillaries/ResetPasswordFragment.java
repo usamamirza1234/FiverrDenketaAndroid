@@ -123,15 +123,7 @@ public class ResetPasswordFragment extends Fragment implements View.OnClickListe
         }
     }
 
-    private void navToMYProfilePassword() {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new MyProfileFragment();
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_MyProfileFragment);
-        ft.addToBackStack(AppConstt.FragTag.FN_MyProfileFragment);
-        ft.hide(this);
-        ft.commit();
-    }
+
 
 
 

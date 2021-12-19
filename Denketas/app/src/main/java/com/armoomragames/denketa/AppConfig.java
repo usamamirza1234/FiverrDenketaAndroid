@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -19,12 +18,9 @@ import android.view.inputmethod.InputMethodManager;
 import com.armoomragames.denketa.IntroAuxilaries.DModelUser;
 import com.armoomragames.denketa.Utils.RModel_Paypal;
 import com.facebook.AccessToken;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
-import com.facebook.Profile;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -32,7 +28,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
@@ -41,13 +36,10 @@ import java.util.Iterator;
 import java.util.Random;
 
 import com.armoomragames.denketa.Utils.AppConstt;
-import com.armoomragames.denketa.Utils.CustomAlertConfirmationInterface;
 import com.armoomragames.denketa.Utils.IWebCallback;
-import com.armoomragames.denketa.Utils.IWebIndexedCallback;
 import com.armoomragames.denketa.Utils.IWebPaginationCallback;
 import com.armoomragames.denketa.Utils.RModel_Error;
 import com.armoomragames.denketa.Utils.RModel_Message;
-import com.armoomragames.denketa.Utils.RModel_onFailureError;
 
 
 public class AppConfig {
@@ -424,7 +416,7 @@ public class AppConfig {
         mUser.setRole(sharedPref.getString("key_user_role", ""));
         mUser.setStatus(sharedPref.getInt("key_user_status", 0));
         mUser.setIs_Under_Review(sharedPref.getInt("key_user_uner_review", 0));
-        mUser.setAdditional_Notes(sharedPref.getString("key_user_additional_notes", ""));
+        mUser.setGameCredits(sharedPref.getString("key_user_additional_notes", "00"));
         mUser.setActive(sharedPref.getInt("key_user_active", 0));
         mUser.setPushOn(sharedPref.getBoolean("key_user_ispush", true));
         mUser.setLoggedIn(sharedPref.getBoolean("key_user_isloggedin", false));
@@ -458,7 +450,7 @@ public class AppConfig {
         editor.putString("key_user_role", mUser.getRole());
         editor.putInt("key_user_status", mUser.getStatus());
         editor.putInt("key_user_uner_review", mUser.getIs_Under_Review());
-        editor.putString("key_user_additional_notes", mUser.getAdditional_Notes());
+        editor.putString("key_user_additional_notes", mUser.getGameCredits());
         editor.putInt("key_user_active", mUser.getActive());
         editor.putBoolean("key_user_ispush", mUser.isPushOn());
         editor.putBoolean("key_user_isloggedin", mUser.isLoggedIn());

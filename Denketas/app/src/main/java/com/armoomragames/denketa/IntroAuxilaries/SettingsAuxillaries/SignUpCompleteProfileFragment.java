@@ -23,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
@@ -437,6 +439,7 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
 //                calendar.get(Calendar.DAY_OF_MONTH)).show();
 //    }
     //endregion
+
     private Dialog progressDialog;
 
     private void dismissProgDialog() {
@@ -481,7 +484,7 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
 
                     AppConfig.getInstance().saveUserProfile();
 
-                    ((IntroActivity) getActivity()).navToPreSignInVAFragment();
+                    navToMYProfilePassword();
                 } else {
                     Toast.makeText(getActivity(), strMsg, Toast.LENGTH_SHORT).show();
 //                    AppConfig.getInstance().showErrorMessage(getContext(), strMsg);
@@ -589,6 +592,17 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
         };
 
 
+    }
+
+
+    private void navToMYProfilePassword() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new MyProfileFragment();
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_MyProfileFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_MyProfileFragment);
+        ft.hide(this);
+        ft.commit();
     }
 
 }

@@ -139,6 +139,7 @@ public class BundleDiscountFragment extends Fragment implements View.OnClickList
             case R.id.bund:
                 if (!edtGameCredits.getText().toString().equalsIgnoreCase(""))
                     navToPaymentDetailFragment();
+                else CustomToast.showToastMessage(getActivity(),"Please enter Game Credits to buy",Toast.LENGTH_SHORT);
                 break;
         }
     }

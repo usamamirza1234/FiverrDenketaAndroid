@@ -193,7 +193,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                     AppConfig.getInstance().mUser.setGuest(false);
                     AppConfig.getInstance().mUser.setLoggedIn(true);
                     AppConfig.getInstance().mUser.Authorization = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getAccessToken();
-
+                    AppConfig.getInstance().mUser.GameCredits = 0+"";
                     AppConfig.getInstance().saveUserProfile();
 
 

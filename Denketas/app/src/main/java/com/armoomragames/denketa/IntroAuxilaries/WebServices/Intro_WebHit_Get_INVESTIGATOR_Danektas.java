@@ -135,12 +135,10 @@ public class Intro_WebHit_Get_INVESTIGATOR_Danektas {
 
 
     public class ResponseModel {
-
-
         private int code;
         private String status;
         private String message;
-        private Data data;
+        private Intro_WebHit_Get_OLD_Danektas.ResponseModel.Data data;
 
         public int getCode() {
             return this.code;
@@ -166,22 +164,34 @@ public class Intro_WebHit_Get_INVESTIGATOR_Danektas {
             this.message = message;
         }
 
-        public Data getData() {
+        public Intro_WebHit_Get_OLD_Danektas.ResponseModel.Data getData() {
             return this.data;
         }
 
-        public void setData(Data data) {
+        public void setData(Intro_WebHit_Get_OLD_Danektas.ResponseModel.Data data) {
             this.data = data;
         }
 
         public class Listing {
             private int id;
 
-            private String name;
+            private String masterId;
+
+            private String title;
+
+            private String question;
+
+            private String answer;
+
+            private String hint;
 
             private String image;
 
+            private String answerImage;
+
             private String paymentStatus;
+
+            private String learnMore;
 
             private boolean status;
 
@@ -195,12 +205,44 @@ public class Intro_WebHit_Get_INVESTIGATOR_Danektas {
                 this.id = id;
             }
 
-            public String getName() {
-                return this.name;
+            public String getMasterId() {
+                return this.masterId;
             }
 
-            public void setName(String name) {
-                this.name = name;
+            public void setMasterId(String masterId) {
+                this.masterId = masterId;
+            }
+
+            public String getTitle() {
+                return this.title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public String getQuestion() {
+                return this.question;
+            }
+
+            public void setQuestion(String question) {
+                this.question = question;
+            }
+
+            public String getAnswer() {
+                return this.answer;
+            }
+
+            public void setAnswer(String answer) {
+                this.answer = answer;
+            }
+
+            public String getHint() {
+                return this.hint;
+            }
+
+            public void setHint(String hint) {
+                this.hint = hint;
             }
 
             public String getImage() {
@@ -211,12 +253,28 @@ public class Intro_WebHit_Get_INVESTIGATOR_Danektas {
                 this.image = image;
             }
 
+            public String getAnswerImage() {
+                return this.answerImage;
+            }
+
+            public void setAnswerImage(String answerImage) {
+                this.answerImage = answerImage;
+            }
+
             public String getPaymentStatus() {
                 return this.paymentStatus;
             }
 
             public void setPaymentStatus(String paymentStatus) {
                 this.paymentStatus = paymentStatus;
+            }
+
+            public String getLearnMore() {
+                return this.learnMore;
+            }
+
+            public void setLearnMore(String learnMore) {
+                this.learnMore = learnMore;
             }
 
             public boolean getStatus() {
@@ -289,26 +347,28 @@ public class Intro_WebHit_Get_INVESTIGATOR_Danektas {
         }
 
         public class Data {
-            private List<Listing> listing;
+            private List<Intro_WebHit_Get_OLD_Danektas.ResponseModel.Listing> listing;
 
-            private Pagination pagination;
+            private Intro_WebHit_Get_OLD_Danektas.ResponseModel.Pagination pagination;
 
-            public List<Listing> getListing() {
+            public List<Intro_WebHit_Get_OLD_Danektas.ResponseModel.Listing> getListing() {
                 return this.listing;
             }
 
-            public void setListing(List<Listing> listing) {
+            public void setListing(List<Intro_WebHit_Get_OLD_Danektas.ResponseModel.Listing> listing) {
                 this.listing = listing;
             }
 
-            public Pagination getPagination() {
+            public Intro_WebHit_Get_OLD_Danektas.ResponseModel.Pagination getPagination() {
                 return this.pagination;
             }
 
-            public void setPagination(Pagination pagination) {
+            public void setPagination(Intro_WebHit_Get_OLD_Danektas.ResponseModel.Pagination pagination) {
                 this.pagination = pagination;
             }
         }
+
+
     }
 
 

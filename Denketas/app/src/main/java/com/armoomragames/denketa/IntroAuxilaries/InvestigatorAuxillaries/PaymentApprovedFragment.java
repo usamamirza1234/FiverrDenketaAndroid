@@ -47,9 +47,7 @@ public class PaymentApprovedFragment extends Fragment implements View.OnClickLis
         rlBack.setOnClickListener(this);
         rlCross.setOnClickListener(this);
 
-
-
-        txvPaymentDescription.setText("You now have "+total+" amount of credits to unlock danetkas. 1 Danetka = 1 Game Credit");
+        txvPaymentDescription.setText("You now have "+total+"€ amount of credits to unlock danetkas. 1 Danetka = 1 Game Credit");
     }
 
 

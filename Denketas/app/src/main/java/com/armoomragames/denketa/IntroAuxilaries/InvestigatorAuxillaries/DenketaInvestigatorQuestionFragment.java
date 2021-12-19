@@ -78,9 +78,9 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
 
             }
             else {
-                llPaynow.setVisibility(View.VISIBLE);
-                llBundleDiscount.setVisibility(View.VISIBLE);
-                llSeeAnswer.setVisibility(View.VISIBLE);
+                llPaynow.setVisibility(View.GONE);
+                llBundleDiscount.setVisibility(View.GONE);
+                llSeeAnswer.setVisibility(View.GONE);
             }
         }
         catch (Exception e)

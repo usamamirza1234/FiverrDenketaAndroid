@@ -1,29 +1,23 @@
 package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.armoomragames.denketa.AppConfig;
@@ -32,42 +26,41 @@ import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Al
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddUserDanetkas;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
-import com.armoomragames.denketa.Utils.CustomAlertConfirmationInterface;
 import com.armoomragames.denketa.Utils.CustomAlertDialog;
 import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IAdapterCallback;
 import com.armoomragames.denketa.Utils.IWebCallback;
 import com.armoomragames.denketa.Utils.IWebPaginationCallback;
 import com.bumptech.glide.Glide;
-import com.google.gson.JsonObject;
-import com.paypal.android.sdk.payments.PayPalConfiguration;
-import com.paypal.android.sdk.payments.PayPalPayment;
-import com.paypal.android.sdk.payments.PayPalService;
-import com.paypal.android.sdk.payments.PaymentActivity;
-import com.paypal.android.sdk.payments.PaymentConfirmation;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
-public class MoreDenketaFragment extends Fragment implements View.OnClickListener, IWebPaginationCallback, AbsListView.OnScrollListener  {
+public class MoreDenketaFragment extends Fragment implements View.OnClickListener, IWebPaginationCallback, AbsListView.OnScrollListener {
+
+    private static final String KEY_POSITION = "position";
     RelativeLayout rlToolbar, rlBack, rlCross;
     ListView lsvMoreDenekta;
-    String strID ="0";
+    String strID = "0";
     EditText edtSearch;
     ImageView imvSearch;
     CustomAlertDialog customAlertDialog;
     MoreDenketaLsvAdapter adapter;
     Intro_WebHit_Get_All_Danektas intro_webHit_get_all__danektas;
     boolean isAlreadyFetching = false;
-    private int nFirstVisibleItem, nVisibleItemCount, nTotalItemCount, nScrollState, nErrorMsgShown;
     ArrayList<DModel_MyDenketa> lst_MyDenketa;
+    TextView txvUseGameCredits;
+    private int nFirstVisibleItem, nVisibleItemCount, nTotalItemCount, nScrollState, nErrorMsgShown;
     private boolean isLoadingMore = false;
+    //region progdialog
+    private Dialog progressDialog;
 
-
-
+    public static Fragment newInstance(int position) {
+        Fragment frag = new MoreDenketaFragment();
+        Bundle args = new Bundle();
+        args.putInt(KEY_POSITION, position);
+        frag.setArguments(args);
+        return (frag);
+    }
 
     private void requestAddUserDanetkas(String _signUpEntity) {
         showProgDialog();
@@ -101,26 +94,14 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 
         init();
         bindViewss(frg);
+        txvUseGameCredits.setText("Game Credits available -- " + AppConfig.getInstance().mUser.getGameCredits());
+
         requestDenketa();
 //        populatePopulationList();
 
 
         return frg;
     }
-
-
-
-    //region init
-    private static final String KEY_POSITION = "position";
-
-    public static Fragment newInstance(int position) {
-        Fragment frag = new MoreDenketaFragment();
-        Bundle args = new Bundle();
-        args.putInt(KEY_POSITION, position);
-        frag.setArguments(args);
-        return (frag);
-    }
-
 
     private void init() {
         lst_MyDenketa = new ArrayList<>();
@@ -136,14 +117,12 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
         Intro_WebHit_Get_All_Danektas.mPaginationInfo.currIndex = AppConstt.PAGINATION_START_INDEX;
     }
 
-
-
     private void bindViewss(View frg) {
         lsvMoreDenekta = frg.findViewById(R.id.frg_rcv_my_denketa);
         edtSearch = frg.findViewById(R.id.frg_more_dankta_edt_search);
         imvSearch = frg.findViewById(R.id.frg_more_dankta_imv_search);
 
-
+        txvUseGameCredits = frg.findViewById(R.id.txvUseGameCredits);
         edtSearch.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {
@@ -162,6 +141,7 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
             }
         });
     }
+    //endregion
 
     public void requestDenketa() {
         isAlreadyFetching = true;
@@ -172,7 +152,6 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
         intro_webHit_get_all__danektas.getCategory(this,
                 Intro_WebHit_Get_All_Danektas.mPaginationInfo.currIndex);
     }
-    //endregion
 
     @Override
     public void onClick(View v) {
@@ -201,8 +180,8 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
                     for (int i = 0; i < Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().size(); i++) {
                         lst_MyDenketa.add(
                                 new DModel_MyDenketa(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getTitle(),
-                                        Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getId()+""
-                                        , Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getImage() ) );
+                                        Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getId() + ""
+                                        , Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getImage()));
                     }
 
 
@@ -212,11 +191,10 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
                             public void onAdapterEventFired(int eventId, int position) {
                                 switch (eventId) {
                                     case EVENT_A:
-                                        if (AppConfig.getInstance().mUser.isLoggedIn())
-                                        {
+                                        if (AppConfig.getInstance().mUser.isLoggedIn()) {
 
 //                                            ((IntroActivity)getActivity()).navToBundleDiscountFragment(strID);
-                                            ((IntroActivity)getActivity()).navToDenketaInvestigatorQuestionFragment(lst_MyDenketa.get(position).getStrName(),lst_MyDenketa.get(position).getStrImage(),lst_MyDenketa.get(position).getStrId(),false,true);
+                                            ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(lst_MyDenketa.get(position).getStrName(), lst_MyDenketa.get(position).getStrImage(), lst_MyDenketa.get(position).getStrId(), false, true);
 
 //                                            ((IntroActivity)getActivity()). onBuyPressed();
 //                                            if (
@@ -239,10 +217,8 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 //                                                    strID="0";
 //                                                }
 //                                            }
-                                        }
-                                        else
-                                        {
-                                            CustomToast.showToastMessage(getActivity(),"Sign in/ Sign Up to get this Danetka", Toast.LENGTH_LONG);
+                                        } else {
+                                            CustomToast.showToastMessage(getActivity(), "Sign in/ Sign Up to get this Danetka", Toast.LENGTH_LONG);
                                         }
                                         break;
                                 }
@@ -292,7 +268,6 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
             }
     }
 
-
     @Override
     public void onWebInitialResult(boolean isSuccess, String strMsg) {
         populateAllDanektasData(isSuccess, strMsg);
@@ -340,6 +315,8 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
         }
     }
 
+    //endregion
+
     private void filter(String text) {
         // creating a new array list to filter our data.
         ArrayList<DModel_MyDenketa> filteredlist = new ArrayList<>();
@@ -366,11 +343,6 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 //            Toast.makeText(getContext(), "Data Found.." + text, Toast.LENGTH_SHORT).show();
         }
     }
-
-    //endregion
-
-    //region progdialog
-    private Dialog progressDialog;
 
     private void dismissProgDialog() {
         if (progressDialog != null) {

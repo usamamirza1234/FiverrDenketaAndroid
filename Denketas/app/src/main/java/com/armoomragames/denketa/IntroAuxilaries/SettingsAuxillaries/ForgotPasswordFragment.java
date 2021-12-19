@@ -143,7 +143,7 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("email", edtEmail.getText().toString());
 
-            requestUserSigin(jsonObject.toString());
+            requestUserSigin(jsonObject.toString(),edtEmail.getText().toString());
 
 
         }
@@ -176,7 +176,7 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
 
 
     }
-    private void requestUserSigin(String _signUpEntity) {
+    private void requestUserSigin(String _signUpEntity, String s) {
         showProgDialog();
         Intro_WebHit_Post_forgotPassword intro_webHit_post_forgotPassword = new Intro_WebHit_Post_forgotPassword();
         intro_webHit_post_forgotPassword.postForgotPassword(getContext(), new IWebCallback() {
@@ -185,7 +185,7 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
                 if (isSuccess) {
                     dismissProgDialog();
                     CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
-                    navToResetPassword();
+                    navToResetPassword( s);
 
 
                 } else {
@@ -205,12 +205,13 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
         }, _signUpEntity);
     }
 
-    private void navToResetPassword() {
+    private void navToResetPassword(String s) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new ResetPasswordFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("key_email",edtEmail.getText().toString());
+        bundle.putString("key_email",s.toString());
+        frag.setArguments(bundle);
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_ResetPasswordFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_ResetPasswordFragment);
         ft.hide(this);

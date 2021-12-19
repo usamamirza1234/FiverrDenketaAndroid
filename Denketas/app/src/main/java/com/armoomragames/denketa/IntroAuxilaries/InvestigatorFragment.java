@@ -115,7 +115,7 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
 
                     for (int i = 0; i < Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().size(); i++) {
 
-                        lst_MyDenketa.add(new DModel_MyDenketa(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getName(), Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getImage()));
+                        lst_MyDenketa.add(new DModel_MyDenketa(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getTitle(), Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getImage()));
 
 
                     }
@@ -247,8 +247,13 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                ((IntroActivity)getActivity()).navToDenketaInvestigatorQuestionFragment(lst_MyDenketa.get(position).getStrName(),lst_MyDenketa.get(position).getStrId(),
-                        lst_MyDenketa.get(position).getStrId(),true,false);
+                ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(
+                        lst_MyDenketa.get(position).getStrName(),
+                        lst_MyDenketa.get(position).getStrImage(),
+                        lst_MyDenketa.get(position).getStrId(),
+                        true, false);
+
+
             }
         });
 //        llOkay.setOnClickListener(new View.OnClickListener() {

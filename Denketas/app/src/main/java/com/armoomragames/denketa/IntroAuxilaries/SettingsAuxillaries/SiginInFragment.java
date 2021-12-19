@@ -339,6 +339,7 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
                     //Save user login data
                     AppConfig.getInstance().mUser.User_Id = Intro_WebHit_Post_LogIn.responseObject.getData().getId();
                     AppConfig.getInstance().mUser.Email = Intro_WebHit_Post_LogIn.responseObject.getData().getEmail();
+                    AppConfig.getInstance().mUser.GameCredits = 0+"";
 
 
                     if (Intro_WebHit_Post_LogIn.responseObject.getData().getName() != null)

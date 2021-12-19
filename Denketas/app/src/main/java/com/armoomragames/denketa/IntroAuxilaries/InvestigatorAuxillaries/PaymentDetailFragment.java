@@ -55,6 +55,7 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
             .merchantUserAgreementUri(Uri.parse("https://www.example.com/legal"));
     RelativeLayout rlToolbar, rlBack, rlCross;
     RelativeLayout rlPaypal;
+    RelativeLayout rlUseGameCredits;
     LinearLayout getmore;
     Bundle bundle;
     String danetkaID = "";
@@ -64,6 +65,8 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
     boolean is_coming_from_bundle = false;
     GoogleSignInClient mGoogleSignInClient;
     TextView txvPaymentDescription;
+    TextView txvUseGameCredits;
+
 
     private Dialog progressDialog;
 
@@ -77,6 +80,8 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
         if (is_coming_from_bundle)
             txvPaymentDescription.setText(number + " Danetka " + total + "€");
         else txvPaymentDescription.setText("1 Danetka 0,99€");
+
+        txvUseGameCredits.setText("Game Credits available -- " + AppConfig.getInstance().mUser.getGameCredits());
         return frg;
     }
 
@@ -101,12 +106,15 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
         rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
         rlPaypal = frg.findViewById(R.id.rlPaypal);
         txvPaymentDescription = frg.findViewById(R.id.txvPaymentDescription);
+        txvUseGameCredits = frg.findViewById(R.id.txvUseGameCredits);
+        rlUseGameCredits = frg.findViewById(R.id.rlUseGameCredits);
         getmore = frg.findViewById(R.id.frg_getmore);
 
         rlBack.setOnClickListener(this);
         rlCross.setOnClickListener(this);
         rlPaypal.setOnClickListener(this);
         getmore.setOnClickListener(this);
+        rlUseGameCredits.setOnClickListener(this);
     }
 
     @Override
@@ -125,11 +133,22 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
                 onBuyPressed(danetkaID);
                 break;
 
-                case R.id.frg_getmore:
-                    navToBundleDiscountFragment(danetkaID);
+            case R.id.frg_getmore:
+                navToBundleDiscountFragment(danetkaID);
+                break;
+
+            case R.id.rlUseGameCredits:
+                if (!AppConfig.getInstance().mUser.GameCredits.equalsIgnoreCase("0"))
+                {
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("danetkasId", danetkaID);
+                    requestAddUserDanetkas(jsonObject.toString());
+                }
+                else CustomToast.showToastMessage(getActivity(),"Insufficient Game Credits Buy Now",Toast.LENGTH_SHORT);
                 break;
         }
     }
+
     private void navToBundleDiscountFragment(String danetka_danetkaID) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -145,6 +164,7 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
         ft.hide(this);
         ft.commit();
     }
+
     //region Paypal Callbacks Google Callbacks
     private void requestAddUserDanetkas(String _signUpEntity) {
         showProgDialog();
@@ -154,7 +174,11 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
             public void onWebResult(boolean isSuccess, String strMsg) {
                 if (isSuccess) {
                     dismissProgDialog();
-
+                    int gCredits = Integer.parseInt(AppConfig.getInstance().mUser.GameCredits);
+                    AppConfig.getInstance().mUser.GameCredits = "" + (gCredits - 1);
+                    txvUseGameCredits.setText("Game Credits available -- " + AppConfig.getInstance().mUser.getGameCredits());
+                    AppConfig.getInstance().saveUserProfile();
+                    ((IntroActivity)getActivity()).navToPreSignInVAFragment();
                 } else {
                     dismissProgDialog();
                     CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
@@ -192,6 +216,7 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
                         if (AppConfig.getInstance().responseObject.getResponse().getState().equalsIgnoreCase("approved")) {
                             JsonObject jsonObject = new JsonObject();
                             jsonObject.addProperty("danetkasId", danetkaID);
+
                             jsonObject.addProperty("create_time", AppConfig.getInstance().responseObject.getResponse().getCreate_time());
                             jsonObject.addProperty("id", AppConfig.getInstance().responseObject.getResponse().getId());
                             jsonObject.addProperty("intent", AppConfig.getInstance().responseObject.getResponse().getIntent());
@@ -200,8 +225,13 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
 //                                                    jsonObject.addProperty("environment", strID.toString());
 //                                                    jsonObject.addProperty("platform", strID.toString());
 //                            requestAddUserDanetkas(jsonObject.toString());
+
+                            int gCredits = Integer.parseInt(AppConfig.getInstance().mUser.GameCredits);
+                            AppConfig.getInstance().mUser.GameCredits = "" + (gCredits + Integer.parseInt(number));
+                            txvUseGameCredits.setText("Game Credits available -- " + AppConfig.getInstance().mUser.getGameCredits());
+                            AppConfig.getInstance().saveUserProfile();
                             danetkaID = "0";
-                            navToPayentApprovedFragment(number,total);
+                            navToPayentApprovedFragment(number, total);
                         }
                     }
 
@@ -233,7 +263,7 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
         //   - PAYMENT_INTENT_ORDER to create a payment for authorization and capture
         //     later via calls from your server.
 
-        PayPalPayment payment = new PayPalPayment(new BigDecimal(""+total), "EUR", number+" Danetka(s)",
+        PayPalPayment payment = new PayPalPayment(new BigDecimal("" + total), "EUR", number + " Danetka(s)",
                 PayPalPayment.PAYMENT_INTENT_SALE);
 
         Intent intent = new Intent(getActivity(), PaymentActivity.class);
@@ -285,6 +315,7 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
         ft.hide(this);
         ft.commit();
     }
+
     //region progdialog
     private void dismissProgDialog() {
         if (progressDialog != null) {
