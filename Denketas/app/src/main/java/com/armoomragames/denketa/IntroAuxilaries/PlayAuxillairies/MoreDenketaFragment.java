@@ -51,9 +51,10 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
     TextView txvUseGameCredits;
     private int nFirstVisibleItem, nVisibleItemCount, nTotalItemCount, nScrollState, nErrorMsgShown;
     private boolean isLoadingMore = false;
+
     //region progdialog
     private Dialog progressDialog;
-
+    //endregion
     public static Fragment newInstance(int position) {
         Fragment frag = new MoreDenketaFragment();
         Bundle args = new Bundle();
@@ -141,7 +142,7 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
             }
         });
     }
-    //endregion
+
 
     public void requestDenketa() {
         isAlreadyFetching = true;
@@ -314,7 +315,6 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
             }
         }
     }
-
     //endregion
 
     private void filter(String text) {
@@ -351,7 +351,6 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
     }
 
     private void showProgDialog() {
-
         progressDialog = new Dialog(getActivity(), R.style.AppTheme);
 //        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -360,14 +359,11 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
         wmlp.gravity = Gravity.CENTER | Gravity.CENTER;
         wmlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
         wmlp.height = ViewGroup.LayoutParams.MATCH_PARENT;
-
         ImageView imageView = progressDialog.findViewById(R.id.img_anim);
         Glide.with(getContext()).asGif().load(R.raw.loading).into(imageView);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
         progressDialog.show();
-
-
     }
     //endregion
 }

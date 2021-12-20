@@ -86,7 +86,7 @@ public interface AppConstt {
     //validateRequestPermissionsRequestCode requires requestCode to be of 8 bits, i.e. range: 0-255.
     int REQ_CODE_SETTINGS_SCREEN = 224;
 
-    String IMAGE_DIR_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/Artstation" + File.separator;
+    String IMAGE_DIR_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/danetka" + File.separator;
     String PRIVATE_IMAGE_DIR = "myCategories";
 
     double MAX_PIC_SIZE_MB = (1024 * 1024) * 1.0;//1.5MB

@@ -6,7 +6,9 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,32 +36,28 @@ import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_A
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.CustomToast;
+import com.armoomragames.denketa.Utils.ExifUtil;
 import com.armoomragames.denketa.Utils.IWebCallback;
 import com.bumptech.glide.Glide;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
-import static com.armoomragames.denketa.Utils.AppConstt.CAMERA_INTENT_CALLED;
 import static com.armoomragames.denketa.Utils.IAdapterCallback.EVENT_A;
 
 public class MakeDenketaFragment extends Fragment implements View.OnClickListener {
 
     private static final String KEY_POSITION = "position";
-    private Uri picUri, imageUri;
-
     LinearLayout insert1, insert2;
     ImageView imvInsert1, imvInsert2;
     ImageView imvAddMainRegitlto, imvAddSingle;
     RecyclerView rcvRegilto;
-
     EditText edtRegilto;
     RelativeLayout rlRegiltoitem;
     LinearLayout llSubmit;
@@ -67,11 +65,11 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
     ArrayList<String> lstRegilto;
     RegiltoRCVAdapter regiltoRCVAdapter;
     EditText edtTitle, edtQuestion, edtAns;
+    boolean isQuestion;
+    private Uri picUri, imageUri;
     private File filePhotoForQuestion;
     private File filePhotoForAnswer;
     private Dialog progressDialog;
-    boolean isQuestion;
-
 
     public static Fragment newInstance(int position) {
         Fragment frag = new MakeDenketaFragment();
@@ -132,10 +130,13 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
         switch (v.getId()) {
 
             case R.id.frg_make_llInsert1:
-                if (isGrantedPermCamera()) {
+                if (isGrantedPermCamera())
+                {
                     if (isGrantedPermWriteExternalStorage()) {
-                        if (getActivity() != null)
+                        if (getActivity() != null) {
+                            showProgDialog();
                             getGalleryPic(true);
+                        }
                     }
                 }
 
@@ -144,8 +145,10 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
             case R.id.frg_make_llInsert2:
                 if (isGrantedPermCamera()) {
                     if (isGrantedPermWriteExternalStorage()) {
-                        if (getActivity() != null)
+                        if (getActivity() != null) {
+                            showProgDialog();
                             getGalleryPic(false);
+                        }
                     }
                 }
 
@@ -153,10 +156,10 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
             case R.id.frg_make_llSubmit:
 
                 if (!edtTitle.getText().toString().equals("") && !edtQuestion.getText().toString().equals("") && !edtAns.getText().toString().equals("")
-                && filePhotoForQuestion.exists() && filePhotoForQuestion.exists()) {
+                        && filePhotoForQuestion.exists() && filePhotoForQuestion.exists()) {
                     showProgDialog();
 
-                    String hints =  android.text.TextUtils.join(",", lstRegilto);
+                    String hints = android.text.TextUtils.join(",", lstRegilto);
                     DModelCustomDanetka dModelCustomDanetka = new DModelCustomDanetka(
                             edtTitle.getText().toString(),
                             edtAns.getText().toString(),
@@ -164,8 +167,8 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
                             hints.toString(),
                             edtQuestion.getText().toString(),
                             edtQuestion.getText().toString(),
-                            AppConfig.getInstance().mUser.getUser_Id()+""
-                            );
+                            AppConfig.getInstance().mUser.getUser_Id() + ""
+                    );
                     requestAddCustomDanteka(dModelCustomDanetka);
                 } else
                     CustomToast.showToastMessage(getActivity(), "Please fill all fields", Toast.LENGTH_LONG);
@@ -194,7 +197,6 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
                 break;
         }
     }
-
 
 
     private void requestAddCustomDanteka(DModelCustomDanetka dModelCustomDanetka) {
@@ -277,7 +279,6 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
     }
 
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
@@ -298,6 +299,7 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
         }
 
     }
+
     private String setPicPathForQuestion(boolean isQuestion) {
         //Create Dir if D.N.E
         File fileDir = new File(AppConstt.IMAGE_DIR_PATH);
@@ -306,15 +308,13 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
         }
 
         String tempImagePath = AppConstt.IMAGE_DIR_PATH;
-        tempImagePath += "image_default" + ".jpeg";
+        tempImagePath += "image_default" + ".png";
 
-        if (isQuestion)
-        {
-            this.isQuestion=true;
+        if (isQuestion) {
+            this.isQuestion = true;
             filePhotoForQuestion = new File(tempImagePath);
-        }
-        else {
-            this.isQuestion=false;
+        } else {
+            this.isQuestion = false;
             filePhotoForAnswer = new File(tempImagePath);
         }
 
@@ -331,102 +331,73 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
     }
 
 
-
     public void getGalleryPic(boolean isQuestion) {
         setPicPathForQuestion(isQuestion);
         if (Build.VERSION.SDK_INT < 19) {
             Intent intent = new Intent();
-            intent.setType("image/jpeg");
+            intent.setType("image/*");
+//            intent.setType("image/");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), AppConstt.GALLERY_INTENT_CALLED);
         } else {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("image/jpeg");
+//            intent.setType("image/jpeg");
+            intent.setType("image/*");
             startActivityForResult(intent, AppConstt.GALLERY_KITKAT_INTENT_CALLED);
         }
     }
 
-
+    //region Permissions
     @SuppressWarnings("ResourceType")
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        Log.d("dataFROMACTIVITY", data.getData().getPath());
-        Log.d("dataFROMACTIVITY ","requestCode "+ requestCode);
-        Log.d("dataFROMACTIVITY ","resultCode "+ resultCode);
         Uri originalUri = null;
-
-        // Received recording or error from MaterialCamera
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == CAMERA_INTENT_CALLED) {
-                originalUri = picUri;
-
-                try {
-                    Bitmap bitmap;
-                    picUri = imageUri;
-
-                    String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmm", Locale.ENGLISH).format(new Date());
-                    bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), picUri);
-                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bos);
-                    byte[] bitmapdata = bos.toByteArray();
-
-
-                    if (isQuestion){
-                        FileOutputStream fos = new FileOutputStream(filePhotoForQuestion);
-                        fos.write(bitmapdata);
-                        fos.flush();
-                        fos.close();
-                    }
-                    else {
-                        FileOutputStream fos = new FileOutputStream(filePhotoForAnswer);
-                        fos.write(bitmapdata);
-                        fos.flush();
-                        fos.close();
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    CustomToast.showToastMessage(getActivity(), e.toString(), Toast.LENGTH_LONG);
-                }
-
-//                requestUploadProfile(filePhoto);
-
-
-            } else if (requestCode == AppConstt.GALLERY_INTENT_CALLED ||
-                    requestCode == AppConstt.GALLERY_KITKAT_INTENT_CALLED) {
+        if (resultCode == Activity.RESULT_OK)
+        {
+            if (requestCode == AppConstt.GALLERY_INTENT_CALLED || requestCode == AppConstt.GALLERY_KITKAT_INTENT_CALLED) {
                 originalUri = data.getData();
 
                 try {
-                    Bitmap bitmap;
-
-                    bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), originalUri);
-//                File f = new File(getActivity().getCacheDir(), "image" + timeStamp);
-//                f.createNewFile();
-                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bos);
-                    byte[] bitmapdata = bos.toByteArray();
-
-                    if (isQuestion){
+                    dismissProgDialog();
+                    if (isQuestion) {
+                        Bitmap bitmap;
+                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), originalUri);
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 50, bos);
+                        byte[] bitmapdata = bos.toByteArray();
                         FileOutputStream fos = new FileOutputStream(filePhotoForQuestion);
+                        String imagePath = filePhotoForQuestion.getAbsolutePath();
+                        Bitmap orientedBitmap = ExifUtil.rotateBitmap(imagePath, bitmap);
+                        imvInsert1.setImageBitmap(orientedBitmap);
                         fos.write(bitmapdata);
                         fos.flush();
                         fos.close();
+
                     }
                     else {
+                        Bitmap bitmap;
+                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), originalUri);
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 50, bos);
+                        byte[] bitmapdata = bos.toByteArray();
                         FileOutputStream fos = new FileOutputStream(filePhotoForAnswer);
+                        String imagePath = filePhotoForAnswer.getAbsolutePath();             // photoFile is a File class.
+                        Bitmap orientedBitmap = ExifUtil.rotateBitmap(imagePath, bitmap);
+                        imvInsert2.setImageBitmap(orientedBitmap);
                         fos.write(bitmapdata);
                         fos.flush();
                         fos.close();
+
                     }
+                }
+                catch (IOException e)
+                {
 
-
-                } catch (IOException e) {
+                    dismissProgDialog();
                     e.printStackTrace();
                     CustomToast.showToastMessage(getActivity(), e.toString(), Toast.LENGTH_LONG);
                 }
-
                 if (requestCode == AppConstt.GALLERY_KITKAT_INTENT_CALLED) {
                     // Check for the freshest data.
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -436,10 +407,6 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
                         getActivity().getApplicationContext().getContentResolver().takePersistableUriPermission(originalUri, takeFlags);
                     }
                 }
-                //        loadSomeStreamAsynkTask(originalUri);
-
-                Log.d("dataFROMACTIVITY ","resultCode originalUri "+ originalUri);
-//                requestUploadProfile(filePhoto);
             }
 
         }
@@ -450,7 +417,6 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
 
 
 
-    //region Permissions
     private boolean isGrantedPermCamera() {
         if (Build.VERSION.SDK_INT >= 23) {
             int hasCameraPermission = checkSelfPermission(getContext(), Manifest.permission.CAMERA);

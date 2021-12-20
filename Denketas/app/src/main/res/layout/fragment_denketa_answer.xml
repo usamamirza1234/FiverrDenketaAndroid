@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"                android:background="@drawable/ic_dotted"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_dotted">
 
 
     <RelativeLayout
@@ -87,7 +87,7 @@
                         android:textStyle="bold" />
 
 
-                    <TextView
+                    <com.armoomragames.denketa.Utils.JustifyTextView
                         android:id="@+id/detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -97,7 +97,6 @@
                         android:alpha="20"
                         android:gravity="center"
                         android:justificationMode="inter_word"
-                        android:text="This would come with backend\n..................................\n..................................\n..................................\n..................................\n.................................."
                         android:textColor="@color/black"
                         android:textSize="@dimen/fontsize_mini" />
 
@@ -106,7 +105,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="400dp"
                         android:layout_below="@id/detail"
-
+                        android:layout_margin="10dp"
                         android:paddingTop="20dp"
                         android:src="@drawable/ic_copy2" />
 
