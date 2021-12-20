@@ -1,4 +1,4 @@
-package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
+package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession;
 
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
@@ -16,15 +16,18 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.IntroActivity;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.BundleDiscountFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentDetailFragment;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_All_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_INVESTIGATOR_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_User_Danektas;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
+import com.armoomragames.denketa.Utils.JustifyTextView;
 import com.bumptech.glide.Glide;
 
-public class DenketaInvestigatorQuestionFragment extends Fragment implements View.OnClickListener {
+public class QuestionFragment extends Fragment implements View.OnClickListener {
 
     RelativeLayout rlToolbar, rlBack, rlCross;
     LinearLayout llSeeAnswer;
@@ -39,13 +42,13 @@ String danetka_Image;
     boolean isInvestigator = false;
     boolean isMoreDanetka = false;
     TextView txvDanetkaName;
-    TextView txvQuestion;
+    JustifyTextView txvQuestion;
     ImageView img;
     Dialog progressDialog = null; // Context, this, etc.
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View frg = inflater.inflate(R.layout.fragment_denketa_investigator_question, container, false);
+        View frg = inflater.inflate(R.layout.fragment_question, container, false);
 
         init();
         bindViews(frg);
@@ -61,8 +64,8 @@ String danetka_Image;
             {
                 if (!isMoreDanetka)
                 {
-                    txvDanetkaName.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getTitle());
-                    txvQuestion.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getTitle());
+                    txvDanetkaName.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getTitle()+"");
+                    txvQuestion.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getQuestion()+"");
                     danetka_Image = "http://18.118.228.171:2000/images/" + Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getImage();
                     Glide.with(getContext()).load(danetka_Image).into(img);
                     llPaynow.setVisibility(View.GONE);
@@ -167,7 +170,7 @@ String danetka_Image;
     private void navToDenketaAnswerFragment() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new DenketaAnswerFragment();
+        Fragment frag = new AnswerFragment();
 //        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
 //                R.anim.enter_from_left, R.anim.exit_to_right);//not required
         Bundle bundle = new Bundle();

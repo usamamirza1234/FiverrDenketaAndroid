@@ -1,4 +1,4 @@
-package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
+package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.Results;
 
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
@@ -14,31 +14,24 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.Results.AddResultsFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.Results.DModelResults;
 import com.armoomragames.denketa.IntroAuxilaries.ResultsAdapter;
-import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.ForgotPasswordFragment;
-import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_All_Danektas;
-import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Results;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Results;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
-import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IAdapterCallback;
 import com.armoomragames.denketa.Utils.IWebPaginationCallback;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-
-import static com.armoomragames.denketa.Utils.IAdapterCallback.EVENT_A;
 
 public class MyResultsFragment extends Fragment implements View.OnClickListener, IWebPaginationCallback, AbsListView.OnScrollListener {
 

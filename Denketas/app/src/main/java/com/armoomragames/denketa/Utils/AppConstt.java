@@ -214,10 +214,10 @@ public interface AppConstt {
         String FN_DictionaryFragment = "DictionaryFragment" ;
         String PlayMianFragment ="PlayMianFragment" ;
         String FN_DenketaQuestionFragment = "DenketaQuestionFragment" ;
-        String FN_DenketaAnswerFragment = "DenketaAnswerFragment" ;
+        String FN_DenketaAnswerFragment = "AnswerFragment" ;
         String FN_InvestigatorFragment = "InvestigatorFragment" ;
         String FN_MyResultsFragment = "MyResultsFragment" ;
-        String FN_DenketaInvestigatorQuestionFragment = "DenketaInvestigatorQuestionFragment" ;
+        String FN_DenketaInvestigatorQuestionFragment = "QuestionFragment" ;
         String FN_BundleDiscountFragment = "BundleDiscountFragment" ;
         String FN_PaymentFragment = "PaymentFragment" ;
         String FN_PaymentFailedFragment = "PaymentFailedFragment";

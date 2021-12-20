@@ -25,13 +25,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.BundleDiscountFragment;
-import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DenketaInvestigatorQuestionFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.QuestionFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentApprovedFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentDetailFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentFailedFragment;
 import com.armoomragames.denketa.IntroAuxilaries.InvestigatorFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.LearnMoreFragment;
-import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.MyResultsFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.Results.MyResultsFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayMianFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PreSignInFragment;
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.ChallengeFragment;
@@ -410,7 +410,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
     public void navToDenketaInvestigatorQuestionFragment(int position, boolean isInvestigator, boolean isMoreDanetka) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new DenketaInvestigatorQuestionFragment();
+        Fragment frag = new QuestionFragment();
 //        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
 //                R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_DenketaInvestigatorQuestionFragment);

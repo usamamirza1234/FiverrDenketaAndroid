@@ -1,4 +1,4 @@
-package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
+package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.Results;
 
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;

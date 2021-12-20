@@ -1,4 +1,4 @@
-package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
+package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,21 +16,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.armoomragames.denketa.IntroActivity;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.LearnMoreFragment;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_All_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_INVESTIGATOR_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_User_Danektas;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
+import com.armoomragames.denketa.Utils.JustifyTextView;
 import com.bumptech.glide.Glide;
 
 import static com.armoomragames.denketa.Utils.IAdapterCallback.EVENT_A;
 
-public class DenketaAnswerFragment extends Fragment implements View.OnClickListener {
+public class AnswerFragment extends Fragment implements View.OnClickListener {
     RelativeLayout rlBack, rlCross;
     RecyclerView rcvRegilto;
     TextView txvDanetkaName;
-    TextView txvDetail;
+    JustifyTextView txvDetail;
     IBadgeUpdateListener mBadgeUpdateListener;
     ImageView img;
     LinearLayout llLearnMore;
