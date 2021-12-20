@@ -28,6 +28,11 @@ import com.armoomragames.denketa.Utils.IWebCallback;
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class AddResultsFragment extends Fragment implements View.OnClickListener {
 
     RelativeLayout rlToolbar, rlBack, rlCross;
@@ -139,13 +144,14 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
                         && !edtTime.getText().toString().equals("")
                         && !edtUsed.getText().toString().equals("")) {
 
-
+                    Date c = Calendar.getInstance().getTime();
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    String formattedDate = df.format(c);
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("investigatorName", edtInvestigator.getText().toString());
-                    jsonObject.addProperty("text", edtMaster.getText().toString());
                     jsonObject.addProperty("riglettosUsed", edtUsed.getText().toString());
-                    jsonObject.addProperty("date", edtTime.getText().toString());
                     jsonObject.addProperty("time", edtTime.getText().toString());
+                    jsonObject.addProperty("date", formattedDate.toString());
                     jsonObject.addProperty("masterId", AppConfig.getInstance().mUser.getUser_Id());
                     jsonObject.addProperty("danetkaId", danetka_id);
                     requestContactUs(jsonObject.toString());

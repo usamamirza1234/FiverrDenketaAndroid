@@ -1,4 +1,4 @@
-package com.armoomragames.denketa.IntroAuxilaries.InvestigatorAuxillaries;
+package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
 
 import android.content.Context;
 import android.util.DisplayMetrics;

@@ -1,4 +1,4 @@
-package com.armoomragames.denketa.IntroAuxilaries.InvestigatorAuxillaries;
+package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -79,7 +79,10 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
 
         if (is_coming_from_bundle)
             txvPaymentDescription.setText(number + " Danetka " + total + "€");
-        else txvPaymentDescription.setText("1 Danetka 0,99€");
+        else {
+            txvPaymentDescription.setText("1 Danetka 0,99€");
+
+        }
 
         txvUseGameCredits.setText("Game Credits available -- " + AppConfig.getInstance().mUser.getGameCredits());
         return frg;

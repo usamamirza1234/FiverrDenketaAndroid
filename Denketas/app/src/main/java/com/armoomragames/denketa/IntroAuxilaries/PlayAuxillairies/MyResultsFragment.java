@@ -45,7 +45,7 @@ public class MyResultsFragment extends Fragment implements View.OnClickListener,
     RelativeLayout rlToolbar, rlBack, rlCross;
     Bundle bundle;
     String danetka_name = "";
-    String danetka_id = "10";
+    String danetka_id = "1";
     TextView txvDanetkaName;
     LinearLayout llAddResult, llNoResults;
     ImageView imvAddResults;
@@ -103,7 +103,7 @@ public class MyResultsFragment extends Fragment implements View.OnClickListener,
         Intro_WebHit_Get_Results.mPaginationInfo.currIndex = AppConstt.PAGINATION_START_INDEX;
         Intro_WebHit_Get_Results.responseObject = null;
         intro_webHit_get_results.getCategory(this,
-                Intro_WebHit_Get_Results.mPaginationInfo.currIndex);
+                Intro_WebHit_Get_Results.mPaginationInfo.currIndex,Integer.parseInt(danetka_id));
     }
 
     private void bindViewss(View frg) {
@@ -174,13 +174,16 @@ public class MyResultsFragment extends Fragment implements View.OnClickListener,
 
                 if (Intro_WebHit_Get_Results.responseObject != null &&
                         Intro_WebHit_Get_Results.responseObject.getData() != null &&
-                        Intro_WebHit_Get_Results.responseObject.getData().getListing() != null &&
-                        Intro_WebHit_Get_Results.responseObject.getData().getListing().size() > 0) {
+                        Intro_WebHit_Get_Results.responseObject.getData().size() > 0) {
 
 //                    txvNoData.setVisibility(View.GONE);
                     llNoResults.setVisibility(View.GONE);
-                    for (int i = 0; i < Intro_WebHit_Get_Results.responseObject.getData().getListing().size(); i++) {
-                        lst_results.add(new DModelResults("Usama", "Mirza", "10", "10", "10"));
+                    for (int i = 0; i < Intro_WebHit_Get_Results.responseObject.getData().size(); i++) {
+                        lst_results.add(new DModelResults(AppConfig.getInstance().mUser.getName(),
+                                Intro_WebHit_Get_Results.responseObject.getData().get(i).getInvestigatorName(),
+                                Intro_WebHit_Get_Results.responseObject.getData().get(i).getDate(),
+                                Intro_WebHit_Get_Results.responseObject.getData().get(i).getTime(),
+                                Intro_WebHit_Get_Results.responseObject.getData().get(i).getRiglettosUsed()+""));
 
                     }
 
@@ -282,7 +285,7 @@ public class MyResultsFragment extends Fragment implements View.OnClickListener,
 //                llListItemLoader.setVisibility(View.VISIBLE);
 
                 intro_webHit_get_results.getCategory(this,
-                        Intro_WebHit_Get_Results.mPaginationInfo.currIndex + 1);
+                        Intro_WebHit_Get_Results.mPaginationInfo.currIndex + 1,Integer.parseInt(danetka_id));
             }
         }
     }

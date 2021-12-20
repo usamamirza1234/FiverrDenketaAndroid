@@ -32,7 +32,7 @@ public class Intro_WebHit_Post_Results {
         StringEntity entity = null;
         entity = new StringEntity(_signInEntity, "UTF-8");
         mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS);
-        Log.d("currentLang", AppConfig.getInstance().loadDefLanguage());
+        mClient.addHeader(ApiMethod.HEADER.Authorization, AppConfig.getInstance().mUser.getAuthorization());
 
         mClient.post(mContext, myUrl, entity, "application/json", new AsyncHttpResponseHandler() {
                     @Override
@@ -88,38 +88,116 @@ public class Intro_WebHit_Post_Results {
 
 
     public class RModel_SignIn {
-        private int code;
 
-        private String status;
+        public class Data
+        {
+            private String danetkaId;
 
-        private String message;
+            private String masterId;
 
-        private String data;
+            private boolean status;
 
-        public void setCode(int code){
-            this.code = code;
+            private int id;
+
+            private String investigatorName;
+
+            private String riglettosUsed;
+
+            private String date;
+
+            private String time;
+
+            private int updatedTime;
+
+            public void setDanetkaId(String danetkaId){
+                this.danetkaId = danetkaId;
+            }
+            public String getDanetkaId(){
+                return this.danetkaId;
+            }
+            public void setMasterId(String masterId){
+                this.masterId = masterId;
+            }
+            public String getMasterId(){
+                return this.masterId;
+            }
+            public void setStatus(boolean status){
+                this.status = status;
+            }
+            public boolean getStatus(){
+                return this.status;
+            }
+            public void setId(int id){
+                this.id = id;
+            }
+            public int getId(){
+                return this.id;
+            }
+            public void setInvestigatorName(String investigatorName){
+                this.investigatorName = investigatorName;
+            }
+            public String getInvestigatorName(){
+                return this.investigatorName;
+            }
+            public void setRiglettosUsed(String riglettosUsed){
+                this.riglettosUsed = riglettosUsed;
+            }
+            public String getRiglettosUsed(){
+                return this.riglettosUsed;
+            }
+            public void setDate(String date){
+                this.date = date;
+            }
+            public String getDate(){
+                return this.date;
+            }
+            public void setTime(String time){
+                this.time = time;
+            }
+            public String getTime(){
+                return this.time;
+            }
+            public void setUpdatedTime(int updatedTime){
+                this.updatedTime = updatedTime;
+            }
+            public int getUpdatedTime(){
+                return this.updatedTime;
+            }
         }
-        public int getCode(){
-            return this.code;
+
+
+            private int code;
+
+            private String status;
+
+            private String message;
+
+            private Data data;
+
+            public void setCode(int code){
+                this.code = code;
+            }
+            public int getCode(){
+                return this.code;
+            }
+            public void setStatus(String status){
+                this.status = status;
+            }
+            public String getStatus(){
+                return this.status;
+            }
+            public void setMessage(String message){
+                this.message = message;
+            }
+            public String getMessage(){
+                return this.message;
+            }
+            public void setData(Data data){
+                this.data = data;
+            }
+            public Data getData(){
+                return this.data;
+            }
         }
-        public void setStatus(String status){
-            this.status = status;
-        }
-        public String getStatus(){
-            return this.status;
-        }
-        public void setMessage(String message){
-            this.message = message;
-        }
-        public String getMessage(){
-            return this.message;
-        }
-        public void setData(String data){
-            this.data = data;
-        }
-        public String getData(){
-            return this.data;
-        }
-    }
 
 }

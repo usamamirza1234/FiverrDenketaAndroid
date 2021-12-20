@@ -23,7 +23,6 @@ import java.util.ArrayList;
 
 public class ResultsAdapter  extends BaseAdapter {
 
-    RelativeLayout rlToolbar, rlBack, rlCross;
     private IAdapterCallback iAdapterCallback;
     private LayoutInflater inflater;
     private ArrayList<DModelResults> mData;
@@ -69,6 +68,9 @@ public class ResultsAdapter  extends BaseAdapter {
             viewHolder = new ResultsAdapter.ViewHolder();
             viewHolder.txv_master = convertView.findViewById(R.id.lay_results_txv_master);
             viewHolder.txv_invest = convertView.findViewById(R.id.lay_results_txv_invest);
+            viewHolder.txv_regilto_used = convertView.findViewById(R.id.lay_results_txv_regilto_used);
+            viewHolder.txv_Time = convertView.findViewById(R.id.lay_results_txv_time);
+            viewHolder.txv_Date = convertView.findViewById(R.id.lay_results_txv_date);
             viewHolder.rlLowExtended = convertView.findViewById(R.id.lay_results_ll_extended);
 
 
@@ -81,7 +83,10 @@ public class ResultsAdapter  extends BaseAdapter {
 
         viewHolder.txv_master.setText(mData.get(position).getMaster());
         viewHolder.txv_invest.setText(mData.get(position).getInvestigator());
-        viewHolder.txv_master.setOnClickListener(v -> {
+        viewHolder.txv_regilto_used.setText(mData.get(position).getRegiltor_used());
+        viewHolder.txv_Time.setText(mData.get(position).getTime());
+        viewHolder.txv_Date.setText(mData.get(position).getDate());
+        convertView.setOnClickListener(v -> {
             iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_A, position);
             if (viewHolder.rlLowExtended.getVisibility() == View.GONE)
                 viewHolder.rlLowExtended.setVisibility(View.VISIBLE);
@@ -93,6 +98,9 @@ public class ResultsAdapter  extends BaseAdapter {
     class ViewHolder {
         TextView txv_master;
         TextView txv_invest;
+        TextView txv_regilto_used;
+        TextView txv_Time;
+        TextView txv_Date;
         LinearLayout rlLowExtended;
     }
 }

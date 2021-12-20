@@ -25,9 +25,10 @@ import androidx.fragment.app.Fragment;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
-import com.armoomragames.denketa.IntroAuxilaries.InvestigatorAuxillaries.InsvestigatorLsvAdapter;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.InsvestigatorLsvAdapter;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_INVESTIGATOR_Danektas;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_User_Danektas;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.CustomToast;
@@ -115,7 +116,11 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
 
                     for (int i = 0; i < Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().size(); i++) {
 
-                        lst_MyDenketa.add(new DModel_MyDenketa(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getTitle(), Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getImage()));
+                        lst_MyDenketa.add(new DModel_MyDenketa(
+                                Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getTitle(),
+                                Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getId()+"",
+                                Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getImage()
+                        ));
 
 
                     }
@@ -248,9 +253,7 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
             public void onClick(View v) {
                 dialog.dismiss();
                 ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(
-                        lst_MyDenketa.get(position).getStrName(),
-                        lst_MyDenketa.get(position).getStrImage(),
-                        lst_MyDenketa.get(position).getStrId(),
+                        position,
                         true, false);
 
 

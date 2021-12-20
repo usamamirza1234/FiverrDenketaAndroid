@@ -1,9 +1,8 @@
-package com.armoomragames.denketa.IntroAuxilaries.InvestigatorAuxillaries;
+package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
 
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +16,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.IntroActivity;
-import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DenketaAnswerFragment;
-import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameResultsFragment;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_All_Danektas;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_INVESTIGATOR_Danektas;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_User_Danektas;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
@@ -27,19 +27,21 @@ import com.bumptech.glide.Glide;
 public class DenketaInvestigatorQuestionFragment extends Fragment implements View.OnClickListener {
 
     RelativeLayout rlToolbar, rlBack, rlCross;
-    LinearLayout llSeeAnswer; RelativeLayout rlMaster;
+    LinearLayout llSeeAnswer;
+    RelativeLayout rlMaster;
     LinearLayout llPaynow;
     LinearLayout llBundleDiscount;
     IBadgeUpdateListener mBadgeUpdateListener;
     Bundle bundle;
-    String danetka_name = "";
-    String danetka_id = "";
-    String danetka_danetkaID = "";
-    String danetka_Image = "";
+String danetka_Image;
+    int position = 0;
+
     boolean isInvestigator = false;
     boolean isMoreDanetka = false;
     TextView txvDanetkaName;
+    TextView txvQuestion;
     ImageView img;
+    Dialog progressDialog = null; // Context, this, etc.
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,59 +57,60 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
 
     private void setData() {
         try {
-            txvDanetkaName.setText(danetka_name.toUpperCase());
-            Log.d("LOG_AS", "Image: " + "http://18.118.228.171:2000/images/" + danetka_id);
-            Log.d("LOG_AS", "isMoreDanetka: " + isMoreDanetka);
-            Log.d("LOG_AS", "isInvestigator: " +  isInvestigator);
-            danetka_Image="http://18.118.228.171:2000/images/" + danetka_id;
-
-            Glide.with(getContext()).load(danetka_Image).into(img);
-
-            if (!isInvestigator) {
-                if (isMoreDanetka)
+            if (!isInvestigator)
+            {
+                if (!isMoreDanetka)
                 {
+                    txvDanetkaName.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getTitle());
+                    txvQuestion.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getTitle());
+                    danetka_Image = "http://18.118.228.171:2000/images/" + Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getImage();
+                    Glide.with(getContext()).load(danetka_Image).into(img);
+                    llPaynow.setVisibility(View.GONE);
+                    llBundleDiscount.setVisibility(View.GONE);
+                    llSeeAnswer.setVisibility(View.VISIBLE);
+                }else {
+
+                    txvDanetkaName.setText(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getTitle()+"");
+                    txvQuestion.setText(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getQuestion()+"");
+                    danetka_Image = "http://18.118.228.171:2000/images/" + Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getImage();
+                    Glide.with(getContext()).load(danetka_Image).into(img);
+
                     llPaynow.setVisibility(View.VISIBLE);
                     llBundleDiscount.setVisibility(View.VISIBLE);
                     llSeeAnswer.setVisibility(View.GONE);
                 }
-                else {
-                    llPaynow.setVisibility(View.GONE);
-                    llBundleDiscount.setVisibility(View.GONE);
-                    llSeeAnswer.setVisibility(View.VISIBLE);
-                }
-
             }
             else {
+                txvDanetkaName.setText(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getTitle()+"");
+                txvQuestion.setText(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getQuestion()+"");
+                danetka_Image = "http://18.118.228.171:2000/images/" + Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getImage();
+                Glide.with(getContext()).load(danetka_Image).into(img);
+
                 llPaynow.setVisibility(View.GONE);
                 llBundleDiscount.setVisibility(View.GONE);
                 llSeeAnswer.setVisibility(View.GONE);
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
 
     }
 
-
     void init() {
         bundle = this.getArguments();
         if (bundle != null) {
-            danetka_name = bundle.getString("key_danetka_name");
-            danetka_id = bundle.getString("key_danetka_id");
-            danetka_danetkaID = bundle.getString("key_danetka_danetkaID");
+            position = bundle.getInt("key_danetka_position");
             isInvestigator = bundle.getBoolean("key_danetka_is_investigator", false);
             isMoreDanetka = bundle.getBoolean("key_danetka_is_more_danetka", false);
 
         }
     }
 
-
     private void bindViews(View frg) {
 
         llSeeAnswer = frg.findViewById(R.id.frg_denketa_question_llSeeAnswer);
         txvDanetkaName = frg.findViewById(R.id.frg_my_results_txv_danetkaname);
+        txvQuestion = frg.findViewById(R.id.txvQuestion);
         llPaynow = frg.findViewById(R.id.frg_denketa_question_llBuyNow);
         llBundleDiscount = frg.findViewById(R.id.frg_denketa_question_llBundleDiscount);
         rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
@@ -124,7 +127,6 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
 
 
     }
-
 
     @Override
     public void onClick(View v) {
@@ -146,30 +148,32 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
                 break;
 
             case R.id.frg_denketa_question_llBundleDiscount:
-                navToBundleDiscountFragment(danetka_danetkaID);
+                navToBundleDiscountFragment();
+
 
                 break;
             case R.id.frg_denketa_question_llBuyNow:
-                navToPaymentDetailFragment(danetka_danetkaID);
+                navToPaymentDetailFragment();
                 break;
 
             case R.id.rl_popup_parent:
                 dismissProgDialog();
-                navToDenketaAnswerFragment(danetka_name.toUpperCase(),danetka_Image,danetka_danetkaID);
+                navToDenketaAnswerFragment();
                 break;
 
         }
     }
-    private void navToDenketaAnswerFragment(String name,String danetka_Image,String danetka_danetkaID) {
+
+    private void navToDenketaAnswerFragment() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new DenketaAnswerFragment();
 //        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
 //                R.anim.enter_from_left, R.anim.exit_to_right);//not required
         Bundle bundle = new Bundle();
-        bundle.putString("key_danetka_name", name);
-        bundle.putString("key_danetka_danetka_image", danetka_Image);
-        bundle.putString("key_danetka_danetkaID", danetka_danetkaID);
+        bundle.putInt("key_danetka_position", position);
+        bundle.putBoolean("key_danetka_is_investigator", isInvestigator);
+        bundle.putBoolean("key_danetka_is_more_danetka", isMoreDanetka);
         frag.setArguments(bundle);
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_DenketaAnswerFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_DenketaAnswerFragment);
@@ -178,19 +182,8 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
     }
 
 
-    private void navToDenketaAnswerFragment() {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new GameResultsFragment();
-//        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-//                R.anim.enter_from_left, R.anim.exit_to_right);//not required
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_DenketaAnswerFragment);
-        ft.addToBackStack(AppConstt.FragTag.FN_DenketaAnswerFragment);
-        ft.hide(this);
-        ft.commit();
-    }
 
-    private void navToBundleDiscountFragment(String danetka_danetkaID) {
+    private void navToBundleDiscountFragment() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new BundleDiscountFragment();
@@ -198,7 +191,10 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
 //                R.anim.enter_from_left, R.anim.exit_to_right);//not required
         Bundle bundle = new Bundle();
 
-        bundle.putString("key_danetka_danetkaID", danetka_danetkaID);
+        bundle.putInt("key_danetka_position", position);
+        bundle.putBoolean("key_danetka_is_investigator", isInvestigator);
+        bundle.putBoolean("key_danetka_is_more_danetka", isMoreDanetka);
+
         frag.setArguments(bundle);
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_BundleDiscountFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_BundleDiscountFragment);
@@ -206,25 +202,28 @@ public class DenketaInvestigatorQuestionFragment extends Fragment implements Vie
         ft.commit();
     }
 
-    private void navToPaymentDetailFragment(String danetka_danetkaID) {
+    private void navToPaymentDetailFragment() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new PaymentDetailFragment();
 //        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
 //                R.anim.enter_from_left, R.anim.exit_to_right);//not required
         Bundle bundle = new Bundle();
-        bundle.putBoolean("key_is_coming_from_bundle",false);
-        bundle.putString("key_danetka_danetkaID", danetka_danetkaID);
+        bundle.putBoolean("key_is_coming_from_bundle", false);
+        bundle.putString("key_danetka_danetkaID", ""+Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getId());
         bundle.putString("key_danetka_sub_total", "1");
         bundle.putString("key_danetka_total", "1.00");
         bundle.putString("key_danetka_number", "1");
+        bundle.putInt("key_danetka_position", position);
+        bundle.putBoolean("key_danetka_is_investigator", isInvestigator);
+        bundle.putBoolean("key_danetka_is_more_danetka", isMoreDanetka);
         frag.setArguments(bundle);
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PaymentDetailFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_PaymentDetailFragment);
         ft.hide(this);
         ft.commit();
     }
-    Dialog progressDialog = null; // Context, this, etc.
+
     public void openDialog() {
 
 

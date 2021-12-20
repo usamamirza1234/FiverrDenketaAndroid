@@ -79,8 +79,7 @@ public class SplashFragment extends Fragment {
 
                     AppConfig.getInstance().loadUserProfile();
                     if (getActivity() != null)
-                        getActivity().runOnUiThread(new Runnable() {
-                            public void run() {
+                        getActivity().runOnUiThread(() -> {
 //                                if (AppConfig.getInstance().mUserData.isLoggedIn) {
 //                                    showProfile();
 //                                } else {
@@ -89,15 +88,14 @@ public class SplashFragment extends Fragment {
 //                                    navtoChoiceFragment();
 //                                }
 
-                                requestSwitchLang();
-                                navToPreSignInVAFragment();
+//                                requestSwitchLang();
+                            navToPreSignInVAFragment();
 //                                if (!AppConfig.getInstance().mUser.isLoggedIn())
 //                                    navToPreSignInVAFragment();
 //                                else
 //                                    ((IntroActivity) getActivity()).navtoMainActivity();
 
 
-                            }
                         });
                 } catch (InterruptedException e) {
                     e.printStackTrace();

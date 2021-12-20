@@ -194,7 +194,7 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
                                         if (AppConfig.getInstance().mUser.isLoggedIn()) {
 
 //                                            ((IntroActivity)getActivity()).navToBundleDiscountFragment(strID);
-                                            ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(lst_MyDenketa.get(position).getStrName(), lst_MyDenketa.get(position).getStrImage(), lst_MyDenketa.get(position).getStrId(), false, true);
+                                            ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, true);
 
 //                                            ((IntroActivity)getActivity()). onBuyPressed();
 //                                            if (

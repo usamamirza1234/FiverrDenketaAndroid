@@ -352,12 +352,12 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
 
                     if (Intro_WebHit_Post_LogIn.responseObject.getData().getDateOfBirth() != null)
                         AppConfig.getInstance().mUser.DOB = Intro_WebHit_Post_LogIn.responseObject.getData().getDateOfBirth();
+                    AppConfig.getInstance().mUser.Authorization = Intro_WebHit_Post_LogIn.responseObject.getData().getAccessToken();
 
 
                     AppConfig.getInstance().mUser.setGuest(false);
                     AppConfig.getInstance().mUser.setLoggedIn(true);
-
-                    AppConfig.getInstance().mUser.Authorization = Intro_WebHit_Post_LogIn.responseObject.getData().getAccessToken();
+                    AppConfig.getInstance().saveUserProfile();
 
 
 
@@ -371,7 +371,7 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
 //                    jsonObject.addProperty("danetkasId", 3);
 //                    requestAddUserDanetkas(jsonObject.toString());
 
-                    AppConfig.getInstance().saveUserProfile();
+
                     if (!Intro_WebHit_Post_LogIn.responseObject.getData().getIsProfileSet())
                         navtoSignUpContFragment();
                     else

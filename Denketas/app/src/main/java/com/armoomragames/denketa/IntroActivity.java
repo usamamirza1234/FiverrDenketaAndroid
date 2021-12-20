@@ -1,6 +1,5 @@
 package com.armoomragames.denketa;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +7,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -20,20 +18,18 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.armoomragames.denketa.IntroAuxilaries.InvestigatorAuxillaries.BundleDiscountFragment;
-import com.armoomragames.denketa.IntroAuxilaries.InvestigatorAuxillaries.DenketaInvestigatorQuestionFragment;
-import com.armoomragames.denketa.IntroAuxilaries.InvestigatorAuxillaries.PaymentApprovedFragment;
-import com.armoomragames.denketa.IntroAuxilaries.InvestigatorAuxillaries.PaymentDetailFragment;
-import com.armoomragames.denketa.IntroAuxilaries.InvestigatorAuxillaries.PaymentFailedFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.BundleDiscountFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DenketaInvestigatorQuestionFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentApprovedFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentDetailFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentFailedFragment;
 import com.armoomragames.denketa.IntroAuxilaries.InvestigatorFragment;
-import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DenketaQuestionFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.LearnMoreFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.MyResultsFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayMianFragment;
@@ -43,39 +39,20 @@ import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.ExtraRulesFragm
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.GamePlayFragment;
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.RulesFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SplashFragment;
-import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddUserDanetkas;
 import com.armoomragames.denketa.Utils.AppConstt;
-import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
-import com.armoomragames.denketa.Utils.IWebCallback;
 import com.armoomragames.denketa.Utils.LocaleHelper;
-import com.armoomragames.denketa.Utils.RModel_Paypal;
 import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.Profile;
-import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.paypal.android.sdk.payments.PayPalConfiguration;
-import com.paypal.android.sdk.payments.PayPalPayment;
-import com.paypal.android.sdk.payments.PayPalService;
-import com.paypal.android.sdk.payments.PaymentActivity;
-import com.paypal.android.sdk.payments.PaymentConfirmation;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.Locale;
 
 public class IntroActivity extends AppCompatActivity implements IBadgeUpdateListener, View.OnClickListener {
@@ -409,24 +386,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
     }
 
-    public void navToDenketaQuestionFragment(String name, String position) {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new DenketaQuestionFragment();
 
-//        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-//                R.anim.enter_from_left, R.anim.exit_to_right);//not required
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_DenketaQuestionFragment);
-        ft.addToBackStack(AppConstt.FragTag.FN_DenketaQuestionFragment);
-        Bundle bundle = new Bundle();
-        bundle.putString("key_danetka_name", name);
-        bundle.putString("key_danetka_position", position);
-        frag.setArguments(bundle);
-        hideLastStackFragment(ft);
-//        ft.hide(this);
-        ft.commit();
-
-    }
 
 
     public void navToLearnmoreFragment() {
@@ -447,7 +407,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
     }
 
 
-    public void navToDenketaInvestigatorQuestionFragment(String name, String id, String danetkaID, boolean isInvestigator, boolean isMoreDanetka) {
+    public void navToDenketaInvestigatorQuestionFragment(int position, boolean isInvestigator, boolean isMoreDanetka) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new DenketaInvestigatorQuestionFragment();
@@ -456,9 +416,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_DenketaInvestigatorQuestionFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_DenketaInvestigatorQuestionFragment);
         Bundle bundle = new Bundle();
-        bundle.putString("key_danetka_name", name);
-        bundle.putString("key_danetka_id", id);
-        bundle.putString("key_danetka_danetkaID", danetkaID);
+        bundle.putInt("key_danetka_position", position);
         bundle.putBoolean("key_danetka_is_investigator", isInvestigator);
         bundle.putBoolean("key_danetka_is_more_danetka", isMoreDanetka);
         frag.setArguments(bundle);
@@ -556,8 +514,6 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
             } else if (frg instanceof ExtraRulesFragment && frg.isVisible()) {
                 ft.hide(frg);
             } else if (frg instanceof GamePlayFragment && frg.isVisible()) {
-                ft.hide(frg);
-            } else if (frg instanceof DenketaQuestionFragment && frg.isVisible()) {
                 ft.hide(frg);
             } else if (frg instanceof PlayMianFragment && frg.isVisible()) {
                 ft.hide(frg);

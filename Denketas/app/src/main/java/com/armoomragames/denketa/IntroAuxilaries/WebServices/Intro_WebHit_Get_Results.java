@@ -21,9 +21,9 @@ public class Intro_WebHit_Get_Results {
     public static ResponseModel responseObject = null;
     public static DModel_PaginationInfo mPaginationInfo = new DModel_PaginationInfo();
 
-    public void getCategory(final IWebPaginationCallback iWebPaginationCallback, final int _index)  {
+    public void getCategory(final IWebPaginationCallback iWebPaginationCallback, final int _index, final int _ID)  {
         String myUrl="";
-             myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.GET.fetchResults;
+             myUrl = AppConfig.getInstance().getBaseUrlApi() +  ApiMethod.GET.fetchResults +_ID;
 
 
 
@@ -35,7 +35,7 @@ public class Intro_WebHit_Get_Results {
         params.put("sortOrder", "DESC");
 
 
-        Log.d("LOG_AS", "getAllResults:  " + myUrl + params);
+        Log.d("LOG_AS", "getAllResults:  " + myUrl +" "+params +" Header "+AppConfig.getInstance().mUser.getAuthorization());
 
         mClient.addHeader(ApiMethod.HEADER.Authorization, AppConfig.getInstance().mUser.getAuthorization());
         mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS);
@@ -138,27 +138,21 @@ public class Intro_WebHit_Get_Results {
 
     public class ResponseModel {
 
-        public class Listing
+        public class Data
         {
             private int id;
 
+            private int danetkaId;
+
             private int masterId;
 
-            private String title;
+            private String investigatorName;
 
-            private String question;
+            private int riglettosUsed;
 
-            private String answer;
+            private String date;
 
-            private String hint;
-
-            private String image;
-
-            private String answerImage;
-
-            private String paymentStatus;
-
-            private String learnMore;
+            private String time;
 
             private boolean status;
 
@@ -170,59 +164,41 @@ public class Intro_WebHit_Get_Results {
             public int getId(){
                 return this.id;
             }
+            public void setDanetkaId(int danetkaId){
+                this.danetkaId = danetkaId;
+            }
+            public int getDanetkaId(){
+                return this.danetkaId;
+            }
             public void setMasterId(int masterId){
                 this.masterId = masterId;
             }
             public int getMasterId(){
                 return this.masterId;
             }
-            public void setTitle(String title){
-                this.title = title;
+            public void setInvestigatorName(String investigatorName){
+                this.investigatorName = investigatorName;
             }
-            public String getTitle(){
-                return this.title;
+            public String getInvestigatorName(){
+                return this.investigatorName;
             }
-            public void setQuestion(String question){
-                this.question = question;
+            public void setRiglettosUsed(int riglettosUsed){
+                this.riglettosUsed = riglettosUsed;
             }
-            public String getQuestion(){
-                return this.question;
+            public int getRiglettosUsed(){
+                return this.riglettosUsed;
             }
-            public void setAnswer(String answer){
-                this.answer = answer;
+            public void setDate(String date){
+                this.date = date;
             }
-            public String getAnswer(){
-                return this.answer;
+            public String getDate(){
+                return this.date;
             }
-            public void setHint(String hint){
-                this.hint = hint;
+            public void setTime(String time){
+                this.time = time;
             }
-            public String getHint(){
-                return this.hint;
-            }
-            public void setImage(String image){
-                this.image = image;
-            }
-            public String getImage(){
-                return this.image;
-            }
-            public void setAnswerImage(String answerImage){
-                this.answerImage = answerImage;
-            }
-            public String getAnswerImage(){
-                return this.answerImage;
-            }
-            public void setPaymentStatus(String paymentStatus){
-                this.paymentStatus = paymentStatus;
-            }
-            public String getPaymentStatus(){
-                return this.paymentStatus;
-            }
-            public void setLearnMore(String learnMore){
-                this.learnMore = learnMore;
-            }
-            public String getLearnMore(){
-                return this.learnMore;
+            public String getTime(){
+                return this.time;
             }
             public void setStatus(boolean status){
                 this.status = status;
@@ -239,71 +215,6 @@ public class Intro_WebHit_Get_Results {
         }
 
 
-        public class Pagination
-        {
-            private int page;
-
-            private int count;
-
-            private int pages;
-
-            private String sortBy;
-
-            private String sortOrder;
-
-            public void setPage(int page){
-                this.page = page;
-            }
-            public int getPage(){
-                return this.page;
-            }
-            public void setCount(int count){
-                this.count = count;
-            }
-            public int getCount(){
-                return this.count;
-            }
-            public void setPages(int pages){
-                this.pages = pages;
-            }
-            public int getPages(){
-                return this.pages;
-            }
-            public void setSortBy(String sortBy){
-                this.sortBy = sortBy;
-            }
-            public String getSortBy(){
-                return this.sortBy;
-            }
-            public void setSortOrder(String sortOrder){
-                this.sortOrder = sortOrder;
-            }
-            public String getSortOrder(){
-                return this.sortOrder;
-            }
-        }
-
-
-        public class Data
-        {
-            private List<Listing> listing;
-
-            private Pagination pagination;
-
-            public void setListing(List<Listing> listing){
-                this.listing = listing;
-            }
-            public List<Listing> getListing(){
-                return this.listing;
-            }
-            public void setPagination(Pagination pagination){
-                this.pagination = pagination;
-            }
-            public Pagination getPagination(){
-                return this.pagination;
-            }
-        }
-
 
             private int code;
 
@@ -311,7 +222,7 @@ public class Intro_WebHit_Get_Results {
 
             private String message;
 
-            private Data data;
+            private List<Data> data;
 
             public void setCode(int code){
                 this.code = code;
@@ -331,15 +242,12 @@ public class Intro_WebHit_Get_Results {
             public String getMessage(){
                 return this.message;
             }
-            public void setData(Data data){
+            public void setData(List<Data> data){
                 this.data = data;
             }
-            public Data getData(){
+            public List<Data> getData(){
                 return this.data;
             }
+        }
 
     }
-
-
-
-}

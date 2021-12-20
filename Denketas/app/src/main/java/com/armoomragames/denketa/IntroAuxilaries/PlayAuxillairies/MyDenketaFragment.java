@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -160,6 +161,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
 
                             lst_MyDenketa.add(new DModel_MyDenketa(
                                             Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getTitle(),
+                                            Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getId()+"",
                                             Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getImage()
                                     )
                             );
@@ -175,7 +177,8 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                             if (!AppConfig.getInstance().getProgDialogs())
                                                 onClickDenketaItem(position);
                                             else {
-                                                ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(lst_MyDenketa.get(position).getStrName(), lst_MyDenketa.get(position).getStrImage(), lst_MyDenketa.get(position).getStrId(), false, false);
+                                                Log.d("Danetka","ID "+ lst_MyDenketa.get(position).getStrId());
+                                                ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false);
                                             }
                                         } else {
                                             CustomToast.showToastMessage(getActivity(), "Sign in / Sign Up or Play as Guest  to PLAY!", Toast.LENGTH_LONG);
@@ -183,14 +186,15 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                         break;
 
                                     case EVENT_B:
-                                        ((IntroActivity) getActivity()).navToMyResultsFragment(lst_MyDenketa.get(position).getStrName(),"1");
+                                        Log.d("Danetka","ID "+ lst_MyDenketa.get(position).getStrId());
+                                        ((IntroActivity) getActivity()).navToMyResultsFragment(lst_MyDenketa.get(position).getStrName(),lst_MyDenketa.get(position).getStrId());
 //                                        ((IntroActivity) getActivity()).navToMyResultsFragment(lst_MyDenketa.get(position).getStrName(),lst_MyDenketa.get(position).getStrId());
 
                                         break;
-
                                 }
 
-                            }, getActivity(), lst_MyDenketa);
+
+                                              }, getActivity(), lst_MyDenketa);
                             rcvMyDenekta.setAdapter(adapter);
                             rcvMyDenekta.setOnScrollListener(this);
                         } else {
@@ -221,7 +225,12 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
 
                         for (int i = 0; i < Intro_WebHit_Get_OLD_Danektas.responseObject.getData().getListing().size(); i++) {
 
-                            lst_MyDenketa.add(new DModel_MyDenketa(Intro_WebHit_Get_OLD_Danektas.responseObject.getData().getListing().get(i).getTitle(), Intro_WebHit_Get_OLD_Danektas.responseObject.getData().getListing().get(i).getImage()));
+                            lst_MyDenketa.add(new DModel_MyDenketa(
+                                    Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getTitle(),
+                                    Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getId()+"",
+                                    Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getImage()
+                                    )
+                            );
                         }
 
                         if (adapter == null) {
@@ -234,7 +243,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                                 if (!AppConfig.getInstance().getProgDialogs())
                                                     onClickDenketaItem(position);
                                                 else {
-                                                    ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(lst_MyDenketa.get(position).getStrName(), lst_MyDenketa.get(position).getStrImage(), lst_MyDenketa.get(position).getStrId(), false, false);
+                                                    ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false);
                                                 }
                                             } else {
                                                 CustomToast.showToastMessage(getActivity(), "Sign in / Sign Up or Play as Guest to PLAY!", Toast.LENGTH_LONG);
@@ -344,7 +353,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                 dialog.dismiss();
 //                ((IntroActivity) getActivity()).navToDenketaQuestionFragment(lst_MyDenketa.get(position).getStrName(), lst_MyDenketa.get(position).getStrImage() + "");
 
-                ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(lst_MyDenketa.get(position).getStrName(), lst_MyDenketa.get(position).getStrImage(), lst_MyDenketa.get(position).getStrId(), false, false);
+                ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false);
             }
         });
         dialog.show();

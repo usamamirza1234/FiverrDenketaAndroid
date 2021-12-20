@@ -38,10 +38,7 @@ public class DModel_MyDenketa {
         this.strImage = strImage;
     }
 
-    public DModel_MyDenketa(String strName, String strImage) {
-        this.strName = strName;
-        this.strImage = strImage;
-    }
+
 
     String strImage;
 }
