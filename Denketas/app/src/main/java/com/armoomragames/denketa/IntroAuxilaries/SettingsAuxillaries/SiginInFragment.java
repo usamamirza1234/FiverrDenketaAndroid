@@ -35,6 +35,15 @@ import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.IWebCallback;
 import com.bumptech.glide.Glide;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -42,6 +51,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
 
 
 public class SiginInFragment extends Fragment implements View.OnClickListener {
@@ -54,7 +68,7 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
     private static final int RC_SIGN_IN = 9001;
     GoogleSignInClient mGoogleSignInClient;
     GoogleSignInAccount acct, account;
-
+    CallbackManager callbackManager;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View frg = inflater.inflate(R.layout.fragment_signin, container, false);
@@ -147,9 +161,140 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
             case R.id.fg_signin_llGoogle:
                 googleSignIn();
                 break;
+
+
+                case R.id.fg_signin_llFB:
+                    signUpFaceBook();
+                break;
         }
     }
+    private void signUpFaceBook() {
+        callbackManager = CallbackManager.Factory.create();
 
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+
+                        Log.i("LoginActivity", "FB Login Success");
+
+
+                        AccessToken accessToken = loginResult.getAccessToken();
+                        Profile profile = Profile.getCurrentProfile();
+
+                        // Facebook Email address
+                        GraphRequest request = GraphRequest.newMeRequest(
+                                loginResult.getAccessToken(),
+                                new GraphRequest.GraphJSONObjectCallback() {
+                                    @Override
+                                    public void onCompleted(
+                                            JSONObject object,
+                                            GraphResponse response) {
+                                        Log.v("LoginActivity Response ", response.toString());
+                                        String Name, FEmail;
+
+                                        try {
+                                            Name = object.getString("name");
+                                            FEmail = object.getString("email");
+                                            requestSocial(FEmail, Name);
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                        Bundle parameters = new Bundle();
+                        parameters.putString("fields", "id,name,email,gender, birthday");
+                        request.setParameters(parameters);
+                        request.executeAsync();
+
+
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // App code
+                        Log.i("LoginActivity", "FB Login Cancel");
+                        LoginManager.getInstance().logOut();
+                        Toast.makeText(getContext(), "Cancel", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        // App code
+                        Log.i("LoginActivity", "FB Login Error");
+                        Toast.makeText(getContext(), "error_login", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+
+
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email"));
+    }
+
+    public void requestSocial(String EMAIL, String name) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("email", EMAIL);
+        jsonObject.addProperty("userType", "social");
+        requestUserRegisterSocail(jsonObject.toString(), name);
+    }
+    private void requestUserRegisterSocail(String _signUpEntity, String name) {
+        showProgDialog();
+        Intro_WebHit_Post_SignUp intro_webHit_post_signUp = new Intro_WebHit_Post_SignUp();
+        intro_webHit_post_signUp.postSignIn(getContext(), new IWebCallback() {
+            @Override
+            public void onWebResult(boolean isSuccess, String strMsg) {
+                if (isSuccess) {
+                    dismissProgDialog();
+                    //Save user login data
+                    AppConfig.getInstance().mUser.User_Id = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getId();
+                    AppConfig.getInstance().mUser.Email = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getEmail();
+                    AppConfig.getInstance().mUser.Name = name;
+
+                    AppConfig.getInstance().mUser.setGuest(false);
+                    AppConfig.getInstance().mUser.setLoggedIn(true);
+                    AppConfig.getInstance().mUser.Authorization = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getAccessToken();
+
+                    AppConfig.getInstance().saveUserProfile();
+
+
+//                    JsonObject jsonObject = new JsonObject();
+//                    jsonObject.addProperty("danetkasId", 1);
+//                    requestAddUserDanetkas(jsonObject.toString());
+//                    jsonObject = new JsonObject();
+//                    jsonObject.addProperty("danetkasId", 2);
+//                    requestAddUserDanetkas(jsonObject.toString());
+//                    jsonObject = new JsonObject();
+//                    jsonObject.addProperty("danetkasId", 3);
+//                    requestAddUserDanetkas(jsonObject.toString());
+
+                    if (!Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getIsProfileSet())
+                        navtoSignUpContFragment();
+                    else
+                        ((IntroActivity) getActivity()).navToPreSignInVAFragment();
+
+                } else {
+                    dismissProgDialog();
+
+                    requestUserSiginSocial(_signUpEntity, name);
+//                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
+//                    Toast.makeText(getActivity(), strMsg, Toast.LENGTH_SHORT).show();
+//                    AppConfig.getInstance().showErrorMessage(getContext(), strMsg);
+                }
+            }
+
+            @Override
+            public void onWebException(Exception ex) {
+                dismissProgDialog();
+                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
+//                Toast.makeText(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+//                AppConfig.getInstance().showErrorMessage(getContext(), ex.toString());
+            }
+        }, _signUpEntity);
+    }
     private void navtoSigninFragment() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -463,7 +608,72 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
             }
         }, _signUpEntity);
     }
+    private void requestUserSiginSocial(String _signUpEntity, String name) {
+        showProgDialog();
+        Intro_WebHit_Post_LogIn intro_webHit_post_logIn = new Intro_WebHit_Post_LogIn();
+        intro_webHit_post_logIn.postSignIn(getContext(), new IWebCallback() {
+            @Override
+            public void onWebResult(boolean isSuccess, String strMsg) {
+                if (isSuccess) {
+                    dismissProgDialog();
 
+
+                    //Save user login data
+                    AppConfig.getInstance().mUser.User_Id = Intro_WebHit_Post_LogIn.responseObject.getData().getId();
+                    AppConfig.getInstance().mUser.Email = Intro_WebHit_Post_LogIn.responseObject.getData().getEmail();
+
+
+                    if (Intro_WebHit_Post_LogIn.responseObject.getData().getName() != null)
+                        AppConfig.getInstance().mUser.Name = Intro_WebHit_Post_LogIn.responseObject.getData().getName();
+                    if (Intro_WebHit_Post_LogIn.responseObject.getData().getNationality() != null)
+                        AppConfig.getInstance().mUser.Nationality = Intro_WebHit_Post_LogIn.responseObject.getData().getNationality();
+
+                    if (Intro_WebHit_Post_LogIn.responseObject.getData().getGender() != null)
+                        AppConfig.getInstance().mUser.Gender = Intro_WebHit_Post_LogIn.responseObject.getData().getGender();
+
+                    if (Intro_WebHit_Post_LogIn.responseObject.getData().getDateOfBirth() != null)
+                        AppConfig.getInstance().mUser.DOB = Intro_WebHit_Post_LogIn.responseObject.getData().getDateOfBirth();
+
+                    AppConfig.getInstance().mUser.Name = name;
+                    AppConfig.getInstance().mUser.setGuest(false);
+                    AppConfig.getInstance().mUser.setLoggedIn(true);
+                    AppConfig.getInstance().mUser.Authorization = Intro_WebHit_Post_LogIn.responseObject.getData().getAccessToken();
+
+
+//                    JsonObject jsonObject = new JsonObject();
+//                    jsonObject.addProperty("danetkasId", 1);
+//                    requestAddUserDanetkas(jsonObject.toString());
+//                    jsonObject = new JsonObject();
+//                    jsonObject.addProperty("danetkasId", 2);
+//                    requestAddUserDanetkas(jsonObject.toString());
+//                    jsonObject = new JsonObject();
+//                    jsonObject.addProperty("danetkasId", 3);
+//                    requestAddUserDanetkas(jsonObject.toString());
+
+                    AppConfig.getInstance().saveUserProfile();
+                    if (!Intro_WebHit_Post_LogIn.responseObject.getData().getIsProfileSet())
+                        navtoSignUpContFragment();
+                    else
+                        ((IntroActivity) getActivity()).navToPreSignInVAFragment();
+
+                } else {
+
+                    dismissProgDialog();
+                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
+//                    Toast.makeText(getActivity(), strMsg, Toast.LENGTH_SHORT).show();
+//                    AppConfig.getInstance().showErrorMessage(getContext(), strMsg);
+                }
+            }
+
+            @Override
+            public void onWebException(Exception ex) {
+                Log.d("LOG_AS", "postSignIn: Exception" + ex.getMessage());
+                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
+//                Toast.makeText(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+//                AppConfig.getInstance().showErrorMessage(getContext(), ex.toString());
+            }
+        }, _signUpEntity);
+    }
     private void requestUserRegisterSocial(String _signUpEntity) {
         showProgDialog();
         Intro_WebHit_Post_SignUp intro_webHit_post_signUp = new Intro_WebHit_Post_SignUp();
@@ -628,6 +838,11 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        } catch (Exception e) {
+
+        }
         super.onActivityResult(requestCode, resultCode, data);
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
