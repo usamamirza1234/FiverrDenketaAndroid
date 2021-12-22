@@ -17,12 +17,12 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-public class Intro_WebHit_Get_OLD_Danektas {
+public class Intro_WebHit_Get_Guest_Danektas {
     public static ResponseModel responseObject = null;
     public static DModel_PaginationInfo mPaginationInfo = new DModel_PaginationInfo();
     private final AsyncHttpClient mClient = new AsyncHttpClient();
 
-    public void getMyDanekta(final IWebPaginationCallback iWebPaginationCallback, final int _index) {
+    public void getGuestDanekta(final IWebPaginationCallback iWebPaginationCallback, final int _index) {
         String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.GET.fetchFreeDanetkas;
 
         RequestParams params = new RequestParams();
@@ -33,7 +33,7 @@ public class Intro_WebHit_Get_OLD_Danektas {
         params.put("sortOrder", "DESC");
 
 
-        Log.d("LOG_AS", "getAllDanketa:  " + myUrl + params);
+        Log.d("LOG_AS", "getGuestDanekta:  " + myUrl + params);
 
         mClient.addHeader(ApiMethod.HEADER.Authorization, AppConfig.getInstance().mUser.getAuthorization());
         mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS);
@@ -44,7 +44,7 @@ public class Intro_WebHit_Get_OLD_Danektas {
                         try {
                             Gson gson = new Gson();
                             strResponse = new String(responseBody, StandardCharsets.UTF_8);
-                            Log.d("LOG_AS", "getAllDanketa: onSuccess: " + strResponse);
+                            Log.d("LOG_AS", "getGuestDanekta: onSuccess: " + strResponse);
                             ResponseModel responseObjectLocal = null;
 
                             responseObjectLocal = gson.fromJson(strResponse, ResponseModel.class);
@@ -69,7 +69,7 @@ public class Intro_WebHit_Get_OLD_Danektas {
                                             responseObject = responseObjectLocal;
                                             mPaginationInfo.currIndex = _index;
                                         }
-                                        Log.d("LOG_AS", "getAllDanketa: onSuccess: tmpIsDataFetched " + tmpIsDataFetched);
+                                        Log.d("LOG_AS", "getGuestDanekta: onSuccess: tmpIsDataFetched " + tmpIsDataFetched);
                                         //No need to save
 
                                         if (mPaginationInfo != null) {
@@ -93,7 +93,7 @@ public class Intro_WebHit_Get_OLD_Danektas {
                                 iWebPaginationCallback.onWebInitialException(ex);
                             else
                                 iWebPaginationCallback.onWebSuccessiveException(ex);
-                            Log.d("LOG_AS", "getAllDanketa: exception: " + ex.toString());
+                            Log.d("LOG_AS", "getGuestDanekta: exception: " + ex.toString());
                         }
                     }
 
@@ -101,7 +101,7 @@ public class Intro_WebHit_Get_OLD_Danektas {
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable
                             error) {
 
-                        Log.d("LOG_AS", "getAllDanketa: onFailure called: " + error.toString() + "   " + statusCode + "");
+                        Log.d("LOG_AS", "getGuestDanekta: onFailure called: " + error.toString() + "   " + statusCode + "");
 
 
                         switch (statusCode) {
@@ -238,7 +238,7 @@ public class Intro_WebHit_Get_OLD_Danektas {
 
         public class Pagination
         {
-            private int page;
+            private String page;
 
             private int count;
 
@@ -248,10 +248,10 @@ public class Intro_WebHit_Get_OLD_Danektas {
 
             private String sortOrder;
 
-            public void setPage(int page){
+            public void setPage(String page){
                 this.page = page;
             }
-            public int getPage(){
+            public String getPage(){
                 return this.page;
             }
             public void setCount(int count){
@@ -279,7 +279,6 @@ public class Intro_WebHit_Get_OLD_Danektas {
                 return this.sortOrder;
             }
         }
-
 
         public class Data
         {
@@ -334,9 +333,8 @@ public class Intro_WebHit_Get_OLD_Danektas {
             public Data getData(){
                 return this.data;
             }
+        }
+
 
 
     }
-
-
-}

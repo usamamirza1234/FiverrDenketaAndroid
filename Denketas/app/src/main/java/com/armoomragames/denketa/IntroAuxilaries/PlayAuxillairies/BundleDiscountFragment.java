@@ -1,5 +1,7 @@
 package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
 
+import android.app.Dialog;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,11 +28,13 @@ public class BundleDiscountFragment extends Fragment implements View.OnClickList
     RelativeLayout rlApply;
     EditText edtGameCredits;
     TextView txvTotal, txvSubTotal, txvDiscount;
+    TextView txvHowDoes, txvGameCredits;
     int number;
     int sub_total;
     double discount;
     double total;
     LinearLayout llBundle;
+    Dialog progressDialog = null; // Context, this, etc.
     private String strID = "";
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,14 +66,17 @@ public class BundleDiscountFragment extends Fragment implements View.OnClickList
         edtGameCredits = frg.findViewById(R.id.frg_bundle_discount_edt_game_credit);
         txvSubTotal = frg.findViewById(R.id.frg_bundle_discount_txvsubTotal);
         txvTotal = frg.findViewById(R.id.frg_bundle_discount_txvTotal);
+        txvHowDoes = frg.findViewById(R.id.txvHowDoes);
+        txvGameCredits = frg.findViewById(R.id.txvGameCredits);
 
+        txvGameCredits.setOnClickListener(this);
+        txvHowDoes.setOnClickListener(this);
         rlBack.setOnClickListener(this);
         rlCross.setOnClickListener(this);
         rlApply.setOnClickListener(this);
         llBundle.setOnClickListener(this);
         editTextWatchers();
     }
-
 
     private void editTextWatchers() {
 
@@ -92,14 +99,13 @@ public class BundleDiscountFragment extends Fragment implements View.OnClickList
                 }
                 if (!s.toString().equalsIgnoreCase("")) {
                     number = Integer.parseInt(s.toString());
-                    if (number>50 )
-                    {
+                    if (number > 50) {
                         edtGameCredits.setText("");
-                        CustomToast.showToastMessage(getActivity(),"You entered Game Credit more than 50",Toast.LENGTH_SHORT);
+                        CustomToast.showToastMessage(getActivity(), "You entered Game Credit more than 50", Toast.LENGTH_SHORT);
                     }
-                    if (number==0) {
+                    if (number == 0) {
                         edtGameCredits.setText("");
-                        CustomToast.showToastMessage(getActivity(),"You entered Game Credit less than 1",Toast.LENGTH_SHORT);
+                        CustomToast.showToastMessage(getActivity(), "You entered Game Credit less than 1", Toast.LENGTH_SHORT);
                     }
 
                     sub_total = number;
@@ -139,7 +145,15 @@ public class BundleDiscountFragment extends Fragment implements View.OnClickList
             case R.id.bund:
                 if (!edtGameCredits.getText().toString().equalsIgnoreCase(""))
                     navToPaymentDetailFragment();
-                else CustomToast.showToastMessage(getActivity(),"Please enter Game Credits to buy",Toast.LENGTH_SHORT);
+                else
+                    CustomToast.showToastMessage(getActivity(), "Please enter Game Credits to buy", Toast.LENGTH_SHORT);
+                break;
+
+            case R.id.txvHowDoes:
+                openDialog(true);
+                break;
+            case R.id.txvGameCredits:
+                openDialog(false);
                 break;
         }
     }
@@ -150,14 +164,41 @@ public class BundleDiscountFragment extends Fragment implements View.OnClickList
         Fragment frag = new PaymentDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString("key_danetka_danetkaID", "0");
-        bundle.putBoolean("key_is_coming_from_bundle",true);
-        bundle.putString("key_danetka_sub_total", sub_total+"");
-        bundle.putString("key_danetka_total", String.format("%.2f", total)+"");
-        bundle.putString("key_danetka_number", number+"");
+        bundle.putBoolean("key_is_coming_from_bundle", true);
+        bundle.putString("key_danetka_sub_total", sub_total + "");
+        bundle.putString("key_danetka_total", String.format("%.2f", total) + "");
+        bundle.putString("key_danetka_number", number + "");
         frag.setArguments(bundle);
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PaymentDetailFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_PaymentDetailFragment);
         ft.hide(this);
         ft.commit();
+    }
+
+    public void openDialog(boolean isDetail) {
+
+
+        progressDialog = new Dialog(getActivity(), R.style.AppTheme);
+//        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.popup_dark)));
+        progressDialog.setContentView(R.layout.dialog_text);
+        TextView txvDetails = progressDialog.findViewById(R.id.dailog_txvDetails);
+        if (isDetail) {
+            txvDetails.setText("For each danetka get an \n additional 1% discount up to \n a maximum of 50%. \n (E.g. 20 danetkas - 20% discount)\n" +
+                    "------------------------\nThis is automatically \n applied to your purchase. ");
+        } else {
+            txvDetails.setText("One Game Credit allows\n you to unlock one\n danetka of your choice.");
+        }
+
+        progressDialog.setCanceledOnTouchOutside(true);
+        progressDialog.setCancelable(true);
+     
+        progressDialog.show();
+    }
+
+    private void dismissProgDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
     }
 }

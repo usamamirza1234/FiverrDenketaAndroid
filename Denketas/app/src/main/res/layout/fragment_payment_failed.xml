@@ -51,12 +51,13 @@
             android:layout_marginTop="30dp">
 
             <TextView
+                android:id="@+id/txvPaymentFailed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:gravity="center"
                 android:justificationMode="inter_word"
-                android:text="There was a problem with your payment. Would you like to try again?"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="@dimen/fontsize_small"
                 android:textStyle="bold" />

@@ -138,7 +138,7 @@ public class Intro_WebHit_Get_INVESTIGATOR_Danektas {
         private int code;
         private String status;
         private String message;
-        private Intro_WebHit_Get_OLD_Danektas.ResponseModel.Data data;
+        private Intro_WebHit_Get_Guest_Danektas.ResponseModel.Data data;
 
         public int getCode() {
             return this.code;
@@ -164,11 +164,11 @@ public class Intro_WebHit_Get_INVESTIGATOR_Danektas {
             this.message = message;
         }
 
-        public Intro_WebHit_Get_OLD_Danektas.ResponseModel.Data getData() {
+        public Intro_WebHit_Get_Guest_Danektas.ResponseModel.Data getData() {
             return this.data;
         }
 
-        public void setData(Intro_WebHit_Get_OLD_Danektas.ResponseModel.Data data) {
+        public void setData(Intro_WebHit_Get_Guest_Danektas.ResponseModel.Data data) {
             this.data = data;
         }
 
@@ -347,23 +347,23 @@ public class Intro_WebHit_Get_INVESTIGATOR_Danektas {
         }
 
         public class Data {
-            private List<Intro_WebHit_Get_OLD_Danektas.ResponseModel.Listing> listing;
+            private List<Intro_WebHit_Get_Guest_Danektas.ResponseModel.Listing> listing;
 
-            private Intro_WebHit_Get_OLD_Danektas.ResponseModel.Pagination pagination;
+            private Intro_WebHit_Get_Guest_Danektas.ResponseModel.Pagination pagination;
 
-            public List<Intro_WebHit_Get_OLD_Danektas.ResponseModel.Listing> getListing() {
+            public List<Intro_WebHit_Get_Guest_Danektas.ResponseModel.Listing> getListing() {
                 return this.listing;
             }
 
-            public void setListing(List<Intro_WebHit_Get_OLD_Danektas.ResponseModel.Listing> listing) {
+            public void setListing(List<Intro_WebHit_Get_Guest_Danektas.ResponseModel.Listing> listing) {
                 this.listing = listing;
             }
 
-            public Intro_WebHit_Get_OLD_Danektas.ResponseModel.Pagination getPagination() {
+            public Intro_WebHit_Get_Guest_Danektas.ResponseModel.Pagination getPagination() {
                 return this.pagination;
             }
 
-            public void setPagination(Intro_WebHit_Get_OLD_Danektas.ResponseModel.Pagination pagination) {
+            public void setPagination(Intro_WebHit_Get_Guest_Danektas.ResponseModel.Pagination pagination) {
                 this.pagination = pagination;
             }
         }

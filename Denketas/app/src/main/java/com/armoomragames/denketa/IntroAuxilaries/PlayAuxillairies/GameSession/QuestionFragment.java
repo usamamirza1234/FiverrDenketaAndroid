@@ -15,10 +15,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.BundleDiscountFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentDetailFragment;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_All_Danektas;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Guest_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_INVESTIGATOR_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_User_Danektas;
 import com.armoomragames.denketa.R;
@@ -36,7 +38,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
     LinearLayout llBundleDiscount;
     IBadgeUpdateListener mBadgeUpdateListener;
     Bundle bundle;
-String danetka_Image;
+    String danetka_Image;
     int position = 0;
 
     boolean isInvestigator = false;
@@ -44,7 +46,7 @@ String danetka_Image;
     TextView txvDanetkaName;
     JustifyTextView txvQuestion;
     ImageView img;
-    Dialog progressDialog = null; // Context, this, etc.
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,21 +62,31 @@ String danetka_Image;
 
     private void setData() {
         try {
-            if (!isInvestigator)
-            {
+            if (!isInvestigator) {
                 if (!isMoreDanetka)
                 {
-                    txvDanetkaName.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getTitle()+"");
-                    txvQuestion.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getQuestion()+"");
-                    danetka_Image = "http://18.118.228.171:2000/images/" + Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getImage();
-                    Glide.with(getContext()).load(danetka_Image).into(img);
+                    if (AppConfig.getInstance().mUser.isLoggedIn())
+                    {
+                        txvDanetkaName.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getTitle() + "");
+                        txvQuestion.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getQuestion() + "");
+                        danetka_Image = "http://18.118.228.171:2000/images/" + Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getImage();
+                        Glide.with(getContext()).load(danetka_Image).into(img);
+                    }
+                    else
+                    {
+                        txvDanetkaName.setText(Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getTitle() + "");
+                        txvQuestion.setText(Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getQuestion() + "");
+                        danetka_Image = "http://18.118.228.171:2000/images/" + Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getImage();
+                        Glide.with(getContext()).load(danetka_Image).into(img);
+                    }
+
                     llPaynow.setVisibility(View.GONE);
                     llBundleDiscount.setVisibility(View.GONE);
                     llSeeAnswer.setVisibility(View.VISIBLE);
-                }else {
+                } else {
 
-                    txvDanetkaName.setText(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getTitle()+"");
-                    txvQuestion.setText(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getQuestion()+"");
+                    txvDanetkaName.setText(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getTitle() + "");
+                    txvQuestion.setText(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getQuestion() + "");
                     danetka_Image = "http://18.118.228.171:2000/images/" + Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getImage();
                     Glide.with(getContext()).load(danetka_Image).into(img);
 
@@ -82,10 +94,9 @@ String danetka_Image;
                     llBundleDiscount.setVisibility(View.VISIBLE);
                     llSeeAnswer.setVisibility(View.GONE);
                 }
-            }
-            else {
-                txvDanetkaName.setText(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getTitle()+"");
-                txvQuestion.setText(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getQuestion()+"");
+            } else {
+                txvDanetkaName.setText(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getTitle() + "");
+                txvQuestion.setText(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getQuestion() + "");
                 danetka_Image = "http://18.118.228.171:2000/images/" + Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getImage();
                 Glide.with(getContext()).load(danetka_Image).into(img);
 
@@ -185,7 +196,6 @@ String danetka_Image;
     }
 
 
-
     private void navToBundleDiscountFragment() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -213,7 +223,7 @@ String danetka_Image;
 //                R.anim.enter_from_left, R.anim.exit_to_right);//not required
         Bundle bundle = new Bundle();
         bundle.putBoolean("key_is_coming_from_bundle", false);
-        bundle.putString("key_danetka_danetkaID", ""+Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getId());
+        bundle.putString("key_danetka_danetkaID", "" + Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getId());
         bundle.putString("key_danetka_sub_total", "1");
         bundle.putString("key_danetka_total", "1.00");
         bundle.putString("key_danetka_number", "1");
@@ -241,7 +251,7 @@ String danetka_Image;
         progressDialog.setCancelable(false);
         progressDialog.show();
     }
-
+    Dialog progressDialog = null; // Context, this, etc.
     private void dismissProgDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();

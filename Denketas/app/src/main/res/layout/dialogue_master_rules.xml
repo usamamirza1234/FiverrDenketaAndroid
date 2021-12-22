@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="match_parent"  android:background="@color/popup_dark"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#D9000000"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginTop="40dp"
+            android:layout_margin="10dp"
             android:fontFamily="@font/aladin_regular"
             android:gravity="center"
 
@@ -30,7 +31,7 @@
             android:layout_centerInParent="true"
             android:fontFamily="@font/aladin_regular"
             android:gravity="center"
-
+            android:layout_margin="10dp"
             android:text="Master"
             android:textColor="@color/thm_red_app"
             android:textSize="@dimen/fontsize_xxlarge"
@@ -59,7 +60,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/aladin_regular"
             android:gravity="center"
-            android:text="Investigator"
+            android:text="Investigator"        android:layout_margin="20dp"
             android:textColor="@color/thm_red_app"
             android:textSize="@dimen/fontsize_xxlarge"
             android:textStyle="bold" />
@@ -90,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="15dp"        android:layout_margin="20dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -203,4 +204,4 @@
         </com.dd.ShadowLayout>
 
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

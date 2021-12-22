@@ -26,7 +26,7 @@ import androidx.fragment.app.Fragment;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
-import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_OLD_Danektas;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Guest_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_User_Danektas;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
@@ -46,7 +46,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
     ListView rcvMyDenekta;
     Dialog dialog;
     Intro_WebHit_Get_User_Danektas intro_webHit_get_user_danektas;
-    Intro_WebHit_Get_OLD_Danektas intro_webHit_get_old_danektas;
+    Intro_WebHit_Get_Guest_Danektas intro_webHit_get_guest_danektas;
     boolean isAlreadyFetching = false;
     ArrayList<DModel_MyDenketa> lst_MyDenketa;
     EditText edtSearch;
@@ -87,8 +87,8 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
             intro_webHit_get_user_danektas = new Intro_WebHit_Get_User_Danektas();
             Intro_WebHit_Get_User_Danektas.mPaginationInfo.currIndex = AppConstt.PAGINATION_START_INDEX;
         } else {
-            intro_webHit_get_old_danektas = new Intro_WebHit_Get_OLD_Danektas();
-            Intro_WebHit_Get_OLD_Danektas.mPaginationInfo.currIndex = AppConstt.PAGINATION_START_INDEX;
+            intro_webHit_get_guest_danektas = new Intro_WebHit_Get_Guest_Danektas();
+            Intro_WebHit_Get_Guest_Danektas.mPaginationInfo.currIndex = AppConstt.PAGINATION_START_INDEX;
         }
 
     }
@@ -104,10 +104,10 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
             intro_webHit_get_user_danektas.getMyDanekta(this,
                     Intro_WebHit_Get_User_Danektas.mPaginationInfo.currIndex);
         } else {
-            Intro_WebHit_Get_OLD_Danektas.mPaginationInfo.currIndex = 1;
-            Intro_WebHit_Get_OLD_Danektas.responseObject = null;
-            intro_webHit_get_old_danektas.getMyDanekta(this,
-                    Intro_WebHit_Get_OLD_Danektas.mPaginationInfo.currIndex);
+            Intro_WebHit_Get_Guest_Danektas.mPaginationInfo.currIndex = 1;
+            Intro_WebHit_Get_Guest_Danektas.responseObject = null;
+            intro_webHit_get_guest_danektas.getGuestDanekta(this,
+                    Intro_WebHit_Get_Guest_Danektas.mPaginationInfo.currIndex);
 
         }
 
@@ -161,7 +161,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
 
                             lst_MyDenketa.add(new DModel_MyDenketa(
                                             Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getTitle(),
-                                            Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getId()+"",
+                                            Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getId() + "",
                                             Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getImage()
                                     )
                             );
@@ -177,7 +177,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                             if (!AppConfig.getInstance().getProgDialogs())
                                                 onClickDenketaItem(position);
                                             else {
-                                                Log.d("Danetka","ID "+ lst_MyDenketa.get(position).getStrId());
+                                                Log.d("Danetka", "ID " + lst_MyDenketa.get(position).getStrId());
                                                 ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false);
                                             }
                                         } else {
@@ -186,15 +186,15 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                         break;
 
                                     case EVENT_B:
-                                        Log.d("Danetka","ID "+ lst_MyDenketa.get(position).getStrId());
-                                        ((IntroActivity) getActivity()).navToMyResultsFragment(lst_MyDenketa.get(position).getStrName(),lst_MyDenketa.get(position).getStrId());
+                                        Log.d("Danetka", "ID " + lst_MyDenketa.get(position).getStrId());
+                                        ((IntroActivity) getActivity()).navToMyResultsFragment(lst_MyDenketa.get(position).getStrName(), lst_MyDenketa.get(position).getStrId());
 //                                        ((IntroActivity) getActivity()).navToMyResultsFragment(lst_MyDenketa.get(position).getStrName(),lst_MyDenketa.get(position).getStrId());
 
                                         break;
                                 }
 
 
-                                              }, getActivity(), lst_MyDenketa);
+                            }, getActivity(), lst_MyDenketa);
                             rcvMyDenekta.setAdapter(adapter);
                             rcvMyDenekta.setOnScrollListener(this);
                         } else {
@@ -214,21 +214,22 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                     }
                 }
 
-            } else {
+            }
+        else {
                 if (isSuccess) {
-                    if (Intro_WebHit_Get_OLD_Danektas.responseObject != null &&
-                            Intro_WebHit_Get_OLD_Danektas.responseObject.getData() != null &&
-                            Intro_WebHit_Get_OLD_Danektas.responseObject.getData().getListing() != null &&
-                            Intro_WebHit_Get_OLD_Danektas.responseObject.getData().getListing().size() > 0) {
+                    if (Intro_WebHit_Get_Guest_Danektas.responseObject != null &&
+                            Intro_WebHit_Get_Guest_Danektas.responseObject.getData() != null &&
+                            Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing() != null &&
+                            Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().size() > 0) {
 
                         //                    txvNoData.setVisibility(View.GONE);
 
-                        for (int i = 0; i < Intro_WebHit_Get_OLD_Danektas.responseObject.getData().getListing().size(); i++) {
+                        for (int i = 0; i < Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().size(); i++) {
 
                             lst_MyDenketa.add(new DModel_MyDenketa(
-                                    Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getTitle(),
-                                    Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getId()+"",
-                                    Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getImage()
+                                            Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(i).getTitle(),
+                                            Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(i).getId() + "",
+                                            Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(i).getImage()
                                     )
                             );
                         }
@@ -264,8 +265,9 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
 
                     }
 
-                } else {
-                    if (Intro_WebHit_Get_OLD_Danektas.mPaginationInfo.currIndex == 1) {
+                }
+                else {
+                    if (Intro_WebHit_Get_Guest_Danektas.mPaginationInfo.currIndex == 1) {
                         rcvMyDenekta.setOnScrollListener(null);
                     }
 
@@ -277,18 +279,14 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
             errorMsg) {
         isLoadingMore = false;
         dismissProgDialog();
-//        llListItemLoader.setVisibility(View.GONE);
-//        if (progressDilogue != null) {
-//            progressDilogue.stopiOSLoader();
-//        }
+
 
         if (getActivity() != null && isAdded())//check whether it is attached to an activity
             if (isSuccess) {
-                if (isCompleted) {
+                if (isCompleted)
+                {
                     if (AppConfig.getInstance().mUser.isLoggedIn()) {
                         Intro_WebHit_Get_User_Danektas.mPaginationInfo.isCompleted = true;
-                    } else {
-                        Intro_WebHit_Get_OLD_Danektas.mPaginationInfo.isCompleted = true;
                     }
                 } else {
                     populateAllDanektasData(isSuccess, errorMsg);
@@ -409,14 +407,19 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
 
     private void isScrollCompleted() {
         if (this.nVisibleItemCount > 0 && this.nScrollState == SCROLL_STATE_IDLE &&
-                this.nTotalItemCount == (nFirstVisibleItem + nVisibleItemCount)) {
+                this.nTotalItemCount == (nFirstVisibleItem + nVisibleItemCount))
+        {
             /*** In this way I detect if there's been a scroll which has completed ***/
-            if (!isLoadingMore && !Intro_WebHit_Get_User_Danektas.mPaginationInfo.isCompleted) {
+            if (AppConfig.getInstance().mUser.isLoggedIn())
+            {if (!isLoadingMore && !Intro_WebHit_Get_User_Danektas.mPaginationInfo.isCompleted)
+            {
                 isLoadingMore = true;
 //                llListItemLoader.setVisibility(View.VISIBLE);
 
                 intro_webHit_get_user_danektas.getMyDanekta(this,
                         Intro_WebHit_Get_User_Danektas.mPaginationInfo.currIndex + 1);
+            }
+
             }
         }
     }

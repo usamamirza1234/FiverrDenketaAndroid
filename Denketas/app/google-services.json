@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "125326017722",
-    "project_id": "armomragames",
-    "storage_bucket": "armomragames.appspot.com"
+    "project_number": "830510073574",
+    "project_id": "danektanewclient",
+    "storage_bucket": "danektanewclient.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:125326017722:android:ee95793ec97d92bfa8ee83",
+        "mobilesdk_app_id": "1:830510073574:android:22d7dadc1bcafc82c21d27",
         "android_client_info": {
           "package_name": "com.armoomragames.denketa"
         }
       },
       "oauth_client": [
         {
-          "client_id": "125326017722-cgq2fmr8kt7nok8lgqk0rh99fd4koh63.apps.googleusercontent.com",
+          "client_id": "830510073574-ft02n6e7ukusec8n7fo29uqltsoe6o5o.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.armoomragames.denketa",
@@ -22,20 +22,20 @@
           }
         },
         {
-          "client_id": "125326017722-r4afqskdonvgqa2l14curm5t3b2nfr4q.apps.googleusercontent.com",
+          "client_id": "830510073574-86p5u13t78j09of86r6q9af295o486mh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBsprngou_Yrcg0XOrDmzMqCxY1Jamj5yE"
+          "current_key": "AIzaSyDK530lr-2MOeD-OiUG62HUzTMyKYQi6VU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "125326017722-r4afqskdonvgqa2l14curm5t3b2nfr4q.apps.googleusercontent.com",
+              "client_id": "830510073574-86p5u13t78j09of86r6q9af295o486mh.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

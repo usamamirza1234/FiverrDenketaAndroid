@@ -194,32 +194,11 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
                                     case EVENT_A:
                                         if (AppConfig.getInstance().mUser.isLoggedIn()) {
 
-//                                            ((IntroActivity)getActivity()).navToBundleDiscountFragment(strID);
                                             ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, true);
 
-//                                            ((IntroActivity)getActivity()). onBuyPressed();
-//                                            if (
-//                                                    AppConfig.getInstance().responseObject!=null&&
-//                                                            AppConfig.getInstance().responseObject.getResponse()!=null
-//                                            )
-//                                            {
-//                                                if (AppConfig.getInstance().responseObject.getResponse().getState().equalsIgnoreCase("approved"))
-//                                                {
-//                                                    JsonObject jsonObject = new JsonObject();
-//                                                    jsonObject.addProperty("danetkasId", strID.toString());
-//                                                    jsonObject.addProperty("create_time", AppConfig.getInstance().responseObject.getResponse().getCreate_time().toString());
-//                                                    jsonObject.addProperty("id",AppConfig.getInstance().responseObject.getResponse().getId().toString());
-//                                                    jsonObject.addProperty("intent",AppConfig.getInstance().responseObject.getResponse().getIntent().toString());
-//                                                    jsonObject.addProperty("state", AppConfig.getInstance().responseObject.getResponse().getState().toString());
-////                                                    jsonObject.addProperty("response_type", strID.toString());
-////                                                    jsonObject.addProperty("environment", strID.toString());
-////                                                    jsonObject.addProperty("platform", strID.toString());
-//                                                    requestAddUserDanetkas(jsonObject.toString());
-//                                                    strID="0";
-//                                                }
-//                                            }
+
                                         } else {
-                                            CustomToast.showToastMessage(getActivity(), "Sign in/ Sign Up to get this Danetka", Toast.LENGTH_LONG);
+                                            CustomToast.showToastMessage(getActivity(), "To View this Danetka You must be logged in", Toast.LENGTH_LONG);
                                         }
                                         break;
                                 }

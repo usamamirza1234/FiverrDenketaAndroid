@@ -9,20 +9,22 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_All_Danektas;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Guest_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_INVESTIGATOR_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_User_Danektas;
 import com.armoomragames.denketa.R;
-import com.bumptech.glide.Glide;
 
 public class LearnMoreFragment extends Fragment implements View.OnClickListener {
-    RelativeLayout  rlBack, rlCross;
+    RelativeLayout rlBack, rlCross;
     int position = 0;
     Bundle bundle;
     boolean isInvestigator = false;
     boolean isMoreDanetka = false;
     TextView txvLearnmore;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View frg = inflater.inflate(R.layout.fragment_learn_more, container, false);
@@ -33,21 +35,19 @@ public class LearnMoreFragment extends Fragment implements View.OnClickListener 
         return frg;
     }
 
-    private void setData()
-    {
+    private void setData() {
         try {
-            if (!isInvestigator)
-            {
-                if (!isMoreDanetka)
-                {
-                    txvLearnmore.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getLearnMore()+"");
+            if (!isInvestigator) {
+                if (!isMoreDanetka) {
+                    if (AppConfig.getInstance().mUser.isLoggedIn())
+                        txvLearnmore.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getLearnMore() + "");
+                    else  txvLearnmore.setText(Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getLearnMore() + "");
 
-                }else {
-                    txvLearnmore.setText(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getLearnMore()+"");
+                } else {
+                    txvLearnmore.setText(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getLearnMore() + "");
                 }
-            }
-            else {
-                txvLearnmore.setText(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getLearnMore()+"");
+            } else {
+                txvLearnmore.setText(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getLearnMore() + "");
 
             }
         } catch (Exception e) {
@@ -83,7 +83,7 @@ public class LearnMoreFragment extends Fragment implements View.OnClickListener 
 
         switch (v.getId()) {
             case R.id.act_intro_lay_toolbar_rlCross:
-                ((IntroActivity)getActivity()). navToPreSignInVAFragment();
+                ((IntroActivity) getActivity()).navToPreSignInVAFragment();
                 break;
         }
     }

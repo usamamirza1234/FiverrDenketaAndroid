@@ -3,15 +3,20 @@ package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
@@ -46,7 +51,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
 import static com.armoomragames.denketa.Utils.IAdapterCallback.EVENT_A;
@@ -154,24 +161,28 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
 
                 break;
             case R.id.frg_make_llSubmit:
+                if (AppConfig.getInstance().mUser.isLoggedIn())
+                {
+                    if (!edtTitle.getText().toString().equals("") && !edtQuestion.getText().toString().equals("") && !edtAns.getText().toString().equals("")
+                            && filePhotoForQuestion.exists() && filePhotoForQuestion.exists()) {
+                        showProgDialog();
 
-                if (!edtTitle.getText().toString().equals("") && !edtQuestion.getText().toString().equals("") && !edtAns.getText().toString().equals("")
-                        && filePhotoForQuestion.exists() && filePhotoForQuestion.exists()) {
-                    showProgDialog();
-
-                    String hints = android.text.TextUtils.join(",", lstRegilto);
-                    DModelCustomDanetka dModelCustomDanetka = new DModelCustomDanetka(
-                            edtTitle.getText().toString(),
-                            edtAns.getText().toString(),
-                            filePhotoForQuestion, filePhotoForAnswer,
-                            hints.toString(),
-                            edtQuestion.getText().toString(),
-                            edtQuestion.getText().toString(),
-                            AppConfig.getInstance().mUser.getUser_Id() + ""
-                    );
-                    requestAddCustomDanteka(dModelCustomDanetka);
+                        String hints = android.text.TextUtils.join(",", lstRegilto);
+                        DModelCustomDanetka dModelCustomDanetka = new DModelCustomDanetka(
+                                edtTitle.getText().toString(),
+                                edtAns.getText().toString(),
+                                filePhotoForQuestion, filePhotoForAnswer,
+                                hints.toString(),
+                                edtQuestion.getText().toString(),
+                                edtQuestion.getText().toString(),
+                                AppConfig.getInstance().mUser.getUser_Id() + ""
+                        );
+                        requestAddCustomDanteka(dModelCustomDanetka);
+                    } else
+                        CustomToast.showToastMessage(getActivity(), "Please fill all fields", Toast.LENGTH_LONG);
                 } else
-                    CustomToast.showToastMessage(getActivity(), "Please fill all fields", Toast.LENGTH_LONG);
+                    CustomToast.showToastMessage(getActivity(), "Please login first!", Toast.LENGTH_LONG);
+
                 break;
             case R.id.frg_make_imv_addRegiltoMain:
                 if (lstRegilto.size() <= 4) {
@@ -361,18 +372,89 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
                 try {
                     dismissProgDialog();
                     if (isQuestion) {
+
                         Bitmap bitmap;
                         bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), originalUri);
-                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 50, bos);
-                        byte[] bitmapdata = bos.toByteArray();
-                        FileOutputStream fos = new FileOutputStream(filePhotoForQuestion);
-                        String imagePath = filePhotoForQuestion.getAbsolutePath();
-                        Bitmap orientedBitmap = ExifUtil.rotateBitmap(imagePath, bitmap);
-                        imvInsert1.setImageBitmap(orientedBitmap);
-                        fos.write(bitmapdata);
-                        fos.flush();
-                        fos.close();
+//                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//                        bitmap.compress(Bitmap.CompressFormat.PNG, 50, bos);
+//                        byte[] bitmapdata = bos.toByteArray();
+//                        FileOutputStream fos = new FileOutputStream(filePhotoForQuestion);
+//                        String imagePath = filePhotoForQuestion.getAbsolutePath();
+//                        Bitmap orientedBitmap = ExifUtil.rotateBitmap(imagePath, bitmap);
+//
+//                        fos.write(bitmapdata);
+//                        fos.flush();
+//                        fos.close();
+
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            OutputStream _fos;
+                            ContentResolver resolver = getActivity().getContentResolver();
+                            ContentValues contentValues = new ContentValues();
+                            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, filePhotoForQuestion.getName());
+                            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
+                            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + File.separator + "Majoor");
+                            Uri ImageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+                            Log.d("ImageLocation", "setImageView: " + ImageUri.getPath());
+                            _fos = (OutputStream) resolver.openOutputStream(Objects.requireNonNull(ImageUri));
+                            ExifInterface ei = new ExifInterface(filePhotoForQuestion.getPath());
+                            int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                                    ExifInterface.ORIENTATION_UNDEFINED);
+                            Bitmap rotatedBitmap = null;
+                            switch (orientation) {
+                                case ExifInterface.ORIENTATION_ROTATE_90:
+                                    rotatedBitmap = rotateImage(bitmap, 90);
+                                    break;
+                                case ExifInterface.ORIENTATION_ROTATE_180:
+                                    rotatedBitmap = rotateImage(bitmap, 180);
+                                    break;
+                                case ExifInterface.ORIENTATION_ROTATE_270:
+                                    rotatedBitmap = rotateImage(bitmap, 270);
+                                    break;
+                                case ExifInterface.ORIENTATION_NORMAL:
+                                default:
+                                    rotatedBitmap = bitmap;
+                            }
+                            rotatedBitmap = Bitmap.createScaledBitmap(rotatedBitmap, 500, 500, false);
+                            rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, _fos);
+                            Objects.requireNonNull(_fos);
+                            filePhotoForQuestion = new File(getRealPathFromURI(ImageUri));
+                            imvInsert1.setImageBitmap(rotatedBitmap);
+                        } else {
+                            ByteArrayOutputStream _bos = new ByteArrayOutputStream();
+                            ExifInterface ei = new ExifInterface(filePhotoForQuestion.getPath());
+                            int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                                    ExifInterface.ORIENTATION_UNDEFINED);
+                            Bitmap rotatedBitmap = null;
+                            switch (orientation) {
+                                case ExifInterface.ORIENTATION_ROTATE_90:
+
+                                    rotatedBitmap = rotateImage(bitmap, 90);
+                                    break;
+                                case ExifInterface.ORIENTATION_ROTATE_180:
+                                    rotatedBitmap = rotateImage(bitmap, 180);
+                                    break;
+                                case ExifInterface.ORIENTATION_ROTATE_270:
+                                    rotatedBitmap = rotateImage(bitmap, 270);
+                                    break;
+                                case ExifInterface.ORIENTATION_NORMAL:
+                                default:
+                                    rotatedBitmap = bitmap;
+                            }
+                            rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 10, _bos);
+                            imvInsert1.setImageBitmap(rotatedBitmap);
+                            byte[] _bitmapdata = _bos.toByteArray();
+                            FileOutputStream _fos = new FileOutputStream(filePhotoForQuestion);
+                            _fos.write(_bitmapdata);
+                            _fos.flush();
+                            _fos.close();
+
+                        }
+
+
+
+
+
 
                     }
                     else {
@@ -415,8 +497,25 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
 
     }
 
-
-
+    private String getRealPathFromURI(Uri contentURI) {
+        String filePath;
+        Cursor cursor = getActivity().getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) {
+            filePath = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.MediaColumns.DATA);
+            filePath = cursor.getString(idx);
+            cursor.close();
+        }
+        return filePath;
+    }
+    public Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
+    }
     private boolean isGrantedPermCamera() {
         if (Build.VERSION.SDK_INT >= 23) {
             int hasCameraPermission = checkSelfPermission(getContext(), Manifest.permission.CAMERA);

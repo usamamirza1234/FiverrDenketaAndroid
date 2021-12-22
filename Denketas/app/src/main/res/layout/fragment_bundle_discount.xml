@@ -70,6 +70,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/txvHowDoes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="start"
@@ -129,7 +130,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="start"
-
+                            android:id="@+id/txvGameCredits"
                             android:text="Game Credits"
                             android:textColor="@color/thm_blue_app"
                             android:textSize="@dimen/fontsize_mini"

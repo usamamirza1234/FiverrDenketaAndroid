@@ -1,6 +1,7 @@
 package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,18 +45,29 @@ public class PaymentApprovedFragment extends Fragment implements View.OnClickLis
         rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
         txvPaymentDescription = frg.findViewById(R.id.txvPaymentDescription);
 
+        txvPaymentDescription.setOnClickListener(this);
         rlBack.setOnClickListener(this);
         rlCross.setOnClickListener(this);
 
-        txvPaymentDescription.setText("You now have "+total+"€ amount of credits to unlock danetkas. 1 Danetka = 1 Game Credit");
+        String strFirst="You now have ";
+        String strSecond="€ amount of credits to";
+        String strThird="unlock danetkas";
+        String strFourth="1 Danetka = 1 Game Credit";
+        String strHighlighted=  getColoredSpanned(strThird.toUpperCase(),getResources().getColor(R.color.thm_blue_app));
+//        txvPaymentDescription.setText("You now have "+total+"€ amount of credits to unlock danetkas.");
+        txvPaymentDescription.setText(Html.fromHtml(strFirst+total+strSecond+"<b> <u>" + strHighlighted +  " </u></b> "+strFourth));
     }
 
-
+    private String getColoredSpanned(String text, int color) {
+        String input = "<font color=" + color + ">" + text + "</font>";
+        return input;
+    }
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
             case R.id.act_intro_lay_toolbar_rlBack:
+            case R.id.txvPaymentDescription:
                 getActivity().onBackPressed();
 
                 break;

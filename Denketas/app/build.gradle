@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
-//    id 'com.google.gms.google-services'
-
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 android {
     compileSdkVersion 30
@@ -33,13 +33,13 @@ android {
 
     buildTypes {
         release {
-
-            manifestPlaceholders = [crashlyticsEnabled: false]
+            manifestPlaceholders = [crashlyticsCollectionEnabled:"true"]
+//            manifestPlaceholders = [crashlyticsEnabled: true]
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            manifestPlaceholders = [crashlyticsEnabled: false]
+            manifestPlaceholders = [crashlyticsCollectionEnabled:"true"]
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
