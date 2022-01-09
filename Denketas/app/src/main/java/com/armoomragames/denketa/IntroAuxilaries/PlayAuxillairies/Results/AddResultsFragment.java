@@ -3,16 +3,18 @@ package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.Results;
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +22,6 @@ import androidx.fragment.app.Fragment;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
-import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_Contactus;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_Results;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.CustomToast;
@@ -33,20 +34,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class AddResultsFragment extends Fragment implements View.OnClickListener {
+public class AddResultsFragment extends Fragment implements View.OnClickListener , AdapterView.OnItemSelectedListener {
 
+    private static final String[] paths = {"0", "1", "2", "3", "4", "5"};
     RelativeLayout rlToolbar, rlBack, rlCross;
     Bundle bundle;
     String danetka_name = "";
     String danetka_id = "";
     TextView txvDanetkaName;
-    LinearLayout llDetails, llNewResults, llEditdetails ;
-
-    TextView txvUsed, txvMaster, txvInvestigator, txvTime, txvDate , edtMaster;
-    EditText edtUsed, edtInvestigator, edtTime;
+    Spinner spinner;
+    LinearLayout llDetails, llNewResults, llEditdetails;
+    TextView txvUsed, txvMaster, txvInvestigator, txvTime, txvDate, edtMaster;
+    EditText edtInvestigator, edtTime;
     LinearLayout llSaveResult, llSavedResults;
     private Dialog progressDialog;
-
+    int selected=0;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View frg = inflater.inflate(R.layout.fragment_add_results, container, false);
@@ -87,7 +89,7 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
 
         llNewResults = frg.findViewById(R.id.frg_my_results_ll_NewResults);
         llEditdetails = frg.findViewById(R.id.frg_my_results_ll_Editdetails);
-
+        spinner = frg.findViewById(R.id.frg_signup_cmplt_spinr_gender);
 
 
         llSavedResults = frg.findViewById(R.id.frg_my_results_ll_saved_results);
@@ -100,8 +102,6 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
         txvMaster = frg.findViewById(R.id.frg_my_results_txv_master);
         txvInvestigator = frg.findViewById(R.id.frg_my_results_txv_invest);
 
-
-        edtUsed = frg.findViewById(R.id.frg_my_results_edt_used);
         edtTime = frg.findViewById(R.id.frg_my_results_edt_time);
         edtMaster = frg.findViewById(R.id.frg_my_results_edt_master);
         edtInvestigator = frg.findViewById(R.id.frg_my_results_edt_invest);
@@ -112,6 +112,37 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
         llSaveResult.setOnClickListener(this);
         llEditdetails.setOnClickListener(this);
 
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_spinner_item, paths);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+
+         selected = position;
+
+        switch (position) {
+            case 0:
+                // Whatever you want to happen when the first item gets selected
+                break;
+            case 1:
+                // Whatever you want to happen when the second item gets selected
+                break;
+            case 2:
+                // Whatever you want to happen when the thrid item gets selected
+                break;
+
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        // TODO Auto-generated method stub
     }
 
     @Override
@@ -141,21 +172,19 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
 
                 AppConfig.getInstance().closeKeyboard(getActivity());
                 if (!edtInvestigator.getText().toString().equals("") && !edtMaster.getText().toString().equals("")
-                        && !edtTime.getText().toString().equals("")
-                        && !edtUsed.getText().toString().equals("")) {
+                        && !edtTime.getText().toString().equals("")) {
 
                     Date c = Calendar.getInstance().getTime();
                     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                     String formattedDate = df.format(c);
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("investigatorName", edtInvestigator.getText().toString());
-                    jsonObject.addProperty("riglettosUsed", edtUsed.getText().toString());
+                    jsonObject.addProperty("riglettosUsed", selected+"");
                     jsonObject.addProperty("time", edtTime.getText().toString());
-                    jsonObject.addProperty("date", formattedDate.toString());
+                    jsonObject.addProperty("date", formattedDate);
                     jsonObject.addProperty("masterId", AppConfig.getInstance().mUser.getUser_Id());
                     jsonObject.addProperty("danetkaId", danetka_id);
                     requestContactUs(jsonObject.toString());
-
 
 
                 } else
@@ -163,7 +192,6 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
                 break;
         }
     }
-
 
 
     private void requestContactUs(String _signUpEntity) {
@@ -176,10 +204,10 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
             public void onWebResult(boolean isSuccess, String strMsg) {
                 if (isSuccess) {
                     dismissProgDialog();
-                    CustomToast.showToastMessage(getActivity(),"Success! Result Added", Toast.LENGTH_SHORT);
+                    CustomToast.showToastMessage(getActivity(), "Success! Result Added", Toast.LENGTH_SHORT);
                     txvMaster.setText(edtMaster.getText().toString());
                     txvInvestigator.setText(edtInvestigator.getText().toString());
-                    txvUsed.setText(edtUsed.getText().toString());
+                    txvUsed.setText(selected+"");
                     txvTime.setText(edtTime.getText().toString());
                     txvDate.setText(edtTime.getText().toString());
                     llEditdetails.setVisibility(View.VISIBLE);

@@ -8,10 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,12 +36,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class RateAppFragment extends Fragment implements View.OnClickListener {
-
+public class RateAppFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+    private static final String[] paths = {"0", "1", "2", "3", "4", "5"};
+    Spinner spinner;
     RelativeLayout rlToolbar, rlBack, rlCross;
     String danetka_id = "";
     TextView edtMaster;
-    EditText edtUsed, edtInvestigator, edtTime;
+    EditText edtInvestigator, edtTime;
+    TextView edtUsed;
     LinearLayout llSaveResult, llSavedResults;
     IBadgeUpdateListener mBadgeUpdateListener;
     Bundle bundle;
@@ -91,10 +96,12 @@ public class RateAppFragment extends Fragment implements View.OnClickListener {
         llSavedResults = frg.findViewById(R.id.frg_my_results_ll_saved_results);
         llSaveResult = frg.findViewById(R.id.frg_my_results_ll_save_results);
 
-        edtUsed = frg.findViewById(R.id.frg_my_results_edt_used);
         edtTime = frg.findViewById(R.id.frg_my_results_edt_time);
         edtMaster = frg.findViewById(R.id.frg_my_results_edt_master);
         edtInvestigator = frg.findViewById(R.id.frg_my_results_edt_invest);
+        spinner = frg.findViewById(R.id.frg_signup_cmplt_spinr_gender);
+
+        edtUsed = frg.findViewById(R.id.frg_signup_cmplt_spinr_txvGend);
 
         edtMaster.setText(AppConfig.getInstance().mUser.getName());
 
@@ -102,6 +109,36 @@ public class RateAppFragment extends Fragment implements View.OnClickListener {
         rlCross.setOnClickListener(this);
 
         llSaveResult.setOnClickListener(this);
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_spinner_item, paths);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+    }
+    int selected=0;
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+        selected = position;
+        switch (position) {
+            case 0:
+                // Whatever you want to happen when the first item gets selected
+                break;
+            case 1:
+                // Whatever you want to happen when the second item gets selected
+                break;
+            case 2:
+                // Whatever you want to happen when the thrid item gets selected
+                break;
+
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        // TODO Auto-generated method stub
     }
 
 
@@ -125,14 +162,14 @@ public class RateAppFragment extends Fragment implements View.OnClickListener {
                 AppConfig.getInstance().closeKeyboard(getActivity());
                 if (!edtInvestigator.getText().toString().equals("") && !edtMaster.getText().toString().equals("")
                         && !edtTime.getText().toString().equals("")
-                        && !edtUsed.getText().toString().equals("")) {
+                        ) {
 
                     Date c = Calendar.getInstance().getTime();
                     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                     String formattedDate = df.format(c);
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("investigatorName", edtInvestigator.getText().toString());
-                    jsonObject.addProperty("riglettosUsed", edtUsed.getText().toString());
+                    jsonObject.addProperty("riglettosUsed", selected+"");
                     jsonObject.addProperty("time", edtTime.getText().toString());
                     jsonObject.addProperty("date", formattedDate);
                     jsonObject.addProperty("masterId", AppConfig.getInstance().mUser.getUser_Id());
@@ -152,6 +189,7 @@ public class RateAppFragment extends Fragment implements View.OnClickListener {
             progressDialog.dismiss();
         }
     }
+
     private void showProgDialog() {
 
         progressDialog = new Dialog(getActivity(), R.style.AppTheme);
