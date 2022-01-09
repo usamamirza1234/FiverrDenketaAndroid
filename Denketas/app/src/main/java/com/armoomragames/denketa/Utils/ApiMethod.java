@@ -17,7 +17,7 @@ public interface ApiMethod {
         String signUp = "add/user/email";
         String signIn = "login";
         String addProfile ="add/user/profile" ;
-
+        String addUserCredits ="add/user/credit" ;
         String addDanetkas ="add/user/danetkas" ;
         String addCustomDanetkas ="add/master/danetkas" ;
         String fetchDanetkas ="fetch/danetkas" ;

@@ -48,11 +48,11 @@
             </RelativeLayout>
 
             <TextView
-                android:layout_marginTop="20dp"
                 android:id="@+id/frg_my_results_txv_danetkaname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:paddingStart="14dp"
                 android:text="Danektas Name"
@@ -78,8 +78,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="start"
                         android:fontFamily="@font/poppins_regular"
+                        android:gravity="start"
                         android:justificationMode="inter_word"
                         android:paddingEnd="5dp"
                         android:text="EDIT"
@@ -88,13 +88,14 @@
 
                     <ImageView
 
-                        android:layout_gravity="center"
                         android:layout_width="22dp"
                         android:layout_height="22dp"
+                        android:layout_gravity="center"
                         android:src="@drawable/ic_pencil" />
                 </LinearLayout>
 
             </RelativeLayout>
+
             <LinearLayout
                 android:id="@+id/frg_my_results_ll_NewResults"
                 android:layout_width="match_parent"
@@ -140,15 +141,14 @@
                         android:layout_centerInParent="true"
                         android:background="@null"
                         android:cursorVisible="true"
-                        android:textCursorDrawable="@null"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
+                        android:hint="type here.."
                         android:paddingStart="25dp"
                         android:paddingEnd="25dp"
-                        android:hint="type here.."
                         android:textColor="@color/black"
-                        android:textSize="@dimen/fontsize_small"
-                        />
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/fontsize_small" />
                 </RelativeLayout>
 
                 <View
@@ -186,15 +186,14 @@
                         android:layout_centerInParent="true"
                         android:background="@null"
                         android:cursorVisible="true"
-                        android:textCursorDrawable="@null"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
+                        android:hint="type here.."
                         android:paddingStart="25dp"
                         android:paddingEnd="25dp"
-                        android:hint="type here.."
                         android:textColor="@color/black"
-                        android:textSize="@dimen/fontsize_small"
-                        />
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/fontsize_small" />
                 </RelativeLayout>
 
                 <View
@@ -277,18 +276,17 @@
                         android:layout_height="@dimen/button_height_large"
                         android:layout_alignParentEnd="true"
                         android:layout_centerInParent="true"
-                        android:inputType="time"
                         android:background="@null"
                         android:cursorVisible="true"
-                        android:textCursorDrawable="@null"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
+                        android:hint="type here.."
+                        android:inputType="time"
                         android:paddingStart="25dp"
                         android:paddingEnd="25dp"
-                        android:hint="type here.."
                         android:textColor="@color/black"
-                        android:textSize="@dimen/fontsize_small"
-                        />
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/fontsize_small" />
                 </RelativeLayout>
 
                 <View
@@ -340,19 +338,19 @@
 
                     <LinearLayout
                         android:id="@+id/frg_my_results_ll_saved_results"
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/button_height_large"
-
                         android:layout_gravity="center"
+
                         android:background="@drawable/shp_rect_rounded_app_green"
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:paddingStart="15dp"
-
                         android:paddingTop="5dp"
+
                         android:paddingEnd="15dp"
-                        android:paddingBottom="5dp">
+                        android:paddingBottom="5dp"
+                        android:visibility="gone">
 
 
                         <TextView

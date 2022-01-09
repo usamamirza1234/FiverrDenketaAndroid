@@ -227,6 +227,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
         bundle.putString("key_danetka_sub_total", "1");
         bundle.putString("key_danetka_total", "1.00");
         bundle.putString("key_danetka_number", "1");
+        bundle.putString("key_danetka_discount",  "0.01");
         bundle.putInt("key_danetka_position", position);
         bundle.putBoolean("key_danetka_is_investigator", isInvestigator);
         bundle.putBoolean("key_danetka_is_more_danetka", isMoreDanetka);

@@ -24,6 +24,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddUserCredits;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddUserDanetkas;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
@@ -60,8 +61,9 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
     Bundle bundle;
     String danetkaID = "";
     String sub_total = "";
-    String total = "";
-    String number = "";
+    String totalAmount = "";
+    String numberOfDanetka = "";
+    String totalDiscount = "";
     boolean is_coming_from_bundle = false;
     GoogleSignInClient mGoogleSignInClient;
     TextView txvPaymentDescription;
@@ -78,9 +80,14 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
         bindViewss(frg);
 
         if (is_coming_from_bundle)
-            txvPaymentDescription.setText(number + " Danetka " + total + "€");
+            txvPaymentDescription.setText(numberOfDanetka + " Danetka " + totalAmount + "€");
         else {
-            txvPaymentDescription.setText("1 Danetka 0,99€");
+            {
+                txvPaymentDescription.setText("1 Danetka 0,99€");
+                numberOfDanetka ="1";
+                totalAmount ="0.99";
+
+            }
 
         }
 
@@ -95,8 +102,9 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
             danetkaID = bundle.getString("key_danetka_danetkaID");
             is_coming_from_bundle = bundle.getBoolean("key_is_coming_from_bundle");
             sub_total = bundle.getString("key_danetka_sub_total");
-            total = bundle.getString("key_danetka_total");
-            number = bundle.getString("key_danetka_number");
+            totalAmount = bundle.getString("key_danetka_total");
+            numberOfDanetka = bundle.getString("key_danetka_number");
+            totalDiscount = bundle.getString("key_danetka_discount");
         }
         paypalInit();
 
@@ -198,6 +206,38 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
         }, _signUpEntity);
     }
 
+
+    private void requestPostGameCredits(String _signUpEntity) {
+        showProgDialog();
+        navToPayentApprovedFragment(numberOfDanetka, totalAmount);
+        Intro_WebHit_Post_AddUserCredits intro_webHit_post_addUserCredits = new Intro_WebHit_Post_AddUserCredits();
+        intro_webHit_post_addUserCredits.postAddCredit(getActivity(), new IWebCallback() {
+            @Override
+            public void onWebResult(boolean isSuccess, String strMsg) {
+                if (isSuccess) {
+                    dismissProgDialog();
+                    String gCredits = Intro_WebHit_Post_AddUserCredits.responseObject.getData().getGameCredits()+"";
+                    AppConfig.getInstance().mUser.GameCredits = "" + (gCredits );
+                    txvUseGameCredits.setText("Game Credits available -- " + AppConfig.getInstance().mUser.getGameCredits());
+                    AppConfig.getInstance().saveUserProfile();
+                    danetkaID = "0";
+
+                } else {
+                    dismissProgDialog();
+                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
+
+                }
+            }
+
+            @Override
+            public void onWebException(Exception ex) {
+                dismissProgDialog();
+                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
+
+            }
+        }, _signUpEntity);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -218,23 +258,18 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
                     ) {
                         if (AppConfig.getInstance().responseObject.getResponse().getState().equalsIgnoreCase("approved")) {
                             JsonObject jsonObject = new JsonObject();
-                            jsonObject.addProperty("danetkasId", danetkaID);
+//                            jsonObject.addProperty("danetkasId", danetkaID);
+                            jsonObject.addProperty("gameCredits", numberOfDanetka);
+                            jsonObject.addProperty("subtotal", sub_total);
+                            jsonObject.addProperty("discount", totalDiscount);
+                            jsonObject.addProperty("totalAmount", totalAmount);
 
-                            jsonObject.addProperty("create_time", AppConfig.getInstance().responseObject.getResponse().getCreate_time());
-                            jsonObject.addProperty("id", AppConfig.getInstance().responseObject.getResponse().getId());
-                            jsonObject.addProperty("intent", AppConfig.getInstance().responseObject.getResponse().getIntent());
-                            jsonObject.addProperty("state", AppConfig.getInstance().responseObject.getResponse().getState());
-//                                                    jsonObject.addProperty("response_type", strID.toString());
-//                                                    jsonObject.addProperty("environment", strID.toString());
-//                                                    jsonObject.addProperty("platform", strID.toString());
-//                            requestAddUserDanetkas(jsonObject.toString());
 
-                            int gCredits = Integer.parseInt(AppConfig.getInstance().mUser.GameCredits);
-                            AppConfig.getInstance().mUser.GameCredits = "" + (gCredits + Integer.parseInt(number));
-                            txvUseGameCredits.setText("Game Credits available -- " + AppConfig.getInstance().mUser.getGameCredits());
-                            AppConfig.getInstance().saveUserProfile();
-                            danetkaID = "0";
-                            navToPayentApprovedFragment(number, total);
+
+
+                            requestPostGameCredits(jsonObject.toString());
+
+
                         }
                     }
 
@@ -266,7 +301,7 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
         //   - PAYMENT_INTENT_ORDER to create a payment for authorization and capture
         //     later via calls from your server.
 
-        PayPalPayment payment = new PayPalPayment(new BigDecimal("" + total), "EUR", number + " Danetka(s)",
+        PayPalPayment payment = new PayPalPayment(new BigDecimal("" + totalAmount), "EUR", numberOfDanetka + " Danetka(s)",
                 PayPalPayment.PAYMENT_INTENT_SALE);
 
         Intent intent = new Intent(getActivity(), PaymentActivity.class);

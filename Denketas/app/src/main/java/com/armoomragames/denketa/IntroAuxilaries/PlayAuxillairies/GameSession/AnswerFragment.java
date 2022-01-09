@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.LearnMoreFragment;
+import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.RateAppFragment;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_All_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Guest_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_INVESTIGATOR_Danektas;
@@ -45,6 +46,7 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
     boolean isInvestigator = false;
     boolean isMoreDanetka = false;
     String[] lstRegilto;
+    String danetka_ID = "1";
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,6 +65,7 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
                 if (!isMoreDanetka) {
 
                     if (AppConfig.getInstance().mUser.isLoggedIn()) {
+                        danetka_ID = (Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getId()) + "";
                         txvDanetkaName.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getTitle());
                         txvDetail.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getAnswer() + "");
                         danetka_Image = "http://18.118.228.171:2000/images/" + Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getAnswerImage();
@@ -70,6 +73,8 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
                         lstRegilto = (Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getHint().split("\\s*,\\s*"));
                         populatePopulationList();
                     } else {
+
+                        danetka_ID = (Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getId()) + "";
                         txvDanetkaName.setText(Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getTitle() + "");
                         txvDetail.setText(Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getAnswer() + "");
                         danetka_Image = "http://18.118.228.171:2000/images/" + Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getAnswerImage();
@@ -79,7 +84,7 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
                     }
 
                 } else {
-
+                    danetka_ID = (Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getId()) + "";
                     txvDanetkaName.setText(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getTitle());
                     txvDetail.setText(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getAnswer() + "");
                     danetka_Image = "http://18.118.228.171:2000/images/" + Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getAnswerImage();
@@ -88,6 +93,7 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
                     populatePopulationList();
                 }
             } else {
+                danetka_ID = (Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getId()) + "";
                 txvDanetkaName.setText(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getTitle());
                 txvDetail.setText(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getAnswer() + "");
                 danetka_Image = "http://18.118.228.171:2000/images/" + Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getAnswerImage();
@@ -160,10 +166,14 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.act_intro_lay_toolbar_rlBack:
-                ((IntroActivity) getActivity()).onBackPressed();
+                getActivity().onBackPressed();
                 break;
             case R.id.act_intro_lay_toolbar_rlCross:
-                ((IntroActivity) getActivity()).navToPreSignInVAFragment();
+
+
+                if (!isInvestigator)
+                    navToRateAppFragment();
+                else ((IntroActivity) getActivity()).navToPreSignInVAFragment();
                 break;
 
             case R.id.frg_denketa_answer_llLearnmore:
@@ -184,6 +194,23 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
         frag.setArguments(bundle);
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_LearnMoreFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_LearnMoreFragment);
+        ft.hide(this);
+        ft.commit();
+
+    }
+
+
+    public void navToRateAppFragment() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new RateAppFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("key_danetka_position", position);
+        bundle.putBoolean("key_danetka_is_investigator", isInvestigator);
+        bundle.putBoolean("key_danetka_is_more_danetka", isMoreDanetka);
+        frag.setArguments(bundle);
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_RateAppFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_RateAppFragment);
         ft.hide(this);
         ft.commit();
 

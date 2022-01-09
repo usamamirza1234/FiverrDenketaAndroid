@@ -37,7 +37,7 @@ public class Intro_WebHit_Get_All_Danektas {
         params.put("sortOrder", "DESC");
 
 
-        Log.d("LOG_AS", "getAllDanketa:  " + myUrl + params);
+        Log.d("LOG_AS", "getAllDanketaForAllUsers:  " + myUrl + params);
 
         mClient.addHeader(ApiMethod.HEADER.Authorization, AppConfig.getInstance().mUser.getAuthorization());
         mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS);
@@ -48,7 +48,7 @@ public class Intro_WebHit_Get_All_Danektas {
                         try {
                             Gson gson = new Gson();
                             strResponse = new String(responseBody, "UTF-8");
-                            Log.d("LOG_AS", "getAllDanketa: onSuccess: " + strResponse);
+                            Log.d("LOG_AS", "getAllDanketaForAllUsers: onSuccess: " + strResponse);
                             ResponseModel responseObjectLocal = null;
 
                             responseObjectLocal = gson.fromJson(strResponse, ResponseModel.class);
@@ -73,7 +73,7 @@ public class Intro_WebHit_Get_All_Danektas {
                                             responseObject = responseObjectLocal;
                                             mPaginationInfo.currIndex = _index;
                                         }
-                                        Log.d("LOG_AS", "getAllDanketa: onSuccess: tmpIsDataFetched " + tmpIsDataFetched);
+                                        Log.d("LOG_AS", "getAllDanketaForAllUsers: onSuccess: tmpIsDataFetched " + tmpIsDataFetched);
                                         //No need to save
 
                                         if (mPaginationInfo != null) {
@@ -97,7 +97,7 @@ public class Intro_WebHit_Get_All_Danektas {
                                 iWebPaginationCallback.onWebInitialException(ex);
                             else
                                 iWebPaginationCallback.onWebSuccessiveException(ex);
-                            Log.d("LOG_AS", "getAllDanketa: exception: " + ex.toString());
+                            Log.d("LOG_AS", "getAllDanketaForAllUsers: exception: " + ex.toString());
                         }
                     }
 
@@ -105,7 +105,7 @@ public class Intro_WebHit_Get_All_Danektas {
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable
                             error) {
 
-                        Log.d("LOG_AS", "getAllDanketa: onFailure called: " + error.toString() + "   " + statusCode + "");
+                        Log.d("LOG_AS", "getAllDanketaForAllUsers: onFailure called: " + error.toString() + "   " + statusCode + "");
 
 
                         switch (statusCode) {

@@ -168,6 +168,7 @@ public class BundleDiscountFragment extends Fragment implements View.OnClickList
         bundle.putString("key_danetka_sub_total", sub_total + "");
         bundle.putString("key_danetka_total", String.format("%.2f", total) + "");
         bundle.putString("key_danetka_number", number + "");
+        bundle.putString("key_danetka_discount", discount + "");
         frag.setArguments(bundle);
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PaymentDetailFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_PaymentDetailFragment);
