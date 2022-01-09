@@ -60,11 +60,11 @@
                 android:padding="10dp">
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:background="@drawable/ic_bg_about"
+                    android:background="@drawable/ic_question_bg"
+                    android:orientation="vertical"
                     android:padding="6dp">
 
                     <TextView
@@ -89,9 +89,9 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/frg_my_results_txv_danetkaname"
                         android:layout_centerInParent="true"
-                        android:alpha="20"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
+                        android:alpha="20"
                         android:gravity="start"
                         android:justificationMode="inter_word"
                         android:padding="10dp"
@@ -100,10 +100,11 @@
 
                     <ImageView
                         android:id="@+id/img"
-                        android:layout_width="match_parent"
-                        android:layout_height="400dp"
-                        android:layout_margin="10dp"
-                        android:src="@drawable/ic_placeholder" />
+                        android:layout_width="fill_parent"
+                        android:layout_height="300dp"
+                        android:layout_centerHorizontal="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_placeholder"  />
 
                     <LinearLayout
                         android:layout_width="match_parent"

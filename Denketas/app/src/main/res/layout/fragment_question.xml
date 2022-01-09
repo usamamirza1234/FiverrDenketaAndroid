@@ -52,23 +52,24 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
 
-                    android:background="@drawable/ic_bg_about"
+                    android:background="@drawable/ic_question_bg"
                     android:padding="6dp">
 
                     <ImageView
                         android:id="@+id/img"
-                        android:layout_width="match_parent"
-                        android:layout_height="400dp"
-                        android:layout_margin="10dp"
-                        android:paddingTop="20dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="300dp"
+                        android:layout_centerHorizontal="true"
+                        android:scaleType="centerCrop"
                         android:src="@drawable/ic_placeholder" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/img"
-                        android:layout_margin="20dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="-5dp"
+                        android:layout_marginEnd="20dp"
                         android:orientation="vertical">
 
                         <TextView
