@@ -69,14 +69,14 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
                     {
                         txvDanetkaName.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getTitle() + "");
                         txvQuestion.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getQuestion() + "");
-                        danetka_Image = "http://18.118.228.171:2000/images/" + Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getImage();
+                        danetka_Image = "http://18.119.55.236:2000/images/" + Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getImage();
                         Glide.with(getContext()).load(danetka_Image).into(img);
                     }
                     else
                     {
                         txvDanetkaName.setText(Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getTitle() + "");
                         txvQuestion.setText(Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getQuestion() + "");
-                        danetka_Image = "http://18.118.228.171:2000/images/" + Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getImage();
+                        danetka_Image = "http://18.119.55.236:2000/images/" + Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getImage();
                         Glide.with(getContext()).load(danetka_Image).into(img);
                     }
 
@@ -87,7 +87,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
 
                     txvDanetkaName.setText(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getTitle() + "");
                     txvQuestion.setText(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getQuestion() + "");
-                    danetka_Image = "http://18.118.228.171:2000/images/" + Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getImage();
+                    danetka_Image = "http://18.119.55.236:2000/images/" + Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getImage();
                     Glide.with(getContext()).load(danetka_Image).into(img);
 
                     llPaynow.setVisibility(View.VISIBLE);
@@ -97,7 +97,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
             } else {
                 txvDanetkaName.setText(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getTitle() + "");
                 txvQuestion.setText(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getQuestion() + "");
-                danetka_Image = "http://18.118.228.171:2000/images/" + Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getImage();
+                danetka_Image = "http://18.119.55.236:2000/images/" + Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getImage();
                 Glide.with(getContext()).load(danetka_Image).into(img);
 
                 llPaynow.setVisibility(View.GONE);

@@ -62,7 +62,7 @@
                         android:layout_height="400dp"
 
                         android:paddingTop="20dp"
-                        android:src="@drawable/ic_copy1" />
+                        android:src="@drawable/ic_placeholder" />
 
                     <TextView
                         android:id="@+id/frg_my_results_txv_danetkaname"

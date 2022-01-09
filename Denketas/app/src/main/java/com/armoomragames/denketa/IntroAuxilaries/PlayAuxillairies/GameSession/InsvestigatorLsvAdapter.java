@@ -75,7 +75,7 @@ public class InsvestigatorLsvAdapter extends BaseAdapter {
         viewHolder.txvName.setText(mData.get(position).getStrName());
         convertView.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_A,position ));
         Glide.with(context)
-                .load("http://18.118.228.171:2000/images/"+mData.get(position).getStrImage())
+                .load("http://18.119.55.236:2000/images/"+mData.get(position).getStrImage())
                 .into(viewHolder.imvDanetka);
         return convertView;
     }
