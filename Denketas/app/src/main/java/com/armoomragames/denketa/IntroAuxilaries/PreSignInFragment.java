@@ -22,12 +22,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.RulesFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.SiginInFragment;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_GameCredits;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
+import com.armoomragames.denketa.Utils.IWebCallback;
 
 public class PreSignInFragment extends Fragment implements View.OnClickListener {
 
@@ -45,7 +48,7 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
 
         init();
         bindViews(frg);
-
+        requestGameCredits();
         return frg;
     }
 
@@ -350,5 +353,29 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
     //endregion
 
 
+    private void requestGameCredits() {
+
+
+        Intro_WebHit_Get_GameCredits intro_webHit_get_gameCredits = new Intro_WebHit_Get_GameCredits();
+        intro_webHit_get_gameCredits.getGameCredits(new IWebCallback() {
+            @Override
+            public void onWebResult(boolean isSuccess, String strMsg) {
+                if (isSuccess) {
+                    AppConfig.getInstance().mUser.GameCredits = Intro_WebHit_Get_GameCredits.responseObject.getData().getCredits()+"";
+                    AppConfig.getInstance().mUser.DanetkaPurchased = Intro_WebHit_Get_GameCredits.responseObject.getData().getDanetkasPurchased()+"";
+                    AppConfig.getInstance().saveUserProfile();
+
+                } else {
+                }
+
+            }
+
+            @Override
+            public void onWebException(Exception ex) {
+
+            }
+        });
+
+    }
 
 }

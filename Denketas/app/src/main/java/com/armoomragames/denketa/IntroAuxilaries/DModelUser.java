@@ -26,7 +26,7 @@ public class DModelUser {
     public int Status;
     public int Is_Under_Review;
     public String GameCredits;
-    public String createdAt;
+    public String DanetkaPurchased;
     public int Active;
     public boolean isPushOn;
     private boolean isLoggedIn;
@@ -34,7 +34,7 @@ public class DModelUser {
     public String Authorization;
     public String Password_Token;
 
-    public DModelUser(int user_Id, String name, String nationality, String phone, String email, String gender, String DOB, String iqama_Id, String iqama_Expiry, String iqama_Image, String address, String image, String role, int status, int is_Under_Review, String gameCredits, String createdAt, int active, boolean isPushOn, boolean isLoggedIn, boolean isGuest, String authorization, String password_Token) {
+    public DModelUser(int user_Id, String name, String nationality, String phone, String email, String gender, String DOB, String iqama_Id, String iqama_Expiry, String iqama_Image, String address, String image, String role, int status, int is_Under_Review, String gameCredits, String DanetkaPurchased, int active, boolean isPushOn, boolean isLoggedIn, boolean isGuest, String authorization, String password_Token) {
         User_Id = user_Id;
         Name = name;
         Nationality = nationality;
@@ -51,7 +51,7 @@ public class DModelUser {
         Status = status;
         Is_Under_Review = is_Under_Review;
         GameCredits = gameCredits;
-        this.createdAt = createdAt;
+        this.DanetkaPurchased = DanetkaPurchased;
         Active = active;
         this.isPushOn = isPushOn;
         this.isLoggedIn = isLoggedIn;
@@ -90,18 +90,18 @@ public class DModelUser {
         this.isGuest = false;
         this.Authorization = "";
         this.Password_Token = "";
-        this.createdAt = "";
+        this.DanetkaPurchased = "";
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public String getDanetkaPurchased() {
+        return DanetkaPurchased;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setDanetkaPurchased(String danetkaPurchased) {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
         try {
-            Date     date = format.parse(createdAt);
+            Date     date = format.parse(danetkaPurchased);
             Log.d("logApiData", "date1:  " + date);
 
 
@@ -109,12 +109,12 @@ public class DModelUser {
             String strmonth = dayMonth.format(date);
             Log.d("logApiData","formattedDate:  " +strmonth);
 
-            createdAt = strmonth;
+            danetkaPurchased = strmonth;
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        this.createdAt = createdAt;
+        this.DanetkaPurchased = danetkaPurchased;
     }
 
     public int getUser_Id() {

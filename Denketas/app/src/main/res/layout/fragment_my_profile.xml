@@ -46,6 +46,7 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/txvUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -62,10 +63,10 @@
             android:src="@drawable/ic_line_tiny" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-
+            android:id="@+id/txvEditProfile"
             android:layout_marginTop="20dp"
 
             android:background="@null"
@@ -102,12 +103,13 @@
                     android:textSize="@dimen/fontsize_small" />
 
                 <TextView
+                    android:id="@+id/txvDanetkaUnclocked"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
                     android:gravity="end"
                     android:justificationMode="inter_word"
-                    android:text="4"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fontsize_small" />
 
@@ -134,8 +136,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
                     android:gravity="end"
+                    android:id="@+id/txvDanetkalocked"
                     android:justificationMode="inter_word"
-                    android:text="4"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fontsize_small" />
 
@@ -162,8 +165,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
                     android:gravity="end"
+                    android:id="@+id/txvDanetkaPlayed"
                     android:justificationMode="inter_word"
-                    android:text="2"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fontsize_small" />
 
@@ -191,7 +195,8 @@
                     android:layout_weight="5"
                     android:gravity="end"
                     android:justificationMode="inter_word"
-                    android:text="2"
+                    android:id="@+id/txvDanetkaAvailable"
+                    android:text="0"
                     android:textColor="@color/black"
                     android:textSize="@dimen/fontsize_small" />
 

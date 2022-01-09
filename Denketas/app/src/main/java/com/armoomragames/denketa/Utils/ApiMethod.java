@@ -11,6 +11,7 @@ public interface ApiMethod {
         String fetchFreeDanetkas="fetch/free/danetkas";
         String fetchInvestagatorDanetkas="fetch/all/danetkas";
         String fetchResults="find/result/";
+        String fetchGameCredits="fetch/user/credit";
     }
 
     interface POST {

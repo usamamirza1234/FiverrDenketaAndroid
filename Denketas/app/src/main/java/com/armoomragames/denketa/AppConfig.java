@@ -422,7 +422,7 @@ public class AppConfig {
         mUser.setLoggedIn(sharedPref.getBoolean("key_user_isloggedin", false));
         mUser.setAuthorization(sharedPref.getString("key_user_auth", ""));
         mUser.setPassword_Token(sharedPref.getString("key_user_password_token", ""));
-        mUser.setCreatedAt(sharedPref.getString("key_user_created_at", ""));
+        mUser.setDanetkaPurchased(sharedPref.getString("key_user_created_at", ""));
         mUser.setGuest(sharedPref.getBoolean("key_user_is_guest", false));
     }
 
@@ -457,7 +457,7 @@ public class AppConfig {
         editor.putBoolean("key_user_is_guest", mUser.isGuest());
         editor.putString("key_user_auth", mUser.getAuthorization());
         editor.putString("key_user_password_token", mUser.getPassword_Token());
-        editor.putString("key_user_created_at", mUser.getCreatedAt());
+        editor.putString("key_user_created_at", mUser.getDanetkaPurchased());
 
         editor.commit();
     }

@@ -96,6 +96,8 @@ public class RateAppFragment extends Fragment implements View.OnClickListener {
         edtMaster = frg.findViewById(R.id.frg_my_results_edt_master);
         edtInvestigator = frg.findViewById(R.id.frg_my_results_edt_invest);
 
+        edtMaster.setText(AppConfig.getInstance().mUser.getName());
+
         rlBack.setOnClickListener(this);
         rlCross.setOnClickListener(this);
 

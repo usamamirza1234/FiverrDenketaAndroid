@@ -33,7 +33,7 @@ public class Intro_WebHit_Get_User_Danektas {
         params.put("sortOrder", "DESC");
 
 
-        Log.d("LOG_AS", "getAllUserDanetkas:  " + myUrl + params);
+        Log.d("LOG_AS", "getAllUserDanetkas:  " + myUrl + params +AppConfig.getInstance().mUser.getAuthorization());
 
         mClient.addHeader(ApiMethod.HEADER.Authorization, AppConfig.getInstance().mUser.getAuthorization());
         mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS);
