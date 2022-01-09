@@ -82,7 +82,6 @@ public class Intro_WebHit_Get_GameCredits {
 
 
     public class ResponseModel {
-
         private int code;
         private String status;
         private Data data;
@@ -111,7 +110,7 @@ public class Intro_WebHit_Get_GameCredits {
             this.data = data;
         }
 
-        public class Data {
+        public class UserCredits {
             private int id;
 
             private int userId;
@@ -119,6 +118,8 @@ public class Intro_WebHit_Get_GameCredits {
             private int credits;
 
             private int danetkasPurchased;
+
+            private int danetkasPlayed;
 
             private boolean status;
 
@@ -156,6 +157,14 @@ public class Intro_WebHit_Get_GameCredits {
                 this.danetkasPurchased = danetkasPurchased;
             }
 
+            public int getDanetkasPlayed() {
+                return this.danetkasPlayed;
+            }
+
+            public void setDanetkasPlayed(int danetkasPlayed) {
+                this.danetkasPlayed = danetkasPlayed;
+            }
+
             public boolean getStatus() {
                 return this.status;
             }
@@ -172,6 +181,30 @@ public class Intro_WebHit_Get_GameCredits {
                 this.updatedTime = updatedTime;
             }
         }
+
+        public class Data {
+            private UserCredits userCredits;
+
+            private int toatalDanetkas;
+
+            public UserCredits getUserCredits() {
+                return this.userCredits;
+            }
+
+            public void setUserCredits(UserCredits userCredits) {
+                this.userCredits = userCredits;
+            }
+
+            public int getToatalDanetkas() {
+                return this.toatalDanetkas;
+            }
+
+            public void setToatalDanetkas(int toatalDanetkas) {
+                this.toatalDanetkas = toatalDanetkas;
+            }
+        }
+
+
     }
 
 }

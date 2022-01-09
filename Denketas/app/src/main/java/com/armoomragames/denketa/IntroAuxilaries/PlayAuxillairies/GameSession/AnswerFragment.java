@@ -205,9 +205,7 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new RateAppFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("key_danetka_position", position);
-        bundle.putBoolean("key_danetka_is_investigator", isInvestigator);
-        bundle.putBoolean("key_danetka_is_more_danetka", isMoreDanetka);
+        bundle.putString("key_danetka_id", danetka_ID);
         frag.setArguments(bundle);
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_RateAppFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_RateAppFragment);

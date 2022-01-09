@@ -19,8 +19,8 @@ public class DModelUser {
     public String DOB;
     public String Iqama_Id;
     public String Iqama_Expiry;
-    public String Iqama_Image;
-    public String Address;
+    public String DanetkaTotal;
+    public String DanetkaPlayed;
     public String Image;
     public String Role;
     public int Status;
@@ -34,7 +34,7 @@ public class DModelUser {
     public String Authorization;
     public String Password_Token;
 
-    public DModelUser(int user_Id, String name, String nationality, String phone, String email, String gender, String DOB, String iqama_Id, String iqama_Expiry, String iqama_Image, String address, String image, String role, int status, int is_Under_Review, String gameCredits, String DanetkaPurchased, int active, boolean isPushOn, boolean isLoggedIn, boolean isGuest, String authorization, String password_Token) {
+    public DModelUser(int user_Id, String name, String nationality, String phone, String email, String gender, String DOB, String iqama_Id, String iqama_Expiry, String danetkaTotal, String danetkaPlayed, String image, String role, int status, int is_Under_Review, String gameCredits, String DanetkaPurchased, int active, boolean isPushOn, boolean isLoggedIn, boolean isGuest, String authorization, String password_Token) {
         User_Id = user_Id;
         Name = name;
         Nationality = nationality;
@@ -44,8 +44,8 @@ public class DModelUser {
         this.DOB = DOB;
         Iqama_Id = iqama_Id;
         Iqama_Expiry = iqama_Expiry;
-        Iqama_Image = iqama_Image;
-        Address = address;
+        DanetkaTotal = danetkaTotal;
+        DanetkaPlayed = danetkaPlayed;
         Image = image;
         Role = role;
         Status = status;
@@ -77,8 +77,8 @@ public class DModelUser {
         this.DOB = "";
         this.Iqama_Id = "";
         this.Iqama_Expiry = "";
-        this.Iqama_Image = "";
-        this.Address = "";
+        this.DanetkaTotal = "";
+        this.DanetkaPlayed = "";
         this.Image = "";
         this.Role = "";
         this.Status = 0;
@@ -181,20 +181,20 @@ public class DModelUser {
         Iqama_Expiry = iqama_Expiry;
     }
 
-    public String getIqama_Image() {
-        return Iqama_Image;
+    public String getDanetkaTotal() {
+        return DanetkaTotal;
     }
 
-    public void setIqama_Image(String iqama_Image) {
-        Iqama_Image = iqama_Image;
+    public void setDanetkaTotal(String danetkaTotal) {
+        DanetkaTotal = danetkaTotal;
     }
 
-    public String getAddress() {
-        return Address;
+    public String getDanetkaPlayed() {
+        return DanetkaPlayed;
     }
 
-    public void setAddress(String address) {
-        Address = address;
+    public void setDanetkaPlayed(String danetkaPlayed) {
+        DanetkaPlayed = danetkaPlayed;
     }
 
     public String getImage() {

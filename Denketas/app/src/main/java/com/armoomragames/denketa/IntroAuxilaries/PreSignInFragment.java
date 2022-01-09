@@ -361,8 +361,10 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onWebResult(boolean isSuccess, String strMsg) {
                 if (isSuccess) {
-                    AppConfig.getInstance().mUser.GameCredits = Intro_WebHit_Get_GameCredits.responseObject.getData().getCredits()+"";
-                    AppConfig.getInstance().mUser.DanetkaPurchased = Intro_WebHit_Get_GameCredits.responseObject.getData().getDanetkasPurchased()+"";
+                    AppConfig.getInstance().mUser.GameCredits = Intro_WebHit_Get_GameCredits.responseObject.getData().getUserCredits().getCredits()+"";
+                    AppConfig.getInstance().mUser.DanetkaPurchased = Intro_WebHit_Get_GameCredits.responseObject.getData().getUserCredits().getDanetkasPurchased()+"";
+                    AppConfig.getInstance().mUser.DanetkaPlayed = Intro_WebHit_Get_GameCredits.responseObject.getData().getUserCredits().getDanetkasPlayed()+"";
+                    AppConfig.getInstance().mUser.DanetkaTotal = Intro_WebHit_Get_GameCredits.responseObject.getData().getToatalDanetkas()+"";
                     AppConfig.getInstance().saveUserProfile();
 
                 } else {

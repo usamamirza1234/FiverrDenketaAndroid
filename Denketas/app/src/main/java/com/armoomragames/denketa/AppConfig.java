@@ -410,8 +410,8 @@ public class AppConfig {
         mUser.setDOB(sharedPref.getString("key_user_dob", ""));
         mUser.setIqama_Id(sharedPref.getString("key_user_iqama_id", ""));
         mUser.setIqama_Expiry(sharedPref.getString("key_user_iqama_expiry", ""));
-        mUser.setIqama_Image(sharedPref.getString("key_user_iqama_image", ""));
-        mUser.setAddress(sharedPref.getString("key_user_addr", ""));
+        mUser.setDanetkaTotal(sharedPref.getString("key_user_iqama_image", ""));
+        mUser.setDanetkaPlayed(sharedPref.getString("key_user_addr", ""));
         mUser.setImage(sharedPref.getString("key_user_image", ""));
         mUser.setRole(sharedPref.getString("key_user_role", ""));
         mUser.setStatus(sharedPref.getInt("key_user_status", 0));
@@ -444,8 +444,8 @@ public class AppConfig {
         editor.putString("key_user_dob", mUser.getDOB());
         editor.putString("key_user_iqama_id", mUser.getIqama_Id());
         editor.putString("key_user_iqama_expiry", mUser.getIqama_Expiry());
-        editor.putString("key_user_iqama_image", mUser.getIqama_Image());
-        editor.putString("key_user_addr", mUser.getAddress());
+        editor.putString("key_user_iqama_image", mUser.getDanetkaTotal());
+        editor.putString("key_user_addr", mUser.getDanetkaPlayed());
         editor.putString("key_user_image", mUser.getImage());
         editor.putString("key_user_role", mUser.getRole());
         editor.putInt("key_user_status", mUser.getStatus());
