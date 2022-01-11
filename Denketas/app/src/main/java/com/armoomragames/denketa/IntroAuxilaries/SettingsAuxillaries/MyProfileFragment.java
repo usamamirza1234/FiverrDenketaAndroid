@@ -1,15 +1,14 @@
 package com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries;
 
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.app.ShareCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -17,17 +16,16 @@ import androidx.fragment.app.FragmentTransaction;
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.BundleDiscountFragment;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_GameCredits;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
+import com.armoomragames.denketa.Utils.IWebCallback;
 
 public class MyProfileFragment extends Fragment implements View.OnClickListener {
     RelativeLayout rlToolbar, rlBack, rlCross;
 
-    TextView txvDanetkaUnclocked,txvDanetkaLocked,txvDanetkaPlayed,txAvailableCredits,txvEditProfile,txvUsername,txvGetMore;
+    TextView txvDanetkaUnclocked, txvDanetkaLocked, txvDanetkaPlayed, txAvailableCredits, txvEditProfile, txvUsername, txvGetMore;
+    LinearLayout frg_restPass_llConfirm;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,6 +38,39 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
     }
 
     private void init() {
+        requestGameCredits();
+    }
+
+    private void requestGameCredits() {
+
+
+        Intro_WebHit_Get_GameCredits intro_webHit_get_gameCredits = new Intro_WebHit_Get_GameCredits();
+        intro_webHit_get_gameCredits.getGameCredits(new IWebCallback() {
+            @Override
+            public void onWebResult(boolean isSuccess, String strMsg) {
+                if (isSuccess) {
+                    AppConfig.getInstance().mUser.GameCredits = Intro_WebHit_Get_GameCredits.responseObject.getData().getUserCredits().getCredits() + "";
+                    AppConfig.getInstance().mUser.DanetkaPurchased = Intro_WebHit_Get_GameCredits.responseObject.getData().getUserCredits().getDanetkasPurchased() + "";
+                    AppConfig.getInstance().mUser.DanetkaPlayed = Intro_WebHit_Get_GameCredits.responseObject.getData().getUserCredits().getDanetkasPlayed() + "";
+                    AppConfig.getInstance().mUser.DanetkaTotal = Intro_WebHit_Get_GameCredits.responseObject.getData().getToatalDanetkas() + "";
+                    AppConfig.getInstance().saveUserProfile();
+                    int unlock = Integer.parseInt(AppConfig.getInstance().mUser.getDanetkaPurchased());
+                    int lock = Integer.parseInt(AppConfig.getInstance().mUser.getDanetkaTotal());
+                    txvUsername.setText(AppConfig.getInstance().mUser.getName());
+                    txAvailableCredits.setText(AppConfig.getInstance().mUser.getGameCredits());
+                    txvDanetkaLocked.setText((lock - unlock) + "");
+                    txvDanetkaUnclocked.setText(AppConfig.getInstance().mUser.getDanetkaPurchased());
+                    txvDanetkaPlayed.setText(AppConfig.getInstance().mUser.DanetkaPlayed);
+                } else {
+                }
+
+            }
+
+            @Override
+            public void onWebException(Exception ex) {
+
+            }
+        });
 
     }
 
@@ -56,6 +87,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         txvUsername = frg.findViewById(R.id.txvUsername);
         txvEditProfile = frg.findViewById(R.id.txvEditProfile);
         txvGetMore = frg.findViewById(R.id.txvGetMore);
+        frg_restPass_llConfirm = frg.findViewById(R.id.frg_restPass_llConfirm);
 
         rlBack.setOnClickListener(this);
         rlCross.setOnClickListener(this);
@@ -63,13 +95,6 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         txvGetMore.setOnClickListener(this);
 
 
-        int unlock =Integer.parseInt(AppConfig.getInstance().mUser.getDanetkaPurchased());
-        int lock =Integer.parseInt(AppConfig.getInstance().mUser.getDanetkaTotal());
-        txvUsername.setText(AppConfig.getInstance().mUser.getName());
-        txAvailableCredits.setText(AppConfig.getInstance().mUser.getGameCredits());
-        txvDanetkaLocked.setText((lock-unlock)+"");
-        txvDanetkaUnclocked.setText(AppConfig.getInstance().mUser.getDanetkaPurchased());
-        txvDanetkaPlayed.setText(AppConfig.getInstance().mUser.DanetkaPlayed);
     }
 
 
@@ -79,18 +104,29 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.act_intro_lay_toolbar_rlBack:
             case R.id.txvEditProfile:
-                ((IntroActivity)getActivity()).  onBackPressed();
+                ((IntroActivity) getActivity()).onBackPressed();
 
                 break;
             case R.id.act_intro_lay_toolbar_rlCross:
-                ((IntroActivity)getActivity()). navToPreSignInVAFragment();
+                ((IntroActivity) getActivity()).navToPreSignInVAFragment();
 
-                break;   case R.id.txvGetMore:
+                break;
+            case R.id.txvGetMore:
                 navToBundleDiscountFragment("0");
 
                 break;
+
+
+            case R.id.frg_restPass_llConfirm:
+                ShareCompat.IntentBuilder.from(getActivity())
+                        .setType("text/plain")
+                        .setChooserTitle("Armoomra Games")
+                        .setText("http://play.google.com/store/apps/details?id=" + getActivity().getPackageName())
+                        .startChooser();
+                break;
         }
     }
+
     private void navToBundleDiscountFragment(String danetka_danetkaID) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
