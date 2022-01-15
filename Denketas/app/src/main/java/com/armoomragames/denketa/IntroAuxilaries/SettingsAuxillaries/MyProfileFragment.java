@@ -93,6 +93,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         rlCross.setOnClickListener(this);
         txvEditProfile.setOnClickListener(this);
         txvGetMore.setOnClickListener(this);
+        frg_restPass_llConfirm.setOnClickListener(this);
 
 
     }

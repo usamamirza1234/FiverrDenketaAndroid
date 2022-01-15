@@ -70,7 +70,7 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
                         txvDetail.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getAnswer() + "");
                         danetka_Image = "http://18.119.55.236:2000/images/" + Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getAnswerImage();
                         Glide.with(getContext()).load(danetka_Image).into(img);
-                        lstRegilto = (Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getHint().split("\\s*,\\s*"));
+                        lstRegilto = (Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getHint().split("\\s*=\\s*"));
                         populatePopulationList();
                     } else {
 
@@ -79,7 +79,7 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
                         txvDetail.setText(Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getAnswer() + "");
                         danetka_Image = "http://18.119.55.236:2000/images/" + Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getAnswerImage();
                         Glide.with(getContext()).load(danetka_Image).into(img);
-                        lstRegilto = (Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getHint().split("\\s*,\\s*"));
+                        lstRegilto = (Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getHint().split("\\s*=\\s*"));
                         populatePopulationList();
                     }
 
@@ -89,7 +89,7 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
                     txvDetail.setText(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getAnswer() + "");
                     danetka_Image = "http://18.119.55.236:2000/images/" + Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getAnswerImage();
                     Glide.with(getContext()).load(danetka_Image).into(img);
-                    lstRegilto = (Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getHint().split("\\s*,\\s*"));
+                    lstRegilto = (Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getHint().split("\\s*=\\s*"));
                     populatePopulationList();
                 }
             } else {
@@ -98,7 +98,7 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
                 txvDetail.setText(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getAnswer() + "");
                 danetka_Image = "http://18.119.55.236:2000/images/" + Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getAnswerImage();
                 Glide.with(getContext()).load(danetka_Image).into(img);
-                lstRegilto = (Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getHint().split("\\s*,\\s*"));
+                lstRegilto = (Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getHint().split("\\s*=\\s*"));
                 populatePopulationList();
             }
 
