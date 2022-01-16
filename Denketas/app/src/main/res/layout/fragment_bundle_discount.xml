@@ -329,8 +329,9 @@
 
         <LinearLayout android:id="@+id/bund"
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height_large"
             android:layout_gravity="center"
             android:background="@drawable/shp_rect_rounded_app_blue"
             android:gravity="center"

@@ -113,9 +113,9 @@ public class BundleDiscountFragment extends Fragment implements View.OnClickList
                     discount = sub_total - total;
 
 
-                    txvDiscount.setText(discount + "€");
+                    txvDiscount.setText(Math.round(discount) + "€");
                     txvSubTotal.setText(sub_total + "€");
-                    txvTotal.setText(total + "€");
+                    txvTotal.setText(Math.round(total) + "€");
 
 //                    Toast.makeText(getContext(), "text there afterTextChanged " + (number * (1 - (0.01 * number))), Toast.LENGTH_SHORT).show();
                 }

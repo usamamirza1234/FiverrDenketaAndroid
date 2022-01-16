@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
@@ -86,7 +85,8 @@
                         android:cursorVisible="true"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
-                        android:hint="type here.."
+                        android:hint="Master Name"
+
                         android:paddingStart="25dp"
                         android:paddingEnd="25dp"
                         android:textColor="@color/black"
@@ -131,7 +131,7 @@
                         android:cursorVisible="true"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
-                        android:hint="type here.."
+                        android:hint="Enter Name"
                         android:paddingStart="25dp"
                         android:paddingEnd="25dp"
                         android:textColor="@color/black"
@@ -235,7 +235,7 @@
                         android:textSize="@dimen/fontsize_small"
                         android:textStyle="bold" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/frg_my_results_edt_time"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/button_height_large"
@@ -245,7 +245,7 @@
                         android:cursorVisible="true"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
-                        android:hint="type here.."
+                        android:hint=""
                         android:inputType="time"
                         android:paddingStart="25dp"
                         android:paddingEnd="25dp"
@@ -371,33 +371,79 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-<!--                <RatingBar
-                    style="@style/CustomRatingBarStyle"
-                    android:stepSize="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:numStars="5"
-                    android:rating="5"
-                    android:scaleX="1"
-                    android:scaleY="1"
-                    android:transformPivotX="0dp"
-                    android:transformPivotY="0dp"
-                    android:isIndicator="true"
-                    android:max="5"/>-->
+                <!--                <RatingBar
+                                    style="@style/CustomRatingBarStyle"
+                                    android:stepSize="1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:numStars="5"
+                                    android:rating="5"
+                                    android:scaleX="1"
+                                    android:scaleY="1"
+                                    android:transformPivotX="0dp"
+                                    android:transformPivotY="0dp"
+                                    android:isIndicator="true"
+                                    android:max="5"/>-->
 
                 <RatingBar
 
-                    android:stepSize="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:numStars="5"
                     android:progressTint="#FFC107"
-                    android:rating="3" />
+                    android:rating="0"
+                    android:stepSize="1" />
             </RelativeLayout>
 
+            <LinearLayout
+                android:id="@+id/txv_enter_coment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/shp_rect_rounded_white_medium"
+                android:orientation="vertical"
+>
+
+                <EditText
+                    android:id="@+id/frg_make_edtAnswer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:cursorVisible="true"
+                    android:gravity="start"
+                    android:hint="Type here..."
+                    android:lines="5"
+                    android:paddingStart="14dp"
+                    android:paddingTop="14dp"
+                    android:paddingEnd="14dp"
+                    android:textColor="@color/app_thm_txv_gray"
+                    android:textColorHint="@color/app_thm_txv_gray"
+                    android:textCursorDrawable="@null" />
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/imv_send"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/ic_note" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
             <RelativeLayout
+                android:id="@+id/rl_leave_coment"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height_large"
                 android:layout_margin="30dp"
@@ -415,43 +461,25 @@
 
             </RelativeLayout>
 
-            <com.dd.ShadowLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="30dp"
-                android:layout_marginBottom="10dp"
-                app:sl_cornerRadius="24dp"
-                app:sl_dx="0dp"
-                app:sl_dy="0dp"
-                app:sl_shadowColor="@color/thm_shadow"
-                app:sl_shadowRadius="3dp">
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/rl_comnt_sent"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height_large"
+                android:layout_margin="30dp"
+                android:background="@drawable/shp_rect_rounded_app_green">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shp_rect_rounded_white_medium">
+                    android:layout_centerInParent="true"
+                    android:text="Comment Sent"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/button_height_xxxsmall"
+                    android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/frg_make_edtAnswer"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerInParent="true"
-                        android:background="@null"
-                        android:cursorVisible="true"
-                        android:gravity="start"
-                        android:hint="Type here..."
-                        android:lines="7"
-                        android:paddingStart="14dp"
-                        android:paddingTop="14dp"
-                        android:paddingEnd="14dp"
-                        android:textColor="@color/app_thm_txv_gray"
-                        android:textColorHint="@color/app_thm_txv_gray"
-                        android:textCursorDrawable="@null" />
-                </RelativeLayout>
-            </com.dd.ShadowLayout>
+
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 

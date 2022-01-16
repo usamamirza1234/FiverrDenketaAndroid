@@ -1,4 +1,4 @@
-package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
+package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession;
 
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_All_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddUserDanetkas;
 import com.armoomragames.denketa.R;
@@ -194,11 +195,13 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
                                     case EVENT_A:
                                         if (AppConfig.getInstance().mUser.isLoggedIn()) {
 
-                                            ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, true);
+                                            ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, true,lst_MyDenketa.get(position).getStrId());
 
 
                                         } else {
-                                            CustomToast.showToastMessage(getActivity(), "To View this Danetka You must be logged in", Toast.LENGTH_LONG);
+//                                            CustomToast.showToastMessage(getActivity(), "To View this Danetka You must be logged in", Toast.LENGTH_LONG);
+                                            ((IntroActivity)getActivity()).navToSigninFragment();
+
                                         }
                                         break;
                                 }
@@ -344,5 +347,10 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
         progressDialog.setCancelable(false);
         progressDialog.show();
     }
+
+
+
+
+
     //endregion
 }

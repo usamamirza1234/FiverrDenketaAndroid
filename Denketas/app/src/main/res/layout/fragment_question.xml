@@ -59,6 +59,8 @@
                         android:id="@+id/img"
                         android:layout_width="fill_parent"
                         android:layout_height="300dp"
+                        android:padding="5dp"
+                        android:layout_margin="5dp"
                         android:layout_centerHorizontal="true"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_placeholder" />
@@ -108,8 +110,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/button_height_large"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
 
                 android:background="@drawable/shp_rect_rounded_app_blue"
                 android:gravity="center"
@@ -121,6 +123,8 @@
 
 
                 <TextView
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"

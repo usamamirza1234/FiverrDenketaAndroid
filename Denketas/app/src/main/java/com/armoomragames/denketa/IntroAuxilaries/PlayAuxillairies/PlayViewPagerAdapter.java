@@ -7,10 +7,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.ChallengeFragment;
-import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.ExtraRulesFragment;
-import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.GamePlayFragment;
-import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.RulesFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.MakeDenketaFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.MoreDenketaFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.MyDenketaFragment;
 import com.armoomragames.denketa.Utils.AppConstt;
 
 import java.util.HashMap;

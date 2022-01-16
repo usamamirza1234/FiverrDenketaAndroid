@@ -80,12 +80,12 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
         bindViewss(frg);
 
         if (is_coming_from_bundle)
-            txvPaymentDescription.setText(numberOfDanetka + " Danetka " + totalAmount + "€");
+            txvPaymentDescription.setText(numberOfDanetka + " Game Credits " + totalAmount + "€");
         else {
             {
                 txvPaymentDescription.setText("1 Danetka 0,99€");
-                numberOfDanetka ="1";
-                totalAmount ="0.99";
+                numberOfDanetka = "1";
+                totalAmount = "0.99";
 
             }
 
@@ -149,13 +149,12 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
                 break;
 
             case R.id.rlUseGameCredits:
-                if (!AppConfig.getInstance().mUser.GameCredits.equalsIgnoreCase("0"))
-                {
+                if (!AppConfig.getInstance().mUser.GameCredits.equalsIgnoreCase("0")) {
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("danetkasId", danetkaID);
                     requestAddUserDanetkas(jsonObject.toString());
-                }
-                else CustomToast.showToastMessage(getActivity(),"Insufficient Game Credits Buy Now",Toast.LENGTH_SHORT);
+                } else
+                    CustomToast.showToastMessage(getActivity(), "Insufficient Game Credits Buy Now", Toast.LENGTH_SHORT);
                 break;
         }
     }
@@ -189,7 +188,7 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
                     AppConfig.getInstance().mUser.GameCredits = "" + (gCredits - 1);
                     txvUseGameCredits.setText("Game Credits available -- " + AppConfig.getInstance().mUser.getGameCredits());
                     AppConfig.getInstance().saveUserProfile();
-                    ((IntroActivity)getActivity()).navToPreSignInVAFragment();
+                    ((IntroActivity) getActivity()).navToPreSignInVAFragment();
                 } else {
                     dismissProgDialog();
                     CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
@@ -216,8 +215,8 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
             public void onWebResult(boolean isSuccess, String strMsg) {
                 if (isSuccess) {
                     dismissProgDialog();
-                    String gCredits = Intro_WebHit_Post_AddUserCredits.responseObject.getData().getGameCredits()+"";
-                    AppConfig.getInstance().mUser.GameCredits = "" + (gCredits );
+                    String gCredits = Intro_WebHit_Post_AddUserCredits.responseObject.getData().getGameCredits() + "";
+                    AppConfig.getInstance().mUser.GameCredits = "" + (gCredits);
                     txvUseGameCredits.setText("Game Credits available -- " + AppConfig.getInstance().mUser.getGameCredits());
                     AppConfig.getInstance().saveUserProfile();
                     danetkaID = "0";
@@ -263,8 +262,6 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
                             jsonObject.addProperty("subtotal", sub_total);
                             jsonObject.addProperty("discount", totalDiscount);
                             jsonObject.addProperty("totalAmount", totalAmount);
-
-
 
 
                             requestPostGameCredits(jsonObject.toString());

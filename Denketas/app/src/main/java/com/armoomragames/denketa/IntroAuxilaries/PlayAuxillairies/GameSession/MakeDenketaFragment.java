@@ -1,4 +1,4 @@
-package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
+package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession;
 
 import android.Manifest;
 import android.app.Activity;
@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
@@ -47,8 +46,6 @@ import com.bumptech.glide.Glide;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -167,7 +164,7 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
                             && filePhotoForQuestion.exists() && filePhotoForQuestion.exists()) {
                         showProgDialog();
 
-                        String hints = android.text.TextUtils.join(",", lstRegilto);
+                        String hints = android.text.TextUtils.join("=", lstRegilto);
                         DModelCustomDanetka dModelCustomDanetka = new DModelCustomDanetka(
                                 edtTitle.getText().toString(),
                                 edtAns.getText().toString(),
@@ -222,6 +219,14 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
                     CustomToast.showToastMessage(getActivity(), "Added Soon!", Toast.LENGTH_SHORT);
                     llSubmit.setBackground(getActivity().getResources().getDrawable(R.drawable.shp_rect_rounded_app_green));
                     txvSubmit.setText("Submitted");
+                    lstRegilto.clear();
+                    imvInsert1.setVisibility(View.GONE);
+                    imvInsert2.setVisibility(View.GONE);
+                    edtAns.setText("");
+                    edtQuestion.setText("");
+                    edtTitle.setText("");
+                    edtAns.setText("");
+                    llSubmit.setOnClickListener(null);
                 } else {
                     dismissProgDialog();
                     CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
@@ -490,11 +495,11 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
                     }
                 }
             }
-
+            dismissProgDialog();
         }
 
         super.onActivityResult(requestCode, resultCode, data);
-
+        dismissProgDialog();
     }
 
     private String getRealPathFromURI(Uri contentURI) {

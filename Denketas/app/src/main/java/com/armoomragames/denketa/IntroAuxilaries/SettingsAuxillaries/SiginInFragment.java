@@ -868,7 +868,7 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
                 jsonObject.addProperty("email", acct.getEmail());
 //                jsonObject.addProperty("password", edtPassword.getText().toString());
                 jsonObject.addProperty("userType", "social");
-                requestUserSiginSocial(jsonObject.toString());
+                requestUserRegisterSocial(jsonObject.toString());
 //
 //                JsonObject jsonObject = new JsonObject();
 //                jsonObject.addProperty("name", acct.getDisplayName());

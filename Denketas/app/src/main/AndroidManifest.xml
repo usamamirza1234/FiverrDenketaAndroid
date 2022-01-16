@@ -108,7 +108,8 @@
 <!--            </intent-filter>-->
 <!--        </receiver>-->
 
-
+        <meta-data android:name="com.armoomragames.denketa.Utils.GlideConfiguration"
+            android:value="GlideModule"/>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.com.vansuita.pickimage.provider"

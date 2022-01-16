@@ -3,13 +3,16 @@ package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession;
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -23,11 +26,18 @@ import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Al
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Guest_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_INVESTIGATOR_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_User_Danektas;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddUserDanetkas;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
+import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
+import com.armoomragames.denketa.Utils.IWebCallback;
 import com.armoomragames.denketa.Utils.JustifyTextView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.JsonObject;
 
 public class QuestionFragment extends Fragment implements View.OnClickListener {
 
@@ -38,7 +48,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
     LinearLayout llBundleDiscount;
     IBadgeUpdateListener mBadgeUpdateListener;
     Bundle bundle;
-    String danetka_Image;
+    String danetka_Image,danetkaID;
     int position = 0;
 
     boolean isInvestigator = false;
@@ -46,7 +56,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
     TextView txvDanetkaName;
     JustifyTextView txvQuestion;
     ImageView img;
-
+    Dialog progressDialog = null; // Context, this, etc.
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,33 +73,59 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
     private void setData() {
         try {
             if (!isInvestigator) {
-                if (!isMoreDanetka)
-                {
-                    if (AppConfig.getInstance().mUser.isLoggedIn())
-                    {
+                if (!isMoreDanetka) {
+                    if (AppConfig.getInstance().mUser.isLoggedIn()) {
                         txvDanetkaName.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getTitle() + "");
                         txvQuestion.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getQuestion() + "");
                         danetka_Image = "http://18.119.55.236:2000/images/" + Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getImage();
 //                        Glide.with(getContext()).load(danetka_Image).into(img);
 
-                        Glide
-                                .with(getContext())
-                                .load(danetka_Image)
+//                        Picasso.get()
+//                                .load(danetka_Image)
+//                                .fit()
+//                                .centerCrop()
+//                                .placeholder(R.drawable.ic_logo)
+//                                .error(R.drawable.ic_logo)
+//                                .into(img);
 
-                                
+
+                        RequestOptions options = new RequestOptions()
+                                .centerCrop()
+                                .placeholder(R.drawable.ic_logo)
+                                .error(R.drawable.ic_logo)
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .priority(Priority.HIGH)
+                                .dontAnimate()
+                                .dontTransform();
+
+                        Glide.with(getContext())
+                                .load(danetka_Image)
+                                .apply(options)
                                 .into(img);
-                    }
-                    else
-                    {
+
+//
+//                        Glide.with(getContext())
+//                                .load(danetka_Image)
+//                                .placeholder(R.drawable.placeholder)
+//                                .error(R.drawable.ic_logo)
+//                                .into(img);
+                    } else {
                         txvDanetkaName.setText(Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getTitle() + "");
                         txvQuestion.setText(Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getQuestion() + "");
                         danetka_Image = "http://18.119.55.236:2000/images/" + Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getImage();
 
-                        Glide
-                                .with(getContext())
+                        RequestOptions options = new RequestOptions()
+                                .centerCrop()
+                                .placeholder(R.drawable.ic_logo)
+                                .error(R.drawable.ic_logo)
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .priority(Priority.HIGH)
+                                .dontAnimate()
+                                .dontTransform();
+
+                        Glide.with(getContext())
                                 .load(danetka_Image)
-                                
-                                
+                                .apply(options)
                                 .into(img);
                     }
 
@@ -102,26 +138,40 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
                     txvQuestion.setText(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getQuestion() + "");
                     danetka_Image = "http://18.119.55.236:2000/images/" + Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getImage();
 
-                    Glide
-                            .with(getContext())
+                    RequestOptions options = new RequestOptions()
+                            .centerCrop()
+                            .placeholder(R.drawable.ic_logo)
+                            .error(R.drawable.ic_logo)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .priority(Priority.HIGH)
+                            .dontAnimate()
+                            .dontTransform();
+
+                    Glide.with(getContext())
                             .load(danetka_Image)
-                            
-                            
+                            .apply(options)
                             .into(img);
                     llPaynow.setVisibility(View.VISIBLE);
                     llBundleDiscount.setVisibility(View.VISIBLE);
-                    llSeeAnswer.setVisibility(View.GONE);
+                    llSeeAnswer.setVisibility(View.VISIBLE);
                 }
             } else {
                 txvDanetkaName.setText(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getTitle() + "");
                 txvQuestion.setText(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getQuestion() + "");
                 danetka_Image = "http://18.119.55.236:2000/images/" + Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getImage();
 
-                Glide
-                        .with(getContext())
+                RequestOptions options = new RequestOptions()
+                        .centerCrop()
+                        .placeholder(R.drawable.ic_logo)
+                        .error(R.drawable.ic_logo)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .priority(Priority.HIGH)
+                        .dontAnimate()
+                        .dontTransform();
+
+                Glide.with(getContext())
                         .load(danetka_Image)
-                        
-                        
+                        .apply(options)
                         .into(img);
                 llPaynow.setVisibility(View.GONE);
                 llBundleDiscount.setVisibility(View.GONE);
@@ -139,6 +189,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
             position = bundle.getInt("key_danetka_position");
             isInvestigator = bundle.getBoolean("key_danetka_is_investigator", false);
             isMoreDanetka = bundle.getBoolean("key_danetka_is_more_danetka", false);
+            danetkaID = bundle.getString("key_danetka_is_more_danetka_danetkaID");
 
         }
     }
@@ -180,14 +231,14 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
             case R.id.frg_denketa_question_llSeeAnswer:
                 if (!isMoreDanetka && !isInvestigator)
                     openDialog();
-                else
+                else if (isMoreDanetka && !isInvestigator) {
+                    openDialogCredits();
+                } else
                     navToDenketaAnswerFragment();
                 break;
 
             case R.id.frg_denketa_question_llBundleDiscount:
                 navToBundleDiscountFragment();
-
-
                 break;
             case R.id.frg_denketa_question_llBuyNow:
                 navToPaymentDetailFragment();
@@ -198,7 +249,63 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
                 navToDenketaAnswerFragment();
                 break;
 
+            case R.id.txv_dialoge_yes:
+                dismissProgDialog();
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("danetkasId", danetkaID);
+                requestAddUserDanetkas(jsonObject.toString());
+
+                break;
+            case R.id.txv_dialoge_no:
+                dismissProgDialog();
+                break;
+
         }
+    }
+
+    private void requestAddUserDanetkas(String _signUpEntity) {
+        showProgDialog();
+        Intro_WebHit_Post_AddUserDanetkas intro_webHit_post_addUserDanetkas = new Intro_WebHit_Post_AddUserDanetkas();
+        intro_webHit_post_addUserDanetkas.postAddUserDanetkas(getActivity(), new IWebCallback() {
+            @Override
+            public void onWebResult(boolean isSuccess, String strMsg) {
+                if (isSuccess) {
+                    dismissProgDialog();
+                    ((IntroActivity) getActivity()).navToPreSignInVAFragment();
+                } else {
+                    dismissProgDialog();
+                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
+
+                }
+            }
+
+            @Override
+            public void onWebException(Exception ex) {
+                dismissProgDialog();
+                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
+
+            }
+        }, _signUpEntity);
+    }
+
+    private void showProgDialog() {
+
+        progressDialog = new Dialog(getActivity(), R.style.AppTheme);
+//        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog.setContentView(R.layout.dialog_progress_loading);
+        WindowManager.LayoutParams wmlp = progressDialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER | Gravity.CENTER;
+        wmlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        wmlp.height = ViewGroup.LayoutParams.MATCH_PARENT;
+
+        ImageView imageView = progressDialog.findViewById(R.id.img_anim);
+        Glide.with(getContext()).asGif().load(R.raw.loading).into(imageView);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+
     }
 
     private void navToDenketaAnswerFragment() {
@@ -217,7 +324,6 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
         ft.hide(this);
         ft.commit();
     }
-
 
     private void navToBundleDiscountFragment() {
         FragmentManager fm = getFragmentManager();
@@ -250,7 +356,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
         bundle.putString("key_danetka_sub_total", "1");
         bundle.putString("key_danetka_total", "1.00");
         bundle.putString("key_danetka_number", "1");
-        bundle.putString("key_danetka_discount",  "0.01");
+        bundle.putString("key_danetka_discount", "0.01");
         bundle.putInt("key_danetka_position", position);
         bundle.putBoolean("key_danetka_is_investigator", isInvestigator);
         bundle.putBoolean("key_danetka_is_more_danetka", isMoreDanetka);
@@ -275,10 +381,38 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
         progressDialog.setCancelable(false);
         progressDialog.show();
     }
-    Dialog progressDialog = null; // Context, this, etc.
+
     private void dismissProgDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
+    }
+
+    public void openDialogCredits() {
+
+
+        progressDialog = new Dialog(getActivity(), R.style.AppTheme);
+//        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.popup_dark)));
+        progressDialog.setContentView(R.layout.dialog_unclock_danetka);
+        TextView txvDetails = progressDialog.findViewById(R.id.dailog_txvDetails);
+        TextView txv_dialoge_yes = progressDialog.findViewById(R.id.txv_dialoge_yes);
+        TextView txv_dialoge_no = progressDialog.findViewById(R.id.txv_dialoge_no);
+        txv_dialoge_yes.setOnClickListener(this);
+        txv_dialoge_no.setOnClickListener(this);
+        int GC = Integer.parseInt(AppConfig.getInstance().mUser.getGameCredits());
+
+        if (GC != 0)
+            txvDetails.setText("Unlocking this Danetka \n costs 1 Game Credit. \n You have " + AppConfig.getInstance().mUser.getGameCredits() + " Game Credits. \n DO YOU WANT TO PROCEED?");
+        else {
+            txvDetails.setText("You don’t have enough\n  Game Credits.");
+            txv_dialoge_yes.setVisibility(View.GONE);
+            txv_dialoge_no.setVisibility(View.GONE);
+        }
+
+        progressDialog.setCanceledOnTouchOutside(true);
+        progressDialog.setCancelable(true);
+
+        progressDialog.show();
     }
 }

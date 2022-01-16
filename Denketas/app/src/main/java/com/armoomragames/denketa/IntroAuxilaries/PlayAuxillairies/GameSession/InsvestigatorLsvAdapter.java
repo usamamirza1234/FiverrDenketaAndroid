@@ -13,6 +13,9 @@ import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenke
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.IAdapterCallback;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -74,9 +77,25 @@ public class InsvestigatorLsvAdapter extends BaseAdapter {
 
         viewHolder.txvName.setText(mData.get(position).getStrName());
         convertView.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_A,position ));
+
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.ic_logo)
+                .error(R.drawable.ic_logo)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.HIGH)
+                .dontAnimate()
+                .dontTransform();
+
+        String danetka_Image = "http://18.119.55.236:2000/images/"+mData.get(position).getStrImage();
+
         Glide.with(context)
-                .load("http://18.119.55.236:2000/images/"+mData.get(position).getStrImage())
+                .load(danetka_Image)
+                .apply(options)
                 .into(viewHolder.imvDanetka);
+        //        Glide.with(context)
+//                .load("http://18.119.55.236:2000/images/"+mData.get(position).getStrImage())
+//                .into(viewHolder.imvDanetka);
         return convertView;
     }
 

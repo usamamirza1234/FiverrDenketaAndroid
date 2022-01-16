@@ -119,7 +119,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener {
                     showProgDialog();
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("email", edtEmail.getText().toString());
-                    jsonObject.addProperty("text", edtContact.getText().toString());
+                    jsonObject.addProperty("text","USERS Feedbacks ==> : " +edtContact.getText().toString());
                     requestContactUs(jsonObject.toString());
                 }
                 else CustomToast.showToastMessage(getActivity(),"Please fill all fields", Toast.LENGTH_LONG);

@@ -1,4 +1,4 @@
-package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
+package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession;
 
 import android.app.Dialog;
 import android.graphics.Color;
@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Guest_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_User_Danektas;
 import com.armoomragames.denketa.R;
@@ -181,7 +182,9 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                                 ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false);
                                             }
                                         } else {
-                                            CustomToast.showToastMessage(getActivity(), "Sign in / Sign Up or Play as Guest  to PLAY!", Toast.LENGTH_LONG);
+//                                            CustomToast.showToastMessage(getActivity(), "Sign in / Sign Up or Play as Guest  to PLAY!", Toast.LENGTH_LONG);
+
+                                            ((IntroActivity)getActivity()).navToSigninFragment();
                                         }
                                         break;
 
@@ -247,7 +250,9 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                                     ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false);
                                                 }
                                             } else {
-                                                CustomToast.showToastMessage(getActivity(), "Sign in / Sign Up or Play as Guest to PLAY!", Toast.LENGTH_LONG);
+//                                                CustomToast.showToastMessage(getActivity(), "Sign in / Sign Up or Play as Guest to PLAY!", Toast.LENGTH_LONG);
+
+                                                ((IntroActivity)getActivity()).navToSigninFragment();
                                             }
                                             break;
 

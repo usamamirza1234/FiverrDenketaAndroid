@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_margin="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -13,32 +14,29 @@
             android:id="@+id/imv_mast"
             android:layout_width="30dp"
             android:layout_height="45dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:src="@drawable/ic_master_2" />
 
 
         <RelativeLayout
+            android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/edttext_height_medium"
-            android:layout_centerInParent="true"
-            android:layout_toEndOf="@id/imv_mast">
+            android:layout_height="wrap_content">
 
 
             <TextView
                 android:id="@+id/edt_Search"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
-                android:layout_marginEnd="40dp"
-                android:layout_toEndOf="@id/imv_search"
                 android:background="@null"
                 android:cursorVisible="true"
                 android:gravity="center_vertical"
                 android:text="Example text1"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
                 android:textColor="@color/thm_blue_app"
                 android:textColorHint="@color/gray"
                 android:textCursorDrawable="@null"
@@ -49,5 +47,5 @@
         </RelativeLayout>
 
 
-    </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>
