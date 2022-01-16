@@ -22,7 +22,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
                 android:padding="5dp"
-                android:text="Master"
+                android:text="Sr#"
                 android:textAllCaps="true"
                 android:textColor="@color/app_black_color"
                 android:textSize="@dimen/fontsize_small"

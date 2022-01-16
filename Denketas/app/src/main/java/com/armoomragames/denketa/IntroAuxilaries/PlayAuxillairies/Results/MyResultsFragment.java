@@ -172,7 +172,7 @@ public class MyResultsFragment extends Fragment implements View.OnClickListener,
 //                    txvNoData.setVisibility(View.GONE);
                     llNoResults.setVisibility(View.GONE);
                     for (int i = 0; i < Intro_WebHit_Get_Results.responseObject.getData().size(); i++) {
-                        lst_results.add(new DModelResults(AppConfig.getInstance().mUser.getName(),
+                        lst_results.add(new DModelResults((i+1)+"",
                                 Intro_WebHit_Get_Results.responseObject.getData().get(i).getInvestigatorName(),
                                 Intro_WebHit_Get_Results.responseObject.getData().get(i).getDate(),
                                 Intro_WebHit_Get_Results.responseObject.getData().get(i).getTime(),

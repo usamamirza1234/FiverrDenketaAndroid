@@ -1,4 +1,4 @@
-package com.armoomragames.denketa.IntroAuxilaries;
+package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession;
 
 import android.app.Dialog;
 import android.graphics.Color;
@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,7 +26,6 @@ import androidx.fragment.app.Fragment;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
-import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.InsvestigatorLsvAdapter;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_INVESTIGATOR_Danektas;
 import com.armoomragames.denketa.R;
@@ -38,17 +38,28 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-public class InvestigatorFragment extends Fragment implements View.OnClickListener, IWebPaginationCallback, AbsListView.OnScrollListener  {
+public class InvestigatorFragment extends Fragment implements View.OnClickListener, IWebPaginationCallback, AbsListView.OnScrollListener {
+    private static final String KEY_POSITION = "position";
     RelativeLayout rlToolbar, rlBack, rlCross;
     ListView rcvMyDenekta;
     Dialog dialog;
     InsvestigatorLsvAdapter adapter;
     boolean isAlreadyFetching = false;
-    private int nFirstVisibleItem, nVisibleItemCount, nTotalItemCount, nScrollState, nErrorMsgShown;
     ArrayList<DModel_MyDenketa> lst_MyDenketa;
-    private boolean isLoadingMore = false;
     EditText edtSearch;
     Intro_WebHit_Get_INVESTIGATOR_Danektas intro_webHit_get_investigator_danektas;
+    IBadgeUpdateListener mBadgeUpdateListener;
+    private int nFirstVisibleItem, nVisibleItemCount, nTotalItemCount, nScrollState, nErrorMsgShown;
+    private boolean isLoadingMore = false;
+    private Dialog progressDialog;
+
+    public static Fragment newInstance(int position) {
+        Fragment frag = new InvestigatorFragment();
+        Bundle args = new Bundle();
+        args.putInt(KEY_POSITION, position);
+        frag.setArguments(args);
+        return (frag);
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,9 +80,6 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
         intro_webHit_get_investigator_danektas.getMyDanekta(this,
                 Intro_WebHit_Get_INVESTIGATOR_Danektas.mPaginationInfo.currIndex);
     }
-
-
-    private Dialog progressDialog;
 
     private void dismissProgDialog() {
         if (progressDialog != null) {
@@ -117,7 +125,7 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
 
                         lst_MyDenketa.add(new DModel_MyDenketa(
                                 Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getTitle(),
-                                Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getId()+"",
+                                Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getId() + "",
                                 Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getImage()
                         ));
 
@@ -130,17 +138,18 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
                             public void onAdapterEventFired(int eventId, int position) {
                                 switch (eventId) {
                                     case EVENT_A:
-                                        if (AppConfig.getInstance().mUser.isLoggedIn() ||AppConfig.getInstance().mUser.isGuest() )
-                                        {
-                                            onClickDenketaItem(position);
-                                        }
-                                        else
-                                        {
-                                            CustomToast.showToastMessage(getActivity(),"Sign in / Sign Up Or Play as a guest  to PLAY!", Toast.LENGTH_LONG);
+                                        if (AppConfig.getInstance().mUser.isLoggedIn() || AppConfig.getInstance().mUser.isGuest()) {
+                                            if (!AppConfig.getInstance().getProgDialogs())
+                                                onClickDenketaItem(position);
+                                            else
+                                                ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(
+                                                        position,
+                                                        true, false);
+                                        } else {
+                                            ((IntroActivity)getActivity()).navToSigninFragment();
+//                                            CustomToast.showToastMessage(getActivity(), "Sign in / Sign Up Or Play as a guest  to PLAY!", Toast.LENGTH_LONG);
                                         }
                                         break;
-
-
 
 
 //                                    case EVENT_B:
@@ -164,7 +173,7 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
                         rcvMyDenekta.setOnScrollListener(null);
                     }
                 }
-            }  else {
+            } else {
                 if (Intro_WebHit_Get_INVESTIGATOR_Danektas.mPaginationInfo.currIndex == 1) {
 ////                    lsvMedicines.setVisibility(View.GONE);
 //                    txvNoData.setVisibility(View.VISIBLE);
@@ -194,16 +203,12 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
             }
     }
 
-
-    IBadgeUpdateListener mBadgeUpdateListener;
-
     private void bindViewss(View frg) {
         rcvMyDenekta = frg.findViewById(R.id.frg_rcv_my_denketa);
         rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
         rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
         rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
         edtSearch = frg.findViewById(R.id.frg_my_dankta_edt_search);
-
 
 
         edtSearch.addTextChangedListener(new TextWatcher() {
@@ -227,7 +232,6 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
         rlCross.setOnClickListener(this);
     }
 
-
     public void onClickDenketaItem(int position) {
 
         dialog = new Dialog(getContext());
@@ -238,12 +242,19 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
         window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        CheckBox checkBox;
+        checkBox = dialog.findViewById(R.id.lay_prog_chb);
         TextView txvRules = dialog.findViewById(R.id.lay_item_play_txvRules);
 //        TextView txvMaster = dialog.findViewById(R.id.lay_item_play_txvMaster);
 //        TextView txvInvestigator = dialog.findViewById(R.id.lay_item_play_txvInvestigator);
         LinearLayout llOkay = dialog.findViewById(R.id.lay_item_rules_llOkay);
 
-
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppConfig.getInstance().setProgDialogs(true);
+            }
+        });
 //        txvInvestigator.setOnClickListener(this);
 //        txvMaster.setOnClickListener(this);
         txvRules.setOnClickListener(this);
@@ -274,18 +285,6 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
         if (!isHidden()) {
             setToolbar();
         }
-    }
-
-
-
-    private static final String KEY_POSITION = "position";
-
-    public static Fragment newInstance(int position) {
-        Fragment frag = new InvestigatorFragment();
-        Bundle args = new Bundle();
-        args.putInt(KEY_POSITION, position);
-        frag.setArguments(args);
-        return (frag);
     }
 
     private void init() {
@@ -322,11 +321,11 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
 
         switch (v.getId()) {
             case R.id.act_intro_lay_toolbar_rlBack:
-                ((IntroActivity)getActivity()).  onBackPressed();
+                ((IntroActivity) getActivity()).onBackPressed();
 
                 break;
             case R.id.act_intro_lay_toolbar_rlCross:
-                ((IntroActivity)getActivity()). navToPreSignInVAFragment();
+                ((IntroActivity) getActivity()).navToPreSignInVAFragment();
 
                 break;
             case R.id.lay_item_play_txvRules:

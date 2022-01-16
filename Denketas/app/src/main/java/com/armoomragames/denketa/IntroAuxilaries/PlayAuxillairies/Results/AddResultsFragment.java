@@ -49,6 +49,8 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
     LinearLayout llSaveResult, llSavedResults;
     private Dialog progressDialog;
     int selected=0;
+    private boolean isEdited=false;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View frg = inflater.inflate(R.layout.fragment_add_results, container, false);
@@ -159,8 +161,7 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
                 break;
 
             case R.id.frg_my_results_ll_Editdetails:
-
-
+                isEdited=true;
                 llNewResults.setVisibility(View.VISIBLE);
                 llSavedResults.setVisibility(View.GONE);
                 llSaveResult.setVisibility(View.VISIBLE);
@@ -171,6 +172,7 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
             case R.id.frg_my_results_ll_save_results:
 
                 AppConfig.getInstance().closeKeyboard(getActivity());
+
                 if (!edtInvestigator.getText().toString().equals("") && !edtMaster.getText().toString().equals("")
                         && !edtTime.getText().toString().equals("")) {
 
@@ -184,13 +186,24 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
                     jsonObject.addProperty("date", formattedDate);
                     jsonObject.addProperty("masterId", AppConfig.getInstance().mUser.getUser_Id());
                     jsonObject.addProperty("danetkaId", danetka_id);
-                    requestContactUs(jsonObject.toString());
 
+                    if (!isEdited)
+                    {
+                        requestContactUs(jsonObject.toString());
+                    }
+                    else {
+                        requestUpdatedResult(jsonObject.toString(), danetka_id);
+                    }
 
                 } else
                     CustomToast.showToastMessage(getActivity(), "Please fill all fields", Toast.LENGTH_LONG);
+
+
                 break;
         }
+    }
+
+    private void requestUpdatedResult(String toString, String danetka_id) {
     }
 
 
@@ -204,6 +217,7 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
             public void onWebResult(boolean isSuccess, String strMsg) {
                 if (isSuccess) {
                     dismissProgDialog();
+                    Intro_WebHit_Post_Results.responseObject.getData().getDanetkaId();
                     CustomToast.showToastMessage(getActivity(), "Success! Result Added", Toast.LENGTH_SHORT);
                     txvMaster.setText(edtMaster.getText().toString());
                     txvInvestigator.setText(edtInvestigator.getText().toString());

@@ -29,7 +29,7 @@ import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.Qu
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentApprovedFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentDetailFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentFailedFragment;
-import com.armoomragames.denketa.IntroAuxilaries.InvestigatorFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.InvestigatorFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.LearnMoreFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.Results.MyResultsFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayMianFragment;
@@ -519,7 +519,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
     }
 
     private void navToSplash() {
-        Fragment frg = new SplashFragment();
+        Fragment frg = new PreSignInFragment();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.act_intro_content_frg, frg, AppConstt.FragTag.FN_SplashFragment);
         ft.commit();

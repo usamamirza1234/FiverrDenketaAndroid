@@ -13,7 +13,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,6 +23,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.InvestigatorFragment;
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.RulesFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.SiginInFragment;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_GameCredits;
