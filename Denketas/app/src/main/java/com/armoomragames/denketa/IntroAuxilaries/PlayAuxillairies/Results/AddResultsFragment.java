@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_Results;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_Update_Results;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IWebCallback;
@@ -49,6 +50,7 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
     LinearLayout llSaveResult, llSavedResults;
     private Dialog progressDialog;
     int selected=0;
+    int id_=0;
     private boolean isEdited=false;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -192,7 +194,7 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
                         requestContactUs(jsonObject.toString());
                     }
                     else {
-                        requestUpdatedResult(jsonObject.toString(), danetka_id);
+                        requestUpdatedResult(jsonObject.toString(), id_);
                     }
 
                 } else
@@ -203,7 +205,36 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
         }
     }
 
-    private void requestUpdatedResult(String toString, String danetka_id) {
+    private void requestUpdatedResult(String toString, int danetka_id) {
+        Intro_WebHit_Post_Update_Results intro_webHit_post_update_results = new Intro_WebHit_Post_Update_Results();
+        intro_webHit_post_update_results.postUpdateResults(getContext(), new IWebCallback() {
+            @Override
+            public void onWebResult(boolean isSuccess, String strMsg) {
+                if (isSuccess) {
+                    dismissProgDialog();
+
+                    CustomToast.showToastMessage(getActivity(), "Success! Updated Added", Toast.LENGTH_SHORT);
+                    txvMaster.setText(edtMaster.getText().toString());
+                    txvInvestigator.setText(Intro_WebHit_Post_Update_Results.responseObject.getData().getInvestigatorName());
+                    txvUsed.setText(Intro_WebHit_Post_Update_Results.responseObject.getData().getRiglettosUsed());
+                    txvTime.setText(Intro_WebHit_Post_Update_Results.responseObject.getData().getTime());
+                    txvDate.setText(Intro_WebHit_Post_Update_Results.responseObject.getData().getDate());
+//                    llEditdetails.setVisibility(View.VISIBLE);
+//                    llDetails.setVisibility(View.VISIBLE);
+//                    llNewResults.setVisibility(View.GONE);
+                } else {
+                    dismissProgDialog();
+
+                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
+                }
+            }
+
+            @Override
+            public void onWebException(Exception ex) {
+                dismissProgDialog();
+                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
+            }
+        }, toString,danetka_id);
     }
 
 
@@ -217,7 +248,7 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
             public void onWebResult(boolean isSuccess, String strMsg) {
                 if (isSuccess) {
                     dismissProgDialog();
-                    Intro_WebHit_Post_Results.responseObject.getData().getDanetkaId();
+              id_ =      Intro_WebHit_Post_Results.responseObject.getData().getId();
                     CustomToast.showToastMessage(getActivity(), "Success! Result Added", Toast.LENGTH_SHORT);
                     txvMaster.setText(edtMaster.getText().toString());
                     txvInvestigator.setText(edtInvestigator.getText().toString());

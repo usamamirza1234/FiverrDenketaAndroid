@@ -179,7 +179,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                                 onClickDenketaItem(position);
                                             else {
                                                 Log.d("Danetka", "ID " + lst_MyDenketa.get(position).getStrId());
-                                                ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false);
+                                                ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false,lst_MyDenketa.get(position).getStrId());
                                             }
                                         } else {
 //                                            CustomToast.showToastMessage(getActivity(), "Sign in / Sign Up or Play as Guest  to PLAY!", Toast.LENGTH_LONG);
@@ -247,7 +247,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                                 if (!AppConfig.getInstance().getProgDialogs())
                                                     onClickDenketaItem(position);
                                                 else {
-                                                    ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false);
+                                                    ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false,lst_MyDenketa.get(position).getStrId());
                                                 }
                                             } else {
 //                                                CustomToast.showToastMessage(getActivity(), "Sign in / Sign Up or Play as Guest to PLAY!", Toast.LENGTH_LONG);
@@ -356,7 +356,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                 dialog.dismiss();
 //                ((IntroActivity) getActivity()).navToDenketaQuestionFragment(lst_MyDenketa.get(position).getStrName(), lst_MyDenketa.get(position).getStrImage() + "");
 
-                ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false);
+                ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false,lst_MyDenketa.get(position).getStrId());
             }
         });
         dialog.show();

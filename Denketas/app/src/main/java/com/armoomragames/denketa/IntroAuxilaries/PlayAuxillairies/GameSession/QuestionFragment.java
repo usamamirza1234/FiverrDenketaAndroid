@@ -27,6 +27,8 @@ import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Gu
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_INVESTIGATOR_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_User_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddUserDanetkas;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_Contactus;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_Played;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.CustomToast;
@@ -368,18 +370,32 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
     }
 
     public void openDialog() {
-
-
         progressDialog = new Dialog(getActivity(), R.style.AppTheme);
 //        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.popup_dark)));
         progressDialog.setContentView(R.layout.dialog_master);
         rlMaster = progressDialog.findViewById(R.id.rl_popup_parent);
         rlMaster.setOnClickListener(this);
-
+        requestPlayed(danetkaID);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
         progressDialog.show();
+    }
+
+
+    private void requestPlayed(String _signUpEntity) {
+
+        Intro_WebHit_Post_Played intro_webHit_post_played = new Intro_WebHit_Post_Played();
+        intro_webHit_post_played.postPlayed(getContext(), new IWebCallback() {
+            @Override
+            public void onWebResult(boolean isSuccess, String strMsg) {
+            }
+
+            @Override
+            public void onWebException(Exception ex) {
+                dismissProgDialog();
+            }
+        }, _signUpEntity);
     }
 
     private void dismissProgDialog() {

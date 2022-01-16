@@ -24,6 +24,7 @@ public interface ApiMethod {
         String fetchDanetkas ="fetch/danetkas" ;
         String fetchAllDanetkas ="fetch/all/danetkas" ;
         String contactUs ="contactUs" ;
+        String toPlayed ="/update/toPlayed/danetkas/" ;
         String verifyAndUpdate ="verifyAndUpdate" ;
         String forgotPassword ="forgotPassword" ;
         String addResults ="add/result" ;
@@ -35,6 +36,7 @@ public interface ApiMethod {
         String forgotPassword = "forgot";
         String verifyCode = "verifyCode";
         String resetPassword = "resetPassword";
+        String updateResult ="update/result/" ;
     }
 
     interface HEADER {
