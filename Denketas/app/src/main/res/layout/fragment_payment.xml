@@ -65,8 +65,8 @@
                     android:id="@+id/txvPaymentDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:gravity="start"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:justificationMode="inter_word"
                     android:paddingStart="30dp"
                     android:paddingEnd="30dp"
@@ -152,7 +152,7 @@
                     app:sl_shadowRadius="9dp">
 
                     <RelativeLayout
-                        android:id="@+id/rlPaypal"
+                        android:id="@+id/rlPaypalCredit"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/button_height_large"
                         android:layout_gravity="center"

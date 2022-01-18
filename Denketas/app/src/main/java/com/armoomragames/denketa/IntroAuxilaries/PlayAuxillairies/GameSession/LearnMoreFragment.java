@@ -1,4 +1,4 @@
-package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies;
+package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -74,7 +74,10 @@ public class LearnMoreFragment extends Fragment implements View.OnClickListener 
 
     private void bindViews(View frg) {
         txvLearnmore = frg.findViewById(R.id.txvLearnmore);
+        rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
         rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
+
+        rlBack.setOnClickListener(this);
         rlCross.setOnClickListener(this);
     }
 
@@ -84,6 +87,9 @@ public class LearnMoreFragment extends Fragment implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.act_intro_lay_toolbar_rlCross:
                 ((IntroActivity) getActivity()).navToPreSignInVAFragment();
+                break;
+            case R.id.act_intro_lay_toolbar_rlBack:
+                getActivity().onBackPressed();
                 break;
         }
     }

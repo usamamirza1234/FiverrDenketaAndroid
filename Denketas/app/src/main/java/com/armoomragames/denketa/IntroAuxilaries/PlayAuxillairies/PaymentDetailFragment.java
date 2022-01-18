@@ -56,6 +56,7 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
             .merchantUserAgreementUri(Uri.parse("https://www.example.com/legal"));
     RelativeLayout rlToolbar, rlBack, rlCross;
     RelativeLayout rlPaypal;
+    RelativeLayout rlPaypalCredit;
     RelativeLayout rlUseGameCredits;
     LinearLayout getmore;
     Bundle bundle;
@@ -116,6 +117,7 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
         rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
         rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
         rlPaypal = frg.findViewById(R.id.rlPaypal);
+        rlPaypalCredit = frg.findViewById(R.id.rlPaypalCredit);
         txvPaymentDescription = frg.findViewById(R.id.txvPaymentDescription);
         txvUseGameCredits = frg.findViewById(R.id.txvUseGameCredits);
         rlUseGameCredits = frg.findViewById(R.id.rlUseGameCredits);
@@ -124,6 +126,7 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
         rlBack.setOnClickListener(this);
         rlCross.setOnClickListener(this);
         rlPaypal.setOnClickListener(this);
+        rlPaypalCredit.setOnClickListener(this);
         getmore.setOnClickListener(this);
         rlUseGameCredits.setOnClickListener(this);
     }
@@ -141,6 +144,7 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
 
                 break;
             case R.id.rlPaypal:
+            case R.id.rlPaypalCredit:
                 onBuyPressed(danetkaID);
                 break;
 
@@ -247,7 +251,7 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
                 try {
                     String strResponse = confirm.toJSONObject().toString(4);
                     Log.i("paymentExample", strResponse);
-                    CustomToast.showToastMessage(getActivity(), "Congragulations! you Paid for Danetka(s). ", Toast.LENGTH_SHORT);
+//                    CustomToast.showToastMessage(getActivity(), "Congragulations! you Paid for Danetka(s). ", Toast.LENGTH_SHORT);
                     Gson gson = new Gson();
                     Log.d("LOG_AS", "postSignIn: strResponse" + strResponse);
                     AppConfig.getInstance().responseObject = gson.fromJson(strResponse, RModel_Paypal.class);
@@ -273,18 +277,18 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
 
                 } catch (JSONException e) {
                     navToPayentDisapprovedFragment();
-                    CustomToast.showToastMessage(getActivity(), "an extremely unlikely failure occurred: " + e, Toast.LENGTH_SHORT);
+//                    CustomToast.showToastMessage(getActivity(), "an extremely unlikely failure occurred: " + e, Toast.LENGTH_SHORT);
                     Log.e("paymentExample", "an extremely unlikely failure occurred: ", e);
                 }
             }
         } else if (resultCode == Activity.RESULT_CANCELED) {
             Log.i("paymentExample", "The user canceled.");
             navToPayentDisapprovedFragment();
-            CustomToast.showToastMessage(getActivity(), "The user canceled.: ", Toast.LENGTH_SHORT);
+//            CustomToast.showToastMessage(getActivity(), "The user canceled.: ", Toast.LENGTH_SHORT);
 
         } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
             navToPayentDisapprovedFragment();
-            CustomToast.showToastMessage(getActivity(), "An invalid Payment or PayPalConfiguration was submitted. Please see the docs. ", Toast.LENGTH_SHORT);
+//            CustomToast.showToastMessage(getActivity(), "An invalid Payment or PayPalConfiguration was submitted. Please see the docs. ", Toast.LENGTH_SHORT);
             Log.i("paymentExample", "An invalid Payment or PayPalConfiguration was submitted. Please see the docs.");
         }
 

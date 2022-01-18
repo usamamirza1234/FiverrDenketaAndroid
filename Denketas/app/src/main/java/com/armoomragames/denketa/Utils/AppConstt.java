@@ -227,6 +227,7 @@ public interface AppConstt {
         String FN_LearnMoreFragment ="FN_LearnMoreFragment" ;
         String FN_PaymentDetailFragment ="PaymentDetailFragment" ;
         String FN_AddResultFragment = "AddResultFragment";
+        String FN_EditResultsFragment = "EditResultsFragment";
     }
 
 

@@ -295,6 +295,9 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
             }
         }, _signUpEntity);
     }
+
+
+
     private void navtoSigninFragment() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -542,7 +545,7 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
     }
 
     private void requestUserSiginSocial(String _signUpEntity) {
-        showProgDialog();
+//        showProgDialog();
         Intro_WebHit_Post_LogIn intro_webHit_post_logIn = new Intro_WebHit_Post_LogIn();
         intro_webHit_post_logIn.postSignIn(getContext(), new IWebCallback() {
             @Override
@@ -551,48 +554,36 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
                     dismissProgDialog();
 
 
-                    //Save user login data
-                    AppConfig.getInstance().mUser.User_Id = Intro_WebHit_Post_LogIn.responseObject.getData().getId();
-                    AppConfig.getInstance().mUser.Email = Intro_WebHit_Post_LogIn.responseObject.getData().getEmail();
+                 try {
+                     AppConfig.getInstance().mUser.User_Id = Intro_WebHit_Post_LogIn.responseObject.getData().getId();
+                     AppConfig.getInstance().mUser.Email = Intro_WebHit_Post_LogIn.responseObject.getData().getEmail();
 
 
-                    if (Intro_WebHit_Post_LogIn.responseObject.getData().getName() != null)
-                        AppConfig.getInstance().mUser.Name = Intro_WebHit_Post_LogIn.responseObject.getData().getName();
-                    if (Intro_WebHit_Post_LogIn.responseObject.getData().getNationality() != null)
-                        AppConfig.getInstance().mUser.Nationality = Intro_WebHit_Post_LogIn.responseObject.getData().getNationality();
+                     if (Intro_WebHit_Post_LogIn.responseObject.getData().getName() != null)
+                         AppConfig.getInstance().mUser.Name = Intro_WebHit_Post_LogIn.responseObject.getData().getName();
+                     if (Intro_WebHit_Post_LogIn.responseObject.getData().getNationality() != null)
+                         AppConfig.getInstance().mUser.Nationality = Intro_WebHit_Post_LogIn.responseObject.getData().getNationality();
 
-                    if (Intro_WebHit_Post_LogIn.responseObject.getData().getGender() != null)
-                        AppConfig.getInstance().mUser.Gender = Intro_WebHit_Post_LogIn.responseObject.getData().getGender();
+                     if (Intro_WebHit_Post_LogIn.responseObject.getData().getGender() != null)
+                         AppConfig.getInstance().mUser.Gender = Intro_WebHit_Post_LogIn.responseObject.getData().getGender();
 
-                    if (Intro_WebHit_Post_LogIn.responseObject.getData().getDateOfBirth() != null)
-                        AppConfig.getInstance().mUser.DOB = Intro_WebHit_Post_LogIn.responseObject.getData().getDateOfBirth();
-
-
-                    AppConfig.getInstance().mUser.setGuest(false);
-                    AppConfig.getInstance().mUser.setLoggedIn(true);
-                    AppConfig.getInstance().mUser.Authorization = Intro_WebHit_Post_LogIn.responseObject.getData().getAccessToken();
+                     if (Intro_WebHit_Post_LogIn.responseObject.getData().getDateOfBirth() != null)
+                         AppConfig.getInstance().mUser.DOB = Intro_WebHit_Post_LogIn.responseObject.getData().getDateOfBirth();
 
 
+                     AppConfig.getInstance().mUser.setGuest(false);
+                     AppConfig.getInstance().mUser.setLoggedIn(true);
+                     AppConfig.getInstance().mUser.Authorization = Intro_WebHit_Post_LogIn.responseObject.getData().getAccessToken();
+                     AppConfig.getInstance().saveUserProfile();
+                 }
+                 catch (Exception e)
+                 {
 
-//                    JsonObject jsonObject = new JsonObject();
-//                    jsonObject.addProperty("danetkasId", 1);
-//                    requestAddUserDanetkas(jsonObject.toString());
-//                    jsonObject = new JsonObject();
-//                    jsonObject.addProperty("danetkasId", 2);
-//                    requestAddUserDanetkas(jsonObject.toString());
-//                    jsonObject = new JsonObject();
-//                    jsonObject.addProperty("danetkasId", 3);
-//                    requestAddUserDanetkas(jsonObject.toString());
-
-                    AppConfig.getInstance().saveUserProfile();
-                    if (!Intro_WebHit_Post_LogIn.responseObject.getData().getIsProfileSet())
-                        navtoSignUpContFragment();
-                    else
-                        ((IntroActivity) getActivity()).navToPreSignInVAFragment();
+                 }
 
                 } else {
-                    requestUserRegisterSocial(_signUpEntity);
-                    dismissProgDialog();
+//                    requestUserRegisterSocial(_signUpEntity);
+//                    dismissProgDialog();
 //                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
 //                    Toast.makeText(getActivity(), strMsg, Toast.LENGTH_SHORT).show();
 //                    AppConfig.getInstance().showErrorMessage(getContext(), strMsg);
@@ -674,8 +665,9 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
             }
         }, _signUpEntity);
     }
+
     private void requestUserRegisterSocial(String _signUpEntity) {
-        showProgDialog();
+//        showProgDialog();
         Intro_WebHit_Post_SignUp intro_webHit_post_signUp = new Intro_WebHit_Post_SignUp();
         intro_webHit_post_signUp.postSignIn(getContext(), new IWebCallback() {
             @Override
@@ -683,34 +675,34 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
                 if (isSuccess) {
                     dismissProgDialog();
                     //Save user login data
-                    AppConfig.getInstance().mUser.User_Id = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getId();
-                    AppConfig.getInstance().mUser.Email = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getEmail();
-
-                    AppConfig.getInstance().mUser.setGuest(false);
-                    AppConfig.getInstance().mUser.setLoggedIn(true);
-                    AppConfig.getInstance().mUser.Authorization = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getAccessToken();
-
-                    AppConfig.getInstance().saveUserProfile();
 
 
-//                    JsonObject jsonObject = new JsonObject();
-//                    jsonObject.addProperty("danetkasId", 1);
-//                    requestAddUserDanetkas(jsonObject.toString());
-//                    jsonObject = new JsonObject();
-//                    jsonObject.addProperty("danetkasId", 2);
-//                    requestAddUserDanetkas(jsonObject.toString());
-//                    jsonObject = new JsonObject();
-//                    jsonObject.addProperty("danetkasId", 3);
-//                    requestAddUserDanetkas(jsonObject.toString());
+               try {
+                   AppConfig.getInstance().mUser.User_Id = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getId();
+                   AppConfig.getInstance().mUser.Email = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getEmail();
+                   AppConfig.getInstance().mUser.setGuest(false);
+                   AppConfig.getInstance().mUser.setLoggedIn(true);
+                   AppConfig.getInstance().mUser.Authorization = Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getAccessToken();
+                   AppConfig.getInstance().mUser.setGuest(false);
+                   AppConfig.getInstance().mUser.setLoggedIn(true);
+                  AppConfig.getInstance().saveUserProfile();
+                   navtoSignUpContFragment();
+               }
+               catch (Exception e){
 
-                    if (!Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getIsProfileSet())
-                        navtoSignUpContFragment();
-                    else
-                        ((IntroActivity) getActivity()).navToPreSignInVAFragment();
+               }
+
+
+
+//                    if (!Intro_WebHit_Post_SignUp.responseObject.getData().getUser().getIsProfileSet())
+//                        navtoSignUpContFragment();
+//                    else
+//                        ((IntroActivity) getActivity()).navToPreSignInVAFragment();
 
                 } else {
                     dismissProgDialog();
-                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
+                    requestUserSiginSocial(_signUpEntity);
+//                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
 //                    Toast.makeText(getActivity(), strMsg, Toast.LENGTH_SHORT).show();
 //                    AppConfig.getInstance().showErrorMessage(getContext(), strMsg);
                 }
@@ -719,7 +711,7 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onWebException(Exception ex) {
                 dismissProgDialog();
-                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
+//                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
 //                Toast.makeText(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT).show();
 //                AppConfig.getInstance().showErrorMessage(getContext(), ex.toString());
             }
@@ -858,42 +850,15 @@ public class SiginInFragment extends Fragment implements View.OnClickListener {
             account = completedTask.getResult(ApiException.class);
             acct = GoogleSignIn.getLastSignedInAccount(getActivity());
             Log.d("LOG_AS", "Google Obj : " + acct.getId());
-
             if (acct != null) {
-//                googleUserEmail = acct.getEmail();
-//                googleSocailID = acct.getId();
-
-
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("email", acct.getEmail());
-//                jsonObject.addProperty("password", edtPassword.getText().toString());
+//                jsonObject.addProperty("email", "usama@usama.com");
                 jsonObject.addProperty("userType", "social");
                 requestUserRegisterSocial(jsonObject.toString());
-//
-//                JsonObject jsonObject = new JsonObject();
-//                jsonObject.addProperty("name", acct.getDisplayName());
-//                jsonObject.addProperty("email", googleUserEmail);
-//                jsonObject.addProperty("social_id", googleSocailID);
-//                jsonObject.addProperty("social_platform", "google");
-//                jsonObject.addProperty("user_type", "user");
-//                jsonObject.addProperty("city_id", "1");
-//                jsonObject.addProperty("city", "jaddah");
-//                jsonObject.addProperty("device_token", AppConfig.getInstance().loadFCMDeviceToken());
-//                jsonObject.addProperty("login_type", "social");
-//                jsonObject.addProperty("device_type", "android");
-//                Log.d("LOG_AS", "Google Sign IN JSON : " + jsonObject.toString());
-//
-//                requestSignInGoogle(jsonObject.toString());
             }
-
-
-            //    updateUI(account);
         } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w("LOG_AS", "signInResult:failed code=" + e.toString());
-            CustomToast.showToastMessage(getActivity(), "Sign in to google is FAILED!" + e.toString(), Toast.LENGTH_LONG);
-            // updateUI(null);
+            Log.d("LOG_AS", "signInResult:failed code=" + e.toString());
         }
     }
 

@@ -103,7 +103,7 @@ public class FaqFragment extends Fragment implements View.OnClickListener {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 
         if (faqListAdapter == null) {
-            lst_Funds.add(new DModelDictionary("Do I need to know music theory or be a musician to play Danetkas? ", "No! In this game no musical knowledge is required. Only critical thinking. "));
+            lst_Funds.add(new DModelDictionary("Do I need to know music theory or be a musician to play Danetkas?\t\t", "No! In this game no musical knowledge is required. Only critical thinking. "));
             lst_Funds.add(new DModelDictionary("Do I have to pay to play Danetkas? ", "You get 3 Danetkas for free using this app! To unlock new Danetkas you have to pay. "));
             lst_Funds.add(new DModelDictionary("Can I play the same Danetka multiple times? ", "As an investigator you can only play it one time. Once you know the answer, you can play as a Master as many times as you want with different people. "));
             lst_Funds.add(new DModelDictionary("What am I supposed to find out? I don’t know what to ask! ", "Examine the hint carefully. Ask yourself if everything is clear for you and you can explain the story. If you cannot explain any part of it, ask “Yes/No” questions to find out more details. Maybe a Rigoletto can help you think outside of the box… "));

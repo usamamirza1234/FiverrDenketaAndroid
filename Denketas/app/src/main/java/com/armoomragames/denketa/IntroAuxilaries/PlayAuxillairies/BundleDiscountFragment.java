@@ -112,10 +112,9 @@ public class BundleDiscountFragment extends Fragment implements View.OnClickList
                     total = number * (1 - (0.01 * number));
                     discount = sub_total - total;
 
-
-                    txvDiscount.setText(Math.round(discount) + "€");
+                    txvDiscount.setText(round(discount, 2)+ "€");
                     txvSubTotal.setText(sub_total + "€");
-                    txvTotal.setText(Math.round(total) + "€");
+                    txvTotal.setText(round(total,2) + "€");
 
 //                    Toast.makeText(getContext(), "text there afterTextChanged " + (number * (1 - (0.01 * number))), Toast.LENGTH_SHORT).show();
                 }
@@ -126,6 +125,15 @@ public class BundleDiscountFragment extends Fragment implements View.OnClickList
 
     }
 
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
     @Override
     public void onClick(View v) {
 

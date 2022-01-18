@@ -28,6 +28,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.Results.MyProfileFragment;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddUserProfile;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
@@ -374,7 +375,7 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
             JsonObject jsonObject = new JsonObject();
 //            jsonObject.addProperty("email", edtEmail.getText().toString());
             jsonObject.addProperty("name", edtName.getText().toString());
-            jsonObject.addProperty("userName", edtName.getText().toString());
+            jsonObject.addProperty("userName", edtEmail.getText().toString());
             jsonObject.addProperty("dateOfBirth", txv_dob.getText().toString());
             jsonObject.addProperty("gender", txv_Gend.getText().toString().toLowerCase());
             jsonObject.addProperty("nationality", txv_Nationality.getText().toString().toLowerCase());
@@ -497,7 +498,7 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
             @Override
             public void onWebException(Exception ex) {
                 dismissProgDialog();
-                Toast.makeText(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Enter Valid Date of birth", Toast.LENGTH_SHORT).show();
 //                AppConfig.getInstance().showErrorMessage(getContext(), ex.toString());
             }
         }, _signUpEntity);
@@ -581,7 +582,7 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
                 calendar.set(Calendar.MONTH, monthOfYear);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                String myFormat = "dd-MM-yyyy"; //In which you need put here
+                String myFormat = "yyyy-MM-dd"; //In which you need put here
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                 Log.d("LOG_AS", "calendar " + calendar.getTime());
                 txv_dob.setText(sdf.format(calendar.getTime()));
@@ -610,7 +611,7 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
 
 
 
-    public static String[] country = new String[]{"Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla",
+    public static String[] country = new String[]{"Not specified","Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla",
 
             "Antarctica", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria",
 

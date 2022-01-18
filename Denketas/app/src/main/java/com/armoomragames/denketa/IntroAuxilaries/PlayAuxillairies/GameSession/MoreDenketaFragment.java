@@ -35,6 +35,7 @@ import com.armoomragames.denketa.Utils.IWebPaginationCallback;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MoreDenketaFragment extends Fragment implements View.OnClickListener, IWebPaginationCallback, AbsListView.OnScrollListener {
 
@@ -188,21 +189,13 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 
 
                     if (adapter == null) {
+                        Collections.sort(lst_MyDenketa, (o1, o2) -> o1.getStrName().compareTo(o2.getStrName()));
                         adapter = new MoreDenketaLsvAdapter(new IAdapterCallback() {
                             @Override
                             public void onAdapterEventFired(int eventId, int position) {
                                 switch (eventId) {
                                     case EVENT_A:
-                                        if (AppConfig.getInstance().mUser.isLoggedIn()) {
-
-                                            ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, true,lst_MyDenketa.get(position).getStrId());
-
-
-                                        } else {
-//                                            CustomToast.showToastMessage(getActivity(), "To View this Danetka You must be logged in", Toast.LENGTH_LONG);
-                                            ((IntroActivity)getActivity()).navToSigninFragment();
-
-                                        }
+                                        ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, true,lst_MyDenketa.get(position).getStrId());
                                         break;
                                 }
 

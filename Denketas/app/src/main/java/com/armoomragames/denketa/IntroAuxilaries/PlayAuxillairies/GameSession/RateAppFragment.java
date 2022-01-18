@@ -1,8 +1,9 @@
-package com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries;
+package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession;
 
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -43,13 +45,14 @@ public class RateAppFragment extends Fragment implements View.OnClickListener, A
     Spinner spinner;
     RelativeLayout rlToolbar, rlBack, rlCross,rl_leave_coment,rl_comnt_sent;
     String danetka_id = "";
+    String danetka_name = "";
     TextView edtMaster,edtTime;
     EditText edtInvestigator, frg_make_edtAnswer;
     TextView edtUsed;
     LinearLayout llSaveResult, llSavedResults,lltxv_enter_coment;
     IBadgeUpdateListener mBadgeUpdateListener;
     Bundle bundle;
-    private Dialog progressDialog;
+    private Dialog progressDialog; RatingBar simpleRatingBar;
     ImageView imv_send;
     String formattedDate ="";
     String StartTimeDate ="";
@@ -83,8 +86,20 @@ public class RateAppFragment extends Fragment implements View.OnClickListener, A
             timeInSeconds = timeInSeconds - (minutes * 60);
             seconds = timeInSeconds;
 
-            edtTime.setText(""+minutes);
-            Toast.makeText(getContext(),"TIme " + seconds,Toast.LENGTH_SHORT);
+
+
+            int _hours = (int) (diff / (1000 * 60 * 60));
+            int _mins = (int) ((diff / (1000 * 60)) % 60);
+            int _sec = (int) ((diff / (1000 * 60)) % 360);
+
+            String hour_min_sec = hours + ":" + minutes + ":" +seconds;
+
+
+            Log.d("TIME","hour_min_sec "+ hour_min_sec);
+            Log.d("TIME","hour_min_sec "+  _hours + ":" + _mins + ":" +_sec);
+
+            edtTime.setText(""+hour_min_sec);
+
         } catch (ParseException e) {
 
             Toast.makeText(getContext(),"TIme " + e.getMessage(),Toast.LENGTH_SHORT);
@@ -112,6 +127,7 @@ public class RateAppFragment extends Fragment implements View.OnClickListener, A
         bundle = this.getArguments();
         if (bundle != null) {
             danetka_id = bundle.getString("key_danetka_id");
+            danetka_name = bundle.getString("key_danetka_name");
             StartTimeDate = bundle.getString("key_danetka_formattedDate");
         }
 
@@ -127,7 +143,7 @@ public class RateAppFragment extends Fragment implements View.OnClickListener, A
     }
 
     private void bindViews(View frg) {
-
+         simpleRatingBar = (RatingBar)frg.findViewById(R.id.simpleRatingBar);
         rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
         rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
         rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
@@ -234,7 +250,7 @@ public class RateAppFragment extends Fragment implements View.OnClickListener, A
                     showProgDialog();
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("email", AppConfig.getInstance().mUser.getEmail());
-                    jsonObject.addProperty("text","USERS COMMENT ==> : "+ frg_make_edtAnswer.getText().toString());
+                    jsonObject.addProperty("text","Danetka – " + danetka_name+ " - "+ simpleRatingBar.getRating() +" stars - " + frg_make_edtAnswer.getText().toString());
                     requestComment(jsonObject.toString());
                 }
                 else CustomToast.showToastMessage(getActivity(),"Please enter your comments", Toast.LENGTH_LONG);
@@ -252,7 +268,8 @@ public class RateAppFragment extends Fragment implements View.OnClickListener, A
                     dismissProgDialog();
                     rl_comnt_sent.setVisibility(View.VISIBLE);
                     rl_leave_coment.setVisibility(View.GONE);
-                    CustomToast.showToastMessage(getActivity(),"Comment sent!", Toast.LENGTH_SHORT);
+                    lltxv_enter_coment.setVisibility(View.GONE);
+//                    CustomToast.showToastMessage(getActivity(),"Comment sent!", Toast.LENGTH_SHORT);
                     frg_make_edtAnswer.setText("");
                 } else {
                     dismissProgDialog();

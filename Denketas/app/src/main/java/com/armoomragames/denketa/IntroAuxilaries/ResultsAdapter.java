@@ -85,9 +85,9 @@ public class ResultsAdapter  extends BaseAdapter {
         viewHolder.txv_Date.setText(mData.get(position).getDate());
         convertView.setOnClickListener(v -> {
             iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_A, position);
-            if (viewHolder.rlLowExtended.getVisibility() == View.GONE)
-                viewHolder.rlLowExtended.setVisibility(View.VISIBLE);
-            else viewHolder.rlLowExtended.setVisibility(View.GONE);
+//            if (viewHolder.rlLowExtended.getVisibility() == View.GONE)
+//                viewHolder.rlLowExtended.setVisibility(View.VISIBLE);
+//            else viewHolder.rlLowExtended.setVisibility(View.GONE);
         });
         return convertView;
     }

@@ -36,7 +36,7 @@ public class Intro_WebHit_Get_GameCredits {
                         try {
                             Gson gson = new Gson();
                             strResponse = new String(responseBody, StandardCharsets.UTF_8);
-
+                            Log.d("LOG_AS", "getGameCredits:strResponse  " + strResponse);
                             responseObject = gson.fromJson(strResponse, ResponseModel.class);
 
                             switch (statusCode) {

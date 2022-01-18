@@ -27,7 +27,6 @@ import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Gu
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_INVESTIGATOR_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_User_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddUserDanetkas;
-import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_Contactus;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_Played;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
@@ -50,7 +49,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
     LinearLayout llBundleDiscount;
     IBadgeUpdateListener mBadgeUpdateListener;
     Bundle bundle;
-    String danetka_Image,danetkaID;
+    String danetka_Image, danetkaID;
     int position = 0;
 
     boolean isInvestigator = false;
@@ -231,19 +230,27 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
 
                 break;
             case R.id.frg_denketa_question_llSeeAnswer:
-                if (!isMoreDanetka && !isInvestigator)
-                    openDialog();
-                else if (isMoreDanetka && !isInvestigator) {
-                    openDialogCredits();
-                } else
-                    navToDenketaAnswerFragment();
+                if (AppConfig.getInstance().mUser.isLoggedIn()) {
+                    if (!isMoreDanetka && !isInvestigator)
+                        openDialog();
+                    else if (isMoreDanetka && !isInvestigator) {
+                        openDialogCredits();
+                    } else
+                        navToDenketaAnswerFragment();
+                } else ((IntroActivity) getActivity()).navToSigninFragment();
+
                 break;
 
             case R.id.frg_denketa_question_llBundleDiscount:
-                navToBundleDiscountFragment();
+                if (AppConfig.getInstance().mUser.isLoggedIn()) {
+                    navToBundleDiscountFragment();
+                } else ((IntroActivity) getActivity()).navToSigninFragment();
                 break;
             case R.id.frg_denketa_question_llBuyNow:
-                navToPaymentDetailFragment();
+                if (AppConfig.getInstance().mUser.isLoggedIn()) {
+                    navToPaymentDetailFragment();
+                } else ((IntroActivity) getActivity()).navToSigninFragment();
+
                 break;
 
             case R.id.rl_popup_parent:
@@ -253,10 +260,16 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
 
             case R.id.txv_dialoge_yes:
                 dismissProgDialog();
-                JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("danetkasId", danetkaID);
-                requestAddUserDanetkas(jsonObject.toString());
 
+                int GC = Integer.parseInt(AppConfig.getInstance().mUser.getGameCredits());
+
+                if (GC != 0) {
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("danetkasId", danetkaID);
+                    requestAddUserDanetkas(jsonObject.toString());
+                } else {
+                    popUpNoCredits();
+                }
                 break;
             case R.id.txv_dialoge_no:
                 dismissProgDialog();
@@ -418,17 +431,39 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
         txv_dialoge_no.setOnClickListener(this);
         int GC = Integer.parseInt(AppConfig.getInstance().mUser.getGameCredits());
 
-        if (GC != 0)
-            txvDetails.setText("Unlocking this Danetka \n costs 1 Game Credit. \n You have " + AppConfig.getInstance().mUser.getGameCredits() + " Game Credits. \n DO YOU WANT TO PROCEED?");
-        else {
-            txvDetails.setText("You don’t have enough\n  Game Credits.");
-            txv_dialoge_yes.setVisibility(View.GONE);
-            txv_dialoge_no.setVisibility(View.GONE);
-        }
+//        if (GC != 0)
+        txvDetails.setText("Unlocking this Danetka \n costs 1 Game Credit. \n You have " + AppConfig.getInstance().mUser.getGameCredits() + " Game Credits. \n DO YOU WANT TO PROCEED?");
+//        else {
+//            txvDetails.setText("You don’t have enough\n  Game Credits.");
+//            txv_dialoge_yes.setVisibility(View.GONE);
+//            txv_dialoge_no.setVisibility(View.GONE);
+//        }
 
         progressDialog.setCanceledOnTouchOutside(true);
         progressDialog.setCancelable(true);
 
         progressDialog.show();
     }
+
+
+    private void popUpNoCredits() {
+        progressDialog = new Dialog(getActivity(), R.style.AppTheme);
+//        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.popup_dark)));
+        progressDialog.setContentView(R.layout.dialog_unclock_danetka);
+        TextView txvDetails = progressDialog.findViewById(R.id.dailog_txvDetails);
+        TextView txv_dialoge_yes = progressDialog.findViewById(R.id.txv_dialoge_yes);
+        TextView txv_dialoge_no = progressDialog.findViewById(R.id.txv_dialoge_no);
+        txv_dialoge_yes.setOnClickListener(this);
+        txv_dialoge_no.setOnClickListener(this);
+
+        txvDetails.setText("You don’t have enough\n  Game Credits.");
+        txv_dialoge_yes.setVisibility(View.GONE);
+        txv_dialoge_no.setVisibility(View.GONE);
+        progressDialog.setCanceledOnTouchOutside(true);
+        progressDialog.setCancelable(true);
+
+        progressDialog.show();
+    }
+
 }

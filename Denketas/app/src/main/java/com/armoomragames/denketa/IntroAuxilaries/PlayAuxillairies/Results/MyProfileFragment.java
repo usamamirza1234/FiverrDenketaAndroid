@@ -1,4 +1,4 @@
-package com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries;
+package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.Results;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -49,8 +49,23 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onWebResult(boolean isSuccess, String strMsg) {
                 if (isSuccess) {
+
+                    int danetkaPurchased =3;
+                    Intro_WebHit_Get_GameCredits.responseObject.getData().getUserCredits().getDanetkasPurchased();
+
+                    if (Intro_WebHit_Get_GameCredits.responseObject.getData().getUserCredits().getDanetkasPurchased()==0)
+                    {
+                        danetkaPurchased = 3;
+                    }
+                    else {
+                        danetkaPurchased+=Intro_WebHit_Get_GameCredits.responseObject.getData().getUserCredits().getDanetkasPurchased();
+                    }
+
+
+
+
                     AppConfig.getInstance().mUser.GameCredits = Intro_WebHit_Get_GameCredits.responseObject.getData().getUserCredits().getCredits() + "";
-                    AppConfig.getInstance().mUser.DanetkaPurchased = Intro_WebHit_Get_GameCredits.responseObject.getData().getUserCredits().getDanetkasPurchased() + "";
+                    AppConfig.getInstance().mUser.DanetkaPurchased = danetkaPurchased + "";
                     AppConfig.getInstance().mUser.DanetkaPlayed = Intro_WebHit_Get_GameCredits.responseObject.getData().getUserCredits().getDanetkasPlayed() + "";
                     AppConfig.getInstance().mUser.DanetkaTotal = Intro_WebHit_Get_GameCredits.responseObject.getData().getToatalDanetkas() + "";
                     AppConfig.getInstance().saveUserProfile();
@@ -58,8 +73,8 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
                     int lock = Integer.parseInt(AppConfig.getInstance().mUser.getDanetkaTotal());
                     txvUsername.setText(AppConfig.getInstance().mUser.getName());
                     txAvailableCredits.setText(AppConfig.getInstance().mUser.getGameCredits());
-                    txvDanetkaLocked.setText((lock - unlock) + "");
-                    txvDanetkaUnclocked.setText(AppConfig.getInstance().mUser.getDanetkaPurchased());
+                    txvDanetkaLocked.setText((lock - danetkaPurchased) + "");
+                    txvDanetkaUnclocked.setText(danetkaPurchased+"");
                     txvDanetkaPlayed.setText(AppConfig.getInstance().mUser.DanetkaPlayed);
                 } else {
                 }

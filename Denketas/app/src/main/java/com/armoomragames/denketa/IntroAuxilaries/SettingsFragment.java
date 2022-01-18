@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
@@ -20,7 +19,7 @@ import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.AboutFragme
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.FaqFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.LanguageFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.PrivacyFragment;
-import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.RateAppFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.RateAppFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.SignUpFragment;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;

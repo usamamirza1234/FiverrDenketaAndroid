@@ -36,7 +36,7 @@
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/aladin_regular"
                 android:padding="10dp"
-                android:text="My Results"
+                android:text="My Results \t"
                 android:textColor="@color/thm_orange_app"
                 android:textSize="@dimen/fontsize_extralarge"
                 android:textStyle="bold" />

@@ -134,29 +134,46 @@ public class MyResultsFragment extends Fragment implements View.OnClickListener,
 
                 break;
             case R.id.frg_my_results_imv_AddResults:
-                navToAddResultFragment();
+                navToAddResultFragment(txvDanetkaName.getText().toString(), danetka_id.toString(), (lst_results.size()+1));
                 break;
 
 
         }
     }
 
-    private void navToAddResultFragment() {
+    private void navToAddResultFragment(String name, String id, int _size) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new AddResultsFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("key_danetka_name", txvDanetkaName.getText().toString());
-//        bundle.putString("key_danetka_id",  "10".toString());
-        bundle.putString("key_danetka_id",  danetka_id.toString());
+        bundle.putString("key_danetka_name", name);
+        bundle.putString("key_danetka_id",  id);
+        bundle.putInt("key_danetka_size",  _size);
         frag.setArguments(bundle);
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_AddResultFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_AddResultFragment);
         ft.hide(this);
         ft.commit();
     }
+    private void navToEditResultsFragment(String name, int id, int _size,String time, String invest,int selection,String danetka_id) {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new EditResultsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("key_danetka_name", name);
+        bundle.putInt("key_danetka_id",  id);
+        bundle.putString("key_danetka_invst_name",  invest);
+        bundle.putString("key_danetka_invst_danetka_id",  danetka_id);
+        bundle.putString("key_danetka_time",  time);
+        bundle.putInt("key_danetka_size",  _size);
+        bundle.putInt("key_danetka_selection",  selection);
+        frag.setArguments(bundle);
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_EditResultsFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_EditResultsFragment);
+        ft.hide(this);
+        ft.commit();
+    }
 
-    //region Api and population more danetka
     private void populateAllDanektasData(boolean isSuccess, String strMsg) {
 
         dismissProgDialog();
@@ -172,11 +189,15 @@ public class MyResultsFragment extends Fragment implements View.OnClickListener,
 //                    txvNoData.setVisibility(View.GONE);
                     llNoResults.setVisibility(View.GONE);
                     for (int i = 0; i < Intro_WebHit_Get_Results.responseObject.getData().size(); i++) {
-                        lst_results.add(new DModelResults((i+1)+"",
+                        lst_results.add(new DModelResults(
+                                (i+1)+"",
                                 Intro_WebHit_Get_Results.responseObject.getData().get(i).getInvestigatorName(),
                                 Intro_WebHit_Get_Results.responseObject.getData().get(i).getDate(),
                                 Intro_WebHit_Get_Results.responseObject.getData().get(i).getTime(),
-                                Intro_WebHit_Get_Results.responseObject.getData().get(i).getRiglettosUsed()+""));
+                                (Intro_WebHit_Get_Results.responseObject.getData().get(i).getRiglettosUsed()+""),
+                                (Intro_WebHit_Get_Results.responseObject.getData().get(i).getId())
+                                )
+                        );
 
                     }
 
@@ -185,7 +206,18 @@ public class MyResultsFragment extends Fragment implements View.OnClickListener,
                             @Override
                             public void onAdapterEventFired(int eventId, int position) {
                                 switch (eventId) {
+                                    case EVENT_A:
 
+                                        navToEditResultsFragment(
+                                                txvDanetkaName.getText().toString(),
+                                                lst_results.get(position).getID(),
+                                                (position+1),
+                                                lst_results.get(position).getTime(),
+                                                lst_results.get(position).getInvestigator(),
+                                                Integer.parseInt(lst_results.get(position).getRegiltor_used()),
+                                                danetka_id
+                                        );
+                                        break;
                                 }
 
                             }
@@ -214,6 +246,8 @@ public class MyResultsFragment extends Fragment implements View.OnClickListener,
                 }
             }
     }
+    //region Api and population more danetka
+
 
     private void updateDenketaList(boolean isSuccess, boolean isCompleted, String errorMsg) {
         isLoadingMore = false;

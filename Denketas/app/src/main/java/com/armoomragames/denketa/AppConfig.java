@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.armoomragames.denketa.IntroAuxilaries.DModelUser;
 import com.armoomragames.denketa.Utils.RModel_Paypal;
+import com.armoomragames.denketa.Utils.RModel_onFailureError;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -104,7 +105,7 @@ public class AppConfig {
         try {
             Gson gson = new Gson();
             String strResponse = new String(responseBody, StandardCharsets.UTF_8);
-            RModel_Error responseObjectLocal = gson.fromJson(strResponse, RModel_Error.class);
+            RModel_onFailureError responseObjectLocal = gson.fromJson(strResponse, RModel_onFailureError.class);
             iWebCallback.onWebResult(false, responseObjectLocal.getMessage());
         } catch (Exception ex) {
             ex.printStackTrace();

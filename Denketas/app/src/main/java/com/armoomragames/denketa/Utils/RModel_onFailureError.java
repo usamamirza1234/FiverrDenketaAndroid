@@ -6,55 +6,36 @@ import com.google.gson.annotations.SerializedName;
 public class RModel_onFailureError {
 
 
+    private int code;
 
-    public class Errors
-    {
+    private String status;
 
+    private String message;
+
+    private String data;
+
+    public void setCode(int code){
+        this.code = code;
     }
-
-
-        private String type;
-
-        private String title;
-
-        private int status;
-
-        private String traceId;
-
-        @SerializedName("errors")
-        private JsonObject errors;
-
-        public void setType(String type){
-            this.type = type;
-        }
-        public String getType(){
-            return this.type;
-        }
-        public void setTitle(String title){
-            this.title = title;
-        }
-        public String getTitle(){
-            return this.title;
-        }
-        public void setStatus(int status){
-            this.status = status;
-        }
-        public int getStatus(){
-            return this.status;
-        }
-        public void setTraceId(String traceId){
-            this.traceId = traceId;
-        }
-        public String getTraceId(){
-            return this.traceId;
-        }
-        public void setErrors(JsonObject errors){
-            this.errors = errors;
-        }
-        public JsonObject getErrors(){
-            return this.errors;
-        }
-
-
-
+    public int getCode(){
+        return this.code;
+    }
+    public void setStatus(String status){
+        this.status = status;
+    }
+    public String getStatus(){
+        return this.status;
+    }
+    public void setMessage(String message){
+        this.message = message;
+    }
+    public String getMessage(){
+        return this.message;
+    }
+    public void setData(String data){
+        this.data = data;
+    }
+    public String getData(){
+        return this.data;
+    }
 }

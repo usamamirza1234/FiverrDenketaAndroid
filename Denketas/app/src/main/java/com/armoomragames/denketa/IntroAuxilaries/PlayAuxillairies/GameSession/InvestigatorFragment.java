@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -30,7 +29,6 @@ import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenke
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_INVESTIGATOR_Danektas;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
-import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IAdapterCallback;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.IWebPaginationCallback;
@@ -138,17 +136,12 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
                             public void onAdapterEventFired(int eventId, int position) {
                                 switch (eventId) {
                                     case EVENT_A:
-                                        if (AppConfig.getInstance().mUser.isLoggedIn() || AppConfig.getInstance().mUser.isGuest()) {
-                                            if (!AppConfig.getInstance().getProgDialogs())
-                                                onClickDenketaItem(position);
-                                            else
-                                                ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(
-                                                        position,
-                                                        true, false);
-                                        } else {
-                                            ((IntroActivity)getActivity()).navToSigninFragment();
-//                                            CustomToast.showToastMessage(getActivity(), "Sign in / Sign Up Or Play as a guest  to PLAY!", Toast.LENGTH_LONG);
-                                        }
+                                        if (!AppConfig.getInstance().getProgDialogs())
+                                            onClickDenketaItem(position);
+                                        else
+                                            ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(
+                                                    position,
+                                                    true, false);
                                         break;
 
 

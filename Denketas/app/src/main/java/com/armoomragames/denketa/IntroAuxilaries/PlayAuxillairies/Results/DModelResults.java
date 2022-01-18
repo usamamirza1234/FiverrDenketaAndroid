@@ -4,12 +4,13 @@ public class DModelResults {
     public DModelResults() {
     }
 
-    public DModelResults(String master, String investigator, String date, String time, String regiltor_used) {
+    public DModelResults(String master, String investigator, String date, String time, String regiltor_used,int _ID) {
         Master = master;
         Investigator = investigator;
         Date = date;
         Time = time;
         Regiltor_used = regiltor_used;
+        ID = _ID;
     }
 
     String Master;
@@ -17,6 +18,15 @@ public class DModelResults {
     String Date;
     String Time;
     String Regiltor_used;
+    int ID;
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
 
     public String getMaster() {
         return Master;

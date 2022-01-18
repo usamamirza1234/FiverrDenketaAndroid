@@ -37,6 +37,7 @@ import com.armoomragames.denketa.Utils.IWebPaginationCallback;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static com.armoomragames.denketa.Utils.IAdapterCallback.EVENT_B;
 
@@ -171,6 +172,10 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                         }
 
                         if (adapter == null) {
+
+
+                            Collections.sort(lst_MyDenketa, (o1, o2) -> o1.getStrName().compareTo(o2.getStrName()));
+
                             adapter = new MyDenketaLsvAdapter((eventId, position) -> {
                                 switch (eventId) {
                                     case IAdapterCallback.EVENT_A:
@@ -238,6 +243,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                         }
 
                         if (adapter == null) {
+                            Collections.sort(lst_MyDenketa, (o1, o2) -> o1.getStrName().compareTo(o2.getStrName()));
                             adapter = new MyDenketaLsvAdapter(new IAdapterCallback() {
                                 @Override
                                 public void onAdapterEventFired(int eventId, int position) {

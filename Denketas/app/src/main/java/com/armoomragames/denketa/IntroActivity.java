@@ -30,7 +30,7 @@ import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentApprove
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentDetailFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentFailedFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.InvestigatorFragment;
-import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.LearnMoreFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.LearnMoreFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.Results.MyResultsFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayMianFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PreSignInFragment;

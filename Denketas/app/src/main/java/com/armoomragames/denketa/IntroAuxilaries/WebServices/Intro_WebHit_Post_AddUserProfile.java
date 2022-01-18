@@ -8,6 +8,7 @@ import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.Utils.ApiMethod;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IWebCallback;
+import com.armoomragames.denketa.Utils.RModel_onFailureError;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -21,8 +22,9 @@ import cz.msebera.android.httpclient.entity.StringEntity;
 public class Intro_WebHit_Post_AddUserProfile {
 
     public static ResponseModel responseObject = null;
-    public Context mContext;
+    public static RModel_onFailureError rModel_onFailureError = null;
     private final AsyncHttpClient mClient = new AsyncHttpClient();
+    public Context mContext;
 
     public void postAddProfile(Context context, final IWebCallback iWebCallback,
                                final String _signInEntity) {
@@ -57,16 +59,41 @@ public class Intro_WebHit_Post_AddUserProfile {
                             }
 
                         } catch (Exception ex) {
+
+                            String strResponse1;
+                            try {
+                                Gson gson = new Gson();
+                                strResponse1 = new String(responseBody, StandardCharsets.UTF_8);
+                                Log.d("LOG_AS", "postAddUserProfile: strResponseException " + strResponse1);
+                                rModel_onFailureError = gson.fromJson(strResponse1, RModel_onFailureError.class);
+                                if (rModel_onFailureError.getCode() == 422) {
+
+
+                                    iWebCallback.onWebResult(false, "Enter Valid Date of birth");
+                                } else {
+                                    iWebCallback.onWebException(ex);
+
+                                }
+                            } catch (Exception e) {
+
+                            }
+
+
+//                            iWebCallback.onWebResult(false, "Enter Valid Date of birth");
+                            Log.d("LOG_AS", "postAddUserProfile: Exception " + statusCode);
                             ex.printStackTrace();
-                            iWebCallback.onWebException(ex);
+
+//                            AppConfig.getInstance().parsErrorMessage(iWebCallback, responseBody);
                         }
                     }
 
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
+                        Log.d("LOG_AS", "postAddUserProfile: onFailure " + statusCode);
                         switch (statusCode) {
+
+
                             case AppConstt.ServerStatus.NETWORK_ERROR:
                                 iWebCallback.onWebResult(false, AppConfig.getInstance().getNetworkErrorMessage());
                                 break;
@@ -74,6 +101,18 @@ public class Intro_WebHit_Post_AddUserProfile {
                             case AppConstt.ServerStatus.FORBIDDEN:
                             case AppConstt.ServerStatus.UNAUTHORIZED:
                             default:
+                                String strResponse;
+//                                try {
+//                                    Gson gson = new Gson();
+//                                    strResponse = new String(responseBody, StandardCharsets.UTF_8);
+//                                    Log.d("LOG_AS", "postAddUserProfile: strResponse " + strResponse);
+//                                    rModel_onFailureError = gson.fromJson(strResponse, RModel_onFailureError.class);
+//                                    CustomToast.showToastMessage(mContext.getApplicationContext(),""+rModel_onFailureError.getMessage(), Toast.LENGTH_LONG);
+//
+//                                }catch (Exception e)
+//                                {
+//                                }
+
                                 AppConfig.getInstance().parsErrorMessage(iWebCallback, responseBody);
                                 break;
                         }
