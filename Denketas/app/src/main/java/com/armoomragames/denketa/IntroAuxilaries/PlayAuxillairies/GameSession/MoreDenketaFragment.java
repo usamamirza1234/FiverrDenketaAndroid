@@ -138,12 +138,7 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (edtSearch.getText().toString().equalsIgnoreCase(" "))
-                    edtSearch.setText("");
-                if (!edtSearch.getText().toString().equalsIgnoreCase(""))
-                    filter(edtSearch.getText().toString());
-
-
+                filter(edtSearch.getText().toString());
             }
         });
     }
@@ -309,11 +304,11 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
     }
     //endregion
 
+
     private void filter(String text) {
         // creating a new array list to filter our data.
         ArrayList<DModel_MyDenketa> filteredlist = new ArrayList<>();
 
-//        filteredlistByDropDown.clear();
         // running a for loop to compare elements.
         for (DModel_MyDenketa item : lst_MyDenketa) {
             // checking if the entered string matched with any item of our recycler view.
@@ -326,20 +321,19 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
         if (filteredlist.isEmpty()) {
             // if no item is added in filtered list we are
             // displaying a toast message as no data found.
-//            Toast.makeText(getContext(), "No Data Found for word " + text, Toast.LENGTH_SHORT).show();
-            lst_MyDenketaFiltered.clear();
-            lst_MyDenketaFiltered = filteredlist;
-            adapter.filterList(filteredlist);
+            Toast.makeText(getContext(), "No Data Found for word" + text, Toast.LENGTH_SHORT).show();
+//            adapter.filterList(lst_MyDenketa);
         } else {
             // at last we are passing that filtered
             // list to our adapter class.
-            lst_MyDenketaFiltered.clear();
-            lst_MyDenketaFiltered = filteredlist;
+
+            lst_MyDenketaFiltered=filteredlist;
             adapter.filterList(filteredlist);
 
 //            Toast.makeText(getContext(), "Data Found.." + text, Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void dismissProgDialog() {
         if (progressDialog != null) {

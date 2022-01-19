@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -25,7 +27,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MyDenketaLsvAdapter extends BaseAdapter {
+public class MyDenketaLsvAdapter extends BaseAdapter implements Filterable {
 
     private IAdapterCallback iAdapterCallback;
     private LayoutInflater inflater;
@@ -125,5 +127,46 @@ public class MyDenketaLsvAdapter extends BaseAdapter {
         // below line is to notify our adapter
         // as change in recycler view data.
         notifyDataSetChanged();
+    }
+
+
+
+    public Filter getFilter() {
+
+        Filter filter = new Filter() {
+
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+
+                mData = (ArrayList<DModel_MyDenketa>) results.values;
+                notifyDataSetChanged();
+            }
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+
+                FilterResults results = new FilterResults();
+                ArrayList<DModel_MyDenketa> FilteredArrayNames = new ArrayList<>();
+
+                // perform your search here using the searchConstraint String.
+
+                constraint = constraint.toString().toLowerCase();
+                for (int i = 0; i < mData.size(); i++) {
+                    String dataNames = mData.get(i).getStrName();
+                    if (dataNames.toLowerCase().startsWith(constraint.toString()))  {
+                        FilteredArrayNames.add(mData.get(i));
+                    }
+                }
+
+                results.count = FilteredArrayNames.size();
+                results.values = FilteredArrayNames;
+                Log.e("VALUES", results.values.toString());
+
+                return results;
+            }
+        };
+
+        return filter;
     }
 }

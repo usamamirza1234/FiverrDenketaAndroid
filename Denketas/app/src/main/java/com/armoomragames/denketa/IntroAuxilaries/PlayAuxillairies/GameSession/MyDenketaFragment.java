@@ -20,11 +20,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
+import com.armoomragames.denketa.IntroAuxilaries.DModelDictionary;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Guest_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_User_Danektas;
@@ -211,7 +213,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                 }
 
 
-                            }, getActivity(), lst_MyDenketa);
+                            }, getActivity(), lst_MyDenketaFiltered);
                             rcvMyDenekta.setAdapter(adapter);
                             rcvMyDenekta.setOnScrollListener(this);
                         } else {
@@ -284,7 +286,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                     }
 
                                 }
-                            }, getActivity(), lst_MyDenketa);
+                            }, getActivity(), lst_MyDenketaFiltered);
                             rcvMyDenekta.setAdapter(adapter);
                             rcvMyDenekta.setOnScrollListener(this);
                         } else {
@@ -329,24 +331,17 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
         edtSearch = frg.findViewById(R.id.frg_my_dankta_edt_search);
         imvSearch = frg.findViewById(R.id.frg_my_dankta_imv_search);
 
-
+        imvSearch.setOnClickListener(this);
         edtSearch.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {
-
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (edtSearch.getText().toString().equalsIgnoreCase(" "))
-                    edtSearch.setText("");
-                if (!edtSearch.getText().toString().equalsIgnoreCase(""))
-                    filter(edtSearch.getText().toString());
-
-
-
+                filter(edtSearch.getText().toString());
             }
         });
     }
@@ -394,7 +389,15 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                 dialog.dismiss();
                 ((IntroActivity) getActivity()).navToRulesFragment();
                 break;
+            case R.id.frg_my_dankta_imv_search:
+//                if (edtSearch.getText().toString().equalsIgnoreCase(" "))
+//                    edtSearch.setText("");
+//                if (!edtSearch.getText().toString().equalsIgnoreCase(""))
+//                    filter(edtSearch.getText().toString());
 
+//                if (edtSearch.getText().toString().equalsIgnoreCase(""))
+//                    populateAllDanektasData(true, "");
+                break;
 
         }
     }
@@ -451,9 +454,14 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
         }
     }
 
+
+
+
     private void filter(String text) {
         // creating a new array list to filter our data.
         ArrayList<DModel_MyDenketa> filteredlist = new ArrayList<>();
+
+        // running a for loop to compare elements.
         for (DModel_MyDenketa item : lst_MyDenketa) {
             // checking if the entered string matched with any item of our recycler view.
             if (item.getStrName().toLowerCase().contains(text.toLowerCase())) {
@@ -465,15 +473,11 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
         if (filteredlist.isEmpty()) {
             // if no item is added in filtered list we are
             // displaying a toast message as no data found.
-//            Toast.makeText(getContext(), "No Data Found for word " + text, Toast.LENGTH_SHORT).show();
-            lst_MyDenketaFiltered.clear();
-            lst_MyDenketaFiltered = filteredlist;
-            adapter.filterList(filteredlist);
+            Toast.makeText(getContext(), "No Data Found for word" + text, Toast.LENGTH_SHORT).show();
         } else {
             // at last we are passing that filtered
             // list to our adapter class.
-            lst_MyDenketaFiltered.clear();
-            lst_MyDenketaFiltered = filteredlist;
+            lst_MyDenketaFiltered=filteredlist;
             adapter.filterList(filteredlist);
 
 //            Toast.makeText(getContext(), "Data Found.." + text, Toast.LENGTH_SHORT).show();

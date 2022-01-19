@@ -5,10 +5,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,15 +21,20 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddUserCredits;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.CustomToast;
+import com.armoomragames.denketa.Utils.IWebCallback;
+import com.bumptech.glide.Glide;
+import com.google.gson.JsonObject;
 
 public class BundleDiscountFragment extends Fragment implements View.OnClickListener {
     RelativeLayout rlToolbar, rlBack, rlCross;
     RelativeLayout rlApply;
-    EditText edtGameCredits;
+    EditText edtGameCredits,edtPromo;
     TextView txvTotal, txvSubTotal, txvDiscount;
     TextView txvHowDoes, txvGameCredits;
     int number;
@@ -57,6 +65,7 @@ public class BundleDiscountFragment extends Fragment implements View.OnClickList
     private void bindViewss(View frg) {
         rlApply = frg.findViewById(R.id.apply);
         llBundle = frg.findViewById(R.id.bund);
+        edtPromo = frg.findViewById(R.id.edtPromo);
         rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
         rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
         rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
@@ -138,9 +147,22 @@ public class BundleDiscountFragment extends Fragment implements View.OnClickList
     public void onClick(View v) {
 
         switch (v.getId()) {
-//            case R.id.apply:
-//                navToPayentDisapprovedFragment();
-//                break;
+            case R.id.apply:
+                if (edtPromo.getText().toString()!=""&& edtPromo.getText().toString().equals("10DANETKAS"))
+                {
+                    AppConfig.getInstance().closeKeyboard(getActivity());
+                    JsonObject jsonObject = new JsonObject();
+//                            jsonObject.addProperty("danetkasId", danetkaID);
+                    jsonObject.addProperty("gameCredits", "10");
+                    jsonObject.addProperty("subtotal", "10");
+                    jsonObject.addProperty("discount", "10");
+                    jsonObject.addProperty("totalAmount", "10");
+
+
+                    requestPostGameCredits(jsonObject.toString());
+                }
+                else CustomToast.showToastMessage(getActivity(),"Invalid Promo Code",Toast.LENGTH_LONG);
+                break;
             case R.id.act_intro_lay_toolbar_rlBack:
                 getActivity().onBackPressed();
 
@@ -165,6 +187,56 @@ public class BundleDiscountFragment extends Fragment implements View.OnClickList
                 break;
         }
     }
+
+
+    private void showProgDialog() {
+
+        progressDialog = new Dialog(getActivity(), R.style.AppTheme);
+//        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog.setContentView(R.layout.dialog_progress_loading);
+        WindowManager.LayoutParams wmlp = progressDialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER | Gravity.CENTER;
+        wmlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        wmlp.height = ViewGroup.LayoutParams.MATCH_PARENT;
+
+        ImageView imageView = progressDialog.findViewById(R.id.img_anim);
+        Glide.with(getContext()).asGif().load(R.raw.loading).into(imageView);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+
+    }
+
+
+    private void requestPostGameCredits(String _signUpEntity) {
+        showProgDialog();
+        Intro_WebHit_Post_AddUserCredits intro_webHit_post_addUserCredits = new Intro_WebHit_Post_AddUserCredits();
+        intro_webHit_post_addUserCredits.postAddCredit(getActivity(), new IWebCallback() {
+            @Override
+            public void onWebResult(boolean isSuccess, String strMsg) {
+                if (isSuccess) {
+dismissProgDialog();
+                    String gCredits = Intro_WebHit_Post_AddUserCredits.responseObject.getData().getGameCredits() + "";
+                    AppConfig.getInstance().mUser.GameCredits = "" + (gCredits);
+                   AppConfig.getInstance().saveUserProfile();
+                   CustomToast.showToastMessage(getActivity(),"Promo Code applied. free danetkas are added",Toast.LENGTH_SHORT);
+
+                } else {
+                    dismissProgDialog();
+                }
+            }
+
+            @Override
+            public void onWebException(Exception ex) {
+                dismissProgDialog();
+                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
+
+            }
+        }, _signUpEntity);
+    }
+
 
     private void navToPaymentDetailFragment() {
         FragmentManager fm = getFragmentManager();
