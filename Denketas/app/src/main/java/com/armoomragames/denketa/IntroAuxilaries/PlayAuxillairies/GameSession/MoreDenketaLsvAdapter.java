@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,12 +22,14 @@ import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MoreDenketaLsvAdapter extends BaseAdapter {
+public class MoreDenketaLsvAdapter extends BaseAdapter implements Filterable {
     RelativeLayout rlToolbar, rlBack, rlCross;
     private IAdapterCallback iAdapterCallback;
     private LayoutInflater inflater;
     private ArrayList<DModel_MyDenketa> mData;
+    private ArrayList<DModel_MyDenketa> mDataFiltered;
     private float cornerRadius;
     private Context context;
 
@@ -33,7 +37,9 @@ public class MoreDenketaLsvAdapter extends BaseAdapter {
         this.iAdapterCallback = iAdapterCallback;
         inflater = LayoutInflater.from(context);
         this.mData = mData;
+        this.mDataFiltered = mData;
         this.cornerRadius = dpToPx(context, 15);
+
         this.context = context;
     }
     public int dpToPx(Context context, int dp) {
@@ -123,5 +129,42 @@ public class MoreDenketaLsvAdapter extends BaseAdapter {
         // below line is to notify our adapter
         // as change in recycler view data.
         notifyDataSetChanged();
+    }
+
+
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    mDataFiltered = mData;
+                } else {
+                    ArrayList<DModel_MyDenketa> filteredList = new ArrayList<>();
+                    for (DModel_MyDenketa row : mData) {
+
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        if (row.getStrName().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }
+                    }
+
+                    mDataFiltered = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mDataFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mDataFiltered = (ArrayList<DModel_MyDenketa>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

@@ -35,6 +35,7 @@ import com.armoomragames.denketa.Utils.IWebPaginationCallback;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class InvestigatorFragment extends Fragment implements View.OnClickListener, IWebPaginationCallback, AbsListView.OnScrollListener {
     private static final String KEY_POSITION = "position";
@@ -121,16 +122,25 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
 
                     for (int i = 0; i < Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().size(); i++) {
 
-                        lst_MyDenketa.add(new DModel_MyDenketa(
-                                Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getTitle(),
-                                Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getId() + "",
-                                Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getImage()
-                        ));
 
+                        lst_MyDenketa.add(
+                                new DModel_MyDenketa(
+
+                                        Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getTitle(),
+                                        Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getId() + "",
+                                        Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getImage(),
+                                        Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getQuestion(),
+                                        Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getAnswer(),
+                                        Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getAnswerImage(),
+                                        Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getHint(),
+                                        Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getLearnMore()
+                                )
+                        );
 
                     }
 
                     if (adapter == null) {
+                        Collections.sort(lst_MyDenketa, (o1, o2) -> o1.getStrName().compareTo(o2.getStrName()));
                         adapter = new InsvestigatorLsvAdapter(new IAdapterCallback() {
                             @Override
                             public void onAdapterEventFired(int eventId, int position) {
@@ -141,7 +151,7 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
                                         else
                                             ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(
                                                     position,
-                                                    true, false);
+                                                    true, false,lst_MyDenketa);
                                         break;
 
 
@@ -257,7 +267,7 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
                 dialog.dismiss();
                 ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(
                         position,
-                        true, false);
+                        true, false,lst_MyDenketa);
 
 
             }
@@ -314,7 +324,7 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
 
         switch (v.getId()) {
             case R.id.act_intro_lay_toolbar_rlBack:
-                ((IntroActivity) getActivity()).onBackPressed();
+                getActivity().onBackPressed();
 
                 break;
             case R.id.act_intro_lay_toolbar_rlCross:

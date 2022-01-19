@@ -25,12 +25,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.BundleDiscountFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.AnswerFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.InvestigatorFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.LearnMoreFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.QuestionFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentApprovedFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentDetailFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentFailedFragment;
-import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.InvestigatorFragment;
-import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.LearnMoreFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.Results.MyResultsFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayMianFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PreSignInFragment;
@@ -54,23 +56,19 @@ import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class IntroActivity extends AppCompatActivity implements IBadgeUpdateListener, View.OnClickListener {
 
     RelativeLayout rlToolbar, rlBack, rlCross;
-    private FragmentManager fm;
-
     String danetkaID = "";
-
-
-
     LoginButton loginButton;
-
     ImageView imageView;
     TextView txtUsername, txtEmail;
-
-
+    private FragmentManager fm;
+    //region progdialog
+    private Dialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +82,6 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         bindViews();
 //        facebook();
     }
-
-
 
     private void getUserProfile(AccessToken currentAccessToken) {
         GraphRequest request = GraphRequest.newMeRequest(
@@ -120,10 +116,8 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
     }
 
-
     //region App Necessary
-    private void init()
-    {
+    private void init() {
 
 
         fm = getSupportFragmentManager();
@@ -180,6 +174,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         } catch (NoSuchAlgorithmException e) {
         }
     }
+
     private void bindViews() {
         loginButton = findViewById(R.id.login_button);
         imageView = findViewById(R.id.imageView);
@@ -242,6 +237,8 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         Log.d("Screen Height", "" + AppConfig.getInstance().scrnHeight);
     }
 
+    //endregion
+
     private int getStatusBarHeight() {
         int result = 0;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
@@ -250,11 +247,6 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         }
         return (int) (result * this.getResources().getDisplayMetrics().density + 0.5f);
     }
-
-    //endregion
-
-    //region progdialog
-    private Dialog progressDialog;
 
     private void dismissProgDialog() {
         if (progressDialog != null) {
@@ -388,8 +380,6 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
     }
 
 
-
-
     public void navToLearnmoreFragment() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -408,7 +398,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
     }
 
 
-    public void navToDenketaInvestigatorQuestionFragment(int position, boolean isInvestigator, boolean isMoreDanetka,String danetkaID) {
+    public void navToDenketaInvestigatorQuestionFragment(int position, boolean isInvestigator, boolean isMoreDanetka, String danetkaID, ArrayList<DModel_MyDenketa> lst_MyDenketa) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new QuestionFragment();
@@ -421,14 +411,15 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         bundle.putBoolean("key_danetka_is_investigator", isInvestigator);
         bundle.putBoolean("key_danetka_is_more_danetka", isMoreDanetka);
         bundle.putString("key_danetka_is_more_danetka_danetkaID", danetkaID);
+        bundle.putParcelableArrayList("list", lst_MyDenketa);
         frag.setArguments(bundle);
         hideLastStackFragment(ft);
 //        ft.hide(this);
         ft.commit();
     }
 
-    public void navToDenketaInvestigatorQuestionFragment(int position, boolean isInvestigator, boolean isMoreDanetka) {
-        String danetkaID ="0";
+    public void navToDenketaInvestigatorQuestionFragment(int position, boolean isInvestigator, boolean isMoreDanetka, ArrayList<DModel_MyDenketa> lst_MyDenketa) {
+        String danetkaID = "0";
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new QuestionFragment();
@@ -441,6 +432,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         bundle.putBoolean("key_danetka_is_investigator", isInvestigator);
         bundle.putBoolean("key_danetka_is_more_danetka", isMoreDanetka);
         bundle.putString("key_danetka_is_more_danetka_danetkaID", danetkaID);
+        bundle.putParcelableArrayList("list", lst_MyDenketa);
         frag.setArguments(bundle);
         hideLastStackFragment(ft);
 //        ft.hide(this);
@@ -457,7 +449,6 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         hideLastStackFragment(ft);
         ft.commit();
     }
-
 
 
     public void navToSigninFragment() {
@@ -533,7 +524,6 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
     }
 
 
-
     public void hideLastStackFragment(FragmentTransaction ft) {
         Fragment frg = null;
         frg = getSupportFragmentManager().findFragmentById(R.id.act_intro_content_frg);
@@ -546,17 +536,19 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
                 ft.hide(frg);
             } else if (frg instanceof RulesFragment && frg.isVisible()) {
                 ft.hide(frg);
+            } else if (frg instanceof QuestionFragment && frg.isVisible()) {
+                ft.hide(frg);
             } else if (frg instanceof ExtraRulesFragment && frg.isVisible()) {
                 ft.hide(frg);
             } else if (frg instanceof GamePlayFragment && frg.isVisible()) {
+                ft.hide(frg);
+            }else if (frg instanceof LearnMoreFragment && frg.isVisible()) {
                 ft.hide(frg);
             } else if (frg instanceof PlayMianFragment && frg.isVisible()) {
                 ft.hide(frg);
             } else if (frg instanceof MyResultsFragment && frg.isVisible()) {
                 ft.hide(frg);
             } else if (frg instanceof InvestigatorFragment && frg.isVisible()) {
-                ft.hide(frg);
-            } else if (frg instanceof LearnMoreFragment && frg.isVisible()) {
                 ft.hide(frg);
             } else if (frg instanceof BundleDiscountFragment && frg.isVisible()) {
                 ft.hide(frg);
@@ -570,10 +562,11 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
                 ft.hide(frg);
             }
 
-
         }
 
+
     }
+
 //
 //    public void sendPayment(PayPalPayment payment) {
 //        // Creating Paypal Payment activity intent
@@ -591,7 +584,6 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
 
     //endregion
-
 
 
     @Override

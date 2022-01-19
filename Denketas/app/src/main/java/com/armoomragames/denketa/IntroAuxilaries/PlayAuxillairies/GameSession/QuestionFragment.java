@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.BundleDiscountFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentDetailFragment;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_All_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Guest_Danektas;
@@ -40,8 +41,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.JsonObject;
 
-public class QuestionFragment extends Fragment implements View.OnClickListener {
+import java.util.ArrayList;
 
+public class QuestionFragment extends Fragment implements View.OnClickListener {
+    ArrayList<DModel_MyDenketa> lst_MyDenketa;
     RelativeLayout rlToolbar, rlBack, rlCross;
     LinearLayout llSeeAnswer;
     RelativeLayout rlMaster;
@@ -73,107 +76,37 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
 
     private void setData() {
         try {
+            txvDanetkaName.setText(lst_MyDenketa.get(position).getStrName() + "");
+            txvQuestion.setText(lst_MyDenketa.get(position).getQuestion() + "");
+            danetka_Image = "http://18.119.55.236:2000/images/" + lst_MyDenketa.get(position).getStrImage();
+
+            RequestOptions options = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_logo)
+                    .error(R.drawable.ic_logo)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .priority(Priority.HIGH)
+                    .dontAnimate()
+                    .dontTransform();
+
+            Glide.with(getContext())
+                    .load(danetka_Image)
+                    .apply(options)
+                    .into(img);
+
+
+
             if (!isInvestigator) {
                 if (!isMoreDanetka) {
-                    if (AppConfig.getInstance().mUser.isLoggedIn()) {
-                        txvDanetkaName.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getTitle() + "");
-                        txvQuestion.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getQuestion() + "");
-                        danetka_Image = "http://18.119.55.236:2000/images/" + Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getImage();
-//                        Glide.with(getContext()).load(danetka_Image).into(img);
-
-//                        Picasso.get()
-//                                .load(danetka_Image)
-//                                .fit()
-//                                .centerCrop()
-//                                .placeholder(R.drawable.ic_logo)
-//                                .error(R.drawable.ic_logo)
-//                                .into(img);
-
-
-                        RequestOptions options = new RequestOptions()
-                                .centerCrop()
-                                .placeholder(R.drawable.ic_logo)
-                                .error(R.drawable.ic_logo)
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .priority(Priority.HIGH)
-                                .dontAnimate()
-                                .dontTransform();
-
-                        Glide.with(getContext())
-                                .load(danetka_Image)
-                                .apply(options)
-                                .into(img);
-
-//
-//                        Glide.with(getContext())
-//                                .load(danetka_Image)
-//                                .placeholder(R.drawable.placeholder)
-//                                .error(R.drawable.ic_logo)
-//                                .into(img);
-                    } else {
-                        txvDanetkaName.setText(Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getTitle() + "");
-                        txvQuestion.setText(Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getQuestion() + "");
-                        danetka_Image = "http://18.119.55.236:2000/images/" + Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getImage();
-
-                        RequestOptions options = new RequestOptions()
-                                .centerCrop()
-                                .placeholder(R.drawable.ic_logo)
-                                .error(R.drawable.ic_logo)
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .priority(Priority.HIGH)
-                                .dontAnimate()
-                                .dontTransform();
-
-                        Glide.with(getContext())
-                                .load(danetka_Image)
-                                .apply(options)
-                                .into(img);
-                    }
-
                     llPaynow.setVisibility(View.GONE);
                     llBundleDiscount.setVisibility(View.GONE);
                     llSeeAnswer.setVisibility(View.VISIBLE);
                 } else {
-
-                    txvDanetkaName.setText(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getTitle() + "");
-                    txvQuestion.setText(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getQuestion() + "");
-                    danetka_Image = "http://18.119.55.236:2000/images/" + Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getImage();
-
-                    RequestOptions options = new RequestOptions()
-                            .centerCrop()
-                            .placeholder(R.drawable.ic_logo)
-                            .error(R.drawable.ic_logo)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .priority(Priority.HIGH)
-                            .dontAnimate()
-                            .dontTransform();
-
-                    Glide.with(getContext())
-                            .load(danetka_Image)
-                            .apply(options)
-                            .into(img);
                     llPaynow.setVisibility(View.VISIBLE);
                     llBundleDiscount.setVisibility(View.VISIBLE);
                     llSeeAnswer.setVisibility(View.VISIBLE);
                 }
             } else {
-                txvDanetkaName.setText(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getTitle() + "");
-                txvQuestion.setText(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getQuestion() + "");
-                danetka_Image = "http://18.119.55.236:2000/images/" + Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getImage();
-
-                RequestOptions options = new RequestOptions()
-                        .centerCrop()
-                        .placeholder(R.drawable.ic_logo)
-                        .error(R.drawable.ic_logo)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .priority(Priority.HIGH)
-                        .dontAnimate()
-                        .dontTransform();
-
-                Glide.with(getContext())
-                        .load(danetka_Image)
-                        .apply(options)
-                        .into(img);
                 llPaynow.setVisibility(View.GONE);
                 llBundleDiscount.setVisibility(View.GONE);
                 llSeeAnswer.setVisibility(View.GONE);
@@ -191,6 +124,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
             isInvestigator = bundle.getBoolean("key_danetka_is_investigator", false);
             isMoreDanetka = bundle.getBoolean("key_danetka_is_more_danetka", false);
             danetkaID = bundle.getString("key_danetka_is_more_danetka_danetkaID");
+            lst_MyDenketa = bundle.getParcelableArrayList("list");
 
         }
     }
@@ -222,7 +156,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.act_intro_lay_toolbar_rlBack:
-                ((IntroActivity) getActivity()).onBackPressed();
+                getActivity().onBackPressed();
 
                 break;
             case R.id.act_intro_lay_toolbar_rlCross:
@@ -333,6 +267,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
         bundle.putInt("key_danetka_position", position);
         bundle.putBoolean("key_danetka_is_investigator", isInvestigator);
         bundle.putBoolean("key_danetka_is_more_danetka", isMoreDanetka);
+        bundle.putParcelableArrayList("list", lst_MyDenketa);
         frag.setArguments(bundle);
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_DenketaAnswerFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_DenketaAnswerFragment);

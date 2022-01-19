@@ -49,7 +49,9 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
     MoreDenketaLsvAdapter adapter;
     Intro_WebHit_Get_All_Danektas intro_webHit_get_all__danektas;
     boolean isAlreadyFetching = false;
+
     ArrayList<DModel_MyDenketa> lst_MyDenketa;
+    ArrayList<DModel_MyDenketa> lst_MyDenketaFiltered;
     TextView txvUseGameCredits;
     private int nFirstVisibleItem, nVisibleItemCount, nTotalItemCount, nScrollState, nErrorMsgShown;
     private boolean isLoadingMore = false;
@@ -108,6 +110,7 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 
     private void init() {
         lst_MyDenketa = new ArrayList<>();
+        lst_MyDenketaFiltered = new ArrayList<>();
 
         nFirstVisibleItem = 0;
         nVisibleItemCount = 0;
@@ -182,20 +185,34 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 
                     for (int i = 0; i < Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().size(); i++) {
                         lst_MyDenketa.add(
-                                new DModel_MyDenketa(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getTitle(),
+                                new DModel_MyDenketa(
+                                        Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getTitle(),
                                         Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getId() + ""
-                                        , Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getImage()));
+                                        , Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getImage()
+                                        , Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getQuestion()
+                                        , Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getAnswer()
+                                        , Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getAnswerImage()
+                                        , Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getHint()
+                                        , Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(i).getLearnMore()
+                                )
+                        );
                     }
 
 
                     if (adapter == null) {
                         Collections.sort(lst_MyDenketa, (o1, o2) -> o1.getStrName().compareTo(o2.getStrName()));
+
+                        if (lst_MyDenketaFiltered.size()<=0)
+                        {
+                            lst_MyDenketaFiltered = lst_MyDenketa;
+                        }
+
                         adapter = new MoreDenketaLsvAdapter(new IAdapterCallback() {
                             @Override
                             public void onAdapterEventFired(int eventId, int position) {
                                 switch (eventId) {
                                     case EVENT_A:
-                                        ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, true,lst_MyDenketa.get(position).getStrId());
+                                        ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, true,lst_MyDenketaFiltered.get(position).getStrId(),lst_MyDenketaFiltered);
                                         break;
                                 }
 
@@ -310,11 +327,16 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
             // if no item is added in filtered list we are
             // displaying a toast message as no data found.
 //            Toast.makeText(getContext(), "No Data Found for word " + text, Toast.LENGTH_SHORT).show();
+            lst_MyDenketaFiltered.clear();
+            lst_MyDenketaFiltered = filteredlist;
             adapter.filterList(filteredlist);
         } else {
             // at last we are passing that filtered
             // list to our adapter class.
+            lst_MyDenketaFiltered.clear();
+            lst_MyDenketaFiltered = filteredlist;
             adapter.filterList(filteredlist);
+
 //            Toast.makeText(getContext(), "Data Found.." + text, Toast.LENGTH_SHORT).show();
         }
     }

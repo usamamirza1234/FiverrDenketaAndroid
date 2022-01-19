@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_All_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Guest_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_INVESTIGATOR_Danektas;
@@ -32,6 +33,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -41,6 +43,7 @@ import static com.armoomragames.denketa.Utils.IAdapterCallback.EVENT_A;
 public class AnswerFragment extends Fragment implements View.OnClickListener {
     RelativeLayout rlBack, rlCross;
     RecyclerView rcvRegilto;
+    ArrayList<DModel_MyDenketa> lst_MyDenketa;
     TextView txvDanetkaName;
     JustifyTextView txvDetail;
     IBadgeUpdateListener mBadgeUpdateListener;
@@ -54,7 +57,8 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
     boolean isMoreDanetka = false;
     String[] lstRegilto;
     String danetka_ID = "1";
-    String formattedDate ="";
+    String formattedDate = "";
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View frg = inflater.inflate(R.layout.fragment_denketa_answer, container, false);
@@ -68,102 +72,27 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
 
     private void setData() {
         try {
-            if (!isInvestigator) {
-                if (!isMoreDanetka) {
-
-                    if (AppConfig.getInstance().mUser.isLoggedIn()) {
-                        danetka_ID = (Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getId()) + "";
-                        txvDanetkaName.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getTitle());
-                        txvDetail.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getAnswer() + "");
-                        danetka_Image = "http://18.119.55.236:2000/images/" + Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getAnswerImage();
+            danetka_ID = (lst_MyDenketa.get(position).getStrId()) + "";
+            txvDanetkaName.setText(lst_MyDenketa.get(position).getStrName());
+            txvDetail.setText(lst_MyDenketa.get(position).getAnswer() + "");
+            danetka_Image = "http://18.119.55.236:2000/images/" + lst_MyDenketa.get(position).getAnswerImage();
 //                        Glide.with(getContext()).load(danetka_Image).into(img);
-                        lstRegilto = (Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getHint().split("\\s*=\\s*"));
-                        populatePopulationList();
+            lstRegilto = (lst_MyDenketa.get(position).getHint().split("\\s*=\\s*"));
+            populatePopulationList();
 
-                        RequestOptions options = new RequestOptions()
-                                .centerCrop()
-                                .placeholder(R.drawable.ic_logo)
-                                .error(R.drawable.ic_logo)
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .priority(Priority.HIGH)
-                                .dontAnimate()
-                                .dontTransform();
+            RequestOptions options = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_logo)
+                    .error(R.drawable.ic_logo)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .priority(Priority.HIGH)
+                    .dontAnimate()
+                    .dontTransform();
 
-                        Glide.with(getContext())
-                                .load(danetka_Image)
-                                .apply(options)
-                                .into(img);
-                        
-                    } else {
-
-                        danetka_ID = (Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getId()) + "";
-                        txvDanetkaName.setText(Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getTitle() + "");
-                        txvDetail.setText(Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getAnswer() + "");
-                        danetka_Image = "http://18.119.55.236:2000/images/" + Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getAnswerImage();
-//                        Glide.with(getContext()).load(danetka_Image).into(img);
-                        RequestOptions options = new RequestOptions()
-                                .centerCrop()
-                                .placeholder(R.drawable.ic_logo)
-                                .error(R.drawable.ic_logo)
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .priority(Priority.HIGH)
-                                .dontAnimate()
-                                .dontTransform();
-
-                        Glide.with(getContext())
-                                .load(danetka_Image)
-                                .apply(options)
-                                .into(img);
-                        lstRegilto = (Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getHint().split("\\s*=\\s*"));
-                        populatePopulationList();
-                    }
-
-                } else {
-                    danetka_ID = (Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getId()) + "";
-                    txvDanetkaName.setText(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getTitle());
-                    txvDetail.setText(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getAnswer() + "");
-                    danetka_Image = "http://18.119.55.236:2000/images/" + Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getAnswerImage();
-//                    Glide.with(getContext()).load(danetka_Image).into(img);
-                    RequestOptions options = new RequestOptions()
-                            .centerCrop()
-                            .placeholder(R.drawable.ic_logo)
-                            .error(R.drawable.ic_logo)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .priority(Priority.HIGH)
-                            .dontAnimate()
-                            .dontTransform();
-
-                    Glide.with(getContext())
-                            .load(danetka_Image)
-                            .apply(options)
-                            .into(img);
-                    lstRegilto = (Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getHint().split("\\s*=\\s*"));
-                    populatePopulationList();
-                }
-            } else {
-                danetka_ID = (Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getId()) + "";
-                txvDanetkaName.setText(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getTitle());
-                txvDetail.setText(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getAnswer() + "");
-                danetka_Image = "http://18.119.55.236:2000/images/" + Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getAnswerImage();
-//                Glide.with(getContext()).load(danetka_Image).into(img);
-                RequestOptions options = new RequestOptions()
-                        .centerCrop()
-                        .placeholder(R.drawable.ic_logo)
-                        .error(R.drawable.ic_logo)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .priority(Priority.HIGH)
-                        .dontAnimate()
-                        .dontTransform();
-
-                Glide.with(getContext())
-                        .load(danetka_Image)
-                        .apply(options)
-                        .into(img);
-                lstRegilto = (Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getHint().split("\\s*=\\s*"));
-                populatePopulationList();
-            }
-
-            Log.d("anser","image "+danetka_Image);
+            Glide.with(getContext())
+                    .load(danetka_Image)
+                    .apply(options)
+                    .into(img);
 
         } catch (Exception e) {
 
@@ -186,7 +115,7 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    void init()  {
+    void init() {
         setToolbar();
 
         bundle = this.getArguments();
@@ -194,15 +123,15 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
             position = bundle.getInt("key_danetka_position");
             isInvestigator = bundle.getBoolean("key_danetka_is_investigator", false);
             isMoreDanetka = bundle.getBoolean("key_danetka_is_more_danetka", false);
-
+            lst_MyDenketa = bundle.getParcelableArrayList("list");
         }
 
         try {
             Date c = Calendar.getInstance().getTime();
             SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss", Locale.getDefault());
             formattedDate = df.format(c);
+        } catch (Exception e) {
         }
-        catch (Exception e){}
 
 
     }
