@@ -179,7 +179,7 @@
                         android:textSize="@dimen/fontsize_small"
                         android:textStyle="bold" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/frg_my_results_txv_invest_num"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/button_height_large"
@@ -191,6 +191,8 @@
                         android:gravity="center"
                         android:hint="Enter name"
                         android:paddingStart="25dp"
+                        android:inputType="number"
+                        android:maxLength="2"
                         android:paddingEnd="25dp"
                         android:textColor="@color/black"
                         android:textCursorDrawable="@null"

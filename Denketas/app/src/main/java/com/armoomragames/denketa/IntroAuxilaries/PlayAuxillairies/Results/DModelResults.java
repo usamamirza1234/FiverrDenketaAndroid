@@ -4,13 +4,15 @@ public class DModelResults {
     public DModelResults() {
     }
 
-    public DModelResults(String master, String investigator, String date, String time, String regiltor_used,int _ID) {
+    public DModelResults(String master, String investigator, String date, String time, String regiltor_used,int _ID,String investegorNumber,String masterNam) {
         Master = master;
         Investigator = investigator;
         Date = date;
         Time = time;
         Regiltor_used = regiltor_used;
         ID = _ID;
+        investegorNumber = investegorNumber;
+        masterName = masterName;
     }
 
     String Master;
@@ -19,6 +21,24 @@ public class DModelResults {
     String Time;
     String Regiltor_used;
     int ID;
+    private String investegorNumber;
+    private String masterName;
+
+    public String getInvestegorNumber() {
+        return investegorNumber;
+    }
+
+    public void setInvestegorNumber(String investegorNumber) {
+        this.investegorNumber = investegorNumber;
+    }
+
+    public String getMasterName() {
+        return masterName;
+    }
+
+    public void setMasterName(String masterName) {
+        this.masterName = masterName;
+    }
 
     public int getID() {
         return ID;

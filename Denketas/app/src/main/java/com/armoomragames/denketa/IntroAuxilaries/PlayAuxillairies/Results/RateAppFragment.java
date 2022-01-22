@@ -3,6 +3,8 @@ package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.Results;
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -47,8 +49,8 @@ public class RateAppFragment extends Fragment implements View.OnClickListener, A
     RelativeLayout rlToolbar, rlBack, rlCross, rl_leave_coment, rl_comnt_sent;
     String danetka_id = "";
     String danetka_name = "";
-    TextView edtTime, txv_invest_num;
-    EditText edtInvestigator, frg_make_edtAnswer, edtMaster;
+    TextView edtTime;
+    EditText edtInvestigator, frg_make_edtAnswer, edtMaster, txv_invest_num;
     TextView edtUsed;
     LinearLayout llSaveResult, llSavedResults, lltxv_enter_coment;
     IBadgeUpdateListener mBadgeUpdateListener;
@@ -217,6 +219,29 @@ public class RateAppFragment extends Fragment implements View.OnClickListener, A
         imv_send.setOnClickListener(this);
         llSaveResult.setOnClickListener(this);
         rl_leave_coment.setOnClickListener(this);
+        txv_invest_num.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    if (s.toString().startsWith(" ")) {
+                        txv_invest_num.setText("");
+                    } else if (Integer.parseInt(txv_invest_num.getText().toString()) > 10 || Integer.parseInt(txv_invest_num.getText().toString()) < 1) {
+                        txv_invest_num.setText("");
+                    }
+                } catch (Exception e) {
+                }
+            }
+        });
 
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
@@ -278,9 +303,12 @@ public class RateAppFragment extends Fragment implements View.OnClickListener, A
                     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                     String formattedDate = df.format(c);
                     JsonObject jsonObject = new JsonObject();
+
                     jsonObject.addProperty("investigatorName", edtInvestigator.getText().toString());
                     jsonObject.addProperty("riglettosUsed", selected + "");
-                    jsonObject.addProperty("time", minutes + "");
+                    jsonObject.addProperty("time",minutes + "");
+                    jsonObject.addProperty("investegorNumber", txv_invest_num.getText().toString());
+                    jsonObject.addProperty("masterName", edtMaster.getText().toString());
                     jsonObject.addProperty("date", formattedDate);
                     jsonObject.addProperty("masterId", AppConfig.getInstance().mUser.getUser_Id());
                     jsonObject.addProperty("danetkaId", danetka_id);

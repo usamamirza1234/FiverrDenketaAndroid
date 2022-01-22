@@ -3,6 +3,8 @@ package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.Results;
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +37,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class AddResultsFragment extends Fragment implements View.OnClickListener , AdapterView.OnItemSelectedListener {
+public class AddResultsFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private static final String[] paths = {"0", "1", "2", "3", "4", "5"};
     RelativeLayout rlToolbar, rlBack, rlCross;
@@ -45,14 +47,14 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
     TextView txvDanetkaName;
     Spinner spinner;
     LinearLayout llDetails, llNewResults, llEditdetails;
-    TextView txvUsed, txvMaster, txvInvestigator, txvTime, txvDate, txv_invest_num;
-    EditText edtInvestigator, edtTime, edtMaster;
+    TextView txvUsed, txvMaster, txvInvestigator, txvTime, txvDate;
+    EditText edtInvestigator, edtTime, edtMaster, txv_invest_num;
     LinearLayout llSaveResult, llSavedResults;
+    int selected = 0;
+    int id_ = 0;
+    int invest_count = 0;
     private Dialog progressDialog;
-    int selected=0;
-    int id_=0;
-    int invest_count=0;
-    private boolean isEdited=false;
+    private boolean isEdited = false;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -112,13 +114,38 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
         edtMaster = frg.findViewById(R.id.frg_my_results_edt_master);
         edtInvestigator = frg.findViewById(R.id.frg_my_results_edt_invest);
 
-        txv_invest_num.setText(""+invest_count);
+//        txv_invest_num.setText("" + invest_count);
 
         rlBack.setOnClickListener(this);
         rlCross.setOnClickListener(this);
 
         llSaveResult.setOnClickListener(this);
         llEditdetails.setOnClickListener(this);
+
+
+        txv_invest_num.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    if (s.toString().startsWith(" ")) {
+                        txv_invest_num.setText("");
+                    } else if (Integer.parseInt(txv_invest_num.getText().toString()) > 10 || Integer.parseInt(txv_invest_num.getText().toString()) < 1) {
+                        txv_invest_num.setText("");
+                    }
+                } catch (Exception e) {
+                }
+            }
+        });
 
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
@@ -132,7 +159,7 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
     @Override
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
 
-         selected = position;
+        selected = position;
 
         switch (position) {
             case 0:
@@ -167,7 +194,7 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
                 break;
 
             case R.id.frg_my_results_ll_Editdetails:
-                isEdited=true;
+                isEdited = true;
                 llNewResults.setVisibility(View.VISIBLE);
                 llSavedResults.setVisibility(View.GONE);
                 llSaveResult.setVisibility(View.VISIBLE);
@@ -180,24 +207,81 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
                 AppConfig.getInstance().closeKeyboard(getActivity());
 
                 if (!edtInvestigator.getText().toString().equals("") && !edtMaster.getText().toString().equals("")
-                        && !edtTime.getText().toString().equals("")) {
+                        && !edtTime.getText().toString().equals("")
+                        && !txv_invest_num.getText().toString().equals("")
+                ) {
+
+
+                    double _date = 0;
+                    String _hour = "00:";
+                    String _min = "00:";
+                    String _sec = "00:";
+                    String time ="";
+                    try {
+                        _date = Double.parseDouble(edtTime.getText().toString());
+                        if (_date >= 60) {
+                            double dhour =  _date / 60;
+                            int hour = (int) dhour;
+                            double dmin =  (dhour - hour)* 60;
+                            int __min = (int) dmin ;
+                            int sec = (int) (dmin -__min);
+
+                            if (hour == 0) _hour = "00:";
+                            else if (hour == 1) _hour = "01:";
+                            else if (hour == 2) _hour = "02:";
+                            else if (hour == 3) _hour = "03:";
+                            else if (hour == 4) _hour = "04:";
+                            else if (hour == 5) _hour = "05:";
+                            else if (hour == 6) _hour = "06:";
+                            else if (hour == 7) _hour = "07:";
+                            else if (hour == 8) _hour = "08:";
+                            else if (hour == 9) _hour = "09:";
+
+
+                            if (__min == 0) _min = "00:";
+                            else if (__min == 1) _min = "01:";
+                            else if (__min == 2) _min = "02:";
+                            else if (__min == 3) _min = "03:";
+                            else if (__min == 4) _min = "04:";
+                            else if (__min == 5) _min = "05:";
+                            else if (__min == 6) _min = "06:";
+                            else if (__min == 7) _min = "07:";
+                            else if (__min == 8) _min = "08:";
+                            else if (__min == 9) _min = "09:";
+
+                            if (sec==0)
+                            {
+                                _sec =  "00";
+
+                            }
+                            else    _sec = sec * 60 + "";
+
+
+                            time = _hour+ _min+_sec;
+                        }
+                    } catch (Exception e) {
+                        time = _hour+ _min+_sec;
+
+                    }
+
 
                     Date c = Calendar.getInstance().getTime();
+
                     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                     String formattedDate = df.format(c);
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("investigatorName", edtInvestigator.getText().toString());
-                    jsonObject.addProperty("riglettosUsed", selected+"");
-                    jsonObject.addProperty("time", edtTime.getText().toString());
+                    jsonObject.addProperty("riglettosUsed", selected + "");
+                    jsonObject.addProperty("time",time );
+                    jsonObject.addProperty("investegorNumber", txv_invest_num.getText().toString());
+                    jsonObject.addProperty("masterName", edtMaster.getText().toString());
                     jsonObject.addProperty("date", formattedDate);
                     jsonObject.addProperty("masterId", AppConfig.getInstance().mUser.getUser_Id());
                     jsonObject.addProperty("danetkaId", danetka_id);
 
-                    if (!isEdited)
-                    {
+                    if (!isEdited) {
                         requestContactUs(jsonObject.toString());
-                    }
-                    else {
+                    } else {
                         requestUpdatedResult(jsonObject.toString(), id_);
                     }
 
@@ -238,7 +322,7 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
                 dismissProgDialog();
                 CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
             }
-        }, toString,danetka_id);
+        }, toString, danetka_id);
     }
 
 
@@ -252,11 +336,11 @@ public class AddResultsFragment extends Fragment implements View.OnClickListener
             public void onWebResult(boolean isSuccess, String strMsg) {
                 if (isSuccess) {
                     dismissProgDialog();
-              id_ =      Intro_WebHit_Post_Results.responseObject.getData().getId();
+                    id_ = Intro_WebHit_Post_Results.responseObject.getData().getId();
                     CustomToast.showToastMessage(getActivity(), "Success! Result Added", Toast.LENGTH_SHORT);
                     txvMaster.setText(edtMaster.getText().toString());
                     txvInvestigator.setText(edtInvestigator.getText().toString());
-                    txvUsed.setText(selected+"");
+                    txvUsed.setText(selected + "");
                     txvTime.setText(edtTime.getText().toString());
                     txvDate.setText(edtTime.getText().toString());
                     llEditdetails.setVisibility(View.VISIBLE);

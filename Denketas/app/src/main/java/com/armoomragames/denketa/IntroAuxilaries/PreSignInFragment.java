@@ -187,35 +187,7 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
     }
 
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                DropInResult result = data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT);
-                PaymentMethodNonce nonce = result.getPaymentMethodNonce();
-                String stringNonce = nonce.getString();
-                Log.d("mylog", "Result: " + stringNonce);
-                // Send payment price with the nonce
-                // use the result to update your UI and send the payment method nonce to your server
-                if (!etAmount.getText().toString().isEmpty()) {
-                    amount = etAmount.getText().toString();
-                    paramHash = new HashMap<>();
-                    paramHash.put("amount", amount);
-                    paramHash.put("nonce", stringNonce);
-                    sendPaymentDetails();
-                } else
-                    Toast.makeText(getContext(), "Please enter a valid amount.", Toast.LENGTH_SHORT).show();
 
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                // the user canceled
-                Log.d("mylog", "user canceled");
-            } else {
-                // handle errors here, an exception may be available in
-                Exception error = (Exception) data.getSerializableExtra(DropInActivity.EXTRA_ERROR);
-                Log.d("mylog", "Error : " + error.toString());
-            }
-        }
-    }
 
 
 //

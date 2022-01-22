@@ -195,32 +195,31 @@ public class MyResultsFragment extends Fragment implements View.OnClickListener,
                                 Intro_WebHit_Get_Results.responseObject.getData().get(i).getDate(),
                                 Intro_WebHit_Get_Results.responseObject.getData().get(i).getTime(),
                                 (Intro_WebHit_Get_Results.responseObject.getData().get(i).getRiglettosUsed()+""),
-                                (Intro_WebHit_Get_Results.responseObject.getData().get(i).getId())
+                                (Intro_WebHit_Get_Results.responseObject.getData().get(i).getId()),
+                                (Intro_WebHit_Get_Results.responseObject.getData().get(i).getInvestegorNumber()),
+                                (Intro_WebHit_Get_Results.responseObject.getData().get(i).getMasterName())
                                 )
                         );
 
                     }
 
                     if (resultsAdapter == null) {
-                        resultsAdapter = new ResultsAdapter( getActivity(), lst_results,new IAdapterCallback() {
-                            @Override
-                            public void onAdapterEventFired(int eventId, int position) {
-                                switch (eventId) {
-                                    case EVENT_A:
+                        resultsAdapter = new ResultsAdapter( getActivity(), lst_results, (eventId, position) -> {
+                            switch (eventId) {
+                                case IAdapterCallback.EVENT_A:
 
-                                        navToEditResultsFragment(
-                                                txvDanetkaName.getText().toString(),
-                                                lst_results.get(position).getID(),
-                                                (position+1),
-                                                lst_results.get(position).getTime(),
-                                                lst_results.get(position).getInvestigator(),
-                                                Integer.parseInt(lst_results.get(position).getRegiltor_used()),
-                                                danetka_id
-                                        );
-                                        break;
-                                }
-
+                                    navToEditResultsFragment(
+                                            txvDanetkaName.getText().toString(),
+                                            lst_results.get(position).getID(),
+                                            (position+1),
+                                            lst_results.get(position).getTime(),
+                                            lst_results.get(position).getInvestigator(),
+                                            Integer.parseInt(lst_results.get(position).getRegiltor_used()),
+                                            danetka_id
+                                    );
+                                    break;
                             }
+
                         });
                         lsvResults.setAdapter(resultsAdapter);
                         lsvResults.setOnScrollListener(this);

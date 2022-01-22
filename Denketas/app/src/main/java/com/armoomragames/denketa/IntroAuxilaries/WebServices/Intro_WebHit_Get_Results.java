@@ -154,6 +154,10 @@ public class Intro_WebHit_Get_Results {
 
             private String time;
 
+            private String investegorNumber;
+
+            private String masterName;
+
             private boolean status;
 
             private int updatedTime;
@@ -211,6 +215,26 @@ public class Intro_WebHit_Get_Results {
             }
             public int getUpdatedTime(){
                 return this.updatedTime;
+            }
+
+            public String getInvestegorNumber() {
+                return investegorNumber;
+            }
+
+            public void setInvestegorNumber(String investegorNumber) {
+                this.investegorNumber = investegorNumber;
+            }
+
+            public String getMasterName() {
+                return masterName;
+            }
+
+            public void setMasterName(String masterName) {
+                this.masterName = masterName;
+            }
+
+            public boolean isStatus() {
+                return status;
             }
         }
 

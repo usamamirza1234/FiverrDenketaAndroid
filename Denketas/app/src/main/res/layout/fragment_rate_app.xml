@@ -116,12 +116,12 @@
                         android:gravity="center"
                         android:paddingStart="25dp"
                         android:paddingEnd="25dp"
-                        android:text="Investigator Number"
+                        android:text="Number of Investigator"
                         android:textColor="@color/black"
                         android:textSize="@dimen/fontsize_small"
                         android:textStyle="bold" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/frg_my_results_txv_invest_num"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/button_height_large"
@@ -131,8 +131,10 @@
                         android:cursorVisible="true"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
-                        android:hint="Enter number"
+                        android:hint="Enter name"
                         android:paddingStart="25dp"
+                        android:inputType="number"
+                        android:maxLength="2"
                         android:paddingEnd="25dp"
                         android:textColor="@color/black"
                         android:textCursorDrawable="@null"

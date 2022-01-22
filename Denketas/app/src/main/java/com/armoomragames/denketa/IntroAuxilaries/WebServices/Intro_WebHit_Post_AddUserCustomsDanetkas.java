@@ -45,6 +45,7 @@ public class Intro_WebHit_Post_AddUserCustomsDanetkas {
         RequestParams params = new RequestParams();
         try {
 
+            params.put("danetkaType", "custom");
             params.put("title", dModelCustomDanetka.getTitle());
             params.put("answer", dModelCustomDanetka.getAnswer());
             params.put("hint", dModelCustomDanetka.getHint());
