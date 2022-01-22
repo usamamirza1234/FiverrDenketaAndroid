@@ -191,7 +191,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                             adapter = new MyDenketaLsvAdapter((eventId, position) -> {
                                 switch (eventId) {
                                     case IAdapterCallback.EVENT_A:
-                                        if (AppConfig.getInstance().mUser.isLoggedIn() || AppConfig.getInstance().mUser.isGuest()) {
+                                        if (AppConfig.getInstance().mUser.isLoggedIn() ) {
                                             if (!AppConfig.getInstance().getProgDialogs())
                                                 onClickDenketaItem(position);
                                             else {
@@ -269,7 +269,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                 public void onAdapterEventFired(int eventId, int position) {
                                     switch (eventId) {
                                         case EVENT_A:
-                                            if (AppConfig.getInstance().mUser.isLoggedIn() || AppConfig.getInstance().mUser.isGuest()) {
+                                            if (AppConfig.getInstance().mUser.isLoggedIn() ) {
                                                 if (!AppConfig.getInstance().getProgDialogs())
                                                     onClickDenketaItem(position);
                                                 else {

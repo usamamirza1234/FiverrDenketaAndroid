@@ -1,9 +1,7 @@
-package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession;
+package com.armoomragames.denketa.IntroAuxilaries.Admin.DanetkaDetails;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
@@ -21,25 +19,25 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.squareup.picasso.Picasso;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 
-public class MyDenketaLsvAdapter extends BaseAdapter implements Filterable {
-
+public class DenketaDetailsLsvAdapter extends BaseAdapter implements Filterable {
+    RelativeLayout rlToolbar, rlBack, rlCross;
     private IAdapterCallback iAdapterCallback;
     private LayoutInflater inflater;
     private ArrayList<DModel_MyDenketa> mData;
+    private ArrayList<DModel_MyDenketa> mDataFiltered;
     private float cornerRadius;
     private Context context;
 
-    public MyDenketaLsvAdapter(IAdapterCallback iAdapterCallback, Context context, ArrayList<DModel_MyDenketa> mData) {
+    public DenketaDetailsLsvAdapter(IAdapterCallback iAdapterCallback, Context context, ArrayList<DModel_MyDenketa> mData) {
         this.iAdapterCallback = iAdapterCallback;
         inflater = LayoutInflater.from(context);
         this.mData = mData;
+        this.mDataFiltered = mData;
         this.cornerRadius = dpToPx(context, 15);
+
         this.context = context;
     }
     public int dpToPx(Context context, int dp) {
@@ -69,13 +67,12 @@ public class MyDenketaLsvAdapter extends BaseAdapter implements Filterable {
 
         if (convertView == null) {
 
-            convertView = inflater.inflate(R.layout.lay_item_my_denketa, null);
+            convertView = inflater.inflate(R.layout.lay_item_detail_denketa, null);
 
             viewHolder = new ViewHolder();
 
             viewHolder.txvName  = convertView.findViewById(R.id.lay_item_my_denekta_txvName);
-            viewHolder.imvDanetka = convertView.findViewById(R.id.imvDanetka);
-            viewHolder.imvResult = convertView.findViewById(R.id.lay_item_my_denekta_imvResults);
+            viewHolder.imvDanetka = convertView.findViewById(R.id.imv);
 
 
 
@@ -83,17 +80,12 @@ public class MyDenketaLsvAdapter extends BaseAdapter implements Filterable {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+
         viewHolder.txvName.setText((position+1)+". "+mData.get(position).getStrName());
 
-//        viewHolder.txvName.setText(mData.get(position).getStrName());
-        convertView.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_A,position ));
-        viewHolder.imvResult.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_B,position ));
 
-        Log.d("LOG_AS", "getView: "+mData.get(position).getStrImage());
-//        Picasso.get()
-//                .load(mData.get(position).getStrImage())
-//                .into( viewHolder.imvDanetka);
-//
+
+
 
 
         RequestOptions options = new RequestOptions()
@@ -112,14 +104,21 @@ public class MyDenketaLsvAdapter extends BaseAdapter implements Filterable {
                 .apply(options)
                 .into(viewHolder.imvDanetka);
 
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_A,position );
+            }
+        });
         return convertView;
     }
 
     class ViewHolder {
         TextView txvName;
         ImageView imvDanetka;
-        ImageView imvResult;
     }
+
 
     public void filterList(ArrayList<DModel_MyDenketa> filterllist) {
         // below line is to add our filtered
@@ -132,42 +131,38 @@ public class MyDenketaLsvAdapter extends BaseAdapter implements Filterable {
 
 
 
+    @Override
     public Filter getFilter() {
-
-        Filter filter = new Filter() {
-
-            @SuppressWarnings("unchecked")
+        return new Filter() {
             @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    mDataFiltered = mData;
+                } else {
+                    ArrayList<DModel_MyDenketa> filteredList = new ArrayList<>();
+                    for (DModel_MyDenketa row : mData) {
 
-                mData = (ArrayList<DModel_MyDenketa>) results.values;
-                notifyDataSetChanged();
-            }
-
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-
-                FilterResults results = new FilterResults();
-                ArrayList<DModel_MyDenketa> FilteredArrayNames = new ArrayList<>();
-
-                // perform your search here using the searchConstraint String.
-
-                constraint = constraint.toString().toLowerCase();
-                for (int i = 0; i < mData.size(); i++) {
-                    String dataNames = mData.get(i).getStrName();
-                    if (dataNames.toLowerCase().startsWith(constraint.toString()))  {
-                        FilteredArrayNames.add(mData.get(i));
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        if (row.getStrName().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }
                     }
+
+                    mDataFiltered = filteredList;
                 }
 
-                results.count = FilteredArrayNames.size();
-                results.values = FilteredArrayNames;
-                Log.e("VALUES", results.values.toString());
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mDataFiltered;
+                return filterResults;
+            }
 
-                return results;
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mDataFiltered = (ArrayList<DModel_MyDenketa>) filterResults.values;
+                notifyDataSetChanged();
             }
         };
-
-        return filter;
     }
 }

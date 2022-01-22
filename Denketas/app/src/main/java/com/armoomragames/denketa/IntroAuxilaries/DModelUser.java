@@ -30,11 +30,11 @@ public class DModelUser {
     public int Active;
     public boolean isPushOn;
     private boolean isLoggedIn;
-    public boolean isGuest;
+    public boolean isAdmin;
     public String Authorization;
     public String Password_Token;
 
-    public DModelUser(int user_Id, String name, String nationality, String phone, String email, String gender, String DOB, String iqama_Id, String iqama_Expiry, String danetkaTotal, String danetkaPlayed, String image, String role, int status, int is_Under_Review, String gameCredits, String DanetkaPurchased, int active, boolean isPushOn, boolean isLoggedIn, boolean isGuest, String authorization, String password_Token) {
+    public DModelUser(int user_Id, String name, String nationality, String phone, String email, String gender, String DOB, String iqama_Id, String iqama_Expiry, String danetkaTotal, String danetkaPlayed, String image, String role, int status, int is_Under_Review, String gameCredits, String DanetkaPurchased, int active, boolean isPushOn, boolean isLoggedIn, boolean isAdmin, String authorization, String password_Token) {
         User_Id = user_Id;
         Name = name;
         Nationality = nationality;
@@ -55,17 +55,17 @@ public class DModelUser {
         Active = active;
         this.isPushOn = isPushOn;
         this.isLoggedIn = isLoggedIn;
-        this.isGuest = isGuest;
+        this.isAdmin = isAdmin;
         Authorization = authorization;
         Password_Token = password_Token;
     }
 
-    public boolean isGuest() {
-        return isGuest;
+    public boolean isAdmin() {
+        return isAdmin;
     }
 
-    public void setGuest(boolean guest) {
-        isGuest = guest;
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     public DModelUser() {
@@ -87,7 +87,7 @@ public class DModelUser {
         this.Active = 0;
         this.isPushOn = true;
         this.isLoggedIn = false;
-        this.isGuest = false;
+        this.isAdmin = false;
         this.Authorization = "";
         this.Password_Token = "";
         this.DanetkaPurchased = "";

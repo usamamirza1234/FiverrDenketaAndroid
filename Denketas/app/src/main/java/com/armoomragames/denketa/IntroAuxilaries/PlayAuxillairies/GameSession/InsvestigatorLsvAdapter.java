@@ -74,8 +74,9 @@ public class InsvestigatorLsvAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        viewHolder.txvName.setText((position+1)+". "+mData.get(position).getStrName());
 
-        viewHolder.txvName.setText(mData.get(position).getStrName());
+//        viewHolder.txvName.setText(mData.get(position).getStrName());
         convertView.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_A,position ));
 
         RequestOptions options = new RequestOptions()

@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/frg_add_promo_edt_ll_NewResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingStart="14dp"
+            android:layout_margin="10dp"
+            android:text="Add Promo Code"
+            android:textColor="@color/thm_red_app"
+            android:textSize="@dimen/fontsize_large"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height_large"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"
+                android:text="PromoCode Name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/fontsize_small"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/frg_add_promo_edt_promo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height_large"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:background="@null"
+                android:cursorVisible="true"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:hint="Enter Promocode"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/fontsize_small" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/black" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height_large"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"
+                android:text="Valid From"
+                android:textColor="@color/black"
+                android:textSize="@dimen/fontsize_small"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/frg_add_promo_edt_valid_from"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height_large"
+                android:layout_alignParentEnd="true"
+                android:layout_centerHorizontal="true"
+                android:background="@null"
+                android:cursorVisible="true"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:hint="Enter Start time"
+
+                android:inputType="date"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/fontsize_small" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/black" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height_large"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"
+                android:text="Valid Till"
+                android:textColor="@color/black"
+                android:textSize="@dimen/fontsize_small"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/frg_add_promo_edt_valid_till"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height_large"
+
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:background="@null"
+                android:cursorVisible="true"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:hint="Enter End time"              android:inputType="date"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/fontsize_small" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/black" />
+
+  
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height_large"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"
+                android:text="Start Time"
+                android:textColor="@color/black"
+                android:textSize="@dimen/fontsize_small"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/frg_add_promo_edt_start_time"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height_large"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:background="@null"
+                android:cursorVisible="true"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:hint="Enter Start time"
+                android:inputType="time"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/fontsize_small" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/black" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height_large"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"
+                android:text="End Time"
+                android:textColor="@color/black"
+                android:textSize="@dimen/fontsize_small"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/frg_add_promo_edt_end_t"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height_large"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:background="@null"
+                android:cursorVisible="true"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:hint="Enter End time"
+                android:inputType="time"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/fontsize_small" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:id="@+id/frg_add_promo_edt_save"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height_large"
+                android:layout_gravity="center"
+                android:background="@drawable/shp_rect_rounded_app_blue"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@null"
+                    android:fontFamily="@font/poppins_bold"
+                    android:lines="1"
+
+                    android:paddingEnd="10dp"
+                    android:text="Save promocode"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/fontsize_medium"
+                    android:textStyle="normal" />
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/frg_add_promo_edt_ll_saved_results"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height_large"
+                android:layout_gravity="center"
+
+                android:background="@drawable/shp_rect_rounded_app_green"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="15dp"
+                android:paddingTop="5dp"
+
+                android:paddingEnd="15dp"
+                android:paddingBottom="5dp"
+                android:visibility="gone">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@null"
+                    android:fontFamily="@font/poppins_bold"
+                    android:lines="1"
+                    android:paddingEnd="5dp"
+
+                    android:text="Results Saved"
+
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/fontsize_medium"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/ic_white_tick" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

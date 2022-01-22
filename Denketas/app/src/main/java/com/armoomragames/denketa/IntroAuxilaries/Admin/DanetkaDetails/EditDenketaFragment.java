@@ -1,0 +1,667 @@
+package com.armoomragames.denketa.IntroAuxilaries.Admin.DanetkaDetails;
+
+import android.Manifest;
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+
+import com.armoomragames.denketa.AppConfig;
+import com.armoomragames.denketa.IntroAuxilaries.DModelCustomDanetka;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_UpdateAdminDanetkas;
+import com.armoomragames.denketa.R;
+import com.armoomragames.denketa.Utils.AppConstt;
+import com.armoomragames.denketa.Utils.CustomToast;
+import com.armoomragames.denketa.Utils.ExifUtil;
+import com.armoomragames.denketa.Utils.IWebCallback;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Objects;
+
+import static androidx.core.content.PermissionChecker.checkSelfPermission;
+
+public class EditDenketaFragment extends Fragment implements View.OnClickListener {
+    Bundle bundle;
+
+    LinearLayout insert1, insert2;
+    ImageView imvInsert1, imvInsert2;
+
+    EditText edtRegilto;
+
+    LinearLayout llSubmit;
+    TextView txvSubmit;
+    ArrayList<String> lstRegilto;
+    EditText edtTitle, edtQuestion, edtAns, edtLearnmore;
+    boolean isQuestion;
+    ArrayList<DModel_MyDenketa> lst_MyDenketa;
+    int position = 0;
+    private Uri picUri, imageUri;
+    private File filePhotoForQuestion;
+    private File filePhotoForAnswer;
+    private Dialog progressDialog;
+
+    public static File bitmapToFile(Context context, Bitmap bitmap, String fileNameToSave) { // File name like "image.png"
+        //create a file to write bitmap data
+        File file = null;
+        try {
+            file = new File(Environment.getExternalStorageDirectory() + File.separator + fileNameToSave);
+            file.createNewFile();
+
+//Convert bitmap to byte array
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos); // YOU can also save it in JPEG
+            byte[] bitmapdata = bos.toByteArray();
+
+//write the bytes in file
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+            return file;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return file; // it will return null
+        }
+    }
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View frg = inflater.inflate(R.layout.fragment_edit_denketa, container, false);
+
+        init();
+        bindviews(frg);
+
+
+        return frg;
+    }
+
+    private void init() {
+        bundle = this.getArguments();
+        if (bundle != null) {
+            position = bundle.getInt("key_danetka_position");
+            lst_MyDenketa = bundle.getParcelableArrayList("list");
+
+        }
+        lstRegilto = new ArrayList<>();
+
+    }
+
+    private void bindviews(View frg) {
+
+
+        edtRegilto = frg.findViewById(R.id.frg_make_edtRegilto);
+        edtTitle = frg.findViewById(R.id.frg_make_edtTitle);
+        edtQuestion = frg.findViewById(R.id.frg_make_edtRidle);
+        edtAns = frg.findViewById(R.id.frg_make_edtAnswer);
+        edtLearnmore = frg.findViewById(R.id.frg_make_edtLearnmore);
+
+
+        llSubmit = frg.findViewById(R.id.frg_make_llSubmit);
+        txvSubmit = frg.findViewById(R.id.frg_make_txvSubmit);
+
+
+        insert1 = frg.findViewById(R.id.frg_make_llInsert1);
+        insert2 = frg.findViewById(R.id.frg_make_llInsert2);
+        imvInsert1 = frg.findViewById(R.id.frg_make_inset1Imv);
+        imvInsert2 = frg.findViewById(R.id.frg_make_inset2Imv);
+
+
+        insert1.setOnClickListener(this);
+        insert2.setOnClickListener(this);
+
+        llSubmit.setOnClickListener(this);
+
+        setdata();
+
+    }
+
+    private void setdata() {
+
+        try {
+            edtTitle.setText(lst_MyDenketa.get(position).getStrName());
+            edtQuestion.setText(lst_MyDenketa.get(position).getQuestion());
+            edtAns.setText(lst_MyDenketa.get(position).getAnswer());
+            edtRegilto.setText(lst_MyDenketa.get(position).getHint());
+            edtLearnmore.setText(lst_MyDenketa.get(position).getLearnmore());
+            String danetka_Image = "http://18.119.55.236:2000/images/" + lst_MyDenketa.get(position).getStrImage();
+            String answer_Image = "http://18.119.55.236:2000/images/" + lst_MyDenketa.get(position).getAnswerImage();
+
+            RequestOptions options = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_logo)
+                    .error(R.drawable.ic_logo)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .priority(Priority.HIGH)
+                    .dontAnimate()
+                    .dontTransform();
+
+//            Glide.with(getContext())
+//                    .load(danetka_Image)
+//                    .apply(options)
+//                    .into(imvInsert1);
+//            Glide.with(getContext())
+//                    .load(answer_Image)
+//                    .apply(options)
+//                    .into(imvInsert2);
+
+            Glide.with(getContext())
+                    .load(danetka_Image)
+                    .apply(options)
+                    .listener(new RequestListener<Drawable>() {
+
+                        @Override
+                        public boolean onLoadFailed(GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            BitmapDrawable drawable = (BitmapDrawable) imvInsert1.getDrawable();
+
+                            setPicPathForQuestion(true);
+                            convert(drawable.getBitmap(), true);
+//                            filePhotoForQuestion=      bitmapToFile(getContext(),drawable.getBitmap(),"xyz-0");
+                            return false;
+                        }
+
+
+                    })
+                    .into(imvInsert1);
+
+            Glide.with(getContext())
+                    .load(answer_Image)
+                    .apply(options)
+                    .listener(new RequestListener<Drawable>() {
+
+                        @Override
+                        public boolean onLoadFailed(GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model,
+                                                       Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            BitmapDrawable drawable = (BitmapDrawable) imvInsert2.getDrawable();
+                            setPicPathForQuestion(false);
+                            convert(drawable.getBitmap(), false);
+//                            filePhotoForAnswer=      bitmapToFile(getContext(),drawable.getBitmap(),"xyz-0");
+                            return false;
+                        }
+
+
+                    })
+                    .into(imvInsert2);
+
+
+            Log.d("image","danetka_Image "+danetka_Image);
+            Log.d("image","answer_Image "+answer_Image);
+
+        } catch (Exception e) {
+
+        }
+
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+            case R.id.frg_make_llInsert1:
+                if (isGrantedPermCamera()) {
+                    if (isGrantedPermWriteExternalStorage()) {
+                        if (getActivity() != null) {
+                            showProgDialog();
+                            getGalleryPic(true);
+                        }
+                    }
+                }
+
+
+                break;
+            case R.id.frg_make_llInsert2:
+                if (isGrantedPermCamera()) {
+                    if (isGrantedPermWriteExternalStorage()) {
+                        if (getActivity() != null) {
+                            showProgDialog();
+                            getGalleryPic(false);
+                        }
+                    }
+                }
+
+                break;
+            case R.id.frg_make_llSubmit:
+                if (AppConfig.getInstance().mUser.isLoggedIn()) {
+                    if (!edtTitle.getText().toString().equals("") &&
+                            !edtQuestion.getText().toString().equals("")
+                            && !edtAns.getText().toString().equals("")
+                            && !edtRegilto.getText().toString().equals("")
+                            && !edtLearnmore.getText().toString().equals("")
+                    ) {
+                        showProgDialog();
+
+                        DModelCustomDanetka dModelCustomDanetka = new DModelCustomDanetka(
+                                edtTitle.getText().toString(),
+                                edtAns.getText().toString(),
+                                filePhotoForQuestion,
+                                filePhotoForAnswer,
+                                edtRegilto.getText().toString(),
+                                edtQuestion.getText().toString(),
+                                edtLearnmore.getText().toString(),
+                                AppConfig.getInstance().mUser.getUser_Id() + ""
+                        );
+
+                        Log.d("ImageLocation", "setImageView:filePhotoForQuestion " + filePhotoForQuestion.getName());
+                        Log.d("ImageLocation", "setImageView: filePhotoForAnswer  " + filePhotoForAnswer.getName());
+
+                        requestUpdateDanetka(dModelCustomDanetka);
+                    } else
+                        CustomToast.showToastMessage(getActivity(), "Please fill all fields", Toast.LENGTH_LONG);
+                } else
+                    CustomToast.showToastMessage(getActivity(), "Please login first!", Toast.LENGTH_LONG);
+
+                break;
+
+
+        }
+    }
+
+    private void requestUpdateDanetka(DModelCustomDanetka dModelCustomDanetka) {
+
+
+        Intro_WebHit_Post_UpdateAdminDanetkas intro_webHit_post_updateAdminDanetkas = new Intro_WebHit_Post_UpdateAdminDanetkas();
+        intro_webHit_post_updateAdminDanetkas.postCustomDanetka(getContext(), new IWebCallback() {
+            @Override
+            public void onWebResult(boolean isSuccess, String strMsg) {
+                if (isSuccess) {
+                    dismissProgDialog();
+                    CustomToast.showToastMessage(getActivity(), "UPDATE SUCCESSFULLY.", Toast.LENGTH_SHORT);
+                } else {
+                    dismissProgDialog();
+                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
+                }
+            }
+
+            @Override
+            public void onWebException(Exception ex) {
+                dismissProgDialog();
+                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
+            }
+        }, dModelCustomDanetka, Integer.parseInt(lst_MyDenketa.get(position).getStrId()));
+    }
+
+    private void dismissProgDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
+
+    private void showProgDialog() {
+
+        progressDialog = new Dialog(getActivity(), R.style.AppTheme);
+//        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog.setContentView(R.layout.dialog_progress_loading);
+        WindowManager.LayoutParams wmlp = progressDialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER | Gravity.CENTER;
+        wmlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        wmlp.height = ViewGroup.LayoutParams.MATCH_PARENT;
+
+        ImageView imageView = progressDialog.findViewById(R.id.img_anim);
+        Glide.with(getContext()).asGif().load(R.raw.loading).into(imageView);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        switch (requestCode) {
+            case AppConstt.REQ_CODE_PERM_STORAGE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //Strorage Permission Granted
+                    getGalleryPic(true);
+                } else {
+                    // Permission Denied
+                    CustomToast.showToastMessage(getActivity(),
+                            "msg_permission_denied", Toast.LENGTH_SHORT);
+                }
+                break;
+
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+    }
+
+    private String setPicPathForQuestion(boolean isQuestion) {
+        //Create Dir if D.N.E
+        File fileDir = new File(AppConstt.IMAGE_DIR_PATH);
+        if (!fileDir.exists()) {
+            fileDir.mkdirs();
+        }
+
+        String tempImagePath = AppConstt.IMAGE_DIR_PATH;
+        tempImagePath += "image_default" + ".png";
+        if (isQuestion) {
+            this.isQuestion = true;
+            filePhotoForQuestion = new File(tempImagePath);
+        } else {
+            this.isQuestion = false;
+            filePhotoForAnswer = new File(tempImagePath);
+        }
+        return tempImagePath;
+    }
+
+    public void getGalleryPic(boolean isQuestion) {
+        setPicPathForQuestion(isQuestion);
+        if (Build.VERSION.SDK_INT < 19) {
+            Intent intent = new Intent();
+            intent.setType("image/*");
+//            intent.setType("image/");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), AppConstt.GALLERY_INTENT_CALLED);
+        } else {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+//            intent.setType("image/jpeg");
+            intent.setType("image/*");
+            startActivityForResult(intent, AppConstt.GALLERY_KITKAT_INTENT_CALLED);
+        }
+    }
+
+    //region Permissions
+    @SuppressWarnings("ResourceType")
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Uri originalUri = null;
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == AppConstt.GALLERY_INTENT_CALLED || requestCode == AppConstt.GALLERY_KITKAT_INTENT_CALLED) {
+                originalUri = data.getData();
+
+                try {
+                    dismissProgDialog();
+                    if (isQuestion) {
+
+                        Bitmap bitmap;
+                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), originalUri);
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 50, bos);
+                        byte[] bitmapdata = bos.toByteArray();
+                        FileOutputStream fos = new FileOutputStream(filePhotoForQuestion);
+                        String imagePath = filePhotoForQuestion.getAbsolutePath();
+                        Bitmap orientedBitmap = ExifUtil.rotateBitmap(imagePath, bitmap);
+
+                        fos.write(bitmapdata);
+                        fos.flush();
+                        fos.close();
+
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            OutputStream _fos;
+                            ContentResolver resolver = getActivity().getContentResolver();
+                            ContentValues contentValues = new ContentValues();
+                            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, filePhotoForQuestion.getName());
+                            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
+                            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + File.separator + "IMAGE_DIR_PATH");
+                            Uri ImageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+                            Log.d("ImageLocation", "setImageView: " + ImageUri.getPath());
+                            _fos = resolver.openOutputStream(Objects.requireNonNull(ImageUri));
+//                            ExifInterface ei = new ExifInterface(filePhotoForQuestion.getPath());
+//                            int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+//                                    ExifInterface.ORIENTATION_UNDEFINED);
+//                            Bitmap rotatedBitmap = null;
+//                            switch (orientation) {
+//                                case ExifInterface.ORIENTATION_ROTATE_90:
+//                                    rotatedBitmap = rotateImage(bitmap, 90);
+//                                    break;
+//                                case ExifInterface.ORIENTATION_ROTATE_180:
+//                                    rotatedBitmap = rotateImage(bitmap, 180);
+//                                    break;
+//                                case ExifInterface.ORIENTATION_ROTATE_270:
+//                                    rotatedBitmap = rotateImage(bitmap, 270);
+//                                    break;
+//                                case ExifInterface.ORIENTATION_NORMAL:
+//                                default:
+//                                    rotatedBitmap = bitmap;
+//                            }
+//                            rotatedBitmap = Bitmap.createScaledBitmap(rotatedBitmap, 500, 500, false);
+//                            rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, _fos);
+                            Objects.requireNonNull(_fos);
+                            filePhotoForQuestion = new File(getRealPathFromURI(ImageUri));
+                            imvInsert1.setImageBitmap(bitmap);
+                        } else {
+                            ByteArrayOutputStream _bos = new ByteArrayOutputStream();
+                            imvInsert1.setImageBitmap(bitmap);
+                            byte[] _bitmapdata = _bos.toByteArray();
+                            FileOutputStream _fos = new FileOutputStream(filePhotoForQuestion);
+                            _fos.write(_bitmapdata);
+                            _fos.flush();
+                            _fos.close();
+
+                        }
+
+
+                    } else {
+                        Bitmap bitmap;
+                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), originalUri);
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 50, bos);
+                        byte[] bitmapdata = bos.toByteArray();
+                        FileOutputStream fos = new FileOutputStream(filePhotoForAnswer);
+                        String imagePath = filePhotoForAnswer.getAbsolutePath();             // photoFile is a File class.
+                        Bitmap orientedBitmap = ExifUtil.rotateBitmap(imagePath, bitmap);
+                        imvInsert2.setImageBitmap(orientedBitmap);
+                        fos.write(bitmapdata);
+                        fos.flush();
+                        fos.close();
+
+                    }
+                } catch (IOException e) {
+
+                    dismissProgDialog();
+                    e.printStackTrace();
+                    CustomToast.showToastMessage(getActivity(), e.toString(), Toast.LENGTH_LONG);
+                }
+                if (requestCode == AppConstt.GALLERY_KITKAT_INTENT_CALLED) {
+                    // Check for the freshest data.
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        final int takeFlags = data.getFlags()
+                                & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                        getActivity().getApplicationContext().getContentResolver().takePersistableUriPermission(originalUri, takeFlags);
+                    }
+                }
+            }
+            dismissProgDialog();
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+        dismissProgDialog();
+    }
+
+    private String getRealPathFromURI(Uri contentURI) {
+        String filePath;
+        Cursor cursor = getActivity().getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) {
+            filePath = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.MediaColumns.DATA);
+            filePath = cursor.getString(idx);
+            cursor.close();
+        }
+        return filePath;
+    }
+
+    public Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
+    }
+
+    private boolean isGrantedPermCamera() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            int hasCameraPermission = checkSelfPermission(getContext(), Manifest.permission.CAMERA);
+            if (hasCameraPermission != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.CAMERA},
+                        AppConstt.REQ_CODE_PERM_CAMERA);
+                return false;
+            }
+            return true;
+        } else
+            return true;
+    }
+    //endregion
+
+    private boolean isGrantedPermWriteExternalStorage() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            int hasWritePermission = checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (hasWritePermission != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        AppConstt.REQ_CODE_WRITE_EXTERNAL_STORAGE);
+                return false;
+            }
+            return true;
+        } else
+            return true;
+    }
+
+    public void convert(Bitmap bitmap, boolean isQuestion) {
+        try {
+            dismissProgDialog();
+            if (isQuestion) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    OutputStream _fos;
+                    ContentResolver resolver = getActivity().getContentResolver();
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, filePhotoForQuestion.getName());
+                    contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
+                    contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + File.separator + "Majoor");
+                    Uri ImageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+                    Log.d("ImageLocation", "setImageView: " + ImageUri.getPath());
+                    _fos = (OutputStream) resolver.openOutputStream(Objects.requireNonNull(ImageUri));
+                    ExifInterface ei = new ExifInterface(filePhotoForQuestion.getPath());
+                    int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                            ExifInterface.ORIENTATION_UNDEFINED);
+                    Bitmap rotatedBitmap = null;
+                    switch (orientation) {
+                        case ExifInterface.ORIENTATION_ROTATE_90:
+                            rotatedBitmap = rotateImage(bitmap, 90);
+                            break;
+                        case ExifInterface.ORIENTATION_ROTATE_180:
+                            rotatedBitmap = rotateImage(bitmap, 180);
+                            break;
+                        case ExifInterface.ORIENTATION_ROTATE_270:
+                            rotatedBitmap = rotateImage(bitmap, 270);
+                            break;
+                        case ExifInterface.ORIENTATION_NORMAL:
+                        default:
+                            rotatedBitmap = bitmap;
+                    }
+                    rotatedBitmap = Bitmap.createScaledBitmap(rotatedBitmap, 500, 500, false);
+                    rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, _fos);
+                    Objects.requireNonNull(_fos);
+                    filePhotoForQuestion = new File(getRealPathFromURI(ImageUri));
+                    imvInsert1.setImageBitmap(rotatedBitmap);
+                } else {
+                    ByteArrayOutputStream _bos = new ByteArrayOutputStream();
+                    ExifInterface ei = new ExifInterface(filePhotoForQuestion.getPath());
+                    int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                            ExifInterface.ORIENTATION_UNDEFINED);
+                    Bitmap rotatedBitmap = null;
+                    switch (orientation) {
+                        case ExifInterface.ORIENTATION_ROTATE_90:
+
+                            rotatedBitmap = rotateImage(bitmap, 90);
+                            break;
+                        case ExifInterface.ORIENTATION_ROTATE_180:
+                            rotatedBitmap = rotateImage(bitmap, 180);
+                            break;
+                        case ExifInterface.ORIENTATION_ROTATE_270:
+                            rotatedBitmap = rotateImage(bitmap, 270);
+                            break;
+                        case ExifInterface.ORIENTATION_NORMAL:
+                        default:
+                            rotatedBitmap = bitmap;
+                    }
+                    rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 10, _bos);
+                    imvInsert1.setImageBitmap(rotatedBitmap);
+                    byte[] _bitmapdata = _bos.toByteArray();
+                    FileOutputStream _fos = new FileOutputStream(filePhotoForQuestion);
+                    _fos.write(_bitmapdata);
+                    _fos.flush();
+                    _fos.close();
+
+                }
+            }
+            else {
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 50, bos);
+                byte[] bitmapdata = bos.toByteArray();
+                FileOutputStream fos = new FileOutputStream(filePhotoForAnswer);
+                String imagePath = filePhotoForAnswer.getAbsolutePath();             // photoFile is a File class.
+                Bitmap orientedBitmap = ExifUtil.rotateBitmap(imagePath, bitmap);
+                imvInsert2.setImageBitmap(orientedBitmap);
+                fos.write(bitmapdata);
+                fos.flush();
+                fos.close();
+
+            }
+        }
+        catch (IOException e)
+        {
+
+            dismissProgDialog();
+            e.printStackTrace();
+            CustomToast.showToastMessage(getActivity(), e.toString(), Toast.LENGTH_LONG);
+        }
+    }
+
+}

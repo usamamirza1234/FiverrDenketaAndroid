@@ -4,6 +4,7 @@ package com.armoomragames.denketa.Utils;
 public interface ApiMethod {
 
     String artistImage_Videos_baseURL= "https://art-station-bucket.s3.me-south-1.amazonaws.com/uploads_staging/";
+    interface Delete{  String removeDanetkas ="remove/danetka/" ;}
 
 
     interface GET {
@@ -37,6 +38,7 @@ public interface ApiMethod {
         String verifyCode = "verifyCode";
         String resetPassword = "resetPassword";
         String updateResult ="update/result/" ;
+        String updateAdminDanetkas ="update/danetka/" ;
     }
 
     interface HEADER {

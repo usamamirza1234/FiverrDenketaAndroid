@@ -1,15 +1,11 @@
 package com.armoomragames.denketa.IntroAuxilaries;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -31,28 +26,18 @@ import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.InvestigatorFragment;
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.RulesFragment;
-import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.SiginInFragment;
+import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.SignInFragment;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_GameCredits;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.IWebCallback;
-import com.braintreepayments.api.DropInActivity;
 import com.braintreepayments.api.DropInClient;
 import com.braintreepayments.api.DropInRequest;
-import com.braintreepayments.api.DropInResult;
-import com.braintreepayments.api.PaymentMethodNonce;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 
-import java.util.HashMap;
-
-import javax.net.ssl.KeyManager;
-
 import cz.msebera.android.httpclient.Header;
-
-import static android.app.Activity.RESULT_CANCELED;
-import static android.app.Activity.RESULT_OK;
 
 public class PreSignInFragment extends Fragment implements View.OnClickListener {
 
@@ -422,7 +407,7 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
     private void navtoSigninFragment() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new SiginInFragment();
+        Fragment frag = new SignInFragment();
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_SiginInFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_SiginInFragment);
         ft.hide(this);

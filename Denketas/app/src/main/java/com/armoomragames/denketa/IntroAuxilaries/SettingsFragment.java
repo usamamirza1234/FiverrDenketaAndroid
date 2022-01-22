@@ -13,24 +13,25 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
-import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.SignUpCompleteProfileFragment;
-import com.armoomragames.denketa.R;
+import com.armoomragames.denketa.IntroAuxilaries.Admin.AdminHomeFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.Results.RateAppFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.AboutFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.FaqFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.LanguageFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.PrivacyFragment;
-import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.Results.RateAppFragment;
+import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.SignUpCompleteProfileFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.SignUpFragment;
+import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener {
-    RelativeLayout rlToolbar, rlBack, rlCross;
     final int amountToMoveDown = 20, amountToMoveRight = 20;
-
-//    LinearLayout llParentSettings;
+    RelativeLayout rlToolbar, rlBack, rlCross;
+    //    LinearLayout llParentSettings;
     RelativeLayout rlMyAccount, rlLang, rlRate, rlContact, rlFaq, rlAboutus, rlPrivacy;
     FrameLayout pozadi_motyl;
+    IBadgeUpdateListener mBadgeUpdateListener;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,42 +39,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
         init();
         bindViews(frg);
-//        llParentSettings.animate().x(20f).y(50f).setDuration(700);
-
 
         return frg;
     }
-
-
-//    void animate(View view)
-//    {
-//        TranslateAnimation anim = new TranslateAnimation(0, amountToMoveRight, 0, amountToMoveDown);
-//        anim.setDuration(1000);
-//
-//        anim.setAnimationListener(new TranslateAnimation.AnimationListener() {
-//
-//            @Override
-//            public void onAnimationStart(Animation animation) { }
-//
-//            @Override
-//            public void onAnimationRepeat(Animation animation) { }
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation)
-//            {
-//                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)view.getLayoutParams();
-//                params.topMargin += amountToMoveDown;
-//                params.leftMargin += amountToMoveRight;
-//                view.setLayoutParams(params);
-//            }
-//        });
-//
-//        view.startAnimation(anim);
-//
-//    }
-
-
-    IBadgeUpdateListener mBadgeUpdateListener;
 
     void setToolbar() {
 
@@ -111,17 +79,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         rlBack.setOnClickListener(this);
         rlCross.setOnClickListener(this);
 
-
-        //        rlToolbar.setVisibility(View.GONE);
         rlToolbar.setVisibility(View.VISIBLE);
         rlBack.setVisibility(View.GONE);
         rlCross.setVisibility(View.VISIBLE);
-//        rlCross.setVisibility(View.GONE);
-//        rlBack.setVisibility(View.VISIBLE);
-
-
-//        pozadi_motyl = frg.findViewById(R.id.pozadi0);
-//        llParentSettings = frg.findViewById(R.id.llParentSettings);
         rlMyAccount = frg.findViewById(R.id.frg_settings_rlMyAccount);
         rlLang = frg.findViewById(R.id.frg_settings_rllang);
         rlRate = frg.findViewById(R.id.frg_settings_rlRate);
@@ -146,8 +106,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.frg_settings_rlMyAccount:
 
-                if (AppConfig.getInstance().mUser.isLoggedIn())
+                if (AppConfig.getInstance().mUser.isLoggedIn() && !AppConfig.getInstance().mUser.isAdmin())
                     navtoSignUpContFragment();
+                else if (AppConfig.getInstance().mUser.isLoggedIn() && AppConfig.getInstance().mUser.isAdmin())
+                    navtoAdminHomeFragment();
                 else
                     navtoMyAccountFragment();
 
@@ -191,11 +153,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
 
             case R.id.act_intro_lay_toolbar_rlBack:
-                ((IntroActivity)getActivity()).  onBackPressed();
+                ((IntroActivity) getActivity()).onBackPressed();
 
                 break;
             case R.id.act_intro_lay_toolbar_rlCross:
-                ((IntroActivity)getActivity()). navToPreSignInVAFragment();
+                ((IntroActivity) getActivity()).navToPreSignInVAFragment();
 
                 break;
         }
@@ -206,7 +168,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new PrivacyFragment();
         //ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-              //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PrivacyFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_PrivacyFragment);
         ft.hide(this);
@@ -218,7 +180,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new AboutFragment();
         //ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-              //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_AboutFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_AboutFragment);
         ft.hide(this);
@@ -230,7 +192,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new SignUpFragment();
         //ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-              //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_MyAccountFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_MyAccountFragment);
         ft.hide(this);
@@ -252,7 +214,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new LanguageFragment();
         //ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-              //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_LanguageFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_LanguageFragment);
         ft.hide(this);
@@ -265,7 +227,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new RateAppFragment();
         //ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-              //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_RateAppFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_RateAppFragment);
         ft.hide(this);
@@ -277,7 +239,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new FaqFragment();
         //ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-              //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_FaqFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_FaqFragment);
         ft.hide(this);
@@ -289,11 +251,20 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new ContactFragment();
         //ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-              //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
+        //  R.anim.enter_from_left, R.anim.exit_to_right);//not required
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_ContactFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_ContactFragment);
         ft.hide(this);
         ft.commit();
     }
 
+    private void navtoAdminHomeFragment() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new AdminHomeFragment();
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_AdminHomeFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_AdminHomeFragment);
+        ft.hide(this);
+        ft.commit();
+    }
 }

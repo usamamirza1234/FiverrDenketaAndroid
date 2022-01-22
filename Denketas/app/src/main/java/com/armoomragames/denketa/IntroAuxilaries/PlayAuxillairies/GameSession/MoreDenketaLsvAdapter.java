@@ -83,9 +83,10 @@ public class MoreDenketaLsvAdapter extends BaseAdapter implements Filterable {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.txvName.setText(mData.get(position).getStrName());
+//        viewHolder.txvName.setText(mData.get(position).getStrName());
 
 
+        viewHolder.txvName.setText((position+1)+". "+mData.get(position).getStrName());
 
 
 

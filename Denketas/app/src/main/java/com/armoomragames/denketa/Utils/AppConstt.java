@@ -203,7 +203,7 @@ public interface AppConstt {
         String FN_ChallengeFragment = "ChallengeFragment";
         String FN_RulesMianFragment = "RulesMianFragment" ;
         String FN_MyAccountFragment = "MyAccountFragment";
-        String FN_SiginInFragment = "SiginInFragment" ;
+        String FN_SiginInFragment = "SignInFragment" ;
         String FN_SignUpCompleteProfileFragment ="SignUpCompleteProfileFragment" ;
         String FN_LanguageFragment = "LanguageFragment" ;
         String FN_RateAppFragment = "RateAppFragment";
@@ -228,6 +228,10 @@ public interface AppConstt {
         String FN_PaymentDetailFragment ="PaymentDetailFragment" ;
         String FN_AddResultFragment = "AddResultFragment";
         String FN_EditResultsFragment = "EditResultsFragment";
+        String FN_AdminHomeFragment = "AdminHomeFragment";
+        String FN_AddPromoFragment = "AddPromoFragment";
+        String FN_DanetkaDetailsFragment = "FN_DanetkaDetailsFragment";
+        String FN_EditDenketaFragment ="EditDenketaFragment" ;
     }
 
 

@@ -39,7 +39,7 @@ import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.ChallengeFragme
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.ExtraRulesFragment;
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.GamePlayFragment;
 import com.armoomragames.denketa.IntroAuxilaries.RulesAuxilaries.RulesFragment;
-import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.SiginInFragment;
+import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.SignInFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SplashFragment;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
@@ -468,7 +468,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
     public void navToSigninFragment() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new SiginInFragment();
+        Fragment frag = new SignInFragment();
         ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_SiginInFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_SiginInFragment);
 //        ft.hide(this);
@@ -572,7 +572,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
                 ft.hide(frg);
             } else if (frg instanceof PaymentApprovedFragment && frg.isVisible()) {
                 ft.hide(frg);
-            } else if (frg instanceof SiginInFragment && frg.isVisible()) {
+            } else if (frg instanceof SignInFragment && frg.isVisible()) {
                 ft.hide(frg);
             }
 

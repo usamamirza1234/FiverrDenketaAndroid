@@ -53,56 +53,6 @@
                 android:textSize="@dimen/fontsize_xxxlarge"
                 android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="30dp"
-
-                android:layout_marginEnd="30dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="5dp"
-                android:weightSum="120">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="30"
-                    android:background="@color/thm_gray_app" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/edttext_height_medium"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="center"
-                    android:layout_weight="20"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:lines="1"
-                    android:padding="5dp"
-                    android:text="@string/frg_my_account_or"
-
-                    android:textColor="@color/thm_gray_app"
-                    android:textSize="@dimen/fontsize_medium"
-                    android:textStyle="normal" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="30"
-                    android:background="@color/thm_gray_app" />
-
-            </LinearLayout>
-            <TextView
-                android:id="@+id/frg_signup_txv_guest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/frg_my_account_play_guest"
-                android:textColor="@color/thm_blue_app"
-                android:textSize="@dimen/fontsize_xlarge"
-                android:textStyle="bold" />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
