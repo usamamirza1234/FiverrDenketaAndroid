@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -69,6 +70,9 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
     GoogleSignInClient mGoogleSignInClient;
     TextView txvPaymentDescription;
     TextView txvUseGameCredits;
+
+
+
 
 
     private Dialog progressDialog;

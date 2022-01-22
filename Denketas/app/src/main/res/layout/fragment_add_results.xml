@@ -174,7 +174,7 @@
                         android:gravity="center"
                         android:paddingStart="25dp"
                         android:paddingEnd="25dp"
-                        android:text="Investigator Number"
+                        android:text="Number of Investigator"
                         android:textColor="@color/black"
                         android:textSize="@dimen/fontsize_small"
                         android:textStyle="bold" />

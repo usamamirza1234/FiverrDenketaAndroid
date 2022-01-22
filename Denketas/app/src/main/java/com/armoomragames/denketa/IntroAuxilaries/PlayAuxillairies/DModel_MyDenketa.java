@@ -14,6 +14,7 @@ public class DModel_MyDenketa implements Parcelable {
     String Question;
 
 
+
     public DModel_MyDenketa() {
     }
 

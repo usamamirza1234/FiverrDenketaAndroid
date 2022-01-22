@@ -51,7 +51,7 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
     private int nFirstVisibleItem, nVisibleItemCount, nTotalItemCount, nScrollState, nErrorMsgShown;
     private boolean isLoadingMore = false;
     private Dialog progressDialog;
-
+    ArrayList<DModel_MyDenketa> lst_MyDenketaFiltered;
     public static Fragment newInstance(int position) {
         Fragment frag = new InvestigatorFragment();
         Bundle args = new Bundle();
@@ -141,6 +141,12 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
 
                     if (adapter == null) {
                         Collections.sort(lst_MyDenketa, (o1, o2) -> o1.getStrName().compareTo(o2.getStrName()));
+
+                        if (lst_MyDenketaFiltered.size() <= 0) {
+                            lst_MyDenketaFiltered = lst_MyDenketa;
+                        }
+
+
                         adapter = new InsvestigatorLsvAdapter(new IAdapterCallback() {
                             @Override
                             public void onAdapterEventFired(int eventId, int position) {
@@ -151,7 +157,7 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
                                         else
                                             ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(
                                                     position,
-                                                    true, false,lst_MyDenketa);
+                                                    true, false,lst_MyDenketaFiltered);
                                         break;
 
 
@@ -162,7 +168,7 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
                                 }
 
                             }
-                        }, getActivity(), lst_MyDenketa);
+                        }, getActivity(), lst_MyDenketaFiltered);
                         rcvMyDenekta.setAdapter(adapter);
                         rcvMyDenekta.setOnScrollListener(this);
                     } else {
@@ -267,7 +273,7 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
                 dialog.dismiss();
                 ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(
                         position,
-                        true, false,lst_MyDenketa);
+                        true, false,lst_MyDenketaFiltered);
 
 
             }
@@ -293,7 +299,7 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
     private void init() {
         setToolbar();
         lst_MyDenketa = new ArrayList<>();
-
+        lst_MyDenketaFiltered = new ArrayList<>();
         nFirstVisibleItem = 0;
         nVisibleItemCount = 0;
         nTotalItemCount = 0;
@@ -389,11 +395,11 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
         }
     }
 
+
     private void filter(String text) {
         // creating a new array list to filter our data.
         ArrayList<DModel_MyDenketa> filteredlist = new ArrayList<>();
 
-//        filteredlistByDropDown.clear();
         // running a for loop to compare elements.
         for (DModel_MyDenketa item : lst_MyDenketa) {
             // checking if the entered string matched with any item of our recycler view.
@@ -406,13 +412,16 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
         if (filteredlist.isEmpty()) {
             // if no item is added in filtered list we are
             // displaying a toast message as no data found.
-//            Toast.makeText(getContext(), "No Data Found for word " + text, Toast.LENGTH_SHORT).show();
-            adapter.filterList(filteredlist);
+//            Toast.makeText(getContext(), "No Data Found for word" + text, Toast.LENGTH_SHORT).show();
         } else {
             // at last we are passing that filtered
             // list to our adapter class.
+            lst_MyDenketaFiltered=filteredlist;
             adapter.filterList(filteredlist);
+
 //            Toast.makeText(getContext(), "Data Found.." + text, Toast.LENGTH_SHORT).show();
         }
     }
+
+
 }

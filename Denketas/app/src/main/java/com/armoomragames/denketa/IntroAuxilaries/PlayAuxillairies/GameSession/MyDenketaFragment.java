@@ -473,7 +473,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
         if (filteredlist.isEmpty()) {
             // if no item is added in filtered list we are
             // displaying a toast message as no data found.
-            Toast.makeText(getContext(), "No Data Found for word" + text, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "No Data Found for word" + text, Toast.LENGTH_SHORT).show();
         } else {
             // at last we are passing that filtered
             // list to our adapter class.

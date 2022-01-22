@@ -45,24 +45,88 @@ import java.util.List;
 import java.util.Locale;
 
 public class SignUpCompleteProfileFragment extends Fragment implements View.OnClickListener {
+    public static String[] country = new String[]{"NOT SPECIFIED", "Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla",
+
+            "Antarctica", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria",
+
+            "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium",
+
+            "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana",
+
+            "Brazil", "British Indian Ocean Territory", "British Virgin Islands", "Brunei", "Bulgaria",
+
+            "Burkina Faso", "Burma (Myanmar)", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde",
+
+            "Cayman Islands", "Central African Republic", "Chad", "Chile", "China", "Christmas Island",
+
+            "Cocos (Keeling) Islands", "Colombia", "Comoros", "Cook Islands", "Costa Rica",
+
+            "Croatia", "Cuba", "Cyprus", "Czech Republic", "Democratic Republic of the Congo",
+
+            "Denmark", "Djibouti", "Dominica", "Dominican Republic",
+
+            "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia",
+
+            "Ethiopia", "Falkland Islands", "Faroe Islands", "Fiji", "Finland", "France", "French Polynesia",
+
+            "Gabon", "Gambia", "Gaza Strip", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece",
+
+            "Greenland", "Grenada", "Guam", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana",
+
+            "Haiti", "Holy See (Vatican City)", "Honduras", "Hong Kong", "Hungary", "Iceland", "India",
+
+            "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Ivory Coast", "Jamaica",
+
+            "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kosovo", "Kuwait",
+
+            "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein",
+
+            "Lithuania", "Luxembourg", "Macau", "Macedonia", "Madagascar", "Malawi", "Malaysia",
+
+            "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mayotte", "Mexico",
+
+            "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco",
+
+            "Mozambique", "Namibia", "Nauru", "Nepal", "Netherlands", "Netherlands Antilles", "New Caledonia",
+
+            "New Zealand", "Nicaragua", "Niger", "Nigeria", "Niue", "Norfolk Island", "North Korea",
+
+            "Northern Mariana Islands", "Norway", "Oman", "Pakistan", "Palau", "Panama",
+
+            "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Pitcairn Islands", "Poland",
+
+            "Portugal", "Puerto Rico", "Qatar", "Republic of the Congo", "Romania", "Russia", "Rwanda",
+
+            "Saint Barthelemy", "Saint Helena", "Saint Kitts and Nevis", "Saint Lucia", "Saint Martin",
+
+            "Saint Pierre and Miquelon", "Saint Vincent and the Grenadines", "Samoa", "San Marino",
+
+            "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone",
+
+            "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea",
+
+            "Spain", "Sri Lanka", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland",
+
+            "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tokelau",
+
+            "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks and Caicos Islands",
+
+            "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "US Virgin Islands", "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam",
+
+            "Wallis and Futuna", "West Bank", "Yemen", "Zambia", "Zimbabwe"};
     RelativeLayout rlToolbar, rlBack, rlCross;
     Spinner spinnerSort = null;
     Spinner spinnerSort1 = null;
-
-
-
-
     TextView txv_Nationality, txv_Gend, txvSignout, txv_dob;
     RelativeLayout rlGetStarted;
     Calendar calendar;
     DatePickerDialog.OnDateSetListener date;
     EditText edtName, edtEmail;
-
     IBadgeUpdateListener mBadgeUpdateListener;
     Calendar todayCalender;
-
-//    List<String> lstNationalities;
+    //    List<String> lstNationalities;
     List<String> lstGender;
+    private Dialog progressDialog;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,19 +138,26 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
         initializeDate();
         edtEmail.setText(AppConfig.getInstance().mUser.getEmail());
 
-        if (!AppConfig.getInstance().mUser.Name.isEmpty())
-            edtName.setText(AppConfig.getInstance().mUser.getName());
+        if (AppConfig.getInstance().mUser.Name.isEmpty()) {
+            String email = AppConfig.getInstance().mUser.getEmail();
+            String[] For_split_email = email.split("[@]");
+            edtName.setText(For_split_email[0] + "");
+        } else edtName.setText(AppConfig.getInstance().mUser.getName());
         if (!AppConfig.getInstance().mUser.getNationality().isEmpty())
             txv_Nationality.setText(AppConfig.getInstance().mUser.getNationality());
-        if (!AppConfig.getInstance().mUser.getGender().isEmpty())
-            txv_Gend.setText(AppConfig.getInstance().mUser.getGender());
-        if (!AppConfig.getInstance().mUser.getDOB().isEmpty())
+        if (!AppConfig.getInstance().mUser.getGender().isEmpty()) {
+            if (AppConfig.getInstance().mUser.getGender().equals("other"))
+                txv_Gend.setText("NOT SPECIFIED");
+            else txv_Gend.setText(AppConfig.getInstance().mUser.getGender());
+        }
+        if (AppConfig.getInstance().mUser.getDOB().isEmpty()) {
+            txv_dob.setText(AppConfig.getInstance().getInstallDate());
+        } else
             txv_dob.setText(AppConfig.getInstance().mUser.getDOB());
 
 
         return frg;
     }
-
 
     void setToolbar() {
 
@@ -108,7 +179,6 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
         setToolbar();
 
 
-
 //        lstNationalities = new ArrayList<>();
 //
 //        lstNationalities.add("German");
@@ -116,15 +186,13 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
 //        lstNationalities.add("Select Nationality");
 
         lstGender = new ArrayList<>();
-
+        lstGender.add("NOT SPECIFIED");
         lstGender.add("Male");
         lstGender.add("Female");
-        lstGender.add("Other");
         lstGender.add("Select Gender");
 
 //        lstNationalities.add("U");
     }
-
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -195,19 +263,17 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
         editTextWatchers();
 
 
-
         for (int i = 0; i < lstGender.size(); i++) {
             if (lstGender.get(i).equalsIgnoreCase(AppConfig.getInstance().mUser.getGender())) {
                 spinnerSort1.setSelection(i);
-            }
-            else  spinnerSort1.setSelection(0);
+            } else spinnerSort1.setSelection(0);
         }
 
 
         for (int i = 0; i < country.length; i++) {
             if (country[i].equalsIgnoreCase(AppConfig.getInstance().mUser.getNationality())) {
                 spinnerSort.setSelection(i);
-            } else  spinnerSort.setSelection(0);
+            } else spinnerSort.setSelection(0);
         }
 
     }
@@ -313,7 +379,6 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
 
     }
 
-
     private boolean checkDobErrorCondition() {
 //        if (edtDOB.getText().toString().equalsIgnoreCase("Date of Birth")) {
         if (txv_dob.getText().toString().isEmpty()) {
@@ -354,34 +419,6 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
             return false;
         } else {
             return true;
-        }
-    }
-
-    private boolean checkNationality() {
-//        if (edtGender.getText().toString().equalsIgnoreCase("Select Gender")) {
-        if (txv_Nationality.getText().toString().equalsIgnoreCase(country[(country.length - 1)])) {
-//            AppConfig.getInstance().showErrorMessage(getContext(), "City is not selected");
-            Toast.makeText(getActivity(), "Nationality is not selected", Toast.LENGTH_SHORT).show();
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    private void checkErrorConditions() {
-        if (checkCityErrorCheck() && checkNameErrorCondition() && checkDobErrorCondition() && checkGenderCheck() && checkNationality()) {
-
-            closeKeyboard();
-            JsonObject jsonObject = new JsonObject();
-//            jsonObject.addProperty("email", edtEmail.getText().toString());
-            jsonObject.addProperty("name", edtName.getText().toString());
-            jsonObject.addProperty("userName", edtEmail.getText().toString());
-            jsonObject.addProperty("dateOfBirth", txv_dob.getText().toString());
-            jsonObject.addProperty("gender", txv_Gend.getText().toString().toLowerCase());
-            jsonObject.addProperty("nationality", txv_Nationality.getText().toString().toLowerCase());
-
-            requestUserProfile(jsonObject.toString());
-
         }
     }
 
@@ -444,7 +481,38 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
 //    }
     //endregion
 
-    private Dialog progressDialog;
+    private boolean checkNationality() {
+//        if (edtGender.getText().toString().equalsIgnoreCase("Select Gender")) {
+        if (txv_Nationality.getText().toString().equalsIgnoreCase(country[(country.length - 1)])) {
+//            AppConfig.getInstance().showErrorMessage(getContext(), "City is not selected");
+            Toast.makeText(getActivity(), "Nationality is not selected", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void checkErrorConditions() {
+        if (checkCityErrorCheck() && checkNameErrorCondition() && checkDobErrorCondition() && checkGenderCheck() && checkNationality()) {
+
+            closeKeyboard();
+            JsonObject jsonObject = new JsonObject();
+//            jsonObject.addProperty("email", edtEmail.getText().toString());
+            jsonObject.addProperty("name", edtName.getText().toString());
+            jsonObject.addProperty("userName", edtEmail.getText().toString());
+            jsonObject.addProperty("dateOfBirth", txv_dob.getText().toString());
+
+            if (txv_Gend.getText().toString().equals("NOT SPECIFIED"))
+                jsonObject.addProperty("gender", "other");
+            else jsonObject.addProperty("gender", txv_Gend.getText().toString().toLowerCase());
+
+
+            jsonObject.addProperty("nationality", txv_Nationality.getText().toString().toLowerCase());
+
+            requestUserProfile(jsonObject.toString());
+
+        }
+    }
 
     private void dismissProgDialog() {
         if (progressDialog != null) {
@@ -529,7 +597,6 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
         }
     }
 
-
     private void showCalender() {
 //        new SingleDateAndTimePickerDialog.Builder(getContext())
 //                .bottomSheet()
@@ -598,7 +665,6 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
 
     }
 
-
     private void navToMYProfilePassword() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -608,76 +674,4 @@ public class SignUpCompleteProfileFragment extends Fragment implements View.OnCl
         ft.hide(this);
         ft.commit();
     }
-
-
-
-    public static String[] country = new String[]{"Not specified","Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla",
-
-            "Antarctica", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria",
-
-            "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium",
-
-            "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana",
-
-            "Brazil", "British Indian Ocean Territory", "British Virgin Islands", "Brunei", "Bulgaria",
-
-            "Burkina Faso", "Burma (Myanmar)", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde",
-
-            "Cayman Islands", "Central African Republic", "Chad", "Chile", "China", "Christmas Island",
-
-            "Cocos (Keeling) Islands", "Colombia", "Comoros", "Cook Islands", "Costa Rica",
-
-            "Croatia", "Cuba", "Cyprus", "Czech Republic", "Democratic Republic of the Congo",
-
-            "Denmark", "Djibouti", "Dominica", "Dominican Republic",
-
-            "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia",
-
-            "Ethiopia", "Falkland Islands", "Faroe Islands", "Fiji", "Finland", "France", "French Polynesia",
-
-            "Gabon", "Gambia", "Gaza Strip", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece",
-
-            "Greenland", "Grenada", "Guam", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana",
-
-            "Haiti", "Holy See (Vatican City)", "Honduras", "Hong Kong", "Hungary", "Iceland", "India",
-
-            "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Ivory Coast", "Jamaica",
-
-            "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kosovo", "Kuwait",
-
-            "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein",
-
-            "Lithuania", "Luxembourg", "Macau", "Macedonia", "Madagascar", "Malawi", "Malaysia",
-
-            "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mayotte", "Mexico",
-
-            "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco",
-
-            "Mozambique", "Namibia", "Nauru", "Nepal", "Netherlands", "Netherlands Antilles", "New Caledonia",
-
-            "New Zealand", "Nicaragua", "Niger", "Nigeria", "Niue", "Norfolk Island", "North Korea",
-
-            "Northern Mariana Islands", "Norway", "Oman", "Pakistan", "Palau", "Panama",
-
-            "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Pitcairn Islands", "Poland",
-
-            "Portugal", "Puerto Rico", "Qatar", "Republic of the Congo", "Romania", "Russia", "Rwanda",
-
-            "Saint Barthelemy", "Saint Helena", "Saint Kitts and Nevis", "Saint Lucia", "Saint Martin",
-
-            "Saint Pierre and Miquelon", "Saint Vincent and the Grenadines", "Samoa", "San Marino",
-
-            "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone",
-
-            "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea",
-
-            "Spain", "Sri Lanka", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland",
-
-            "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tokelau",
-
-            "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks and Caicos Islands",
-
-            "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "US Virgin Islands", "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam",
-
-            "Wallis and Futuna", "West Bank", "Yemen", "Zambia", "Zimbabwe"};
 }

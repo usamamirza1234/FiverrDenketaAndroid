@@ -20,10 +20,9 @@ public class PlayViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private Context mContext = null;
     private List<String> listTitle; // header titles
-    private String strOrderId, strOrderType;
+
     private FragmentManager mFragmentManager;
     private Map<Integer, String> mFragmentTags;
-    private float mRotationY;
 
     public PlayViewPagerAdapter(Context _context, FragmentManager mgr, List<String> _listTitle) {
         super(mgr);
@@ -54,33 +53,13 @@ public class PlayViewPagerAdapter extends FragmentStatePagerAdapter {
             case AppConstt.ViewPagerStatePlay.MAKE_MY_DENKETA:
                 frg = MakeDenketaFragment.newInstance(position);
                 break;
-
-
+//
+//
             default:
                 frg = MyDenketaFragment.newInstance(position);
                 break;
         }
 
-
-
-//        if (AppConfig.getInstance().isComingFromAllReviews) {
-//            switch (position) {
-//                //Only review list fragment visible
-//                case AppConstt.ViewPagerState.AllReviews:
-//                    frg = AllReviewFragment.newInstance(position);
-//                    break;
-//
-//
-//
-//
-//
-//                default:
-//                    frg = AllReviewFragment.newInstance(position);
-//                    break;
-//            }
-//        } else {
-//
-//        }
 
         return frg;
     }
@@ -100,18 +79,6 @@ public class PlayViewPagerAdapter extends FragmentStatePagerAdapter {
 
 
         return obj;
-    }
-
-    public Fragment getFragment(int position) {
-        String tag = mFragmentTags.get(position);
-
-        return tag == null ? null : mFragmentManager.findFragmentByTag(tag);
-//        if (tag != null)
-//            return mFragmentManager.findFragmentByTag(tag);
-//        else
-//            return null;
-
-
     }
 
 }

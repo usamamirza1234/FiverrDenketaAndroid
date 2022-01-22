@@ -3,13 +3,24 @@ plugins {
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
 }
+
+repositories {
+    maven {
+        url "https://cardinalcommerceprod.jfrog.io/artifactory/android"
+        credentials {
+            username 'braintree_team_sdk'
+            password 'AKCp8jQcoDy2hxSWhDAUQKXLDPDx6NYRkqrgFLRc3qDrayg6rrCbJpsKKyMwaykVL8FWusJpp'
+        }
+    }
+}
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.armoomragames.denketa"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -129,4 +140,12 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
     //    //Camera/Gallery Lib
     implementation 'com.github.jrvansuita:PickImage:+'
+//
+//    implementation 'com.braintreepayments.api:drop-in:6.+'
+//    implementation 'com.braintreepayments.api:drop-in:3.0.5'
+
+
+    implementation 'com.braintreepayments.api:drop-in:6.0.1'
+    implementation 'io.card:android-sdk:[5.3.0,6.0.0)'
+
 }

@@ -2,10 +2,14 @@ package com.armoomragames.denketa.IntroAuxilaries.WebServices;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.util.Log;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroAuxilaries.DModelCustomDanetka;
+import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.ApiMethod;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IWebCallback;
@@ -14,11 +18,13 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.entity.StringEntity;
 
 
 public class Intro_WebHit_Post_AddUserCustomsDanetkas {
@@ -30,35 +36,52 @@ public class Intro_WebHit_Post_AddUserCustomsDanetkas {
     public void postCustomDanetka(Context context, final IWebCallback iWebCallback,
                                   DModelCustomDanetka dModelCustomDanetka) {
         mContext = context;
-        String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.addCustomDanetkas ;
+        String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.addCustomDanetkas;
 
         mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS);
         mClient.addHeader(ApiMethod.HEADER.Authorization, AppConfig.getInstance().mUser.getAuthorization());
 
 
-
         RequestParams params = new RequestParams();
         try {
-            params.put("image", dModelCustomDanetka.getImage(), "image/jpeg");
-            params.put("answerImage", dModelCustomDanetka.getAnswerImage(), "image/jpeg");
+
             params.put("title", dModelCustomDanetka.getTitle());
             params.put("answer", dModelCustomDanetka.getAnswer());
             params.put("hint", dModelCustomDanetka.getHint());
             params.put("question", dModelCustomDanetka.getQuestion());
             params.put("learnMore", dModelCustomDanetka.getLearnMore());
             params.put("masterId", dModelCustomDanetka.getMasterId());
+
+
+//            if (dModelCustomDanetka.getImage() != null)
+                params.put("image", dModelCustomDanetka.getImage(), "image/jpeg");
+//            else {
+//                File dir = new File(Environment.getExternalStorageDirectory() + File.separator + "drawable");
+//
+//                Bitmap bm = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_logo);
+//                params.put("image", saveBitmapToFile(dir,"theNameYouWant.png",bm,Bitmap.CompressFormat.PNG,100), "image/jpeg");
+//            }
+
+            params.put("answerImage", dModelCustomDanetka.getAnswerImage(), "image/jpeg");
+//            if (dModelCustomDanetka.getAnswerImage() != null)
+//            
+//            else {
+//                File dir = new File(Environment.getExternalStorageDirectory() + File.separator + "drawable");
+//
+//                Bitmap bm = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_logo);
+//                params.put("answerImage", saveBitmapToFile(dir,"theNameYouWant.png",bm,Bitmap.CompressFormat.PNG,100), "image/jpeg");
+//            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
 
-        Log.d("LOG_AS", "postCustomDanetka: " + myUrl +params);
+        Log.d("LOG_AS", "postCustomDanetka: " + myUrl + params);
 
-        mClient.post(myUrl, params,  new AsyncHttpResponseHandler() {
+        mClient.post(myUrl, params, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                         String strResponse;
-
 
 
                         try {
@@ -67,8 +90,7 @@ public class Intro_WebHit_Post_AddUserCustomsDanetkas {
                             Log.d("LOG_AS", "postCustomDanetka: strResponse" + strResponse);
                             responseObject = gson.fromJson(strResponse, RModel_SignIn.class);
 
-                            switch (statusCode)
-                            {
+                            switch (statusCode) {
 
                                 case AppConstt.ServerStatus.OK:
                                 case AppConstt.ServerStatus.CREATED:
@@ -109,8 +131,44 @@ public class Intro_WebHit_Post_AddUserCustomsDanetkas {
 
     public class RModel_SignIn {
 
-        public class Data
-        {
+        private int code;
+        private String status;
+        private String message;
+        private Data data;
+
+        public int getCode() {
+            return this.code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public String getStatus() {
+            return this.status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public String getMessage() {
+            return this.message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public Data getData() {
+            return this.data;
+        }
+
+        public void setData(Data data) {
+            this.data = data;
+        }
+
+        public class Data {
             private String masterId;
 
             private boolean status;
@@ -133,110 +191,119 @@ public class Intro_WebHit_Post_AddUserCustomsDanetkas {
 
             private int updatedTime;
 
-            public void setMasterId(String masterId){
-                this.masterId = masterId;
-            }
-            public String getMasterId(){
+            public String getMasterId() {
                 return this.masterId;
             }
-            public void setStatus(boolean status){
-                this.status = status;
+
+            public void setMasterId(String masterId) {
+                this.masterId = masterId;
             }
-            public boolean getStatus(){
+
+            public boolean getStatus() {
                 return this.status;
             }
-            public void setId(int id){
-                this.id = id;
+
+            public void setStatus(boolean status) {
+                this.status = status;
             }
-            public int getId(){
+
+            public int getId() {
                 return this.id;
             }
-            public void setTitle(String title){
-                this.title = title;
+
+            public void setId(int id) {
+                this.id = id;
             }
-            public String getTitle(){
+
+            public String getTitle() {
                 return this.title;
             }
-            public void setHint(String hint){
-                this.hint = hint;
+
+            public void setTitle(String title) {
+                this.title = title;
             }
-            public String getHint(){
+
+            public String getHint() {
                 return this.hint;
             }
-            public void setAnswer(String answer){
-                this.answer = answer;
+
+            public void setHint(String hint) {
+                this.hint = hint;
             }
-            public String getAnswer(){
+
+            public String getAnswer() {
                 return this.answer;
             }
-            public void setQuestion(String question){
-                this.question = question;
+
+            public void setAnswer(String answer) {
+                this.answer = answer;
             }
-            public String getQuestion(){
+
+            public String getQuestion() {
                 return this.question;
             }
-            public void setImage(String image){
-                this.image = image;
+
+            public void setQuestion(String question) {
+                this.question = question;
             }
-            public String getImage(){
+
+            public String getImage() {
                 return this.image;
             }
-            public void setAnswerImage(String answerImage){
-                this.answerImage = answerImage;
+
+            public void setImage(String image) {
+                this.image = image;
             }
-            public String getAnswerImage(){
+
+            public String getAnswerImage() {
                 return this.answerImage;
             }
-            public void setLearnMore(String learnMore){
-                this.learnMore = learnMore;
+
+            public void setAnswerImage(String answerImage) {
+                this.answerImage = answerImage;
             }
-            public String getLearnMore(){
+
+            public String getLearnMore() {
                 return this.learnMore;
             }
-            public void setUpdatedTime(int updatedTime){
-                this.updatedTime = updatedTime;
+
+            public void setLearnMore(String learnMore) {
+                this.learnMore = learnMore;
             }
-            public int getUpdatedTime(){
+
+            public int getUpdatedTime() {
                 return this.updatedTime;
             }
-        }
 
-
-
-            private int code;
-
-            private String status;
-
-            private String message;
-
-            private Data data;
-
-            public void setCode(int code){
-                this.code = code;
-            }
-            public int getCode(){
-                return this.code;
-            }
-            public void setStatus(String status){
-                this.status = status;
-            }
-            public String getStatus(){
-                return this.status;
-            }
-            public void setMessage(String message){
-                this.message = message;
-            }
-            public String getMessage(){
-                return this.message;
-            }
-            public void setData(Data data){
-                this.data = data;
-            }
-            public Data getData(){
-                return this.data;
+            public void setUpdatedTime(int updatedTime) {
+                this.updatedTime = updatedTime;
             }
         }
+    }
+    File saveBitmapToFile(File dir, String fileName, Bitmap bm,
+                          Bitmap.CompressFormat format, int quality) {
 
+        File imageFile = new File(dir,fileName);
 
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(imageFile);
+
+            bm.compress(format,quality,fos);
+
+            fos.close();
+        }
+        catch (Exception e) {
+            Log.e("app",e.getMessage());
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+        return imageFile;
+    }
 
 }

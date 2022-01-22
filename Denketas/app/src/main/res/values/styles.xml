@@ -34,7 +34,7 @@
     <style name="spinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
         <item name="android:background">@color/transparent</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:textColor">@color/light_gray3</item>
+        <item name="android:textColor">@color/thm_blue_app</item>
         <item name="android:layout_height">@dimen/button_height_xmedium</item>
     </style>
     <!-- Progress Dialouge Style-->

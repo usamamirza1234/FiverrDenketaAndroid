@@ -676,6 +676,24 @@ public class AppConfig {
 
     }
 
+    public Boolean getDateSet() {
+        return sharedPref.getBoolean("key_prog_set_date", false);
+    }
+
+    public void setDateSet(boolean _date) {
+        editor.putBoolean("key_prog_set_date", _date);
+        editor.commit();
+
+    }
 
 
+    public String getInstallDate()
+    {
+        return  sharedPref.getString("key_prog_date", "2001-01-01");
+    }
+
+    public void saveInstallDate(String format) {
+        editor.putString("key_prog_date", format);
+        editor.commit();
+    }
 }

@@ -11,16 +11,19 @@ import androidx.fragment.app.Fragment;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_All_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Guest_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_INVESTIGATOR_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_User_Danektas;
 import com.armoomragames.denketa.R;
 
+import java.util.ArrayList;
+
 public class LearnMoreFragment extends Fragment implements View.OnClickListener {
     RelativeLayout rlBack, rlCross;
     int position = 0;
-    Bundle bundle;
+    Bundle bundle;   ArrayList<DModel_MyDenketa> lst_MyDenketa;
     boolean isInvestigator = false;
     boolean isMoreDanetka = false;
     TextView txvLearnmore;
@@ -36,23 +39,8 @@ public class LearnMoreFragment extends Fragment implements View.OnClickListener 
     }
 
     private void setData() {
-        try {
-            if (!isInvestigator) {
-                if (!isMoreDanetka) {
-                    if (AppConfig.getInstance().mUser.isLoggedIn())
-                        txvLearnmore.setText(Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(position).getDanetkas().getLearnMore() + "");
-                    else  txvLearnmore.setText(Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(position).getLearnMore() + "");
+        txvLearnmore.setText(lst_MyDenketa.get(position).getLearnmore()+"");
 
-                } else {
-                    txvLearnmore.setText(Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getLearnMore() + "");
-                }
-            } else {
-                txvLearnmore.setText(Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(position).getLearnMore() + "");
-
-            }
-        } catch (Exception e) {
-
-        }
     }
 
     void init() {
@@ -61,7 +49,7 @@ public class LearnMoreFragment extends Fragment implements View.OnClickListener 
             position = bundle.getInt("key_danetka_position");
             isInvestigator = bundle.getBoolean("key_danetka_is_investigator", false);
             isMoreDanetka = bundle.getBoolean("key_danetka_is_more_danetka", false);
-
+            lst_MyDenketa = bundle.getParcelableArrayList("list");
         }
     }
 

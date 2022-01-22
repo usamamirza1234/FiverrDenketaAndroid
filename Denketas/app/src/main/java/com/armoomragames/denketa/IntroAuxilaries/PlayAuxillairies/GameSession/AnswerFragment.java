@@ -1,7 +1,6 @@
 package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
-import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_All_Danektas;
-import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Guest_Danektas;
-import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_INVESTIGATOR_Danektas;
-import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_User_Danektas;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.Results.RateAppFragment;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
@@ -93,6 +89,12 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
                     .load(danetka_Image)
                     .apply(options)
                     .into(img);
+
+
+            if (lst_MyDenketa.get(position).getLearnmore().equals("l"))
+            {
+                llLearnMore.setVisibility(View.GONE);
+            }
 
         } catch (Exception e) {
 
@@ -171,9 +173,12 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
             case R.id.act_intro_lay_toolbar_rlCross:
 
 
-                if (!isInvestigator)
-                    navToRateAppFragment();
-                else ((IntroActivity) getActivity()).navToPreSignInVAFragment();
+                if (!isInvestigator) {
+                    if (AppConfig.getInstance().mUser.isLoggedIn())
+                        navToRateAppFragment();
+                    else
+                        ((IntroActivity) getActivity()).navToPreSignInVAFragment();
+                } else ((IntroActivity) getActivity()).navToPreSignInVAFragment();
                 break;
 
             case R.id.frg_denketa_answer_llLearnmore:
@@ -187,7 +192,7 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new LearnMoreFragment();
-        Bundle bundle = new Bundle();
+        Bundle bundle = new Bundle();        bundle.putParcelableArrayList("list", lst_MyDenketa);
         bundle.putInt("key_danetka_position", position);
         bundle.putBoolean("key_danetka_is_investigator", isInvestigator);
         bundle.putBoolean("key_danetka_is_more_danetka", isMoreDanetka);

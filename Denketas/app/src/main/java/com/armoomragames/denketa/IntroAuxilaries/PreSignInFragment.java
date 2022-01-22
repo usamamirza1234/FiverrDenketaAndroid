@@ -1,11 +1,15 @@
 package com.armoomragames.denketa.IntroAuxilaries;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +18,10 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -31,16 +37,42 @@ import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.IWebCallback;
+import com.braintreepayments.api.DropInActivity;
+import com.braintreepayments.api.DropInClient;
+import com.braintreepayments.api.DropInRequest;
+import com.braintreepayments.api.DropInResult;
+import com.braintreepayments.api.PaymentMethodNonce;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.TextHttpResponseHandler;
+
+import java.util.HashMap;
+
+import javax.net.ssl.KeyManager;
+
+import cz.msebera.android.httpclient.Header;
+
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 
 public class PreSignInFragment extends Fragment implements View.OnClickListener {
 
+    private static final int DROP_IN_REQUEST_CODE = 590;
     RelativeLayout rlToolbar, rlBack, rlCross;
     RelativeLayout rlPlay, rlDenketa, rlRules, rlSettings, rlDictionary;
-//    TextView txvSettings, txvDictionary, txvPlay, txvRules, txvDenketa;
+    //    TextView txvSettings, txvDictionary, txvPlay, txvRules, txvDenketa;
     ImageView imv_master, imv_master_hat;
     Dialog dialog;
     IBadgeUpdateListener mBadgeUpdateListener;
-
+ String clientToken;
+//    BraintreeGateway gateway = new BraintreeGateway(
+//            Environment.SANDBOX,
+//            "mybf9tq8g5qv92zw",
+//            "vttwyyqt2v7nb2j5",
+//            "3d8c81a8fa758c9c395ac81872da64b2"
+//    );
+    AsyncHttpClient client;
+    ProgressBar progressBar;
+    int userId;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,10 +83,6 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         requestGameCredits();
         return frg;
     }
-
-
-
-
 
     //region init
     void setToolbar() {
@@ -94,7 +122,6 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         rlCross.setOnClickListener(this);
 
 
-
         rlToolbar.setVisibility(View.GONE);
 //        rlBack.setVisibility(View.GONE);
 //        rlCross.setVisibility(View.GONE);
@@ -132,13 +159,92 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
 
         Typeface tfEng = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Aladin_Regular.ttf");
 
-//        txvRules.setTypeface(tfEng);
-//        txvPlay.setTypeface(tfEng);
-//        txvDictionary.setTypeface(tfEng);
-//        txvDenketa.setTypeface(tfEng);
-//        txvSettings.setTypeface(tfEng);
-//        AppConfig.getInstance().tfAppDefault = txvRules.getTypeface();
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get("https://your-server/client_token", new TextHttpResponseHandler() {
+            private String clientToken;
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String clientToken) {
+                this.clientToken = clientToken;
+            }
+        });
+
+
+
     }
+
+    public void onBraintreeSubmit() {
+
+        DropInRequest dropInRequest = new DropInRequest();
+        DropInClient dropInClient = new DropInClient(getContext(), "sandbox_f252zhq7_hh4cpc39zq4rgjcg", dropInRequest);
+        dropInClient.launchDropInForResult(getActivity(), DROP_IN_REQUEST_CODE);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                DropInResult result = data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT);
+                PaymentMethodNonce nonce = result.getPaymentMethodNonce();
+                String stringNonce = nonce.getString();
+                Log.d("mylog", "Result: " + stringNonce);
+                // Send payment price with the nonce
+                // use the result to update your UI and send the payment method nonce to your server
+                if (!etAmount.getText().toString().isEmpty()) {
+                    amount = etAmount.getText().toString();
+                    paramHash = new HashMap<>();
+                    paramHash.put("amount", amount);
+                    paramHash.put("nonce", stringNonce);
+                    sendPaymentDetails();
+                } else
+                    Toast.makeText(getContext(), "Please enter a valid amount.", Toast.LENGTH_SHORT).show();
+
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                // the user canceled
+                Log.d("mylog", "user canceled");
+            } else {
+                // handle errors here, an exception may be available in
+                Exception error = (Exception) data.getSerializableExtra(DropInActivity.EXTRA_ERROR);
+                Log.d("mylog", "Error : " + error.toString());
+            }
+        }
+    }
+
+
+//
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+////        super.onActivityResult(requestCode, resultCode, data);
+//
+//        Log.d("DROP_IN_REQUEST_CODE","requestCode : " + requestCode);
+//
+//        if (requestCode == DROP_IN_REQUEST_CODE) {
+//            if (resultCode == RESULT_OK) {
+//                DropInResult result = data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT);
+//                String paymentMethodNonce = result.getPaymentMethodNonce().getString();
+//                // use the result to update your UI and send the payment method nonce to your server
+//
+//                Log.d("DROP_IN_REQUEST_CODE","Success : " + paymentMethodNonce);
+//
+//            } else if (resultCode == RESULT_CANCELED) {
+//
+//                Log.d("DROP_IN_REQUEST_CODE","RESULT_CANCELED : " + RESULT_CANCELED);
+//                // the user canceled
+//            } else {
+//                // an error occurred, checked the returned exception
+//                Exception exception = (Exception) data.getSerializableExtra(DropInResult.EXTRA_ERROR);
+//                Log.d("DROP_IN_REQUEST_CODE","EXTRA_ERROR : " + exception.getMessage());
+//
+//            }
+//        }
+//    }
     //endregion
 
     //region Onclicks
@@ -212,7 +318,8 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
                 navToRulesFragment();
                 break;
             case R.id.frg_presigin_rldictionary:
-                navToDictionaryFragment();
+//                navToDictionaryFragment();
+                onBraintreeSubmit();
                 break;
             case R.id.frg_presigin_rlSettings:
                 navToSettingsFragment();
@@ -230,11 +337,11 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
                 break;
 
             case R.id.act_intro_lay_toolbar_rlBack:
-                ((IntroActivity)getActivity()).  onBackPressed();
+                getActivity().onBackPressed();
 
                 break;
             case R.id.act_intro_lay_toolbar_rlCross:
-                ((IntroActivity)getActivity()). navToPreSignInVAFragment();
+                ((IntroActivity) getActivity()).navToPreSignInVAFragment();
 
                 break;
         }
@@ -246,7 +353,7 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         imv_master.setVisibility(View.GONE);
 //        imv_master_hat.setVisibility(View.VISIBLE);
 
-                final Handler handler = new Handler();
+        final Handler handler = new Handler();
         handler.postDelayed(() -> {
             imv_master_hat.setVisibility(View.VISIBLE);
 
@@ -258,8 +365,6 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         imv_master_hat.setVisibility(View.GONE);
         imv_master.setVisibility(View.VISIBLE);
 //        imv_master_hat.startAnimation(bottomUp);
-
-
 
 
 //        imv_master.setOnClickListener(null);
@@ -341,6 +446,7 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         ft.hide(this);
         ft.commit();
     }
+
     private void navtoSigninFragment() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -361,10 +467,10 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onWebResult(boolean isSuccess, String strMsg) {
                 if (isSuccess) {
-                    AppConfig.getInstance().mUser.GameCredits = Intro_WebHit_Get_GameCredits.responseObject.getData().getUserCredits().getCredits()+"";
-                    AppConfig.getInstance().mUser.DanetkaPurchased = Intro_WebHit_Get_GameCredits.responseObject.getData().getUserCredits().getDanetkasPurchased()+"";
-                    AppConfig.getInstance().mUser.DanetkaPlayed = Intro_WebHit_Get_GameCredits.responseObject.getData().getUserCredits().getDanetkasPlayed()+"";
-                    AppConfig.getInstance().mUser.DanetkaTotal = Intro_WebHit_Get_GameCredits.responseObject.getData().getToatalDanetkas()+"";
+                    AppConfig.getInstance().mUser.GameCredits = Intro_WebHit_Get_GameCredits.responseObject.getData().getUserCredits().getCredits() + "";
+                    AppConfig.getInstance().mUser.DanetkaPurchased = Intro_WebHit_Get_GameCredits.responseObject.getData().getUserCredits().getDanetkasPurchased() + "";
+                    AppConfig.getInstance().mUser.DanetkaPlayed = Intro_WebHit_Get_GameCredits.responseObject.getData().getUserCredits().getDanetkasPlayed() + "";
+                    AppConfig.getInstance().mUser.DanetkaTotal = Intro_WebHit_Get_GameCredits.responseObject.getData().getToatalDanetkas() + "";
                     AppConfig.getInstance().saveUserProfile();
 
                 } else {
@@ -379,5 +485,8 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         });
 
     }
+
+
+
 
 }

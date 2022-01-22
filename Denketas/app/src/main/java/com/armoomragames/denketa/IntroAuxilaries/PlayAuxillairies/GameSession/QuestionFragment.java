@@ -24,9 +24,6 @@ import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.BundleDiscount
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentDetailFragment;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_All_Danektas;
-import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Guest_Danektas;
-import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_INVESTIGATOR_Danektas;
-import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_User_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddUserDanetkas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_Played;
 import com.armoomragames.denketa.R;
@@ -93,7 +90,6 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
                     .load(danetka_Image)
                     .apply(options)
                     .into(img);
-
 
 
             if (!isInvestigator) {
@@ -164,14 +160,12 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
 
                 break;
             case R.id.frg_denketa_question_llSeeAnswer:
-                if (AppConfig.getInstance().mUser.isLoggedIn()) {
-                    if (!isMoreDanetka && !isInvestigator)
-                        openDialog();
-                    else if (isMoreDanetka && !isInvestigator) {
-                        openDialogCredits();
-                    } else
-                        navToDenketaAnswerFragment();
-                } else ((IntroActivity) getActivity()).navToSigninFragment();
+                if (!isMoreDanetka && !isInvestigator)
+                    openDialog();
+                else if (isMoreDanetka && !isInvestigator) {
+                    openDialogCredits();
+                } else
+                    navToDenketaAnswerFragment();
 
                 break;
 
@@ -324,7 +318,8 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
         progressDialog.setContentView(R.layout.dialog_master);
         rlMaster = progressDialog.findViewById(R.id.rl_popup_parent);
         rlMaster.setOnClickListener(this);
-        requestPlayed(danetkaID);
+        if (AppConfig.getInstance().mUser.isLoggedIn())
+            requestPlayed(danetkaID);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
         progressDialog.show();

@@ -161,7 +161,7 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
                 if (AppConfig.getInstance().mUser.isLoggedIn())
                 {
                     if (!edtTitle.getText().toString().equals("") && !edtQuestion.getText().toString().equals("") && !edtAns.getText().toString().equals("")
-                            && filePhotoForQuestion.exists() && filePhotoForQuestion.exists()) {
+                           ) {
                         showProgDialog();
 
                         String hints = android.text.TextUtils.join("=", lstRegilto);
@@ -171,7 +171,7 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
                                 filePhotoForQuestion, filePhotoForAnswer,
                                 hints.toString(),
                                 edtQuestion.getText().toString(),
-                                edtQuestion.getText().toString(),
+                                "l",
                                 AppConfig.getInstance().mUser.getUser_Id() + ""
                         );
                         requestAddCustomDanteka(dModelCustomDanetka);
@@ -216,7 +216,7 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
             public void onWebResult(boolean isSuccess, String strMsg) {
                 if (isSuccess) {
                     dismissProgDialog();
-                    CustomToast.showToastMessage(getActivity(), "Added Soon!", Toast.LENGTH_SHORT);
+                    CustomToast.showToastMessage(getActivity(), "ADDED SUCCESSFULLY. CHECK “MY DANETKAS”", Toast.LENGTH_SHORT);
                     llSubmit.setBackground(getActivity().getResources().getDrawable(R.drawable.shp_rect_rounded_app_green));
                     txvSubmit.setText("Submitted");
                     lstRegilto.clear();

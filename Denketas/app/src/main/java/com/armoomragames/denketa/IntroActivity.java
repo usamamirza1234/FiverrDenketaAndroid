@@ -26,7 +26,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.BundleDiscountFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
-import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.AnswerFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.InvestigatorFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.LearnMoreFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.QuestionFragment;
@@ -56,7 +55,10 @@ import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class IntroActivity extends AppCompatActivity implements IBadgeUpdateListener, View.OnClickListener {
@@ -67,6 +69,8 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
     ImageView imageView;
     TextView txtUsername, txtEmail;
     private FragmentManager fm;
+
+
     //region progdialog
     private Dialog progressDialog;
 
@@ -124,6 +128,16 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         getAppVersion();
 
         AppConfig.getInstance().loadUserProfile();
+
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+        if (!AppConfig.getInstance().getDateSet()) {
+            AppConfig.getInstance().saveInstallDate(df.format(c));
+            AppConfig.getInstance().setDateSet(true);
+        }
+
+
         if (AppConfig.getInstance().mLanguage.equalsIgnoreCase(AppConstt.AppLang.LANG_UR)) {
             MyApplication.getInstance().setAppLanguage(AppConstt.AppLang.LANG_UR);
         } else {
@@ -542,7 +556,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
                 ft.hide(frg);
             } else if (frg instanceof GamePlayFragment && frg.isVisible()) {
                 ft.hide(frg);
-            }else if (frg instanceof LearnMoreFragment && frg.isVisible()) {
+            } else if (frg instanceof LearnMoreFragment && frg.isVisible()) {
                 ft.hide(frg);
             } else if (frg instanceof PlayMianFragment && frg.isVisible()) {
                 ft.hide(frg);

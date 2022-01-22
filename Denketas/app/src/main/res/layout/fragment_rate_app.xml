@@ -42,7 +42,7 @@
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/aladin_regular"
                     android:padding="10dp"
-                    android:text="Results"
+                    android:text="Results \t\t"
                     android:textColor="@color/thm_orange_app"
                     android:textSize="@dimen/fontsize_extralarge"
                     android:textStyle="bold" />
@@ -75,7 +75,7 @@
                         android:textSize="@dimen/fontsize_small"
                         android:textStyle="bold" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/frg_my_results_edt_master"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/button_height_large"
@@ -100,6 +100,52 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:background="@color/black" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/button_height_large"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center"
+                        android:paddingStart="25dp"
+                        android:paddingEnd="25dp"
+                        android:text="Investigator Number"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/fontsize_small"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/frg_my_results_txv_invest_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/button_height_large"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:background="@null"
+                        android:cursorVisible="true"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center"
+                        android:hint="Enter number"
+                        android:paddingStart="25dp"
+                        android:paddingEnd="25dp"
+                        android:textColor="@color/black"
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/fontsize_small" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@color/black" />
+
 
                 <RelativeLayout
                     android:layout_width="match_parent"

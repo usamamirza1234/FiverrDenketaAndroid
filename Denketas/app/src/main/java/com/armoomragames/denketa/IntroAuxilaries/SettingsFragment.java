@@ -19,7 +19,7 @@ import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.AboutFragme
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.FaqFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.LanguageFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.PrivacyFragment;
-import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.RateAppFragment;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.Results.RateAppFragment;
 import com.armoomragames.denketa.IntroAuxilaries.SettingsAuxillaries.SignUpFragment;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
