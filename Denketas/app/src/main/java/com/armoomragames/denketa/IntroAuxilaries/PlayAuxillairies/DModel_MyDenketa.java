@@ -12,6 +12,7 @@ public class DModel_MyDenketa implements Parcelable {
     String StrId;
     String strImage;
     String Question;
+    boolean isPlayed;
 
 
 
@@ -24,7 +25,7 @@ public class DModel_MyDenketa implements Parcelable {
         this.strImage = strImage;
     }
 
-    public DModel_MyDenketa(String strName, String strId, String strImage, String Question,String Answer, String AnswerImage, String hint, String learnmore) {
+    public DModel_MyDenketa(String strName, String strId, String strImage, String Question,String Answer, String AnswerImage, String hint, String learnmore,boolean isPlayed) {
         this.strName = strName;
         StrId = strId;
         this.strImage = strImage;
@@ -33,6 +34,7 @@ public class DModel_MyDenketa implements Parcelable {
         this.hint = hint;
         this.Question = Question;
         this.learnmore = learnmore;
+        this.isPlayed = isPlayed;
     }
 
     public String getStrId() {
@@ -107,5 +109,14 @@ public class DModel_MyDenketa implements Parcelable {
 
     public void setQuestion(String question) {
         Question = question;
+    }
+
+
+    public boolean isPlayed() {
+        return isPlayed;
+    }
+
+    public void setPlayed(boolean played) {
+        isPlayed = played;
     }
 }

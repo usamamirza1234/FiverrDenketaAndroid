@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -22,6 +23,19 @@
 
         </RelativeLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_bold"
+            android:gravity="center"
+            android:paddingStart="14dp"
+            android:text="Add a danetka as an admin"
+            android:textColor="@color/thm_red_app"
+            android:textSize="@dimen/fontsize_medium"
+            android:textStyle="bold" />
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,7 +50,7 @@
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="start"
                 android:paddingStart="14dp"
-                android:text="Title"
+                android:text="Title*"
                 android:textColor="@color/thm_red_app"
                 android:textSize="@dimen/fontsize_xxlarge"
                 android:textStyle="bold" />
@@ -70,8 +84,8 @@
                         android:hint="Type here..."
                         android:paddingStart="14dp"
                         android:paddingEnd="14dp"
-                        android:textColor="@color/thm_blue_app"
-                        android:textColorHint="@color/thm_blue_app"
+                        android:textColor="@color/app_thm_txv_gray"
+                        android:textColorHint="@color/app_thm_txv_gray"
                         android:textCursorDrawable="@null"
                         android:textSize="@dimen/fontsize_mini" />
                 </RelativeLayout>
@@ -91,7 +105,7 @@
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="start"
                 android:paddingStart="14dp"
-                android:text="Riddle"
+                android:text="Riddle*"
                 android:textColor="@color/thm_red_app"
                 android:textSize="@dimen/fontsize_xxlarge"
                 android:textStyle="bold" />
@@ -112,25 +126,26 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/shp_rect_rounded_white_medium">
 
-                    <EditText
-                        android:id="@+id/frg_make_edtRidle"
+                    <EditText        android:id="@+id/frg_make_edtRidle"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_alignParentStart="true"
                         android:layout_centerInParent="true"
                         android:background="@null"
                         android:cursorVisible="true"
                         android:gravity="start"
+
                         android:hint="Type here..."
-                        android:padding="14dp"
-                        android:textColor="@color/thm_blue_app"
-                        android:textColorHint="@color/thm_blue_app"
+                        android:lines="7"
+                        android:paddingStart="14dp"
+                        android:paddingTop="14dp"
+                        android:paddingEnd="14dp"
+                        android:textColor="@color/app_thm_txv_gray"
+                        android:textColorHint="@color/app_thm_txv_gray"
                         android:textCursorDrawable="@null" />
                 </RelativeLayout>
             </com.dd.ShadowLayout>
         </LinearLayout>
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -146,7 +161,7 @@
                 android:gravity="start"
 
                 android:paddingStart="14dp"
-                android:text="Question Image"
+                android:text="Add an image"
                 android:textColor="@color/thm_red_app"
                 android:textSize="@dimen/fontsize_xxlarge"
                 android:textStyle="bold" />
@@ -195,7 +210,7 @@
                             android:padding="5dp"
 
                             android:paddingStart="15dp"
-                            android:text="Update"
+                            android:text="Insert"
 
                             android:textColor="@color/thm_red_app"
                             android:textSize="@dimen/fontsize_mini"
@@ -259,11 +274,12 @@
                         android:cursorVisible="true"
                         android:gravity="start"
                         android:hint="Type here..."
-
-                        android:padding="14dp"
-
-                        android:textColor="@color/thm_blue_app"
-                        android:textColorHint="@color/thm_blue_app"
+                        android:lines="7"
+                        android:paddingStart="14dp"
+                        android:paddingTop="14dp"
+                        android:paddingEnd="14dp"
+                        android:textColor="@color/app_thm_txv_gray"
+                        android:textColorHint="@color/app_thm_txv_gray"
                         android:textCursorDrawable="@null" />
                 </RelativeLayout>
             </com.dd.ShadowLayout>
@@ -281,8 +297,9 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="start"
+
                 android:paddingStart="14dp"
-                android:text="Answer image"
+                android:text="Add an image"
                 android:textColor="@color/thm_red_app"
                 android:textSize="@dimen/fontsize_xxlarge"
                 android:textStyle="bold" />
@@ -332,7 +349,7 @@
                             android:padding="5dp"
 
                             android:paddingStart="15dp"
-                            android:text="Update"
+                            android:text="Insert"
 
                             android:textColor="@color/thm_red_app"
                             android:textSize="@dimen/fontsize_mini"
@@ -368,26 +385,48 @@
                 android:gravity="start"
 
                 android:paddingStart="14dp"
-                android:text="Rigoletto(s)"
+                android:text="Add a Rigoletto"
                 android:textColor="@color/thm_red_app"
                 android:textSize="@dimen/fontsize_xxlarge"
                 android:textStyle="bold" />
 
-            <com.dd.ShadowLayout
-                android:layout_width="wrap_content"
+
+
+
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/frg_make_rcv_regilto"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                app:sl_cornerRadius="24dp"
-                app:sl_dx="0dp"
-                app:sl_dy="0dp"
-                app:sl_shadowColor="@color/thm_shadow"
-                app:sl_shadowRadius="3dp">
+                tools:itemCount="5"
+                tools:listitem="@layout/lay_item_regilto" />
+            <RelativeLayout
+                android:visibility="gone"
+
+                android:id="@+id/frg_make_rlRegiltoItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp">
+
+
+                <ImageView
+                    android:id="@+id/imv_mast"
+                    android:layout_width="30dp"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_master_2" />
+
 
                 <RelativeLayout
+
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shp_rect_rounded_white_medium">
+                    android:layout_height="@dimen/edttext_height_medium"
+                    android:layout_centerInParent="true"
+                    android:layout_toEndOf="@id/imv_mast"
+                    android:background="@drawable/ic_bg_regi">
+
 
                     <EditText
                         android:id="@+id/frg_make_edtRegilto"
@@ -395,71 +434,38 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentStart="true"
                         android:layout_centerInParent="true"
+                        android:layout_marginEnd="40dp"
+                        android:layout_toEndOf="@id/imv_search"
                         android:background="@null"
                         android:cursorVisible="true"
-                        android:gravity="start"
+                        android:gravity="center_vertical"
                         android:hint="Type here..."
-
-                        android:padding="14dp"
-
+                        android:paddingStart="24dp"
+                        android:paddingEnd="24dp"
                         android:textColor="@color/thm_blue_app"
-                        android:textColorHint="@color/thm_blue_app"
-                        android:textCursorDrawable="@null" />
-                </RelativeLayout>
-            </com.dd.ShadowLayout>
+                        android:textColorHint="@color/gray"
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/fontsize_mini" />
 
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="6dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/poppins_bold"
-                android:gravity="start"
-                android:paddingStart="14dp"
-                android:text="Learn more"
-                android:textColor="@color/thm_red_app"
-                android:textSize="@dimen/fontsize_xxlarge"
-                android:textStyle="bold" />
-
-            <com.dd.ShadowLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                app:sl_cornerRadius="24dp"
-                app:sl_dx="0dp"
-                app:sl_dy="0dp"
-                app:sl_shadowColor="@color/thm_shadow"
-                app:sl_shadowRadius="3dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shp_rect_rounded_white_medium">
-
-                    <EditText
-                        android:id="@+id/frg_make_edtLearnmore"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
+                    <ImageView
+                        android:id="@+id/frg_make_imvRegilto"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerInParent="true"
-                        android:background="@null"
-                        android:cursorVisible="true"
-                        android:gravity="start"
-                        android:hint="Type here..."
-                        android:padding="14dp"
-                        android:textColor="@color/thm_blue_app"
-                        android:textColorHint="@color/thm_blue_app"
-                        android:textCursorDrawable="@null" />
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_note" />
                 </RelativeLayout>
-            </com.dd.ShadowLayout>
+
+
+            </RelativeLayout>
+            <ImageView
+                android:id="@+id/frg_make_imv_addRegiltoMain"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:paddingStart="14dp"
+                android:src="@drawable/ic_plus_circle" />
         </LinearLayout>
 
 
@@ -484,7 +490,7 @@
                 android:background="@null"
 
                 android:fontFamily="@font/aladin_regular"
-                android:text="Update"
+                android:text="Submit"
 
                 android:textColor="@color/white"
                 android:textSize="@dimen/fontsize_medium"

@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.AppConfig;
+import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Delete_AdminDanetkas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_All_Danektas_Admin;
@@ -34,6 +35,7 @@ import com.armoomragames.denketa.Utils.IAdapterCallback;
 import com.armoomragames.denketa.Utils.IWebCallback;
 import com.armoomragames.denketa.Utils.IWebPaginationCallback;
 import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,14 +56,13 @@ public class DanetkaDetailsFragment extends Fragment implements View.OnClickList
     ArrayList<DModel_MyDenketa> lst_MyDenketa;
     ArrayList<DModel_MyDenketa> lst_MyDenketaFiltered;
     TextView txvUseGameCredits;
+    FloatingActionButton fab;
+    private Dialog progressDialog;
     private int nFirstVisibleItem, nVisibleItemCount, nTotalItemCount, nScrollState, nErrorMsgShown;
     private boolean isLoadingMore = false;
 
-    private Dialog progressDialog;
 
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View frg = inflater.inflate(R.layout.fragment_denketa_details, container, false);
         init();
         bindViewss(frg);
@@ -85,11 +86,20 @@ public class DanetkaDetailsFragment extends Fragment implements View.OnClickList
     }
 
     private void bindViewss(View frg) {
+        rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
+        rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
+        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
+
+        rlBack.setOnClickListener(this);
+        rlCross.setOnClickListener(this);
+
         lsvMoreDenekta = frg.findViewById(R.id.frg_rcv_my_denketa);
         edtSearch = frg.findViewById(R.id.frg_more_dankta_edt_search);
         imvSearch = frg.findViewById(R.id.frg_more_dankta_imv_search);
+        fab = frg.findViewById(R.id.fab);
 
         txvUseGameCredits = frg.findViewById(R.id.txvUseGameCredits);
+        fab.setOnClickListener(this);
         edtSearch.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {
@@ -119,7 +129,27 @@ public class DanetkaDetailsFragment extends Fragment implements View.OnClickList
     public void onClick(View v) {
 
         switch (v.getId()) {
+            case R.id.act_intro_lay_toolbar_rlBack:
+                getActivity().onBackPressed();
 
+                break;
+            case R.id.act_intro_lay_toolbar_rlCross:
+                ((IntroActivity) getActivity()).navToPreSignInVAFragment();
+
+                break;
+            case R.id.fab:
+
+                navtoAdddanetkaFragment();
+                break;
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!isHidden()) {
+//            init();
+//            requestDenketa();
         }
     }
 
@@ -149,7 +179,7 @@ public class DanetkaDetailsFragment extends Fragment implements View.OnClickList
                                         , Intro_WebHit_Get_All_Danektas_Admin.responseObject.getData().getListing().get(i).getAnswer()
                                         , Intro_WebHit_Get_All_Danektas_Admin.responseObject.getData().getListing().get(i).getAnswerImage()
                                         , Intro_WebHit_Get_All_Danektas_Admin.responseObject.getData().getListing().get(i).getHint()
-                                        , Intro_WebHit_Get_All_Danektas_Admin.responseObject.getData().getListing().get(i).getLearnMore()
+                                        , Intro_WebHit_Get_All_Danektas_Admin.responseObject.getData().getListing().get(i).getLearnMore(),false
                                 )
                         );
                     }
@@ -322,6 +352,16 @@ public class DanetkaDetailsFragment extends Fragment implements View.OnClickList
     }
 
 
+    private void navtoAdddanetkaFragment() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new CreateAdminDenketaFragment();
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_CreateAdminDenketaFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_CreateAdminDenketaFragment);
+        ft.hide(this);
+        ft.commit();
+    }
+
     private void popupDialogue(int position, ArrayList<DModel_MyDenketa> lst_myDenketaFiltered) {
         progressDialog = new Dialog(getActivity(), R.style.AppTheme);
 //        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -352,7 +392,7 @@ public class DanetkaDetailsFragment extends Fragment implements View.OnClickList
             @Override
             public void onClick(View v) {
                 progressDialog.dismiss();
-                requestDeleteDanetka(Integer.parseInt(lst_myDenketaFiltered.get(position).getStrId()));
+                requestDeleteDanetka(Integer.parseInt(lst_myDenketaFiltered.get(position).getStrId()), position);
             }
         });
 
@@ -362,7 +402,7 @@ public class DanetkaDetailsFragment extends Fragment implements View.OnClickList
         progressDialog.show();
     }
 
-    private void requestDeleteDanetka(int _id) {
+    private void requestDeleteDanetka(int _id, int position) {
 
 
         Intro_WebHit_Delete_AdminDanetkas intro_webHit_delete_adminDanetkas = new Intro_WebHit_Delete_AdminDanetkas();
@@ -372,6 +412,14 @@ public class DanetkaDetailsFragment extends Fragment implements View.OnClickList
                 if (isSuccess) {
                     dismissProgDialog();
                     CustomToast.showToastMessage(getActivity(), "Deleted SUCCESSFULLY.", Toast.LENGTH_SHORT);
+                    lst_MyDenketaFiltered.remove(position);
+                    adapter.notifyDataSetChanged();
+                    for (int i = 0; i < lst_MyDenketa.size(); i++) {
+                        if (lst_MyDenketa.get(i).getStrId().equalsIgnoreCase(_id + "")) {
+                            lst_MyDenketa.remove(i);
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
                 } else {
                     dismissProgDialog();
                     CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);

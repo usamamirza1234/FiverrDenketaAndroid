@@ -1,13 +1,11 @@
 package com.armoomragames.denketa.IntroAuxilaries.WebServices;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.Utils.ApiMethod;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.DModel_PaginationInfo;
-import com.armoomragames.denketa.Utils.IWebCallback;
 import com.armoomragames.denketa.Utils.IWebPaginationCallback;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
@@ -18,21 +16,28 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-public class Intro_WebHit_Get_All_User_Danektas {
+public class Intro_WebHit_Get_More_Danektas {
     private AsyncHttpClient mClient = new AsyncHttpClient();
     public static ResponseModel responseObject = null;
     public static DModel_PaginationInfo mPaginationInfo = new DModel_PaginationInfo();
 
-    public  void getMyDanekta(final IWebPaginationCallback iWebPaginationCallback, final int _index)  {
-        String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.GET.fetchFreeDanetkas;
+    public void getCategory(final IWebPaginationCallback iWebPaginationCallback, final int _index)  {
+        String myUrl="";
+        if (AppConfig.getInstance().mUser.isLoggedIn())
+             myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.fetchDanetkas;
+        else
+             myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.fetchAllDanetkas;
+
 
         RequestParams params = new RequestParams();
 
         params.put("page", _index);
         params.put("per_page", "10");
+        params.put("sortBy", "id");
+        params.put("sortOrder", "DESC");
 
 
-        Log.d("LOG_AS", "getMyDanketa: " + myUrl +" params "+ params);
+        Log.d("LOG_AS", "getAllDanketaForAllUsers:  " + myUrl + params);
 
         mClient.addHeader(ApiMethod.HEADER.Authorization, AppConfig.getInstance().mUser.getAuthorization());
         mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS);
@@ -43,7 +48,7 @@ public class Intro_WebHit_Get_All_User_Danektas {
                         try {
                             Gson gson = new Gson();
                             strResponse = new String(responseBody, "UTF-8");
-                            Log.d("LOG_AS", "getMyDanketa: onSuccess: " + strResponse);
+                            Log.d("LOG_AS", "getAllDanketaForAllUsers: onSuccess: " + strResponse);
                             ResponseModel responseObjectLocal = null;
 
                             responseObjectLocal = gson.fromJson(strResponse, ResponseModel.class);
@@ -68,12 +73,14 @@ public class Intro_WebHit_Get_All_User_Danektas {
                                             responseObject = responseObjectLocal;
                                             mPaginationInfo.currIndex = _index;
                                         }
-
+                                        Log.d("LOG_AS", "getAllDanketaForAllUsers: onSuccess: tmpIsDataFetched " + tmpIsDataFetched);
                                         //No need to save
 
                                         if (mPaginationInfo != null) {
                                             iWebPaginationCallback.onWebSuccessiveResult(true, !tmpIsDataFetched, responseObjectLocal.getMessage());
                                         }
+
+
                                     }
                                     break;
 
@@ -90,7 +97,7 @@ public class Intro_WebHit_Get_All_User_Danektas {
                                 iWebPaginationCallback.onWebInitialException(ex);
                             else
                                 iWebPaginationCallback.onWebSuccessiveException(ex);
-                            Log.d("LOG_AS", "getMyDanketa:  exception: " + ex.toString());
+                            Log.d("LOG_AS", "getAllDanketaForAllUsers: exception: " + ex.toString());
                         }
                     }
 
@@ -98,7 +105,7 @@ public class Intro_WebHit_Get_All_User_Danektas {
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable
                             error) {
 
-                        Log.d("LOG_AS", "getMyDanketa: onFailure called: " + error.toString() + "   " + statusCode + "");
+                        Log.d("LOG_AS", "getAllDanketaForAllUsers: onFailure called: " + error.toString() + "   " + statusCode + "");
 
 
                         switch (statusCode) {
@@ -133,13 +140,27 @@ public class Intro_WebHit_Get_All_User_Danektas {
 
     public class ResponseModel {
 
-        public class Danetkas
+        public class Listing
         {
             private int id;
 
-            private String name;
+            private int masterId;
+
+            private String title;
+
+            private String question;
+
+            private String answer;
+
+            private String hint;
 
             private String image;
+
+            private String answerImage;
+
+            private String paymentStatus;
+
+            private String learnMore;
 
             private boolean status;
 
@@ -151,11 +172,35 @@ public class Intro_WebHit_Get_All_User_Danektas {
             public int getId(){
                 return this.id;
             }
-            public void setName(String name){
-                this.name = name;
+            public void setMasterId(int masterId){
+                this.masterId = masterId;
             }
-            public String getName(){
-                return this.name;
+            public int getMasterId(){
+                return this.masterId;
+            }
+            public void setTitle(String title){
+                this.title = title;
+            }
+            public String getTitle(){
+                return this.title;
+            }
+            public void setQuestion(String question){
+                this.question = question;
+            }
+            public String getQuestion(){
+                return this.question;
+            }
+            public void setAnswer(String answer){
+                this.answer = answer;
+            }
+            public String getAnswer(){
+                return this.answer;
+            }
+            public void setHint(String hint){
+                this.hint = hint;
+            }
+            public String getHint(){
+                return this.hint;
             }
             public void setImage(String image){
                 this.image = image;
@@ -163,113 +208,23 @@ public class Intro_WebHit_Get_All_User_Danektas {
             public String getImage(){
                 return this.image;
             }
-            public void setStatus(boolean status){
-                this.status = status;
+            public void setAnswerImage(String answerImage){
+                this.answerImage = answerImage;
             }
-            public boolean getStatus(){
-                return this.status;
+            public String getAnswerImage(){
+                return this.answerImage;
             }
-            public void setUpdatedTime(int updatedTime){
-                this.updatedTime = updatedTime;
+            public void setPaymentStatus(String paymentStatus){
+                this.paymentStatus = paymentStatus;
             }
-            public int getUpdatedTime(){
-                return this.updatedTime;
+            public String getPaymentStatus(){
+                return this.paymentStatus;
             }
-        }
-
-        public class User
-        {
-            private int id;
-
-            private String name;
-
-            private String userName;
-
-            private String dateOfBirth;
-
-            private String gender;
-
-            private String nationality;
-
-            private String language;
-
-            private String email;
-
-            private String accessToken;
-
-            private String userType;
-
-            private boolean isProfileSet;
-
-            private boolean status;
-
-            private int updatedTime;
-
-            public void setId(int id){
-                this.id = id;
+            public void setLearnMore(String learnMore){
+                this.learnMore = learnMore;
             }
-            public int getId(){
-                return this.id;
-            }
-            public void setName(String name){
-                this.name = name;
-            }
-            public String getName(){
-                return this.name;
-            }
-            public void setUserName(String userName){
-                this.userName = userName;
-            }
-            public String getUserName(){
-                return this.userName;
-            }
-            public void setDateOfBirth(String dateOfBirth){
-                this.dateOfBirth = dateOfBirth;
-            }
-            public String getDateOfBirth(){
-                return this.dateOfBirth;
-            }
-            public void setGender(String gender){
-                this.gender = gender;
-            }
-            public String getGender(){
-                return this.gender;
-            }
-            public void setNationality(String nationality){
-                this.nationality = nationality;
-            }
-            public String getNationality(){
-                return this.nationality;
-            }
-            public void setLanguage(String language){
-                this.language = language;
-            }
-            public String getLanguage(){
-                return this.language;
-            }
-            public void setEmail(String email){
-                this.email = email;
-            }
-            public String getEmail(){
-                return this.email;
-            }
-            public void setAccessToken(String accessToken){
-                this.accessToken = accessToken;
-            }
-            public String getAccessToken(){
-                return this.accessToken;
-            }
-            public void setUserType(String userType){
-                this.userType = userType;
-            }
-            public String getUserType(){
-                return this.userType;
-            }
-            public void setIsProfileSet(boolean isProfileSet){
-                this.isProfileSet = isProfileSet;
-            }
-            public boolean getIsProfileSet(){
-                return this.isProfileSet;
+            public String getLearnMore(){
+                return this.learnMore;
             }
             public void setStatus(boolean status){
                 this.status = status;
@@ -282,67 +237,6 @@ public class Intro_WebHit_Get_All_User_Danektas {
             }
             public int getUpdatedTime(){
                 return this.updatedTime;
-            }
-        }
-
-
-        public class Listing
-        {
-            private int id;
-
-            private int userId;
-
-            private int danetkasId;
-
-            private boolean status;
-
-            private int updatedTime;
-
-            private Danetkas danetkas;
-
-            private User user;
-
-            public void setId(int id){
-                this.id = id;
-            }
-            public int getId(){
-                return this.id;
-            }
-            public void setUserId(int userId){
-                this.userId = userId;
-            }
-            public int getUserId(){
-                return this.userId;
-            }
-            public void setDanetkasId(int danetkasId){
-                this.danetkasId = danetkasId;
-            }
-            public int getDanetkasId(){
-                return this.danetkasId;
-            }
-            public void setStatus(boolean status){
-                this.status = status;
-            }
-            public boolean getStatus(){
-                return this.status;
-            }
-            public void setUpdatedTime(int updatedTime){
-                this.updatedTime = updatedTime;
-            }
-            public int getUpdatedTime(){
-                return this.updatedTime;
-            }
-            public void setDanetkas(Danetkas danetkas){
-                this.danetkas = danetkas;
-            }
-            public Danetkas getDanetkas(){
-                return this.danetkas;
-            }
-            public void setUser(User user){
-                this.user = user;
-            }
-            public User getUser(){
-                return this.user;
             }
         }
 
@@ -412,39 +306,39 @@ public class Intro_WebHit_Get_All_User_Danektas {
             }
         }
 
-        private int code;
 
-        private String status;
+            private int code;
 
-        private String message;
+            private String status;
 
-        private Data data;
+            private String message;
 
-        public void setCode(int code){
-            this.code = code;
-        }
-        public int getCode(){
-            return this.code;
-        }
-        public void setStatus(String status){
-            this.status = status;
-        }
-        public String getStatus(){
-            return this.status;
-        }
-        public void setMessage(String message){
-            this.message = message;
-        }
-        public String getMessage(){
-            return this.message;
-        }
-        public void setData(Data data){
-            this.data = data;
-        }
-        public Data getData(){
-            return this.data;
-        }
+            private Data data;
 
+            public void setCode(int code){
+                this.code = code;
+            }
+            public int getCode(){
+                return this.code;
+            }
+            public void setStatus(String status){
+                this.status = status;
+            }
+            public String getStatus(){
+                return this.status;
+            }
+            public void setMessage(String message){
+                this.message = message;
+            }
+            public String getMessage(){
+                return this.message;
+            }
+            public void setData(Data data){
+                this.data = data;
+            }
+            public Data getData(){
+                return this.data;
+            }
 
     }
 

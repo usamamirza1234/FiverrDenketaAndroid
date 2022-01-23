@@ -36,7 +36,7 @@ public class Intro_WebHit_Post_UpdateAdminDanetkas {
         mContext = context;
         String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.Patch.updateAdminDanetkas + _id;
 
-        mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS);
+        mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS_UPLOAD);
         mClient.addHeader(ApiMethod.HEADER.Authorization, AppConfig.getInstance().mUser.getAuthorization());
 
 
@@ -52,6 +52,11 @@ public class Intro_WebHit_Post_UpdateAdminDanetkas {
             params.put("masterId", dModelCustomDanetka.getMasterId());
             params.put("image", dModelCustomDanetka.getImage(), "image/jpeg");
             params.put("answerImage", dModelCustomDanetka.getAnswerImage(), "image/jpeg");
+
+
+            Log.d("ImageLocation", "setImageView:filePhotoForQuestion " + dModelCustomDanetka.getImage().getName());
+            Log.d("ImageLocation", "setImageView: filePhotoForAnswer  " + dModelCustomDanetka.getAnswerImage().getName());
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

@@ -82,9 +82,9 @@ public class AddPromoFragment extends Fragment implements View.OnClickListener {
 
 
     private void bindViews(View frg) {
-//        rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
-//        rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
-//        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
+        rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
+        rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
+        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
 
         edtPromo = frg.findViewById(R.id.frg_add_promo_edt_promo);
         edtValidFrom = frg.findViewById(R.id.frg_add_promo_edt_valid_from);
@@ -98,8 +98,8 @@ public class AddPromoFragment extends Fragment implements View.OnClickListener {
         edtStarttime.setOnClickListener(this);
         edtEndtime.setOnClickListener(this);
         rlsave.setOnClickListener(this);
-//        rlBack.setOnClickListener(this);
-//        rlCross.setOnClickListener(this);
+        rlBack.setOnClickListener(this);
+        rlCross.setOnClickListener(this);
 //        rlToolbar.setVisibility(View.VISIBLE);
     }
 

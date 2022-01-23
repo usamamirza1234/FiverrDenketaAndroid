@@ -133,7 +133,7 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
                                         Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getAnswer(),
                                         Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getAnswerImage(),
                                         Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getHint(),
-                                        Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getLearnMore()
+                                        Intro_WebHit_Get_INVESTIGATOR_Danektas.responseObject.getData().getListing().get(i).getLearnMore(),false
                                 )
                         );
 

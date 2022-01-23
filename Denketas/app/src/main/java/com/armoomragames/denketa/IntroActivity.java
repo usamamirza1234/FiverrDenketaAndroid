@@ -26,6 +26,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.BundleDiscountFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.AnswerFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.InvestigatorFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.LearnMoreFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.QuestionFragment;
@@ -432,6 +433,23 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         ft.commit();
     }
 
+
+    public void navToDenketaAnswerFragment(int position, boolean isInvestigator, boolean isMoreDanetka, String danetkaID, ArrayList<DModel_MyDenketa> lst_MyDenketa) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new AnswerFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("key_danetka_position", position);
+        bundle.putBoolean("key_danetka_is_investigator", isInvestigator);
+        bundle.putBoolean("key_danetka_is_more_danetka", isMoreDanetka);
+        bundle.putParcelableArrayList("list", lst_MyDenketa);
+        frag.setArguments(bundle);
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_DenketaAnswerFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_DenketaAnswerFragment);
+        hideLastStackFragment(ft);
+        ft.commit();
+    }
+
     public void navToDenketaInvestigatorQuestionFragment(int position, boolean isInvestigator, boolean isMoreDanetka, ArrayList<DModel_MyDenketa> lst_MyDenketa) {
         String danetkaID = "0";
         FragmentManager fm = getSupportFragmentManager();
@@ -619,27 +637,6 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
     @Override
     public void onBackPressed() {
-//
-//        String tag = returnStackFragmentTag();
-//
-//        AppConfig.getInstance().closeKeyboard(this);
-//        {
-//            Log.d("whileOnBackPress", " Tag " + tag);
-//            if ((tag.equalsIgnoreCase(AppConstt.FragTag.FN_SignInFragment)) ||
-//                    (tag.equalsIgnoreCase(AppConstt.FragTag.FN_SignUpFragment))
-//                    || (tag.equalsIgnoreCase(AppConstt.FragTag.FN_ForgotPasswordFragment))
-//            ) {
-//                navToPreSignInVAFragment();
-//            } else {
-//                if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-//                    getSupportFragmentManager().popBackStack();
-//                    Log.d("whileOnBackPress", " 123 " + tag);
-//                } else {
-//                    Log.d("whileOnBackPress", " 456 " + tag);
-//                    super.onBackPressed();
-//                }
-//            }
-//        }
 
         if (returnStackFragmentTag().equalsIgnoreCase(AppConstt.FragTag.FN_RulesFragment)) {
             navToPreSignInVAFragment();
@@ -647,7 +644,14 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
                 returnStackFragmentTag().equalsIgnoreCase(AppConstt.FragTag.FN_ExtraRulesFragment) ||
                 returnStackFragmentTag().equalsIgnoreCase(AppConstt.FragTag.FN_GamePlayFragment)) {
             navToRulesFragment();
-        } else {
+        }
+        else if (
+                returnStackFragmentTag().equalsIgnoreCase(AppConstt.FragTag.FN_DanetkaDetailsFragment)
+        )
+        {
+            super.onBackPressed();
+        }
+        else {
             if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
                 getSupportFragmentManager().popBackStack();
             } else {

@@ -19,7 +19,7 @@ import cz.msebera.android.httpclient.entity.StringEntity;
 
 
 public class Intro_WebHit_Post_Results {
-
+    public static RModel_ERROR responseObjectError = null;
     public static RModel_SignIn responseObject = null;
     private final AsyncHttpClient mClient = new AsyncHttpClient();
     public Context mContext;
@@ -56,12 +56,19 @@ public class Intro_WebHit_Post_Results {
                                     break;
 
                                 default:
-                                    AppConfig.getInstance().parsErrorMessage(iWebCallback, responseBody);
+                                    gson = new Gson();
+                                    strResponse = new String(responseBody, StandardCharsets.UTF_8);
+                                    Log.d("LOG_AS", "postSignIn: strResponse" + strResponse);
+                                    responseObjectError = gson.fromJson(strResponse, RModel_ERROR.class);
+                                    iWebCallback.onWebResult(false, responseObjectError.getData());
                                     break;
                             }
                         } catch (Exception ex) {
-                            ex.printStackTrace();
-                            iWebCallback.onWebException(ex);
+                            Gson gson = new Gson();
+                            strResponse = new String(responseBody, StandardCharsets.UTF_8);
+                            Log.d("LOG_AS", "postSignIn: strResponse" + strResponse);
+                            responseObjectError = gson.fromJson(strResponse, RModel_ERROR.class);
+                            iWebCallback.onWebResult(false, responseObjectError.getData());
                         }
                     }
 
@@ -199,5 +206,35 @@ public class Intro_WebHit_Post_Results {
                 return this.data;
             }
         }
+    public class RModel_ERROR {
+        private int code;
 
+        private String message;
+
+        private String data;
+
+        public int getCode() {
+            return this.code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public String getMessage() {
+            return this.message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public String getData() {
+            return this.data;
+        }
+
+        public void setData(String data) {
+            this.data = data;
+        }
+    }
 }

@@ -20,7 +20,7 @@ import java.nio.charset.StandardCharsets;
 import cz.msebera.android.httpclient.Header;
 
 
-public class Intro_WebHit_Post_AddUserCustomsDanetkas {
+public class Intro_WebHit_Post_AddAdminsDanetkas {
 
     public static RModel_ERROR responseObjectError = null;
     public static RModel_SignIn responseObject = null;
@@ -39,7 +39,11 @@ public class Intro_WebHit_Post_AddUserCustomsDanetkas {
         RequestParams params = new RequestParams();
         try {
 
-            params.put("danetkaType", "custom");
+
+            if (AppConfig.getInstance().mUser.isAdmin())
+                params.put("danetkaType", "standard");
+            else
+                params.put("danetkaType", "custom");
             params.put("title", dModelCustomDanetka.getTitle());
             params.put("answer", dModelCustomDanetka.getAnswer());
             params.put("hint", dModelCustomDanetka.getHint());

@@ -159,6 +159,14 @@ public class Intro_WebHit_Get_User_Danektas {
 
             private String learnMore;
 
+            private boolean isPopular;
+
+            private boolean isPlayed;
+
+            private String danetkaType;
+
+            private int resultCount;
+
             private boolean status;
 
             private int updatedTime;
@@ -223,6 +231,30 @@ public class Intro_WebHit_Get_User_Danektas {
             public String getLearnMore(){
                 return this.learnMore;
             }
+            public void setIsPopular(boolean isPopular){
+                this.isPopular = isPopular;
+            }
+            public boolean getIsPopular(){
+                return this.isPopular;
+            }
+            public void setIsPlayed(boolean isPlayed){
+                this.isPlayed = isPlayed;
+            }
+            public boolean getIsPlayed(){
+                return this.isPlayed;
+            }
+            public void setDanetkaType(String danetkaType){
+                this.danetkaType = danetkaType;
+            }
+            public String getDanetkaType(){
+                return this.danetkaType;
+            }
+            public void setResultCount(int resultCount){
+                this.resultCount = resultCount;
+            }
+            public int getResultCount(){
+                return this.resultCount;
+            }
             public void setStatus(boolean status){
                 this.status = status;
             }
@@ -236,6 +268,7 @@ public class Intro_WebHit_Get_User_Danektas {
                 return this.updatedTime;
             }
         }
+
 
         public class User
         {
@@ -414,7 +447,6 @@ public class Intro_WebHit_Get_User_Danektas {
             }
         }
 
-
         public class Pagination
         {
             private int page;
@@ -480,6 +512,7 @@ public class Intro_WebHit_Get_User_Danektas {
             }
         }
 
+
             private int code;
 
             private String status;
@@ -512,5 +545,6 @@ public class Intro_WebHit_Get_User_Danektas {
             public Data getData(){
                 return this.data;
             }
+        }
+
     }
-}

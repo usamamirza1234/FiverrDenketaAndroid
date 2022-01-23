@@ -17,6 +17,7 @@ public interface AppConstt {
     int REQ_CODE_PERM_CAMERA_STORAGE = 222;
     int REQ_CODE_PERM_LOCATION = 223;
 
+
     interface ServerUrl {
 
         //Weather icon url...
@@ -102,7 +103,7 @@ public interface AppConstt {
     //Default Api Retry and Timeout in millis
     int LIMIT_API_RETRY = 0;
     int LIMIT_TIMOUT_MILLIS = 15000;
-
+    int LIMIT_TIMOUT_MILLIS_UPLOAD = 1015000;
 
     String PREF_FILE_NAME = "pref_base_proj";
     String PREF_EXTRA_LANGSWITHCED = "lang_switched";
@@ -232,6 +233,7 @@ public interface AppConstt {
         String FN_AddPromoFragment = "AddPromoFragment";
         String FN_DanetkaDetailsFragment = "FN_DanetkaDetailsFragment";
         String FN_EditDenketaFragment ="EditDenketaFragment" ;
+        String FN_CreateAdminDenketaFragment ="CreateAdminDenketaFragment" ;
     }
 
 

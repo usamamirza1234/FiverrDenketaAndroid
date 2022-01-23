@@ -23,7 +23,7 @@ import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.BundleDiscountFragment;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentDetailFragment;
-import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_All_Danektas;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_More_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddUserDanetkas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_Played;
 import com.armoomragames.denketa.R;
@@ -255,8 +255,6 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment frag = new AnswerFragment();
-//        ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-//                R.anim.enter_from_left, R.anim.exit_to_right);//not required
         Bundle bundle = new Bundle();
         bundle.putInt("key_danetka_position", position);
         bundle.putBoolean("key_danetka_is_investigator", isInvestigator);
@@ -296,7 +294,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
 //                R.anim.enter_from_left, R.anim.exit_to_right);//not required
         Bundle bundle = new Bundle();
         bundle.putBoolean("key_is_coming_from_bundle", false);
-        bundle.putString("key_danetka_danetkaID", "" + Intro_WebHit_Get_All_Danektas.responseObject.getData().getListing().get(position).getId());
+        bundle.putString("key_danetka_danetkaID", "" + Intro_WebHit_Get_More_Danektas.responseObject.getData().getListing().get(position).getId());
         bundle.putString("key_danetka_sub_total", "1");
         bundle.putString("key_danetka_total", "1.00");
         bundle.putString("key_danetka_number", "1");

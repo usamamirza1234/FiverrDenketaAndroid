@@ -1,25 +1,22 @@
 package com.armoomragames.denketa.IntroAuxilaries.Admin.DanetkaDetails;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,19 +26,20 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.armoomragames.denketa.AppConfig;
+import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.DModelCustomDanetka;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_UpdateAdminDanetkas;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.CustomToast;
-import com.armoomragames.denketa.Utils.ExifUtil;
 import com.armoomragames.denketa.Utils.IWebCallback;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -52,59 +50,39 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Objects;
 
+import static android.app.Activity.RESULT_OK;
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
 
 public class EditDenketaFragment extends Fragment implements View.OnClickListener {
+    private static final int QUESTION_IMAGE = 111;
+    private static final int ANSWER_IMAGE = 222;
     Bundle bundle;
-
     LinearLayout insert1, insert2;
     ImageView imvInsert1, imvInsert2;
-
     EditText edtRegilto;
-
     LinearLayout llSubmit;
     TextView txvSubmit;
     ArrayList<String> lstRegilto;
     EditText edtTitle, edtQuestion, edtAns, edtLearnmore;
-    boolean isQuestion;
+
     ArrayList<DModel_MyDenketa> lst_MyDenketa;
     int position = 0;
-    private Uri picUri, imageUri;
-    private File filePhotoForQuestion;
-    private File filePhotoForAnswer;
+
     private Dialog progressDialog;
+    private String QUESTION_IMAGE_FILE = "";
+    private String ANSWER_IMAGE_FILE = "";
+    RelativeLayout rlToolbar, rlBack, rlCross;
 
-    public static File bitmapToFile(Context context, Bitmap bitmap, String fileNameToSave) { // File name like "image.png"
-        //create a file to write bitmap data
-        File file = null;
-        try {
-            file = new File(Environment.getExternalStorageDirectory() + File.separator + fileNameToSave);
-            file.createNewFile();
 
-//Convert bitmap to byte array
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos); // YOU can also save it in JPEG
-            byte[] bitmapdata = bos.toByteArray();
-
-//write the bytes in file
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(bitmapdata);
-            fos.flush();
-            fos.close();
-            return file;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return file; // it will return null
-        }
-    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -129,7 +107,12 @@ public class EditDenketaFragment extends Fragment implements View.OnClickListene
     }
 
     private void bindviews(View frg) {
+        rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
+        rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
+        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
 
+        rlBack.setOnClickListener(this);
+        rlCross.setOnClickListener(this);
 
         edtRegilto = frg.findViewById(R.id.frg_make_edtRegilto);
         edtTitle = frg.findViewById(R.id.frg_make_edtTitle);
@@ -178,65 +161,115 @@ public class EditDenketaFragment extends Fragment implements View.OnClickListene
                     .dontTransform();
 
 //            Glide.with(getContext())
-//                    .load(danetka_Image)
+//                    .load(new URL(danetka_Image))
 //                    .apply(options)
 //                    .into(imvInsert1);
 //            Glide.with(getContext())
-//                    .load(answer_Image)
+//                    .load(new URL(answer_Image))
 //                    .apply(options)
 //                    .into(imvInsert2);
 
+
             Glide.with(getContext())
-                    .load(danetka_Image)
-                    .apply(options)
-                    .listener(new RequestListener<Drawable>() {
+                    .load(new URL(danetka_Image))
+                    .apply(options).listener(new RequestListener<Drawable>() {
 
-                        @Override
-                        public boolean onLoadFailed(GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            return false;
-                        }
+                @Override
+                public boolean onLoadFailed(GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
 
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            BitmapDrawable drawable = (BitmapDrawable) imvInsert1.getDrawable();
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    BitmapDrawable drawable = (BitmapDrawable) imvInsert1.getDrawable();
+                    BitMapToStringQuestionImage(drawable.getBitmap());
 
-                            setPicPathForQuestion(true);
-                            convert(drawable.getBitmap(), true);
+//
+//                            setPicPathForQuestion(true);
+//                            convert(drawable.getBitmap(), true);
 //                            filePhotoForQuestion=      bitmapToFile(getContext(),drawable.getBitmap(),"xyz-0");
-                            return false;
-                        }
+                    return false;
+                }
 
 
-                    })
+            })
                     .into(imvInsert1);
-
             Glide.with(getContext())
-                    .load(answer_Image)
-                    .apply(options)
-                    .listener(new RequestListener<Drawable>() {
+                    .load(new URL(answer_Image))
+                    .apply(options).listener(new RequestListener<Drawable>() {
 
-                        @Override
-                        public boolean onLoadFailed(GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            return false;
-                        }
+                @Override
+                public boolean onLoadFailed(GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    return false;
+                }
 
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model,
-                                                       Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            BitmapDrawable drawable = (BitmapDrawable) imvInsert2.getDrawable();
-                            setPicPathForQuestion(false);
-                            convert(drawable.getBitmap(), false);
-//                            filePhotoForAnswer=      bitmapToFile(getContext(),drawable.getBitmap(),"xyz-0");
-                            return false;
-                        }
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    BitmapDrawable drawable = (BitmapDrawable) imvInsert2.getDrawable();
+                    BitMapToStringAnswerImage(drawable.getBitmap());
 
-
-                    })
-                    .into(imvInsert2);
+//
+//                            setPicPathForQuestion(true);
+//                            convert(drawable.getBitmap(), true);
+//                            filePhotoForQuestion=      bitmapToFile(getContext(),drawable.getBitmap(),"xyz-0");
+                    return false;
+                }
 
 
-            Log.d("image","danetka_Image "+danetka_Image);
-            Log.d("image","answer_Image "+answer_Image);
+            }).into(imvInsert2);
+
+
+//            Glide.with(getContext())
+//                    .load(danetka_Image)
+//                    .apply(options)
+//                    .listener(new RequestListener<Drawable>() {
+//
+//                        @Override
+//                        public boolean onLoadFailed(GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+//                            return false;
+//                        }
+//
+//                        @Override
+//                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+//                            BitmapDrawable drawable = (BitmapDrawable) imvInsert1.getDrawable();
+////
+////                            setPicPathForQuestion(true);
+////                            convert(drawable.getBitmap(), true);
+////                            filePhotoForQuestion=      bitmapToFile(getContext(),drawable.getBitmap(),"xyz-0");
+//                            return false;
+//                        }
+//
+//
+//                    })
+//                    .into(imvInsert1);
+//
+//            Glide.with(getContext())
+//                    .load(answer_Image)
+//                    .apply(options)
+//                    .listener(new RequestListener<Drawable>() {
+//
+//                        @Override
+//                        public boolean onLoadFailed(GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+//                            return false;
+//                        }
+//
+//                        @Override
+//                        public boolean onResourceReady(Drawable resource, Object model,
+//                                                       Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+//                            BitmapDrawable drawable = (BitmapDrawable) imvInsert2.getDrawable();
+////                            setPicPathForQuestion(false);
+////                            convert(drawable.getBitmap(), false);
+////                            filePhotoForAnswer=      bitmapToFile(getContext(),drawable.getBitmap(),"xyz-0");
+//                            return false;
+//                        }
+//
+//
+//                    })
+//                    .into(imvInsert2);
+
+
+            Log.d("image", "danetka_Image " + danetka_Image);
+            Log.d("image", "answer_Image " + answer_Image);
 
         } catch (Exception e) {
 
@@ -248,13 +281,21 @@ public class EditDenketaFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.act_intro_lay_toolbar_rlBack:
+                ((IntroActivity) getActivity()).onBackPressed();
 
+                break;
+            case R.id.act_intro_lay_toolbar_rlCross:
+                ((IntroActivity) getActivity()).navToPreSignInVAFragment();
+
+                break;
             case R.id.frg_make_llInsert1:
                 if (isGrantedPermCamera()) {
                     if (isGrantedPermWriteExternalStorage()) {
                         if (getActivity() != null) {
-                            showProgDialog();
-                            getGalleryPic(true);
+                            selectQuestionImage();
+//                            showProgDialog();
+//                            getGalleryPic(true);
                         }
                     }
                 }
@@ -265,8 +306,9 @@ public class EditDenketaFragment extends Fragment implements View.OnClickListene
                 if (isGrantedPermCamera()) {
                     if (isGrantedPermWriteExternalStorage()) {
                         if (getActivity() != null) {
-                            showProgDialog();
-                            getGalleryPic(false);
+                            selectAnswerImage();
+//                            showProgDialog();
+//                            getGalleryPic(false);
                         }
                     }
                 }
@@ -282,19 +324,22 @@ public class EditDenketaFragment extends Fragment implements View.OnClickListene
                     ) {
                         showProgDialog();
 
-                        DModelCustomDanetka dModelCustomDanetka = new DModelCustomDanetka(
-                                edtTitle.getText().toString(),
-                                edtAns.getText().toString(),
-                                filePhotoForQuestion,
-                                filePhotoForAnswer,
-                                edtRegilto.getText().toString(),
-                                edtQuestion.getText().toString(),
-                                edtLearnmore.getText().toString(),
-                                AppConfig.getInstance().mUser.getUser_Id() + ""
-                        );
+                        DModelCustomDanetka dModelCustomDanetka = null;
+                        try {
+                            dModelCustomDanetka = new DModelCustomDanetka(
+                                    edtTitle.getText().toString(),
+                                    edtAns.getText().toString(),
+                                    saveImage(getContext(), QUESTION_IMAGE_FILE),
+                                    saveImage(getContext(), ANSWER_IMAGE_FILE),
+                                    edtRegilto.getText().toString(),
+                                    edtQuestion.getText().toString(),
+                                    edtLearnmore.getText().toString(),
+                                    AppConfig.getInstance().mUser.getUser_Id() + ""
+                            );
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
-                        Log.d("ImageLocation", "setImageView:filePhotoForQuestion " + filePhotoForQuestion.getName());
-                        Log.d("ImageLocation", "setImageView: filePhotoForAnswer  " + filePhotoForAnswer.getName());
 
                         requestUpdateDanetka(dModelCustomDanetka);
                     } else
@@ -358,192 +403,128 @@ public class EditDenketaFragment extends Fragment implements View.OnClickListene
 
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                           int[] grantResults) {
-        switch (requestCode) {
-            case AppConstt.REQ_CODE_PERM_STORAGE:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //Strorage Permission Granted
-                    getGalleryPic(true);
-                } else {
-                    // Permission Denied
-                    CustomToast.showToastMessage(getActivity(),
-                            "msg_permission_denied", Toast.LENGTH_SHORT);
-                }
-                break;
-
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
+    private void selectAnswerImage() {
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, ANSWER_IMAGE);
 
     }
 
-    private String setPicPathForQuestion(boolean isQuestion) {
-        //Create Dir if D.N.E
-        File fileDir = new File(AppConstt.IMAGE_DIR_PATH);
-        if (!fileDir.exists()) {
-            fileDir.mkdirs();
-        }
-
-        String tempImagePath = AppConstt.IMAGE_DIR_PATH;
-        tempImagePath += "image_default" + ".png";
-        if (isQuestion) {
-            this.isQuestion = true;
-            filePhotoForQuestion = new File(tempImagePath);
-        } else {
-            this.isQuestion = false;
-            filePhotoForAnswer = new File(tempImagePath);
-        }
-        return tempImagePath;
+    private void selectQuestionImage() {
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, QUESTION_IMAGE);
     }
 
-    public void getGalleryPic(boolean isQuestion) {
-        setPicPathForQuestion(isQuestion);
-        if (Build.VERSION.SDK_INT < 19) {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-//            intent.setType("image/");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), AppConstt.GALLERY_INTENT_CALLED);
-        } else {
-            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-//            intent.setType("image/jpeg");
-            intent.setType("image/*");
-            startActivityForResult(intent, AppConstt.GALLERY_KITKAT_INTENT_CALLED);
-        }
-    }
 
-    //region Permissions
-    @SuppressWarnings("ResourceType")
+    //region GalleryFunctionality
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Uri originalUri = null;
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == AppConstt.GALLERY_INTENT_CALLED || requestCode == AppConstt.GALLERY_KITKAT_INTENT_CALLED) {
-                originalUri = data.getData();
-
-                try {
-                    dismissProgDialog();
-                    if (isQuestion) {
-
-                        Bitmap bitmap;
-                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), originalUri);
-                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 50, bos);
-                        byte[] bitmapdata = bos.toByteArray();
-                        FileOutputStream fos = new FileOutputStream(filePhotoForQuestion);
-                        String imagePath = filePhotoForQuestion.getAbsolutePath();
-                        Bitmap orientedBitmap = ExifUtil.rotateBitmap(imagePath, bitmap);
-
-                        fos.write(bitmapdata);
-                        fos.flush();
-                        fos.close();
-
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            OutputStream _fos;
-                            ContentResolver resolver = getActivity().getContentResolver();
-                            ContentValues contentValues = new ContentValues();
-                            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, filePhotoForQuestion.getName());
-                            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
-                            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + File.separator + "IMAGE_DIR_PATH");
-                            Uri ImageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-                            Log.d("ImageLocation", "setImageView: " + ImageUri.getPath());
-                            _fos = resolver.openOutputStream(Objects.requireNonNull(ImageUri));
-//                            ExifInterface ei = new ExifInterface(filePhotoForQuestion.getPath());
-//                            int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-//                                    ExifInterface.ORIENTATION_UNDEFINED);
-//                            Bitmap rotatedBitmap = null;
-//                            switch (orientation) {
-//                                case ExifInterface.ORIENTATION_ROTATE_90:
-//                                    rotatedBitmap = rotateImage(bitmap, 90);
-//                                    break;
-//                                case ExifInterface.ORIENTATION_ROTATE_180:
-//                                    rotatedBitmap = rotateImage(bitmap, 180);
-//                                    break;
-//                                case ExifInterface.ORIENTATION_ROTATE_270:
-//                                    rotatedBitmap = rotateImage(bitmap, 270);
-//                                    break;
-//                                case ExifInterface.ORIENTATION_NORMAL:
-//                                default:
-//                                    rotatedBitmap = bitmap;
-//                            }
-//                            rotatedBitmap = Bitmap.createScaledBitmap(rotatedBitmap, 500, 500, false);
-//                            rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, _fos);
-                            Objects.requireNonNull(_fos);
-                            filePhotoForQuestion = new File(getRealPathFromURI(ImageUri));
-                            imvInsert1.setImageBitmap(bitmap);
-                        } else {
-                            ByteArrayOutputStream _bos = new ByteArrayOutputStream();
-                            imvInsert1.setImageBitmap(bitmap);
-                            byte[] _bitmapdata = _bos.toByteArray();
-                            FileOutputStream _fos = new FileOutputStream(filePhotoForQuestion);
-                            _fos.write(_bitmapdata);
-                            _fos.flush();
-                            _fos.close();
-
-                        }
-
-
-                    } else {
-                        Bitmap bitmap;
-                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), originalUri);
-                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 50, bos);
-                        byte[] bitmapdata = bos.toByteArray();
-                        FileOutputStream fos = new FileOutputStream(filePhotoForAnswer);
-                        String imagePath = filePhotoForAnswer.getAbsolutePath();             // photoFile is a File class.
-                        Bitmap orientedBitmap = ExifUtil.rotateBitmap(imagePath, bitmap);
-                        imvInsert2.setImageBitmap(orientedBitmap);
-                        fos.write(bitmapdata);
-                        fos.flush();
-                        fos.close();
-
-                    }
-                } catch (IOException e) {
-
-                    dismissProgDialog();
-                    e.printStackTrace();
-                    CustomToast.showToastMessage(getActivity(), e.toString(), Toast.LENGTH_LONG);
-                }
-                if (requestCode == AppConstt.GALLERY_KITKAT_INTENT_CALLED) {
-                    // Check for the freshest data.
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        final int takeFlags = data.getFlags()
-                                & (Intent.FLAG_GRANT_READ_URI_PERMISSION
-                                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                        getActivity().getApplicationContext().getContentResolver().takePersistableUriPermission(originalUri, takeFlags);
-                    }
-                }
-            }
-            dismissProgDialog();
-        }
-
         super.onActivityResult(requestCode, resultCode, data);
-        dismissProgDialog();
-    }
-
-    private String getRealPathFromURI(Uri contentURI) {
-        String filePath;
-        Cursor cursor = getActivity().getContentResolver().query(contentURI, null, null, null, null);
-        if (cursor == null) {
-            filePath = contentURI.getPath();
-        } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.MediaColumns.DATA);
-            filePath = cursor.getString(idx);
-            cursor.close();
+        if (resultCode == RESULT_OK) {
+            if (requestCode == QUESTION_IMAGE) {
+                Uri selectedImage = data.getData();
+                String[] filePath = {MediaStore.Images.Media.DATA};
+                Cursor c = getActivity().getContentResolver().query(selectedImage, filePath, null, null, null);
+                c.moveToFirst();
+                int columnIndex = c.getColumnIndex(filePath[0]);
+                String picturePath = c.getString(columnIndex);
+                c.close();
+                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+                thumbnail = getResizedBitmap(thumbnail, 400);
+                Log.w("image", picturePath + "");
+                imvInsert1.setImageBitmap(thumbnail);
+                BitMapToStringQuestionImage(thumbnail);
+            } else if (requestCode == ANSWER_IMAGE) {
+                Uri selectedImage = data.getData();
+                String[] filePath = {MediaStore.Images.Media.DATA};
+                Cursor c = getActivity().getContentResolver().query(selectedImage,
+                        filePath, null, null, null);
+                c.moveToFirst();
+                int columnIndex = c.getColumnIndex(filePath[0]);
+                String picturePath = c.getString(columnIndex);
+                c.close();
+                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+                thumbnail = getResizedBitmap(thumbnail, 400);
+                Log.w("image", picturePath + "");
+                imvInsert2.setImageBitmap(thumbnail);
+                BitMapToStringAnswerImage(thumbnail);
+            }
         }
-        return filePath;
     }
 
-    public Bitmap rotateImage(Bitmap source, float angle) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
-                matrix, true);
+    public String BitMapToStringAnswerImage(Bitmap userImage1) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        userImage1.compress(Bitmap.CompressFormat.PNG, 60, baos);
+        byte[] b = baos.toByteArray();
+        ANSWER_IMAGE_FILE = Base64.encodeToString(b, Base64.DEFAULT);
+        return ANSWER_IMAGE_FILE;
+    }
+
+    public String BitMapToStringQuestionImage(Bitmap userImage1) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        userImage1.compress(Bitmap.CompressFormat.PNG, 60, baos);
+        byte[] b = baos.toByteArray();
+        QUESTION_IMAGE_FILE = Base64.encodeToString(b, Base64.DEFAULT);
+        return QUESTION_IMAGE_FILE;
+    }
+
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float) width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
+    }
+
+    public static File saveImage(final Context context, final String imageData) throws IOException {
+        final byte[] imgBytesData = android.util.Base64.decode(imageData,
+                android.util.Base64.DEFAULT);
+
+        final File file = File.createTempFile("image", null, context.getCacheDir());
+        final FileOutputStream fileOutputStream;
+        try {
+            fileOutputStream = new FileOutputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        final BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(
+                fileOutputStream);
+        try {
+            bufferedOutputStream.write(imgBytesData);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                bufferedOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return file;
+    }
+    //endregion
+
+    //region Permissions
+    private boolean isGrantedPermWriteExternalStorage() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            int hasWritePermission = checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (hasWritePermission != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        AppConstt.REQ_CODE_WRITE_EXTERNAL_STORAGE);
+                return false;
+            }
+            return true;
+        } else
+            return true;
     }
 
     private boolean isGrantedPermCamera() {
@@ -558,110 +539,30 @@ public class EditDenketaFragment extends Fragment implements View.OnClickListene
         } else
             return true;
     }
-    //endregion
 
-    private boolean isGrantedPermWriteExternalStorage() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            int hasWritePermission = checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            if (hasWritePermission != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        AppConstt.REQ_CODE_WRITE_EXTERNAL_STORAGE);
-                return false;
-            }
-            return true;
-        } else
-            return true;
-    }
-
-    public void convert(Bitmap bitmap, boolean isQuestion) {
-        try {
-            dismissProgDialog();
-            if (isQuestion) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    OutputStream _fos;
-                    ContentResolver resolver = getActivity().getContentResolver();
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, filePhotoForQuestion.getName());
-                    contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
-                    contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + File.separator + "Majoor");
-                    Uri ImageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-                    Log.d("ImageLocation", "setImageView: " + ImageUri.getPath());
-                    _fos = (OutputStream) resolver.openOutputStream(Objects.requireNonNull(ImageUri));
-                    ExifInterface ei = new ExifInterface(filePhotoForQuestion.getPath());
-                    int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                            ExifInterface.ORIENTATION_UNDEFINED);
-                    Bitmap rotatedBitmap = null;
-                    switch (orientation) {
-                        case ExifInterface.ORIENTATION_ROTATE_90:
-                            rotatedBitmap = rotateImage(bitmap, 90);
-                            break;
-                        case ExifInterface.ORIENTATION_ROTATE_180:
-                            rotatedBitmap = rotateImage(bitmap, 180);
-                            break;
-                        case ExifInterface.ORIENTATION_ROTATE_270:
-                            rotatedBitmap = rotateImage(bitmap, 270);
-                            break;
-                        case ExifInterface.ORIENTATION_NORMAL:
-                        default:
-                            rotatedBitmap = bitmap;
-                    }
-                    rotatedBitmap = Bitmap.createScaledBitmap(rotatedBitmap, 500, 500, false);
-                    rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, _fos);
-                    Objects.requireNonNull(_fos);
-                    filePhotoForQuestion = new File(getRealPathFromURI(ImageUri));
-                    imvInsert1.setImageBitmap(rotatedBitmap);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        switch (requestCode) {
+            case AppConstt.REQ_CODE_PERM_STORAGE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //Strorage Permission Granted
+//                    getGalleryPic(true);
+                    CustomToast.showToastMessage(getActivity(),
+                            "Permission granted", Toast.LENGTH_SHORT);
                 } else {
-                    ByteArrayOutputStream _bos = new ByteArrayOutputStream();
-                    ExifInterface ei = new ExifInterface(filePhotoForQuestion.getPath());
-                    int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                            ExifInterface.ORIENTATION_UNDEFINED);
-                    Bitmap rotatedBitmap = null;
-                    switch (orientation) {
-                        case ExifInterface.ORIENTATION_ROTATE_90:
-
-                            rotatedBitmap = rotateImage(bitmap, 90);
-                            break;
-                        case ExifInterface.ORIENTATION_ROTATE_180:
-                            rotatedBitmap = rotateImage(bitmap, 180);
-                            break;
-                        case ExifInterface.ORIENTATION_ROTATE_270:
-                            rotatedBitmap = rotateImage(bitmap, 270);
-                            break;
-                        case ExifInterface.ORIENTATION_NORMAL:
-                        default:
-                            rotatedBitmap = bitmap;
-                    }
-                    rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 10, _bos);
-                    imvInsert1.setImageBitmap(rotatedBitmap);
-                    byte[] _bitmapdata = _bos.toByteArray();
-                    FileOutputStream _fos = new FileOutputStream(filePhotoForQuestion);
-                    _fos.write(_bitmapdata);
-                    _fos.flush();
-                    _fos.close();
-
+                    // Permission Denied
+                    CustomToast.showToastMessage(getActivity(),
+                            "Permission denied", Toast.LENGTH_SHORT);
                 }
-            }
-            else {
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 50, bos);
-                byte[] bitmapdata = bos.toByteArray();
-                FileOutputStream fos = new FileOutputStream(filePhotoForAnswer);
-                String imagePath = filePhotoForAnswer.getAbsolutePath();             // photoFile is a File class.
-                Bitmap orientedBitmap = ExifUtil.rotateBitmap(imagePath, bitmap);
-                imvInsert2.setImageBitmap(orientedBitmap);
-                fos.write(bitmapdata);
-                fos.flush();
-                fos.close();
+                break;
 
-            }
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-        catch (IOException e)
-        {
 
-            dismissProgDialog();
-            e.printStackTrace();
-            CustomToast.showToastMessage(getActivity(), e.toString(), Toast.LENGTH_LONG);
-        }
     }
+
+    //endregion
 
 }

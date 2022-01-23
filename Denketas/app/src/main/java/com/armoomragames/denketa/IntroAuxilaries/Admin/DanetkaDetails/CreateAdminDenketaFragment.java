@@ -1,4 +1,4 @@
-package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession;
+package com.armoomragames.denketa.IntroAuxilaries.Admin.DanetkaDetails;
 
 import android.Manifest;
 import android.app.Dialog;
@@ -32,8 +32,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.armoomragames.denketa.AppConfig;
+import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.DModelCustomDanetka;
-import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddUserCustomsDanetkas;
+import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.GameSession.RegiltoRCVAdapter;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddAdminsDanetkas;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.CustomToast;
@@ -52,7 +54,7 @@ import static android.app.Activity.RESULT_OK;
 import static androidx.core.content.PermissionChecker.checkSelfPermission;
 import static com.armoomragames.denketa.Utils.IAdapterCallback.EVENT_A;
 
-public class MakeDenketaFragment extends Fragment implements View.OnClickListener {
+public class CreateAdminDenketaFragment extends Fragment implements View.OnClickListener {
 
     private static final String KEY_POSITION = "position";
     private static final int QUESTION_IMAGE = 111;
@@ -73,7 +75,7 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
     private Dialog progressDialog;
 
     public static Fragment newInstance(int position) {
-        Fragment frag = new MakeDenketaFragment();
+        Fragment frag = new CreateAdminDenketaFragment();
         Bundle args = new Bundle();
         args.putInt(KEY_POSITION, position);
         frag.setArguments(args);
@@ -81,8 +83,8 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
     }
 
     public static File saveImage(final Context context, final String imageData) throws IOException {
-        final byte[] imgBytesData = android.util.Base64.decode(imageData,
-                android.util.Base64.DEFAULT);
+        final byte[] imgBytesData = Base64.decode(imageData,
+                Base64.DEFAULT);
 
         final File file = File.createTempFile("image", null, context.getCacheDir());
         final FileOutputStream fileOutputStream;
@@ -112,7 +114,7 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View frg = inflater.inflate(R.layout.fragment_make_denketa, container, false);
+        View frg = inflater.inflate(R.layout.fragment_create_admin_denketa, container, false);
 
         init();
         bindviews(frg);
@@ -124,8 +126,18 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
     private void init() {
         lstRegilto = new ArrayList<>();
     }
-
+    RelativeLayout rlToolbar, rlBack, rlCross;
     private void bindviews(View frg) {
+        rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
+        rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
+        rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
+
+        rlBack.setOnClickListener(this);
+        rlCross.setOnClickListener(this);
+
+
+
+
         rcvRegilto = frg.findViewById(R.id.frg_make_rcv_regilto);
         imvAddMainRegitlto = frg.findViewById(R.id.frg_make_imv_addRegiltoMain);
         edtRegilto = frg.findViewById(R.id.frg_make_edtRegilto);
@@ -159,6 +171,15 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
+            case R.id.act_intro_lay_toolbar_rlBack:
+                ((IntroActivity) getActivity()).onBackPressed();
+
+                break;
+            case R.id.act_intro_lay_toolbar_rlCross:
+                ((IntroActivity) getActivity()).navToPreSignInVAFragment();
+
+                break;
 
             case R.id.frg_make_llInsert1:
                 if (isGrantedPermCamera()) {
@@ -242,13 +263,13 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
     }
 
     private void requestAddCustomDanteka(DModelCustomDanetka dModelCustomDanetka) {
-        Intro_WebHit_Post_AddUserCustomsDanetkas intro_webHit_post_addUserCustomsDanetkas = new Intro_WebHit_Post_AddUserCustomsDanetkas();
-        intro_webHit_post_addUserCustomsDanetkas.postCustomDanetka(getContext(), new IWebCallback() {
+        Intro_WebHit_Post_AddAdminsDanetkas intro_webHit_post_addAdminsDanetkas = new Intro_WebHit_Post_AddAdminsDanetkas();
+        intro_webHit_post_addAdminsDanetkas.postCustomDanetka(getContext(), new IWebCallback() {
             @Override
             public void onWebResult(boolean isSuccess, String strMsg) {
                 if (isSuccess) {
                     dismissProgDialog();
-                    CustomToast.showToastMessage(getActivity(), "ADDED SUCCESSFULLY. CHECK “MY DANETKAS”", Toast.LENGTH_SHORT);
+                    CustomToast.showToastMessage(getActivity(), "ADDED as an admin SUCCESSFULLY.", Toast.LENGTH_SHORT);
                     llSubmit.setBackground(getActivity().getResources().getDrawable(R.drawable.shp_rect_rounded_app_green));
                     txvSubmit.setText("Submitted");
                     lstRegilto.clear();
@@ -328,13 +349,13 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
 
     //region GalleryFunctionality
     private void selectAnswerImage() {
-        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, ANSWER_IMAGE);
 
     }
 
     private void selectQuestionImage() {
-        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, QUESTION_IMAGE);
     }
 

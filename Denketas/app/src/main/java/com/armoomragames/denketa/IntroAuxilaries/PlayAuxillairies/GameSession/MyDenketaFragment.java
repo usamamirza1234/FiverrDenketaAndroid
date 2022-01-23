@@ -20,13 +20,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
-import com.armoomragames.denketa.IntroAuxilaries.DModelDictionary;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Guest_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_User_Danektas;
@@ -173,7 +171,8 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                             Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getAnswer(),
                                             Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getAnswerImage(),
                                             Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getHint(),
-                                            Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getLearnMore()
+                                            Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getLearnMore(),
+                                            Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getIsPlayed()
                                     )
                             );
 
@@ -191,15 +190,19 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                             adapter = new MyDenketaLsvAdapter((eventId, position) -> {
                                 switch (eventId) {
                                     case IAdapterCallback.EVENT_A:
-                                        if (AppConfig.getInstance().mUser.isLoggedIn() ) {
+                                        if (AppConfig.getInstance().mUser.isLoggedIn()) {
                                             if (!AppConfig.getInstance().getProgDialogs())
                                                 onClickDenketaItem(position);
                                             else {
+                                                if (lst_MyDenketaFiltered.get(position).isPlayed())
+                                                {
+                                                    ((IntroActivity) getActivity()).navToDenketaAnswerFragment(position, false, false, lst_MyDenketaFiltered.get(position).getStrId(), lst_MyDenketaFiltered);
+
+                                                }
+                                                else
                                                 ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false, lst_MyDenketaFiltered.get(position).getStrId(), lst_MyDenketaFiltered);
                                             }
                                         } else {
-//                                            CustomToast.showToastMessage(getActivity(), "Sign in / Sign Up or Play as Guest  to PLAY!", Toast.LENGTH_LONG);
-
                                             ((IntroActivity) getActivity()).navToSigninFragment();
                                         }
                                         break;
@@ -254,7 +257,8 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                             Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(i).getAnswer(),
                                             Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(i).getAnswerImage(),
                                             Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(i).getHint(),
-                                            Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(i).getLearnMore()
+                                            Intro_WebHit_Get_Guest_Danektas.responseObject.getData().getListing().get(i).getLearnMore(),
+                                            false
                                     )
                             );
                         }
@@ -269,10 +273,16 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                 public void onAdapterEventFired(int eventId, int position) {
                                     switch (eventId) {
                                         case EVENT_A:
-                                            if (AppConfig.getInstance().mUser.isLoggedIn() ) {
+                                            if (AppConfig.getInstance().mUser.isLoggedIn()) {
                                                 if (!AppConfig.getInstance().getProgDialogs())
                                                     onClickDenketaItem(position);
                                                 else {
+                                                    if (lst_MyDenketaFiltered.get(position).isPlayed())
+                                                    {
+                                                        ((IntroActivity) getActivity()).navToDenketaAnswerFragment(position, false, false, lst_MyDenketaFiltered.get(position).getStrId(), lst_MyDenketaFiltered);
+
+                                                    }
+                                                    else
                                                     ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false, lst_MyDenketaFiltered.get(position).getStrId(), lst_MyDenketaFiltered);
                                                 }
                                             } else {
@@ -374,7 +384,12 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
             public void onClick(View v) {
                 dialog.dismiss();
 //                ((IntroActivity) getActivity()).navToDenketaQuestionFragment(lst_MyDenketa.get(position).getStrName(), lst_MyDenketa.get(position).getStrImage() + "");
+                if (lst_MyDenketaFiltered.get(position).isPlayed())
+                {
+                    ((IntroActivity) getActivity()).navToDenketaAnswerFragment(position, false, false, lst_MyDenketaFiltered.get(position).getStrId(), lst_MyDenketaFiltered);
 
+                }
+                else
                 ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false, lst_MyDenketaFiltered.get(position).getStrId(), lst_MyDenketaFiltered);
             }
         });
@@ -455,8 +470,6 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
     }
 
 
-
-
     private void filter(String text) {
         // creating a new array list to filter our data.
         ArrayList<DModel_MyDenketa> filteredlist = new ArrayList<>();
@@ -477,7 +490,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
         } else {
             // at last we are passing that filtered
             // list to our adapter class.
-            lst_MyDenketaFiltered=filteredlist;
+            lst_MyDenketaFiltered = filteredlist;
             adapter.filterList(filteredlist);
 
 //            Toast.makeText(getContext(), "Data Found.." + text, Toast.LENGTH_SHORT).show();

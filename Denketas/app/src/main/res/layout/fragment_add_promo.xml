@@ -2,7 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/act_intro_rl_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
 
+        <include layout="@layout/act_lay_toolabar" />
+
+    </RelativeLayout>
     <LinearLayout
         android:id="@+id/frg_add_promo_edt_ll_NewResults"
         android:layout_width="match_parent"
