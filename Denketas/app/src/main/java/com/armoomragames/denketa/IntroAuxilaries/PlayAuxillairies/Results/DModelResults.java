@@ -1,20 +1,6 @@
 package com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.Results;
 
 public class DModelResults {
-    public DModelResults() {
-    }
-
-    public DModelResults(String master, String investigator, String date, String time, String regiltor_used,int _ID,String investegorNumber,String masterNam) {
-        Master = master;
-        Investigator = investigator;
-        Date = date;
-        Time = time;
-        Regiltor_used = regiltor_used;
-        ID = _ID;
-        investegorNumber = investegorNumber;
-        masterName = masterName;
-    }
-
     String Master;
     String Investigator;
     String Date;
@@ -23,6 +9,18 @@ public class DModelResults {
     int ID;
     private String investegorNumber;
     private String masterName;
+    public DModelResults() {
+    }
+    public DModelResults(String master, String investigator, String date, String time, String regiltor_used, int _ID, String investegorNumber, String masterNam) {
+        this.Master = master;
+        this.Investigator = investigator;
+        this.Date = date;
+        this.Time = time;
+        this.Regiltor_used = regiltor_used;
+        this.ID = _ID;
+        this.investegorNumber = investegorNumber;
+        this.masterName = masterNam;
+    }
 
     public String getInvestegorNumber() {
         return investegorNumber;

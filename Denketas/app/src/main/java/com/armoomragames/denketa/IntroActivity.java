@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -45,6 +46,15 @@ import com.armoomragames.denketa.IntroAuxilaries.SplashFragment;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.LocaleHelper;
+import com.braintreepayments.api.BraintreeClient;
+import com.braintreepayments.api.BraintreeRequestCodes;
+import com.braintreepayments.api.BrowserSwitchResult;
+import com.braintreepayments.api.Card;
+import com.braintreepayments.api.CardClient;
+import com.braintreepayments.api.PayPalCheckoutRequest;
+import com.braintreepayments.api.PayPalClient;
+import com.braintreepayments.api.PayPalPaymentIntent;
+import com.braintreepayments.api.PayPalVaultRequest;
 import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -72,8 +82,89 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
     private FragmentManager fm;
 
 
-    //region progdialog
-    private Dialog progressDialog;
+    CardClient cardClient;
+    PayPalClient payPalClient;
+    private BraintreeClient braintreeClient;
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (AppConfig.getInstance() != null)//id some view  !=null => activity in initialized
+            performActionAgainstFCM();
+
+//        BrowserSwitchResult browserSwitchResult = braintreeClient.deliverBrowserSwitchResult(this);
+//
+//
+//        if (browserSwitchResult != null)
+//        {
+//            payPalClient.onBrowserSwitchResult(browserSwitchResult, (payPalAccountNonce, error) -> {
+//                if (payPalAccountNonce != null) {
+//                    // send payPalNonce.getString() to server
+//                }
+//
+//                try {
+//                    Log.d("PaymentTesting", "myTokenizePayPalAccountWithCheckoutMethod:browserSwitchResult " + browserSwitchResult.toString());
+//                    Log.d("PaymentTesting", "myTokenizePayPalAccountWithCheckoutMethod:error " + error.toString());
+//                    Log.d("PaymentTesting", "myTokenizePayPalAccountWithCheckoutMethod:request payPalAccountNonce " + payPalAccountNonce.toString());
+//                }
+//                catch (Exception e)
+//                {}
+//
+//
+//            });
+//        }
+    }
+
+    private void myTokenizePayPalAccountWithCheckoutMethod() {
+
+        PayPalCheckoutRequest request = new PayPalCheckoutRequest("1.00");
+        request.setCurrencyCode("USD");
+        request.setIntent(PayPalPaymentIntent.AUTHORIZE);
+        payPalClient.tokenizePayPalAccount(this, request, (error) -> {
+            if (error != null) {
+                // Handle error
+            }
+
+
+        });
+
+
+    }
+
+    private void myTokenizePayPalAccountWithVaultMethod() {
+        PayPalVaultRequest request = new PayPalVaultRequest();
+        request.setBillingAgreementDescription("Your agreement description");
+
+        payPalClient.tokenizePayPalAccount(this, request, (error) -> {
+            if (error != null) {
+                // Handle error
+            }
+        });
+    }
+    private void tokenizeCard() {
+        Card card = new Card();
+        card.setNumber("5555555555554444");
+        card.setExpirationDate("12/2026");
+
+        cardClient.tokenize(card, (cardNonce, error) -> {
+            if (cardNonce != null) {
+                // send this nonce to your server
+                String nonce = cardNonce.getString();
+            } else {
+                // handle error
+            }
+        });
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,11 +173,23 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         AppConfig.getInstance().regulateFontScale(getResources().getConfiguration(), getBaseContext());
         setContentView(R.layout.activity_intro);
 
-
+//        braintreeClient = new BraintreeClient(this, "sandbox_v2nf5t6c_mybf9tq8g5qv92zw");
+//        cardClient = new CardClient(braintreeClient);
+//        payPalClient = new PayPalClient(braintreeClient);
+//
+////        tokenizeCard();
+//
+//        myTokenizePayPalAccountWithCheckoutMethod();
+//
         init();
         bindViews();
 //        facebook();
     }
+
+
+    //region progdialog
+    private Dialog progressDialog;
+
 
     private void getUserProfile(AccessToken currentAccessToken) {
         GraphRequest request = GraphRequest.newMeRequest(
@@ -223,12 +326,6 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         //now getIntent() should always return the last received intent
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (AppConfig.getInstance() != null)//id some view  !=null => activity in initialized
-            performActionAgainstFCM();
-    }
 
     private void performActionAgainstFCM() {
         try {

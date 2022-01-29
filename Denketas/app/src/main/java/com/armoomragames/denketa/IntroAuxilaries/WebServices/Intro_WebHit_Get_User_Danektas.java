@@ -288,6 +288,8 @@ public class Intro_WebHit_Get_User_Danektas {
 
             private String email;
 
+            private boolean isPlayed;
+
             private String otpCode;
 
             private String accessToken;
@@ -384,11 +386,17 @@ public class Intro_WebHit_Get_User_Danektas {
             public int getUpdatedTime(){
                 return this.updatedTime;
             }
+            public void setIsPlayed(boolean isPlayed){
+                this.isPlayed = isPlayed;
+            }
+            public boolean getIsPlayed(){
+                return this.isPlayed;
+            }
         }
 
 
         public class Listing
-        {
+        {     private boolean isPlayed;
             private int id;
 
             private int userId;
@@ -444,6 +452,11 @@ public class Intro_WebHit_Get_User_Danektas {
             }
             public User getUser(){
                 return this.user;
+            }            public void setIsPlayed(boolean isPlayed){
+            this.isPlayed = isPlayed;
+        }
+            public boolean getIsPlayed(){
+                return this.isPlayed;
             }
         }
 

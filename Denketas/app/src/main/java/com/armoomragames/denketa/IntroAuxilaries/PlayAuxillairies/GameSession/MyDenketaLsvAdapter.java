@@ -76,6 +76,7 @@ public class MyDenketaLsvAdapter extends BaseAdapter implements Filterable {
             viewHolder.txvName  = convertView.findViewById(R.id.lay_item_my_denekta_txvName);
             viewHolder.imvDanetka = convertView.findViewById(R.id.imvDanetka);
             viewHolder.imvResult = convertView.findViewById(R.id.lay_item_my_denekta_imvResults);
+            viewHolder.imvDelete = convertView.findViewById(R.id.lay_item_my_denekta_imvDelete);
 
 
 
@@ -88,6 +89,14 @@ public class MyDenketaLsvAdapter extends BaseAdapter implements Filterable {
 //        viewHolder.txvName.setText(mData.get(position).getStrName());
         convertView.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_A,position ));
         viewHolder.imvResult.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_B,position ));
+
+
+        if (mData.get(position).getDanetkaType().equalsIgnoreCase("custom"))
+        {
+            viewHolder.imvDelete.setVisibility(View.VISIBLE);
+            viewHolder.imvDelete.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_C,position ));
+
+        }
 
         Log.d("LOG_AS", "getView: "+mData.get(position).getStrImage());
 //        Picasso.get()
@@ -119,6 +128,7 @@ public class MyDenketaLsvAdapter extends BaseAdapter implements Filterable {
         TextView txvName;
         ImageView imvDanetka;
         ImageView imvResult;
+        ImageView imvDelete;
     }
 
     public void filterList(ArrayList<DModel_MyDenketa> filterllist) {

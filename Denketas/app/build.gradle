@@ -145,9 +145,34 @@ dependencies {
 //    implementation 'com.braintreepayments.api:drop-in:3.0.5'
 
 
-    implementation 'com.braintreepayments.api:drop-in:6.0.1'
-    implementation 'io.card:android-sdk:[5.3.0,6.0.0)'
+//    implementation 'com.braintreepayments.api:drop-in:6.0.1'
+//    implementation 'io.card:android-sdk:[5.3.0,6.0.0)'
 
+
+
+    // to offer card payments
+    implementation 'com.braintreepayments.api:card:4.+'
+
+    // to collect device data
+    implementation 'com.braintreepayments.api:data-collector:4.+'
+
+    // to offer PayPal
+    implementation 'com.braintreepayments.api:paypal:4.+'
+
+    // to offer local payments
+    implementation 'com.braintreepayments.api:local-payment:4.+'
+
+    // to offer Google Pay
+    implementation 'com.braintreepayments.api:google-pay:4.+'
+
+    // to offer Union Pay
+    implementation 'com.braintreepayments.api:union-pay:4.+'
+
+    // to perform 3DS verification
+    implementation 'com.braintreepayments.api:three-d-secure:4.+'
+
+    // to offer Venmo
+    implementation 'com.braintreepayments.api:venmo:4.+'
 
     implementation 'com.github.dhaval2404:imagepicker:2.1'
 

@@ -1,6 +1,7 @@
 package com.armoomragames.denketa.IntroAuxilaries;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -32,8 +33,14 @@ import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.IWebCallback;
-import com.braintreepayments.api.DropInClient;
-import com.braintreepayments.api.DropInRequest;
+import com.braintreepayments.api.BraintreeClient;
+import com.braintreepayments.api.BrowserSwitchResult;
+import com.braintreepayments.api.Card;
+import com.braintreepayments.api.CardClient;
+import com.braintreepayments.api.PayPalCheckoutRequest;
+import com.braintreepayments.api.PayPalClient;
+import com.braintreepayments.api.PayPalPaymentIntent;
+import com.braintreepayments.api.PayPalVaultRequest;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 
@@ -48,8 +55,8 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
     ImageView imv_master, imv_master_hat;
     Dialog dialog;
     IBadgeUpdateListener mBadgeUpdateListener;
- String clientToken;
-//    BraintreeGateway gateway = new BraintreeGateway(
+    String clientToken;
+    //    BraintreeGateway gateway = new BraintreeGateway(
 //            Environment.SANDBOX,
 //            "mybf9tq8g5qv92zw",
 //            "vttwyyqt2v7nb2j5",
@@ -58,16 +65,31 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
     AsyncHttpClient client;
     ProgressBar progressBar;
     int userId;
+    CardClient cardClient;
+    PayPalClient payPalClient;
+    private BraintreeClient braintreeClient;
+
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View frg = inflater.inflate(R.layout.fragment_pre_sign_in, container, false);
+
+
+        braintreeClient = new BraintreeClient(getContext(), "sandbox_v2nf5t6c_mybf9tq8g5qv92zw");
+        payPalClient = new PayPalClient(braintreeClient);
+
+
 
         init();
         bindViews(frg);
         requestGameCredits();
         return frg;
     }
+
+
+
+
 
     //region init
     void setToolbar() {
@@ -88,7 +110,6 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         setToolbar();
     }
 
-
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
@@ -96,7 +117,6 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
             setToolbar();
         }
     }
-
 
     private void bindViews(View frg) {
         rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
@@ -160,19 +180,17 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
             }
         });
 
-
+        cardClient = new CardClient(braintreeClient);
 
     }
+
 
     public void onBraintreeSubmit() {
 
-        DropInRequest dropInRequest = new DropInRequest();
-        DropInClient dropInClient = new DropInClient(getContext(), "sandbox_f252zhq7_hh4cpc39zq4rgjcg", dropInRequest);
-        dropInClient.launchDropInForResult(getActivity(), DROP_IN_REQUEST_CODE);
+//        DropInRequest dropInRequest = new DropInRequest();
+//        DropInClient dropInClient = new DropInClient(getContext(), "sandbox_f252zhq7_hh4cpc39zq4rgjcg", dropInRequest);
+//        dropInClient.launchDropInForResult(getActivity(), DROP_IN_REQUEST_CODE);
     }
-
-
-
 
 
 //
@@ -442,8 +460,6 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         });
 
     }
-
-
 
 
 }

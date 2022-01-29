@@ -20,17 +20,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Delete_AdminDanetkas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Guest_Danektas;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_User_Danektas;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
+import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IAdapterCallback;
+import com.armoomragames.denketa.Utils.IWebCallback;
 import com.armoomragames.denketa.Utils.IWebPaginationCallback;
 import com.bumptech.glide.Glide;
 
@@ -38,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import static com.armoomragames.denketa.Utils.IAdapterCallback.EVENT_B;
+import static com.armoomragames.denketa.Utils.IAdapterCallback.EVENT_C;
 
 public class MyDenketaFragment extends Fragment implements View.OnClickListener, IWebPaginationCallback, AbsListView.OnScrollListener {
 
@@ -172,7 +177,9 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                             Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getAnswerImage(),
                                             Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getHint(),
                                             Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getLearnMore(),
-                                            Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getIsPlayed()
+                                            Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getIsPlayed(),
+                                            Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getDanetkas().getDanetkaType(),
+                                            Intro_WebHit_Get_User_Danektas.responseObject.getData().getListing().get(i).getId()+""
                                     )
                             );
 
@@ -212,6 +219,10 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                         ((IntroActivity) getActivity()).navToMyResultsFragment(lst_MyDenketaFiltered.get(position).getStrName(), lst_MyDenketaFiltered.get(position).getStrId());
 //                                        ((IntroActivity) getActivity()).navToMyResultsFragment(lst_MyDenketa.get(position).getStrName(),lst_MyDenketa.get(position).getStrId());
 
+                                        break;
+                                        case EVENT_C:
+                                        Log.d("Danetka", "ID " + lst_MyDenketaFiltered.get(position).getStrId());
+                                        requestDeleteDanetka(Integer.parseInt(lst_MyDenketaFiltered.get(position).getStrId()),position);
                                         break;
                                 }
 
@@ -313,6 +324,39 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
 
                 }
             }
+    }
+
+
+    private void requestDeleteDanetka(int _id, int position) {
+
+
+        Intro_WebHit_Delete_AdminDanetkas intro_webHit_delete_adminDanetkas = new Intro_WebHit_Delete_AdminDanetkas();
+        intro_webHit_delete_adminDanetkas.deleteDanetka(getContext(), new IWebCallback() {
+            @Override
+            public void onWebResult(boolean isSuccess, String strMsg) {
+                if (isSuccess) {
+                    dismissProgDialog();
+                    CustomToast.showToastMessage(getActivity(), "Deleted SUCCESSFULLY.", Toast.LENGTH_SHORT);
+                    lst_MyDenketaFiltered.remove(position);
+                    adapter.notifyDataSetChanged();
+                    for (int i = 0; i < lst_MyDenketa.size(); i++) {
+                        if (lst_MyDenketa.get(i).getStrId().equalsIgnoreCase(_id + "")) {
+                            lst_MyDenketa.remove(i);
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+                } else {
+                    dismissProgDialog();
+                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
+                }
+            }
+
+            @Override
+            public void onWebException(Exception ex) {
+                dismissProgDialog();
+                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
+            }
+        }, _id);
     }
 
     private void updateDenketaList(boolean isSuccess, boolean isCompleted, String

@@ -12,7 +12,9 @@ public class DModel_MyDenketa implements Parcelable {
     String StrId;
     String strImage;
     String Question;
+    String danetkaType;
     boolean isPlayed;
+    String danetkaIDPlayed;
 
 
 
@@ -37,6 +39,34 @@ public class DModel_MyDenketa implements Parcelable {
         this.isPlayed = isPlayed;
     }
 
+    public DModel_MyDenketa(String strName, String strId, String strImage, String Question,String Answer, String AnswerImage, String hint, String learnmore,boolean isPlayed,String danetkaType,String danetkaIDPlayed) {
+        this.strName = strName;
+        StrId = strId;
+        this.strImage = strImage;
+        this.Answer = Answer;
+        this.AnswerImage = AnswerImage;
+        this.hint = hint;
+        this.Question = Question;
+        this.learnmore = learnmore;
+        this.isPlayed = isPlayed;
+        this.danetkaType = danetkaType;
+        this.danetkaIDPlayed = danetkaIDPlayed;
+    }
+
+    public String getDanetkaIDPlayed() {
+        return danetkaIDPlayed;
+    }
+
+    public void setDanetkaIDPlayed(String danetkaIDPlayed) {
+        this.danetkaIDPlayed = danetkaIDPlayed;
+    }
+
+    public void setDanetkaType(String danetkaType){
+        this.danetkaType = danetkaType;
+    }
+    public String getDanetkaType(){
+        return this.danetkaType;
+    }
     public String getStrId() {
         return StrId;
     }

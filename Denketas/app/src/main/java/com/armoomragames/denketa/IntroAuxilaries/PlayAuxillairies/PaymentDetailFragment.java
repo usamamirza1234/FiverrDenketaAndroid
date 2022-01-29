@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -32,6 +31,14 @@ import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IWebCallback;
 import com.armoomragames.denketa.Utils.RModel_Paypal;
+import com.braintreepayments.api.BraintreeClient;
+import com.braintreepayments.api.BrowserSwitchResult;
+import com.braintreepayments.api.Card;
+import com.braintreepayments.api.CardClient;
+import com.braintreepayments.api.PayPalCheckoutRequest;
+import com.braintreepayments.api.PayPalClient;
+import com.braintreepayments.api.PayPalPaymentIntent;
+import com.braintreepayments.api.PayPalVaultRequest;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.gson.Gson;
@@ -49,10 +56,14 @@ import java.math.BigDecimal;
 public class PaymentDetailFragment extends Fragment implements View.OnClickListener {
     public static final String clientKey = "AQxyBWkhclOXBj9jlkr3eV_F9PQ2O6yBD5f8i1oO2fJNQ5Xy_Ir6N45881igN7lyfIPvxr59JSGnH0B1";
     private static final PayPalConfiguration config = new PayPalConfiguration()
-            // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
+            // Start with mock environment.
+            // When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
             // or live (ENVIRONMENT_PRODUCTION)
             .environment(PayPalConfiguration.ENVIRONMENT_NO_NETWORK)
             .clientId(clientKey).merchantName("Armoomra games")
+            .acceptCreditCards(true)
+            .defaultUserEmail("armoomragames@gamil.com")
+            .rememberUser(true)
             .merchantPrivacyPolicyUri(Uri.parse("https://www.example.com/privacy"))
             .merchantUserAgreementUri(Uri.parse("https://www.example.com/legal"));
     RelativeLayout rlToolbar, rlBack, rlCross;
@@ -70,12 +81,11 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
     GoogleSignInClient mGoogleSignInClient;
     TextView txvPaymentDescription;
     TextView txvUseGameCredits;
-
-
-
-
-
+    CardClient cardClient;
+    PayPalClient payPalClient;
     private Dialog progressDialog;
+    private BraintreeClient braintreeClient;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -113,6 +123,14 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
         }
         paypalInit();
 
+        braintreeInit();
+
+    }
+
+    private void braintreeInit() {
+        braintreeClient = new BraintreeClient(getContext(), "sandbox_v2nf5t6c_mybf9tq8g5qv92zw");
+        cardClient = new CardClient(braintreeClient);
+        payPalClient = new PayPalClient(braintreeClient);
     }
     //endregion
 
@@ -150,6 +168,7 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
             case R.id.rlPaypal:
             case R.id.rlPaypalCredit:
                 onBuyPressed(danetkaID);
+//                initPayPalDropRequest();
                 break;
 
             case R.id.frg_getmore:
@@ -386,5 +405,81 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
 
     }
     //endregion
+
+
+    private void initPayPalDropRequest() {
+        PayPalCheckoutRequest request = new PayPalCheckoutRequest("1.00");
+        request.setCurrencyCode("USD");
+        request.setIntent(PayPalPaymentIntent.AUTHORIZE);
+        payPalClient.tokenizePayPalAccount(getActivity(), request, (error) -> {
+            if (error != null) {
+                // Handle error
+            }
+
+
+        });
+
+
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        BrowserSwitchResult browserSwitchResult = braintreeClient.deliverBrowserSwitchResult(getActivity());
+        if (browserSwitchResult != null)
+        {
+            payPalClient.onBrowserSwitchResult(browserSwitchResult, (payPalAccountNonce, error) -> {
+                if (payPalAccountNonce != null) {
+                    // send payPalNonce.getString() to server
+                    try {
+                        Log.d("PaymentTesting", "myTokenizePayPalAccountWithCheckoutMethod:browserSwitchResult " + browserSwitchResult.toString());
+                        Log.d("PaymentTesting", "myTokenizePayPalAccountWithCheckoutMethod:error " + error.toString());
+                        Log.d("PaymentTesting", "myTokenizePayPalAccountWithCheckoutMethod:request payPalAccountNonce " + payPalAccountNonce.toString());
+                    }
+                    catch (Exception e)
+                    {}
+                }
+
+
+
+
+            });
+        }
+    }
+
+    private void myTokenizePayPalAccountWithCheckoutMethod() {
+
+        PayPalCheckoutRequest request = new PayPalCheckoutRequest("1.00");
+        request.setCurrencyCode("USD");
+        request.setIntent(PayPalPaymentIntent.AUTHORIZE);
+        payPalClient.tokenizePayPalAccount(getActivity(), request, (error) -> {
+            if (error != null) {
+                // Handle error
+            }
+
+
+        });
+
+
+    }
+
+    private void tokenizeCard() {
+        Card card = new Card();
+        card.setNumber("5555555555554444");
+        card.setExpirationDate("12/2026");
+
+        cardClient.tokenize(card, (cardNonce, error) -> {
+            if (cardNonce != null) {
+                // send this nonce to your server
+                String nonce = cardNonce.getString();
+            } else {
+                // handle error
+            }
+        });
+    }
+
+
 
 }

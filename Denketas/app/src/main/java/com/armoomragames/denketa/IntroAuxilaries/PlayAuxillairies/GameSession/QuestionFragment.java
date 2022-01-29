@@ -317,7 +317,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
         rlMaster = progressDialog.findViewById(R.id.rl_popup_parent);
         rlMaster.setOnClickListener(this);
         if (AppConfig.getInstance().mUser.isLoggedIn())
-            requestPlayed(danetkaID);
+            requestPlayed(lst_MyDenketa.get(position).getDanetkaIDPlayed());
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
         progressDialog.show();

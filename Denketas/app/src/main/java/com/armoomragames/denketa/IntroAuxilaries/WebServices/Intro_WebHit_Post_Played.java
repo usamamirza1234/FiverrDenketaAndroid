@@ -28,7 +28,7 @@ public class Intro_WebHit_Post_Played {
                            final String _signInEntity) {
         mContext = context;
         String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.toPlayed +_signInEntity;
-        Log.d("LOG_AS", "postPlayed: " + myUrl + _signInEntity);
+        Log.d("LOG_AS", "postPlayed: " + myUrl);
         StringEntity entity = null;
         String  _ss ="";
         entity = new StringEntity(_ss, "UTF-8");
