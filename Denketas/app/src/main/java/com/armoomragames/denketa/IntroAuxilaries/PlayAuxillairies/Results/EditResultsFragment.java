@@ -54,6 +54,7 @@ public class EditResultsFragment extends Fragment implements View.OnClickListene
     int invest_count = 0;
     int selection = 0;
     private Dialog progressDialog;
+    private String Strtime;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -160,33 +161,124 @@ public class EditResultsFragment extends Fragment implements View.OnClickListene
 
                 AppConfig.getInstance().closeKeyboard(getActivity());
 
-                if (!edtInvestigator.getText().toString().equals("") && !edtMaster.getText().toString().equals("")
-                        && !edtTime.getText().toString().equals("")) {
+                boolean isNumb = false;
+                try {
+                    int min = Integer.parseInt(edtTime.getText().toString());
+                    isNumb = true;
+                } catch (Exception e) {
+                    isNumb = false;
 
-                    Date c = Calendar.getInstance().getTime();
-                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                    String formattedDate = df.format(c);
+                }
 
-                    try {
-                        JsonObject jsonObject = new JsonObject();
-                        jsonObject.addProperty("investigatorName", edtInvestigator.getText().toString());
-                        jsonObject.addProperty("riglettosUsed", selected + "");
-                        jsonObject.addProperty("time", edtTime.getText().toString());
-                        jsonObject.addProperty("date", formattedDate);
-                        jsonObject.addProperty("masterId", AppConfig.getInstance().mUser.getUser_Id());
-                        jsonObject.addProperty("danetkaId", d_id);
+                if (isNumb){
+                    if (!edtInvestigator.getText().toString().equals("") && !edtMaster.getText().toString().equals("")
+                            && !edtTime.getText().toString().equals("")) {
 
-                        requestUpdatedResult(jsonObject.toString(), danetka_id);
-                    }
-                    catch (Exception e)
-                    {
-
-                    }
+                        Date c = Calendar.getInstance().getTime();
+                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                        String formattedDate = df.format(c);
 
 
+                        double _date = 0;
+                        String _hour = "00:";
+                        String _min = "00:";
+                        String _sec = "00";
+                        String time = "";
+                        try {
+                            _date = Double.parseDouble(edtTime.getText().toString());
+                            if (_date >= 60) {
+                                double dhour = _date / 60;
+                                int hour = (int) Math.round(dhour);
+                                double dmin = (dhour - hour) * 60;
+                                int __min = (int) Math.round(dmin);
+                                int sec = (int) Math.round(dmin - __min);
 
-                } else
-                    CustomToast.showToastMessage(getActivity(), "Please fill all fields", Toast.LENGTH_LONG);
+                                if (hour < 10) {
+                                    if (hour == 0) _hour = "00:";
+                                    else if (hour == 1) _hour = "01:";
+                                    else if (hour == 2) _hour = "02:";
+                                    else if (hour == 3) _hour = "03:";
+                                    else if (hour == 4) _hour = "04:";
+                                    else if (hour == 5) _hour = "05:";
+                                    else if (hour == 6) _hour = "06:";
+                                    else if (hour == 7) _hour = "07:";
+                                    else if (hour == 8) _hour = "08:";
+                                    else if (hour == 9) _hour = "09:";
+
+                                }
+
+                                if (__min < 10) {
+                                    if (__min == 0) _min = "00:";
+                                    else if (__min == 1) _min = "01:";
+                                    else if (__min == 2) _min = "02:";
+                                    else if (__min == 3) _min = "03:";
+                                    else if (__min == 4) _min = "04:";
+                                    else if (__min == 5) _min = "05:";
+                                    else if (__min == 6) _min = "06:";
+                                    else if (__min == 7) _min = "07:";
+                                    else if (__min == 8) _min = "08:";
+                                    else if (__min == 9) _min = "09:";
+
+                                }
+
+                                if (sec == 0) {
+                                    _sec = "00";
+
+                                } else _sec = sec * 60 + "";
+
+
+                                time = _hour + __min + ":"  + _sec;
+                                Strtime = time;
+                            } else if (_date < 10 && _date > 0) {
+                                if (_date == 0) _min = "00:";
+                                else if (_date == 1) _min = "01:";
+                                else if (_date == 2) _min = "02:";
+                                else if (_date == 3) _min = "03:";
+                                else if (_date == 4) _min = "04:";
+                                else if (_date == 5) _min = "05:";
+                                else if (_date == 6) _min = "06:";
+                                else if (_date == 7) _min = "07:";
+                                else if (_date == 8) _min = "08:";
+                                else if (_date == 9) _min = "09:";
+                                time = _hour + _min + _sec;
+                                Strtime = time;
+                            } else {
+                                int min = (int) _date;
+                                time = _hour + min + ":" + _sec;
+                                Strtime = time;
+                            }
+                        } catch (Exception e) {
+                            time = _hour + _min + _sec;
+                            Strtime = time;
+                        }
+
+
+                        try {
+                            JsonObject jsonObject = new JsonObject();
+                            jsonObject.addProperty("investigatorName", edtInvestigator.getText().toString());
+                            jsonObject.addProperty("riglettosUsed", selected + "");
+                            jsonObject.addProperty("time", Strtime);
+                            jsonObject.addProperty("investegorNumber", txv_invest_num.getText().toString());
+                            jsonObject.addProperty("masterName", edtMaster.getText().toString());
+                            jsonObject.addProperty("date", formattedDate);
+                            jsonObject.addProperty("masterId", AppConfig.getInstance().mUser.getUser_Id());
+                            jsonObject.addProperty("danetkaId", d_id);
+                            requestUpdatedResult(jsonObject.toString(), Integer.parseInt(d_id));
+                        }
+                        catch (Exception e)
+                        {
+
+                        }
+
+
+
+                    } else
+                        CustomToast.showToastMessage(getActivity(), "Please fill all fields", Toast.LENGTH_LONG);
+
+                }else
+                    CustomToast.showToastMessage(getActivity(), "Enter time in minutes", Toast.LENGTH_LONG);
+
+
 
 
                 break;
