@@ -75,6 +75,7 @@ public class MyDenketaLsvAdapter extends BaseAdapter implements Filterable {
 
             viewHolder.txvName  = convertView.findViewById(R.id.lay_item_my_denekta_txvName);
             viewHolder.imvDanetka = convertView.findViewById(R.id.imvDanetka);
+            viewHolder.imvDanetka1 = convertView.findViewById(R.id.imvDanetka1);
             viewHolder.imvResult = convertView.findViewById(R.id.lay_item_my_denekta_imvResults);
             viewHolder.imvDelete = convertView.findViewById(R.id.lay_item_my_denekta_imvDelete);
 
@@ -84,20 +85,25 @@ public class MyDenketaLsvAdapter extends BaseAdapter implements Filterable {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        if (mData.get(position).getStrName().equalsIgnoreCase("disloyal singer"))
+        viewHolder.txvName.setText((position+1)+". (Dis)loyal singer");
+        else
         viewHolder.txvName.setText((position+1)+". "+mData.get(position).getStrName());
 
 //        viewHolder.txvName.setText(mData.get(position).getStrName());
         convertView.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_A,position ));
         viewHolder.imvResult.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_B,position ));
 
-        if (mData.get(position).getDanetkaType()!=null)
+
+        try{
         if (mData.get(position).getDanetkaType().equalsIgnoreCase("custom"))
         {
             viewHolder.imvDelete.setVisibility(View.VISIBLE);
             viewHolder.imvDelete.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_C,position ));
 
         }
-
+        }catch (Exception e)
+        {}
         Log.d("LOG_AS", "getView: "+mData.get(position).getStrImage());
 //        Picasso.get()
 //                .load(mData.get(position).getStrImage())
@@ -115,11 +121,16 @@ public class MyDenketaLsvAdapter extends BaseAdapter implements Filterable {
                 .dontTransform();
 
         String danetka_Image = "http://18.119.55.236:2000/images/"+mData.get(position).getStrImage();
+        String danetka_Image2 = "http://18.119.55.236:2000/images/"+mData.get(position).getAnswerImage();
 
         Glide.with(context)
                 .load(danetka_Image)
                 .apply(options)
                 .into(viewHolder.imvDanetka);
+ Glide.with(context)
+                .load(danetka_Image2)
+                .apply(options)
+                .into(viewHolder.imvDanetka1);
 
         return convertView;
     }
@@ -127,6 +138,7 @@ public class MyDenketaLsvAdapter extends BaseAdapter implements Filterable {
     class ViewHolder {
         TextView txvName;
         ImageView imvDanetka;
+        ImageView imvDanetka1;
         ImageView imvResult;
         ImageView imvDelete;
     }

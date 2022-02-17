@@ -35,6 +35,7 @@ public class LearnMoreFragment extends Fragment implements View.OnClickListener 
 
     private void setData() {
         txvLearnmore.setText(lst_MyDenketa.get(position).getLearnmore()+"");
+        rlCross.setVisibility(View.GONE);
 
     }
 

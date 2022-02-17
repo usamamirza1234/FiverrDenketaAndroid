@@ -5,11 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.Admin.DanetkaDetails.DanetkaDetailsFragment;
 import com.armoomragames.denketa.IntroAuxilaries.Admin.PromoCode.AddPromoFragment;
@@ -22,7 +24,7 @@ public class AdminHomeFragment extends Fragment implements View.OnClickListener 
 
     RelativeLayout rlToolbar, rlBack, rlCross;
     RelativeLayout rlDenketaDetails, rlPromo;
-
+    TextView txv_Nationality, txv_Gend, txvSignout, txv_dob;
     IBadgeUpdateListener mBadgeUpdateListener;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,11 +75,11 @@ public class AdminHomeFragment extends Fragment implements View.OnClickListener 
 
 
         rlToolbar.setVisibility(View.VISIBLE);
-
+        txvSignout = frg.findViewById(R.id.fg_signup_complete_txvSignOut);
 
         rlDenketaDetails = frg.findViewById(R.id.frg_admin_rlDenketaDetails);
         rlPromo = frg.findViewById(R.id.frg_admin_rlPromo);
-
+        txvSignout.setOnClickListener(this);
         rlDenketaDetails.setOnClickListener(this);
         rlPromo.setOnClickListener(this);
 
@@ -100,6 +102,9 @@ public class AdminHomeFragment extends Fragment implements View.OnClickListener 
                 break;
             case R.id.act_intro_lay_toolbar_rlCross:
                 ((IntroActivity) getActivity()).navToPreSignInVAFragment();
+                break;
+            case R.id.fg_signup_complete_txvSignOut:
+                AppConfig.getInstance().navtoLogin();
                 break;
         }
     }

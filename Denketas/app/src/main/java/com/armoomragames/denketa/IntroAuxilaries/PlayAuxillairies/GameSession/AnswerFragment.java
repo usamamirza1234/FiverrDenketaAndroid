@@ -45,6 +45,7 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
     IBadgeUpdateListener mBadgeUpdateListener;
     ImageView img;
     LinearLayout llLearnMore;
+    LinearLayout llEndGame;
     AnwserRegiltoRCVAdapter anwserRegiltoRCVAdapter;
     String danetka_Image;
     int position = 0;
@@ -154,9 +155,11 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
 
         img = frg.findViewById(R.id.img);
         llLearnMore = frg.findViewById(R.id.frg_denketa_answer_llLearnmore);
+        llEndGame = frg.findViewById(R.id.frg_denketa_answer_llEndGame);
         rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
         rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
 
+        llEndGame.setOnClickListener(this);
         rlBack.setOnClickListener(this);
         rlCross.setOnClickListener(this);
         llLearnMore.setOnClickListener(this);
@@ -171,6 +174,9 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
                 getActivity().onBackPressed();
                 break;
             case R.id.act_intro_lay_toolbar_rlCross:
+                ((IntroActivity) getActivity()).navToPreSignInVAFragment();
+                break;
+            case R.id.frg_denketa_answer_llEndGame:
 
 
                 if (!isInvestigator) {

@@ -227,7 +227,7 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                         break;
                                         case EVENT_C:
                                         Log.d("Danetka", "ID " + lst_MyDenketaFiltered.get(position).getStrId());
-                                        requestDeleteDanetka(Integer.parseInt(lst_MyDenketaFiltered.get(position).getStrId()),position);
+                                            openDialogCredits(Integer.parseInt(lst_MyDenketaFiltered.get(position).getStrId()),position);
                                         break;
                                 }
 
@@ -344,6 +344,44 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
             }
     }
 
+
+    public void openDialogCredits(int _id, int position) {
+
+
+        progressDialog = new Dialog(getActivity(), R.style.AppTheme);
+//        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.popup_dark)));
+        progressDialog.setContentView(R.layout.dialog_unclock_danetka);
+        TextView txvDetails = progressDialog.findViewById(R.id.dailog_txvDetails);
+        TextView txv_dialoge_yes = progressDialog.findViewById(R.id.txv_dialoge_yes);
+        TextView txv_dialoge_no = progressDialog.findViewById(R.id.txv_dialoge_no);
+        txv_dialoge_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requestDeleteDanetka(_id,position);
+            }
+        });
+        txv_dialoge_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog.dismiss();
+            }
+        });
+        int GC = Integer.parseInt(AppConfig.getInstance().mUser.getGameCredits());
+
+//        if (GC != 0)
+        txvDetails.setText("Are you sure you want\n to delete this Danetka?");
+//        else {
+//            txvDetails.setText("You don’t have enough\n  Game Credits.");
+//            txv_dialoge_yes.setVisibility(View.GONE);
+//            txv_dialoge_no.setVisibility(View.GONE);
+//        }
+
+        progressDialog.setCanceledOnTouchOutside(true);
+        progressDialog.setCancelable(true);
+
+        progressDialog.show();
+    }
 
     private void requestDeleteDanetka(int _id, int position) {
 
