@@ -199,6 +199,38 @@
                     android:textStyle="normal" />
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/frg_denketa_answer_llEndGame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+
+                android:layout_marginStart="20dp"
+
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/shp_rect_rounded_app_blue"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@null"
+                    android:fontFamily="@font/poppins_bold"
+                    android:lines="1"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="End Game"
+
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/fontsize_medium"
+                    android:textStyle="normal" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

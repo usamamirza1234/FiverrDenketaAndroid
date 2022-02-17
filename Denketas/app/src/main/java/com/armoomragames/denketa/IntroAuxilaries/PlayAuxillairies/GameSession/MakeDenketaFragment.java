@@ -117,6 +117,27 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
         init();
         bindviews(frg);
 
+        if (AppConfig.getInstance().mUser.isLoggedIn()){
+            edtTitle.setFocusable(true);
+            edtQuestion.setFocusable(true);
+            edtAns.setFocusable(true);
+            insert1.setOnClickListener(this);
+            insert2.setOnClickListener(this);
+            imvAddSingle.setOnClickListener(this);
+            imvAddMainRegitlto.setOnClickListener(this);
+            llSubmit.setOnClickListener(this);
+        }
+        else{
+            edtTitle.setFocusable(false);
+            edtQuestion.setFocusable(false);
+            edtAns.setFocusable(false);
+            insert1.setOnClickListener(null);
+            insert2.setOnClickListener(null);
+            imvAddSingle.setOnClickListener(null);
+            imvAddMainRegitlto.setOnClickListener(null);
+            llSubmit.setOnClickListener(null);
+        }
+
         populatePopulationList();
         return frg;
     }
@@ -134,6 +155,7 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
         edtTitle = frg.findViewById(R.id.frg_make_edtTitle);
         edtQuestion = frg.findViewById(R.id.frg_make_edtRidle);
         edtAns = frg.findViewById(R.id.frg_make_edtAnswer);
+
 
 
         rlRegiltoitem = frg.findViewById(R.id.frg_make_rlRegiltoItem);

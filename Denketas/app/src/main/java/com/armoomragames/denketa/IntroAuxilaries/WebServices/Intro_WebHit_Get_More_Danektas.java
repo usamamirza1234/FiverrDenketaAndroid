@@ -34,7 +34,7 @@ public class Intro_WebHit_Get_More_Danektas {
         params.put("page", _index);
         params.put("per_page", "10");
         params.put("sortBy", "id");
-        params.put("sortOrder", "DESC");
+        params.put("sortOrder", "ASC");
 
 
         Log.d("LOG_AS", "getAllDanketaForAllUsers:  " + myUrl + params);
