@@ -143,6 +143,7 @@
     <color name="app_thm_txv_gray">#40000000</color>
     <color name="thm_green_graph_indicator">#73BF04</color>
     <color name="thm_gray_3">#ebebeb</color>
+    <color name="thm_gray_4">#e4e4e6</color>
 
     <color name="popup_dark">#D9000000</color>
 </resources>

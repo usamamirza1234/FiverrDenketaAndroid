@@ -7,6 +7,8 @@
     <dimen name="btmtabbar_icon_size">22dp</dimen>
 
     <dimen name="prb_drawable_tick_default_spacing">5dp</dimen>
+    <dimen name="question_icon_height">270dp</dimen>
+
 
 
     <!--FONTS -->

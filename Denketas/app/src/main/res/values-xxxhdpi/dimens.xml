@@ -17,7 +17,7 @@
 
 
 
-
+    <dimen name="question_icon_height">280dp</dimen>
 
     --------------------------------------------------------
     <!--    new UI Dimens start here    -->

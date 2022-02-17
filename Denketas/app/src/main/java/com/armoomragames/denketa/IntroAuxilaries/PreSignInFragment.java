@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -233,9 +234,9 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        TextView txvRules = dialog.findViewById(R.id.lay_item_play_txvRules);
-        TextView txvMaster = dialog.findViewById(R.id.lay_item_play_txvMaster);
-        TextView txvInvestigator = dialog.findViewById(R.id.lay_item_play_txvInvestigator);
+        LinearLayout txvRules = dialog.findViewById(R.id.lay_item_play_txvRules);
+        LinearLayout txvMaster = dialog.findViewById(R.id.lay_item_play_txvMaster);
+        LinearLayout txvInvestigator = dialog.findViewById(R.id.lay_item_play_txvInvestigator);
         RelativeLayout rlCross = dialog.findViewById(R.id.lay_item_play_rlCross);
 
 

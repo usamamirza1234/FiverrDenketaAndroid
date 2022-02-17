@@ -239,6 +239,7 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
         });
         rlBack.setOnClickListener(this);
         rlCross.setOnClickListener(this);
+        rlBack.setVisibility(View.GONE);
     }
 
     public void onClickDenketaItem(int position) {

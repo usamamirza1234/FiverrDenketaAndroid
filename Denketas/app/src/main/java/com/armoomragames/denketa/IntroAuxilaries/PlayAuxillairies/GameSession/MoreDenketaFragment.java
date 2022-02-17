@@ -40,9 +40,11 @@ import java.util.Collections;
 public class MoreDenketaFragment extends Fragment implements View.OnClickListener, IWebPaginationCallback, AbsListView.OnScrollListener {
 
     private static final String KEY_POSITION = "position";
+    private static int Position;
     RelativeLayout rlToolbar, rlBack, rlCross;
     ListView lsvMoreDenekta;
     String strID = "0";
+
     EditText edtSearch;
     ImageView imvSearch;
     CustomAlertDialog customAlertDialog;
@@ -63,34 +65,17 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
         Fragment frag = new MoreDenketaFragment();
         Bundle args = new Bundle();
         args.putInt(KEY_POSITION, position);
+        Position = position;
         frag.setArguments(args);
         return (frag);
     }
 
-    private void requestAddUserDanetkas(String _signUpEntity) {
-        showProgDialog();
-        Intro_WebHit_Post_AddUserDanetkas intro_webHit_post_addUserDanetkas = new Intro_WebHit_Post_AddUserDanetkas();
-        intro_webHit_post_addUserDanetkas.postAddUserDanetkas(getContext(), new IWebCallback() {
-            @Override
-            public void onWebResult(boolean isSuccess, String strMsg) {
-                if (isSuccess) {
-                    dismissProgDialog();
-
-                } else {
-                    dismissProgDialog();
-                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
-
-                }
-            }
-
-            @Override
-            public void onWebException(Exception ex) {
-                dismissProgDialog();
-                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
-
-            }
-        }, _signUpEntity);
+    // Store instance variables based on arguments passed
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -102,9 +87,6 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
         txvUseGameCredits.setText("Game Credits available -- " + AppConfig.getInstance().mUser.getGameCredits());
 
         requestDenketa();
-//        populatePopulationList();
-
-
         return frg;
     }
 

@@ -90,7 +90,7 @@ public class MyDenketaLsvAdapter extends BaseAdapter implements Filterable {
         convertView.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_A,position ));
         viewHolder.imvResult.setOnClickListener(v -> iAdapterCallback.onAdapterEventFired(IAdapterCallback.EVENT_B,position ));
 
-
+        if (mData.get(position).getDanetkaType()!=null)
         if (mData.get(position).getDanetkaType().equalsIgnoreCase("custom"))
         {
             viewHolder.imvDelete.setVisibility(View.VISIBLE);

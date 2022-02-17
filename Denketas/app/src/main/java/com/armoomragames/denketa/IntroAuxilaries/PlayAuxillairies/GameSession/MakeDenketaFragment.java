@@ -213,7 +213,7 @@ public class MakeDenketaFragment extends Fragment implements View.OnClickListene
                     } else
                         CustomToast.showToastMessage(getActivity(), "Please fill all fields", Toast.LENGTH_LONG);
                 } else
-                    CustomToast.showToastMessage(getActivity(), "Please login first!", Toast.LENGTH_LONG);
+                    CustomToast.showToastMessage(getActivity(), "NEED TO LOG IN TO SUBMIT", Toast.LENGTH_LONG);
 
                 break;
             case R.id.frg_make_imv_addRegiltoMain:

@@ -69,16 +69,16 @@ public class PlayViewPagerAdapter extends FragmentStatePagerAdapter {
         return (this.listTitle.get(position));
     }
 
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        Object obj = super.instantiateItem(container, position);
-        if (obj instanceof Fragment) {
-            Fragment currFrg = (Fragment) obj;
-            mFragmentTags.put(position, currFrg.getTag());
-        }
-
-
-        return obj;
-    }
+//    @Override
+//    public Object instantiateItem(ViewGroup container, int position) {
+//        Object obj = super.instantiateItem(container, position);
+//        if (obj instanceof Fragment) {
+//            Fragment currFrg = (Fragment) obj;
+//            mFragmentTags.put(position, currFrg.getTag());
+//        }
+//
+//
+//        return obj;
+//    }
 
 }

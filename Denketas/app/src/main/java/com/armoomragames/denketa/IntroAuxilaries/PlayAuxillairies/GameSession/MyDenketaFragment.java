@@ -197,21 +197,26 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                             adapter = new MyDenketaLsvAdapter((eventId, position) -> {
                                 switch (eventId) {
                                     case IAdapterCallback.EVENT_A:
-                                        if (AppConfig.getInstance().mUser.isLoggedIn()) {
-                                            if (!AppConfig.getInstance().getProgDialogs())
-                                                onClickDenketaItem(position);
-                                            else {
-                                                if (lst_MyDenketaFiltered.get(position).isPlayed())
-                                                {
-                                                    ((IntroActivity) getActivity()).navToDenketaAnswerFragment(position, false, false, lst_MyDenketaFiltered.get(position).getStrId(), lst_MyDenketaFiltered);
+//                                        if (AppConfig.getInstance().mUser.isLoggedIn())
+//                                        {
+//
+//                                        } else {
+//                                            ((IntroActivity) getActivity()).navToSigninFragment();
+//                                        }
 
-                                                }
-                                                else
-                                                ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false, lst_MyDenketaFiltered.get(position).getStrId(), lst_MyDenketaFiltered);
+
+                                        if (!AppConfig.getInstance().getProgDialogs())
+                                            onClickDenketaItem(position);
+                                        else {
+                                            if (lst_MyDenketaFiltered.get(position).isPlayed())
+                                            {
+                                                ((IntroActivity) getActivity()).navToDenketaAnswerFragment(position, false, false, lst_MyDenketaFiltered.get(position).getStrId(), lst_MyDenketaFiltered);
+
                                             }
-                                        } else {
-                                            ((IntroActivity) getActivity()).navToSigninFragment();
+                                            else
+                                                ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false, lst_MyDenketaFiltered.get(position).getStrId(), lst_MyDenketaFiltered);
                                         }
+
                                         break;
 
                                     case EVENT_B:
@@ -284,23 +289,36 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                 public void onAdapterEventFired(int eventId, int position) {
                                     switch (eventId) {
                                         case EVENT_A:
-                                            if (AppConfig.getInstance().mUser.isLoggedIn()) {
-                                                if (!AppConfig.getInstance().getProgDialogs())
-                                                    onClickDenketaItem(position);
-                                                else {
-                                                    if (lst_MyDenketaFiltered.get(position).isPlayed())
-                                                    {
-                                                        ((IntroActivity) getActivity()).navToDenketaAnswerFragment(position, false, false, lst_MyDenketaFiltered.get(position).getStrId(), lst_MyDenketaFiltered);
+                                            if (!AppConfig.getInstance().getProgDialogs())
+                                                onClickDenketaItem(position);
+                                            else {
+                                                if (lst_MyDenketaFiltered.get(position).isPlayed())
+                                                {
+                                                    ((IntroActivity) getActivity()).navToDenketaAnswerFragment(position, false, false, lst_MyDenketaFiltered.get(position).getStrId(), lst_MyDenketaFiltered);
 
-                                                    }
-                                                    else
-                                                    ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false, lst_MyDenketaFiltered.get(position).getStrId(), lst_MyDenketaFiltered);
                                                 }
-                                            } else {
-//                                                CustomToast.showToastMessage(getActivity(), "Sign in / Sign Up or Play as Guest to PLAY!", Toast.LENGTH_LONG);
-
-                                                ((IntroActivity) getActivity()).navToSigninFragment();
+                                                else
+                                                    ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false, lst_MyDenketaFiltered.get(position).getStrId(), lst_MyDenketaFiltered);
                                             }
+
+
+//                                            if (AppConfig.getInstance().mUser.isLoggedIn()) {
+//                                                if (!AppConfig.getInstance().getProgDialogs())
+//                                                    onClickDenketaItem(position);
+//                                                else {
+//                                                    if (lst_MyDenketaFiltered.get(position).isPlayed())
+//                                                    {
+//                                                        ((IntroActivity) getActivity()).navToDenketaAnswerFragment(position, false, false, lst_MyDenketaFiltered.get(position).getStrId(), lst_MyDenketaFiltered);
+//
+//                                                    }
+//                                                    else
+//                                                    ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false, lst_MyDenketaFiltered.get(position).getStrId(), lst_MyDenketaFiltered);
+//                                                }
+//                                            } else {
+////                                                CustomToast.showToastMessage(getActivity(), "Sign in / Sign Up or Play as Guest to PLAY!", Toast.LENGTH_LONG);
+//
+//                                                ((IntroActivity) getActivity()).navToSigninFragment();
+//                                            }
                                             break;
 
 
@@ -423,19 +441,16 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
         });
 
         LinearLayout llOkay = dialog.findViewById(R.id.lay_item_rules_llOkay);
-        llOkay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
+        llOkay.setOnClickListener(v -> {
+            dialog.dismiss();
 //                ((IntroActivity) getActivity()).navToDenketaQuestionFragment(lst_MyDenketa.get(position).getStrName(), lst_MyDenketa.get(position).getStrImage() + "");
-                if (lst_MyDenketaFiltered.get(position).isPlayed())
-                {
-                    ((IntroActivity) getActivity()).navToDenketaAnswerFragment(position, false, false, lst_MyDenketaFiltered.get(position).getStrId(), lst_MyDenketaFiltered);
+            if (lst_MyDenketaFiltered.get(position).isPlayed())
+            {
+                ((IntroActivity) getActivity()).navToDenketaAnswerFragment(position, false, false, lst_MyDenketaFiltered.get(position).getStrId(), lst_MyDenketaFiltered);
 
-                }
-                else
-                ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false, lst_MyDenketaFiltered.get(position).getStrId(), lst_MyDenketaFiltered);
             }
+            else
+            ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, false, lst_MyDenketaFiltered.get(position).getStrId(), lst_MyDenketaFiltered);
         });
         dialog.show();
     }
