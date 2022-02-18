@@ -86,38 +86,33 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
         Intro_WebHit_Get_User_Danektas.mPaginationInfo.currIndex = AppConstt.PAGINATION_START_INDEX;
     }
 
+    private void bindViewss(View frg) {
+        rcvMyDenekta = frg.findViewById(R.id.frg_rcv_my_denketa);
+        edtSearch = frg.findViewById(R.id.frg_my_dankta_edt_search);
+        imvSearch = frg.findViewById(R.id.frg_my_dankta_imv_search);
+
+        imvSearch.setOnClickListener(this);
+        edtSearch.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filter(edtSearch.getText().toString());
+            }
+        });
+    }
+
+    //region Api and population more danetka
     public void requestDenketa() {
         isAlreadyFetching = true;
         showProgDialog();
         Intro_WebHit_Get_User_Danektas.mPaginationInfo.currIndex = 1;
         Intro_WebHit_Get_User_Danektas.responseObject = null;
         intro_webHit_get_user_danektas.getMyDanekta(this, Intro_WebHit_Get_User_Danektas.mPaginationInfo.currIndex);
-    }
-
-    private void dismissProgDialog() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
-    }
-
-    private void showProgDialog() {
-
-        progressDialog = new Dialog(getActivity(), R.style.AppTheme);
-//        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        progressDialog.setContentView(R.layout.dialog_progress_loading);
-        WindowManager.LayoutParams wmlp = progressDialog.getWindow().getAttributes();
-        wmlp.gravity = Gravity.CENTER | Gravity.CENTER;
-        wmlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        wmlp.height = ViewGroup.LayoutParams.MATCH_PARENT;
-
-        ImageView imageView = progressDialog.findViewById(R.id.img_anim);
-        Glide.with(getContext()).asGif().load(R.raw.loading).into(imageView);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-
-
     }
 
     private void populateAllDanektasData(boolean isSuccess, String strMsg) {
@@ -327,27 +322,6 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
             }
     }
 
-
-    private void bindViewss(View frg) {
-        rcvMyDenekta = frg.findViewById(R.id.frg_rcv_my_denketa);
-        edtSearch = frg.findViewById(R.id.frg_my_dankta_edt_search);
-        imvSearch = frg.findViewById(R.id.frg_my_dankta_imv_search);
-
-        imvSearch.setOnClickListener(this);
-        edtSearch.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filter(edtSearch.getText().toString());
-            }
-        });
-    }
-
     public void onClickDenketaItem(int position) {
 
         dialog = new Dialog(getContext());
@@ -401,7 +375,6 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
         }
     }
 
-
     @Override
     public void onWebInitialResult(boolean isSuccess, String strMsg) {
         populateAllDanektasData(isSuccess, strMsg);
@@ -412,7 +385,6 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
                                       boolean isCompleted, String strMsg) {
         updateDenketaList(isSuccess, isCompleted, strMsg);
     }
-
     @Override
     public void onWebInitialException(Exception ex) {
         populateAllDanektasData(false, AppConfig.getInstance().getNetworkExceptionMessage(ex.toString()));
@@ -455,7 +427,34 @@ public class MyDenketaFragment extends Fragment implements View.OnClickListener,
 
     private void filter(String text) {
     }
+    //endregion
 
+
+    private void dismissProgDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
+
+    private void showProgDialog() {
+
+        progressDialog = new Dialog(getActivity(), R.style.AppTheme);
+//        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog.setContentView(R.layout.dialog_progress_loading);
+        WindowManager.LayoutParams wmlp = progressDialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER | Gravity.CENTER;
+        wmlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        wmlp.height = ViewGroup.LayoutParams.MATCH_PARENT;
+
+        ImageView imageView = progressDialog.findViewById(R.id.img_anim);
+        Glide.with(getContext()).asGif().load(R.raw.loading).into(imageView);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+
+    }
 
 }
 
