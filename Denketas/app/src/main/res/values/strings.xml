@@ -6,7 +6,7 @@
     <string name="facebook_app_id">273576737957121</string>
     <string name="fb_login_protocol_scheme">fb273576737957121</string>
 
-<!--    <string name="facebook_app_id">608972723852676</string>
+    <!--    <string name="facebook_app_id">608972723852676</string>
     <string name="fb_login_protocol_scheme">fb608972723852676</string>-->
 
 
@@ -230,4 +230,5 @@ jump into conclusions, make detailed \n questions.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="frg_my_account_play_guest">play as a guest</string>
+    <string name="test_client_token"><![CDATA["     <string name=\"test_client_token\">sandbox_v2nf5t6c_mybf9tq8g5qv92zw</string>"]]></string>
 </resources>

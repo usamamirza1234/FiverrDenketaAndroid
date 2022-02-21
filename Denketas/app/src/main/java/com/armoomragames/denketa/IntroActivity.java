@@ -46,15 +46,15 @@ import com.armoomragames.denketa.IntroAuxilaries.SplashFragment;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.LocaleHelper;
-import com.braintreepayments.api.BraintreeClient;
-import com.braintreepayments.api.BraintreeRequestCodes;
-import com.braintreepayments.api.BrowserSwitchResult;
-import com.braintreepayments.api.Card;
-import com.braintreepayments.api.CardClient;
-import com.braintreepayments.api.PayPalCheckoutRequest;
-import com.braintreepayments.api.PayPalClient;
-import com.braintreepayments.api.PayPalPaymentIntent;
-import com.braintreepayments.api.PayPalVaultRequest;
+//import com.braintreepayments.api.BraintreeClient;
+//import com.braintreepayments.api.BraintreeRequestCodes;
+//import com.braintreepayments.api.BrowserSwitchResult;
+//import com.braintreepayments.api.Card;
+//import com.braintreepayments.api.CardClient;
+//import com.braintreepayments.api.PayPalCheckoutRequest;
+//import com.braintreepayments.api.PayPalClient;
+//import com.braintreepayments.api.PayPalPaymentIntent;
+//import com.braintreepayments.api.PayPalVaultRequest;
 import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -82,9 +82,9 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
     private FragmentManager fm;
 
 
-    CardClient cardClient;
-    PayPalClient payPalClient;
-    private BraintreeClient braintreeClient;
+//    CardClient cardClient;
+//    PayPalClient payPalClient;
+//    private BraintreeClient braintreeClient;
 
 
 
@@ -119,43 +119,43 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
     private void myTokenizePayPalAccountWithCheckoutMethod() {
 
-        PayPalCheckoutRequest request = new PayPalCheckoutRequest("1.00");
-        request.setCurrencyCode("USD");
-        request.setIntent(PayPalPaymentIntent.AUTHORIZE);
-        payPalClient.tokenizePayPalAccount(this, request, (error) -> {
-            if (error != null) {
-                // Handle error
-            }
-
-
-        });
-
+//        PayPalCheckoutRequest request = new PayPalCheckoutRequest("1.00");
+//        request.setCurrencyCode("USD");
+//        request.setIntent(PayPalPaymentIntent.AUTHORIZE);
+//        payPalClient.tokenizePayPalAccount(this, request, (error) -> {
+//            if (error != null) {
+//                // Handle error
+//            }
+//
+//
+//        });
+//
 
     }
 
     private void myTokenizePayPalAccountWithVaultMethod() {
-        PayPalVaultRequest request = new PayPalVaultRequest();
-        request.setBillingAgreementDescription("Your agreement description");
-
-        payPalClient.tokenizePayPalAccount(this, request, (error) -> {
-            if (error != null) {
-                // Handle error
-            }
-        });
+//        PayPalVaultRequest request = new PayPalVaultRequest();
+//        request.setBillingAgreementDescription("Your agreement description");
+//
+//        payPalClient.tokenizePayPalAccount(this, request, (error) -> {
+//            if (error != null) {
+//                // Handle error
+//            }
+//        });
     }
     private void tokenizeCard() {
-        Card card = new Card();
-        card.setNumber("5555555555554444");
-        card.setExpirationDate("12/2026");
-
-        cardClient.tokenize(card, (cardNonce, error) -> {
-            if (cardNonce != null) {
-                // send this nonce to your server
-                String nonce = cardNonce.getString();
-            } else {
-                // handle error
-            }
-        });
+//        Card card = new Card();
+//        card.setNumber("5555555555554444");
+//        card.setExpirationDate("12/2026");
+//
+//        cardClient.tokenize(card, (cardNonce, error) -> {
+//            if (cardNonce != null) {
+//                // send this nonce to your server
+//                String nonce = cardNonce.getString();
+//            } else {
+//                // handle error
+//            }
+//        });
     }
 
 

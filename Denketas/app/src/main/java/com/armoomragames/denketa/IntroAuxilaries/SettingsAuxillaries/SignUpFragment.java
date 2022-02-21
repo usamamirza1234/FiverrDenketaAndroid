@@ -419,7 +419,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
     }
 
-    public void googleSignIn() {
+    public void  googleSignIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }

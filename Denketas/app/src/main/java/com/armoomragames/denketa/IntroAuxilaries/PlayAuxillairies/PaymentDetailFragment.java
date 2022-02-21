@@ -31,14 +31,15 @@ import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IWebCallback;
 import com.armoomragames.denketa.Utils.RModel_Paypal;
-import com.braintreepayments.api.BraintreeClient;
-import com.braintreepayments.api.BrowserSwitchResult;
-import com.braintreepayments.api.Card;
-import com.braintreepayments.api.CardClient;
-import com.braintreepayments.api.PayPalCheckoutRequest;
-import com.braintreepayments.api.PayPalClient;
-import com.braintreepayments.api.PayPalPaymentIntent;
-import com.braintreepayments.api.PayPalVaultRequest;
+//import com.braintreepayments.api.BraintreeClient;
+//import com.braintreepayments.api.BrowserSwitchResult;
+//import com.braintreepayments.api.Card;
+//import com.braintreepayments.api.CardClient;
+//import com.braintreepayments.api.PayPalCheckoutRequest;
+//import com.braintreepayments.api.PayPalClient;
+//import com.braintreepayments.api.PayPalPaymentIntent;
+//import com.braintreepayments.api.PayPalVaultRequest;
+
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.gson.Gson;
@@ -81,10 +82,10 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
     GoogleSignInClient mGoogleSignInClient;
     TextView txvPaymentDescription;
     TextView txvUseGameCredits;
-    CardClient cardClient;
-    PayPalClient payPalClient;
+//    CardClient cardClient;
+//    PayPalClient payPalClient;
     private Dialog progressDialog;
-    private BraintreeClient braintreeClient;
+//    private BraintreeClient braintreeClient;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -128,9 +129,9 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
     }
 
     private void braintreeInit() {
-        braintreeClient = new BraintreeClient(getContext(), "sandbox_v2nf5t6c_mybf9tq8g5qv92zw");
-        cardClient = new CardClient(braintreeClient);
-        payPalClient = new PayPalClient(braintreeClient);
+//        braintreeClient = new BraintreeClient(getContext(), "sandbox_v2nf5t6c_mybf9tq8g5qv92zw");
+//        cardClient = new CardClient(braintreeClient);
+//        payPalClient = new PayPalClient(braintreeClient);
     }
     //endregion
 
@@ -408,16 +409,16 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
 
 
     private void initPayPalDropRequest() {
-        PayPalCheckoutRequest request = new PayPalCheckoutRequest("1.00");
-        request.setCurrencyCode("USD");
-        request.setIntent(PayPalPaymentIntent.AUTHORIZE);
-        payPalClient.tokenizePayPalAccount(getActivity(), request, (error) -> {
-            if (error != null) {
-                // Handle error
-            }
-
-
-        });
+//        PayPalCheckoutRequest request = new PayPalCheckoutRequest("1.00");
+//        request.setCurrencyCode("USD");
+//        request.setIntent(PayPalPaymentIntent.AUTHORIZE);
+//        payPalClient.tokenizePayPalAccount(getActivity(), request, (error) -> {
+//            if (error != null) {
+//                // Handle error
+//            }
+//
+//
+//        });
 
 
     }
@@ -427,57 +428,57 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
     public void onResume() {
         super.onResume();
 
-        BrowserSwitchResult browserSwitchResult = braintreeClient.deliverBrowserSwitchResult(getActivity());
-        if (browserSwitchResult != null)
-        {
-            payPalClient.onBrowserSwitchResult(browserSwitchResult, (payPalAccountNonce, error) -> {
-                if (payPalAccountNonce != null) {
-                    // send payPalNonce.getString() to server
-                    try {
-                        Log.d("PaymentTesting", "myTokenizePayPalAccountWithCheckoutMethod:browserSwitchResult " + browserSwitchResult.toString());
-                        Log.d("PaymentTesting", "myTokenizePayPalAccountWithCheckoutMethod:error " + error.toString());
-                        Log.d("PaymentTesting", "myTokenizePayPalAccountWithCheckoutMethod:request payPalAccountNonce " + payPalAccountNonce.toString());
-                    }
-                    catch (Exception e)
-                    {}
-                }
-
-
-
-
-            });
-        }
+//        BrowserSwitchResult browserSwitchResult = braintreeClient.deliverBrowserSwitchResult(getActivity());
+//        if (browserSwitchResult != null)
+//        {
+//            payPalClient.onBrowserSwitchResult(browserSwitchResult, (payPalAccountNonce, error) -> {
+//                if (payPalAccountNonce != null) {
+//                    // send payPalNonce.getString() to server
+//                    try {
+//                        Log.d("PaymentTesting", "myTokenizePayPalAccountWithCheckoutMethod:browserSwitchResult " + browserSwitchResult.toString());
+//                        Log.d("PaymentTesting", "myTokenizePayPalAccountWithCheckoutMethod:error " + error.toString());
+//                        Log.d("PaymentTesting", "myTokenizePayPalAccountWithCheckoutMethod:request payPalAccountNonce " + payPalAccountNonce.toString());
+//                    }
+//                    catch (Exception e)
+//                    {}
+//                }
+//
+//
+//
+//
+//            });
+//        }
     }
 
     private void myTokenizePayPalAccountWithCheckoutMethod() {
 
-        PayPalCheckoutRequest request = new PayPalCheckoutRequest("1.00");
-        request.setCurrencyCode("USD");
-        request.setIntent(PayPalPaymentIntent.AUTHORIZE);
-        payPalClient.tokenizePayPalAccount(getActivity(), request, (error) -> {
-            if (error != null) {
-                // Handle error
-            }
-
-
-        });
+//        PayPalCheckoutRequest request = new PayPalCheckoutRequest("1.00");
+//        request.setCurrencyCode("USD");
+//        request.setIntent(PayPalPaymentIntent.AUTHORIZE);
+//        payPalClient.tokenizePayPalAccount(getActivity(), request, (error) -> {
+//            if (error != null) {
+//                // Handle error
+//            }
+//
+//
+//        });
 
 
     }
 
     private void tokenizeCard() {
-        Card card = new Card();
-        card.setNumber("5555555555554444");
-        card.setExpirationDate("12/2026");
-
-        cardClient.tokenize(card, (cardNonce, error) -> {
-            if (cardNonce != null) {
-                // send this nonce to your server
-                String nonce = cardNonce.getString();
-            } else {
-                // handle error
-            }
-        });
+//        Card card = new Card();
+//        card.setNumber("5555555555554444");
+//        card.setExpirationDate("12/2026");
+//
+//        cardClient.tokenize(card, (cardNonce, error) -> {
+//            if (cardNonce != null) {
+//                // send this nonce to your server
+//                String nonce = cardNonce.getString();
+//            } else {
+//                // handle error
+//            }
+//        });
     }
 
 

@@ -98,22 +98,6 @@ public class DModelUser {
     }
 
     public void setDanetkaPurchased(String danetkaPurchased) {
-
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
-        try {
-            Date     date = format.parse(danetkaPurchased);
-            Log.d("logApiData", "date1:  " + date);
-
-
-            SimpleDateFormat dayMonth = new SimpleDateFormat("dd-MMMM-yyyy", Locale.ENGLISH);
-            String strmonth = dayMonth.format(date);
-            Log.d("logApiData","formattedDate:  " +strmonth);
-
-            danetkaPurchased = strmonth;
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
         this.DanetkaPurchased = danetkaPurchased;
     }
 

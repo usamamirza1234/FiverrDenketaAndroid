@@ -1,5 +1,8 @@
 package com.armoomragames.denketa.IntroAuxilaries;
 
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -7,6 +10,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -34,14 +39,15 @@ import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
 import com.armoomragames.denketa.Utils.IWebCallback;
-import com.braintreepayments.api.BraintreeClient;
-import com.braintreepayments.api.BrowserSwitchResult;
-import com.braintreepayments.api.Card;
-import com.braintreepayments.api.CardClient;
-import com.braintreepayments.api.PayPalCheckoutRequest;
-import com.braintreepayments.api.PayPalClient;
-import com.braintreepayments.api.PayPalPaymentIntent;
-import com.braintreepayments.api.PayPalVaultRequest;
+//import com.braintreepayments.api.BraintreeClient;
+//import com.braintreepayments.api.BrowserSwitchResult;
+//import com.braintreepayments.api.Card;
+//import com.braintreepayments.api.CardClient;
+//import com.braintreepayments.api.DropInResult;
+//import com.braintreepayments.api.PayPalCheckoutRequest;
+//import com.braintreepayments.api.PayPalClient;
+//import com.braintreepayments.api.PayPalPaymentIntent;
+//import com.braintreepayments.api.PayPalVaultRequest;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 
@@ -66,9 +72,9 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
     AsyncHttpClient client;
     ProgressBar progressBar;
     int userId;
-    CardClient cardClient;
-    PayPalClient payPalClient;
-    private BraintreeClient braintreeClient;
+//    CardClient cardClient;
+//    PayPalClient payPalClient;
+//    private BraintreeClient braintreeClient;
 
 
 
@@ -77,10 +83,13 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         View frg = inflater.inflate(R.layout.fragment_pre_sign_in, container, false);
 
 
-        braintreeClient = new BraintreeClient(getContext(), "sandbox_v2nf5t6c_mybf9tq8g5qv92zw");
-        payPalClient = new PayPalClient(braintreeClient);
+//        braintreeClient = new BraintreeClient(getContext(), "sandbox_v2nf5t6c_mybf9tq8g5qv92zw");
+//        payPalClient = new PayPalClient(braintreeClient);
+//        cardClient = new CardClient(braintreeClient);
 
-
+//        tokenizeCard();
+        myTokenizePayPalAccountWithCheckoutMethod();
+//        myTokenizePayPalAccountWithVaultMethod();
 
         init();
         bindViews(frg);
@@ -91,7 +100,80 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
 
 
 
+    private void myTokenizePayPalAccountWithCheckoutMethod() {
 
+//        PayPalCheckoutRequest request = new PayPalCheckoutRequest("0.01");
+//        request.setCurrencyCode("USD");
+//        request.setIntent(PayPalPaymentIntent.AUTHORIZE);
+//        payPalClient.tokenizePayPalAccount(getActivity(), request, (error) -> {
+//            if (error != null) {
+//                // Handle error
+//            }
+//            else{
+//                if (error != null)
+//                Log.d("DROP_IN_REQUEST_CODE","Error: "+ error.toString());
+//            }
+//
+//
+//        });
+
+
+    }
+
+    private void myTokenizePayPalAccountWithVaultMethod() {
+//        PayPalVaultRequest request = new PayPalVaultRequest();
+//        request.setBillingAgreementDescription("Your agreement description");
+//
+//        payPalClient.tokenizePayPalAccount(getActivity(), request, (error) -> {
+//            if (error != null) {
+//                // Handle error
+//            }
+//        });
+    }
+    private void tokenizeCard() {
+//        Card card = new Card();
+//        card.setNumber("5555555555554444");
+//        card.setExpirationDate("12/2026");
+//
+//        cardClient.tokenize(card, (cardNonce, error) -> {
+//            if (cardNonce != null) {
+//                // send this nonce to your server
+//                String nonce = cardNonce.getString();
+//            } else {
+//                // handle error
+//            }
+//        });
+    }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (AppConfig.getInstance() != null)//id some view  !=null => activity in initialized
+        {
+
+//            BrowserSwitchResult browserSwitchResult = braintreeClient.deliverBrowserSwitchResult(getActivity());
+//
+//
+//            if (browserSwitchResult != null) {
+//                payPalClient.onBrowserSwitchResult(browserSwitchResult, (payPalAccountNonce, error) -> {
+//                    if (payPalAccountNonce != null) {
+//                        // send payPalNonce.getString() to server
+//                    }
+//
+//                    try {
+//                        Log.d("PaymentTesting", "myTokenizePayPalAccountWithCheckoutMethod:browserSwitchResult " + browserSwitchResult.toString());
+//                        Log.d("PaymentTesting", "myTokenizePayPalAccountWithCheckoutMethod:error " + error.toString());
+//                        Log.d("PaymentTesting", "myTokenizePayPalAccountWithCheckoutMethod:request payPalAccountNonce " + payPalAccountNonce.toString());
+//                    } catch (Exception e) {
+//                    }
+//
+//
+//                });
+//            }
+        }
+}
     //region init
     void setToolbar() {
 
@@ -181,47 +263,12 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
             }
         });
 
-        cardClient = new CardClient(braintreeClient);
+//        cardClient = new CardClient(braintreeClient);
 
     }
 
 
-    public void onBraintreeSubmit() {
 
-//        DropInRequest dropInRequest = new DropInRequest();
-//        DropInClient dropInClient = new DropInClient(getContext(), "sandbox_f252zhq7_hh4cpc39zq4rgjcg", dropInRequest);
-//        dropInClient.launchDropInForResult(getActivity(), DROP_IN_REQUEST_CODE);
-    }
-
-
-//
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-////        super.onActivityResult(requestCode, resultCode, data);
-//
-//        Log.d("DROP_IN_REQUEST_CODE","requestCode : " + requestCode);
-//
-//        if (requestCode == DROP_IN_REQUEST_CODE) {
-//            if (resultCode == RESULT_OK) {
-//                DropInResult result = data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT);
-//                String paymentMethodNonce = result.getPaymentMethodNonce().getString();
-//                // use the result to update your UI and send the payment method nonce to your server
-//
-//                Log.d("DROP_IN_REQUEST_CODE","Success : " + paymentMethodNonce);
-//
-//            } else if (resultCode == RESULT_CANCELED) {
-//
-//                Log.d("DROP_IN_REQUEST_CODE","RESULT_CANCELED : " + RESULT_CANCELED);
-//                // the user canceled
-//            } else {
-//                // an error occurred, checked the returned exception
-//                Exception exception = (Exception) data.getSerializableExtra(DropInResult.EXTRA_ERROR);
-//                Log.d("DROP_IN_REQUEST_CODE","EXTRA_ERROR : " + exception.getMessage());
-//
-//            }
-//        }
-//    }
-    //endregion
 
     //region Onclicks
     public void openDialoguePlay() {
@@ -294,8 +341,8 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
                 navToRulesFragment();
                 break;
             case R.id.frg_presigin_rldictionary:
-//                navToDictionaryFragment();
-                onBraintreeSubmit();
+                navToDictionaryFragment();
+//                onBraintreeSubmit();
                 break;
             case R.id.frg_presigin_rlSettings:
                 navToSettingsFragment();
@@ -340,19 +387,6 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         Animation bottomUp = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_up);
         imv_master_hat.setVisibility(View.GONE);
         imv_master.setVisibility(View.VISIBLE);
-//        imv_master_hat.startAnimation(bottomUp);
-
-
-//        imv_master.setOnClickListener(null);
-
-//        final Handler handler = new Handler();
-//        handler.postDelayed(() -> {
-//            Animation Upbottom = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_down);
-//            imv_master.startAnimation(Upbottom);
-//            imv_master.setVisibility(View.GONE);
-//            imv_master_hat.setVisibility(View.VISIBLE);
-////            enableOnclickHat();
-//        }, 500);
     }
     //endregion
 
@@ -433,7 +467,6 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
         ft.commit();
     }
     //endregion
-
 
     private void requestGameCredits() {
 
