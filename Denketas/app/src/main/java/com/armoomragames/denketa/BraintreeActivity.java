@@ -17,11 +17,18 @@ import android.widget.Toast;
 
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Token;
 import com.armoomragames.denketa.Utils.IWebCallback;
-import com.braintreepayments.api.dropin.DropInActivity;
-import com.braintreepayments.api.dropin.DropInRequest;
-import com.braintreepayments.api.dropin.DropInResult;
-import com.braintreepayments.api.interfaces.HttpResponseCallback;
-import com.braintreepayments.api.models.PaymentMethodNonce;
+import com.braintreepayments.api.BraintreeClient;
+import com.braintreepayments.api.BrowserSwitchResult;
+import com.braintreepayments.api.DataCollector;
+import com.braintreepayments.api.DropInActivity;
+import com.braintreepayments.api.DropInClient;
+import com.braintreepayments.api.DropInRequest;
+import com.braintreepayments.api.DropInResult;
+import com.braintreepayments.api.PayPalCheckoutRequest;
+import com.braintreepayments.api.PayPalClient;
+import com.braintreepayments.api.PayPalPaymentIntent;
+import com.braintreepayments.api.PaymentMethodNonce;
+import com.braintreepayments.api.PostalAddress;
 
 import java.util.HashMap;
 
@@ -37,6 +44,11 @@ public class BraintreeActivity extends AppCompatActivity {
     final String send_payment_details = "YOUR-API-FOR-PAYMENTS";
     String token, amount;
     HashMap<String, String> paramHash;
+
+    String btToken1   = "sandbox_f252zhq7_hh4cpc39zq4rgjcg";
+    BraintreeClient braintreeClient;
+    PayPalClient payPalClient ;
+    DataCollector dataCollector;
 
     Button btnPay;
     EditText etAmount;
@@ -55,10 +67,7 @@ public class BraintreeActivity extends AppCompatActivity {
                 requestFeedback();
             }
         });
-        requestFeedback();
-
-
-
+     requestFeedback();
 
     }
     @Override
@@ -68,25 +77,25 @@ public class BraintreeActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 DropInResult result = data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT);
                 PaymentMethodNonce nonce = result.getPaymentMethodNonce();
-                String stringNonce = nonce.getNonce();
-                Log.d("mylog", "Result: " + stringNonce);
+//                String stringNonce = nonce.getNonce();
+                Log.d("mylog", "Result: " + nonce);
                 // Send payment price with the nonce
                 // use the result to update your UI and send the payment method nonce to your server
-                if (!etAmount.getText().toString().isEmpty()) {
-                    amount = etAmount.getText().toString();
-                    paramHash = new HashMap<>();
-                    paramHash.put("amount", amount);
-                    paramHash.put("nonce", stringNonce);
-//                    sendPaymentDetails();
-                } else
-                    Toast.makeText(BraintreeActivity.this, "Please enter a valid amount.", Toast.LENGTH_SHORT).show();
+//                if (!etAmount.getText().toString().isEmpty()) {
+//                    amount = etAmount.getText().toString();
+////                    paramHash = new HashMap<>();
+////                    paramHash.put("amount", amount);
+////                    paramHash.put("nonce", stringNonce);
+////                    sendPaymentDetails();
+//                } else
+//                    Toast.makeText(BraintreeActivity.this, "Please enter a valid amount.", Toast.LENGTH_SHORT).show();
 
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 // the user canceled
                 Log.d("mylog", "user canceled");
             } else {
                 // handle errors here, an exception may be available in
-                Exception error = (Exception) data.getSerializableExtra(DropInActivity.EXTRA_ERROR);
+                Exception error = (Exception) data.getSerializableExtra(DropInResult.EXTRA_ERROR);
                 Log.d("mylog", "Error : " + error.toString());
             }
         }
@@ -94,13 +103,16 @@ public class BraintreeActivity extends AppCompatActivity {
     }
 
     public void onBraintreeSubmit(String token) {
-//        DropInRequest dropInRequest = new DropInRequest().clientToken(token);
-//        startActivityForResult(dropInRequest.getIntent(this), REQUEST_CODE);
+        braintreeClient = new BraintreeClient(this, token);
+        payPalClient = new PayPalClient(braintreeClient);
+        dataCollector = new DataCollector(braintreeClient);
+        onPayPalButtonClick();
 
-        DropInRequest dropInRequest = new DropInRequest().tokenizationKey("sandbox_f252zhq7_hh4cpc39zq4rgjcg");
-        startActivityForResult(dropInRequest.getIntent(this), REQUEST_CODE);
 
-
+//        DropInRequest dropInRequest = new DropInRequest();
+//        dropInRequest.setGooglePayDisabled(true);
+//        DropInClient dropInClient = new DropInClient(this, btToken, dropInRequest);
+//        dropInClient.launchDropInForResult(this, REQUEST_CODE);
     }
 
 
@@ -130,57 +142,63 @@ public class BraintreeActivity extends AppCompatActivity {
         });
     }
 
+    private void onPayPalButtonClick() {
+        PayPalCheckoutRequest request = new PayPalCheckoutRequest("0.01");
+        request.setCurrencyCode("USD");
+        request.setIntent(PayPalPaymentIntent.AUTHORIZE);
+        // The PayPalRequest type will be based on integration type (Checkout vs. Vault)
+        payPalClient.tokenizePayPalAccount(this, request, (error) -> {
+            if (error != null) {
+                // handle error
+                Log.d("mylog","Err: "+ error.toString());
+            }
+            else {
+                Log.d("mylog","Req: "+ request.toString());
+            }
+        });
+    }
 
-//    private class HttpRequest extends AsyncTask {
-//        ProgressDialog progress;
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            progress = new ProgressDialog(BraintreeActivity.this, android.R.style.Theme_DeviceDefault_Dialog);
-//            progress.setCancelable(false);
-//            progress.setMessage("We are contacting our servers for token, Please wait");
-//            progress.setTitle("Getting token");
-//            progress.show();
-//        }
-//
-//        @Override
-//        protected Object doInBackground(Object[] objects) {
-//            HttpClient client = new HttpClient();
-//            client.get(get_token, new HttpResponseCallback() {
-//                @Override
-//                public void success(String responseBody) {
-//                    Log.d("mylog", responseBody);
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Toast.makeText(BraintreeActivity.this, "Successfully got token", Toast.LENGTH_SHORT).show();
-//                            llHolder.setVisibility(View.VISIBLE);
-//                        }
-//                    });
-//                    token = responseBody;
-//                }
-//
-//                @Override
-//                public void failure(Exception exception) {
-//                    final Exception ex = exception;
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Toast.makeText(BraintreeActivity.this, "Failed to get token: " + ex.toString(), Toast.LENGTH_LONG).show();
-//                        }
-//                    });
-//                }
-//            });
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Object o) {
-//            super.onPostExecute(o);
-//            progress.dismiss();
-//        }
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (braintreeClient !=null)
+        {
+            BrowserSwitchResult browserSwitchResult = braintreeClient.deliverBrowserSwitchResult(this);
+            if (browserSwitchResult != null) {
+                payPalClient.onBrowserSwitchResult(browserSwitchResult, (payPalAccountNonce, browserSwitchError) -> {
+                    dataCollector.collectDeviceData(this, (deviceData, dataCollectorError) -> {
+                        // send paypalAccountNonce.getString() and deviceData to server
+                        PostalAddress billingAddress = payPalAccountNonce.getBillingAddress();
+                        String streetAddress = billingAddress.getStreetAddress();
+                        String extendedAddress = billingAddress.getExtendedAddress();
+                        String locality = billingAddress.getLocality();
+                        String countryCodeAlpha2 = billingAddress.getCountryCodeAlpha2();
+                        String postalCode = billingAddress.getPostalCode();
+                        String region = billingAddress.getRegion();
+                        Log.d("mylog","streetAddress: "+ streetAddress);
+                        Log.d("mylog","streetAddress: "+ extendedAddress);
+                        Log.d("mylog","streetAddress: "+ locality);
+                        Log.d("mylog","streetAddress: "+ postalCode);
+                        Log.d("mylog","streetAddress: "+ countryCodeAlpha2);
+                        Log.d("mylog","streetAddress: "+ streetAddress);
+                        Log.d("mylog","streetAddress: "+ region);
+                        Log.d("mylog","streetAddress: "+ streetAddress);
+                    });
+                });
+            }
+            else {
+                Log.d("mylog","braintreeClient==nill ");
+            }
+        }
+        else {
+            Log.d("mylog","braintreeClient==nill ");
+        }
 
+    }
+    @Override
+    protected void onNewIntent(Intent newIntent) {
+        super.onNewIntent(newIntent);
 
+        setIntent(newIntent);
+    }
 }
