@@ -606,15 +606,15 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
     public void navtoMainActivity() {
 //        Toast.makeText(this, "MainActivity", Toast.LENGTH_SHORT).show();
-
-        if (AppConfig.getInstance().mUser.isLoggedIn()) {
-            Intent intent = new Intent(this, MainActivity.class);
-            //   Intent intent = new Intent(this, MainActivityOLD.class);
-            startActivity(intent);
-            IntroActivity.this.finish();
-        } else {
-            navToSplash();
-        }
+        Intent intent = new Intent(this, BraintreeActivity.class);
+        //   Intent intent = new Intent(this, MainActivityOLD.class);
+        startActivity(intent);
+//        IntroActivity.this.finish();
+//        if (AppConfig.getInstance().  mUser.isLoggedIn()) {
+//
+//        } else {
+//            navToSplash();
+//        }
     }
 
     public String returnStackFragmentTag() {

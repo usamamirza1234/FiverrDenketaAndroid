@@ -341,8 +341,9 @@ public class PreSignInFragment extends Fragment implements View.OnClickListener 
                 navToRulesFragment();
                 break;
             case R.id.frg_presigin_rldictionary:
-                navToDictionaryFragment();
+//                navToDictionaryFragment();
 //                onBraintreeSubmit();
+                ((IntroActivity)getActivity()).navtoMainActivity();
                 break;
             case R.id.frg_presigin_rlSettings:
                 navToSettingsFragment();
