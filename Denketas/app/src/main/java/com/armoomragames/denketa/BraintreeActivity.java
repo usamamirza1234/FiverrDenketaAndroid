@@ -198,12 +198,14 @@ public class BraintreeActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void tokenizeCard() {
+        showProgDialog();
         Card card = new Card();
         card.setNumber("4111111111111111");
-        card.setExpirationDate("09/2018");
+        card.setExpirationDate("09/2028");
 
         cardClient = new CardClient(braintreeClient);
         cardClient.tokenize(card, (cardNonce, error) -> {
+            dismissProgDialog();
             // send cardNonce.getString() to your server
             Log.d("mylog", "streetAddress: " + cardNonce.getCardholderName());
             Log.d("mylog", "streetAddress: " + cardNonce.getCardType());
