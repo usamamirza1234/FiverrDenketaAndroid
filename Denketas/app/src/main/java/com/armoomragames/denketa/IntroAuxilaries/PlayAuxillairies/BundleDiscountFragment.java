@@ -22,6 +22,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.armoomragames.denketa.AppConfig;
+import com.armoomragames.denketa.Example.BraintreePaymentsFragment;
 import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddUserCredits;
 import com.armoomragames.denketa.R;
@@ -241,7 +242,7 @@ dismissProgDialog();
     private void navToPaymentDetailFragment() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new PaymentDetailFragment();
+        Fragment frag = new BraintreePaymentsFragment();
         Bundle bundle = new Bundle();
         bundle.putString("key_danetka_danetkaID", "0");
         bundle.putBoolean("key_is_coming_from_bundle", true);
@@ -250,7 +251,7 @@ dismissProgDialog();
         bundle.putString("key_danetka_number", number + "");
         bundle.putString("key_danetka_discount", discount + "");
         frag.setArguments(bundle);
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PaymentDetailFragment);
+        ft.add(R.id.act_main_content_frg, frag, AppConstt.FragTag.FN_PaymentDetailFragment);
         ft.addToBackStack(AppConstt.FragTag.FN_PaymentDetailFragment);
         ft.hide(this);
         ft.commit();

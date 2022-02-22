@@ -249,12 +249,7 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
         }
 
 
-        if (AppConfig.getInstance().shouldSkipSplash) {
-            AppConfig.getInstance().shouldSkipSplash = false;
-            navtoMainActivity();
-        } else {
-            navToSplash();
-        }
+        navToSplash();
 
         // Add code to print out the key hash
         try {
@@ -603,10 +598,9 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 
     }
 
-
     public void navtoMainActivity() {
 //        Toast.makeText(this, "MainActivity", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, BraintreeActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         //   Intent intent = new Intent(this, MainActivityOLD.class);
         startActivity(intent);
 //        IntroActivity.this.finish();
@@ -615,6 +609,28 @@ public class IntroActivity extends AppCompatActivity implements IBadgeUpdateList
 //        } else {
 //            navToSplash();
 //        }
+    }
+
+    public void navtoMainActivity(int position, boolean isMoreDanetka, boolean isInvestigator) {
+//        Toast.makeText(this, "MainActivity", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, MainActivity.class);
+        //   Intent intent = new Intent(this, MainActivityOLD.class);
+        startActivity(intent);
+//        IntroActivity.this.finish();
+//        if (AppConfig.getInstance().  mUser.isLoggedIn()) {
+//
+//        } else {
+//            navToSplash();
+//        }
+    }
+
+    public void navtoMainActivity(int position, boolean isMoreDanetka, boolean isInvestigator, boolean isPayment) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("key_danetka_position", position);
+        intent.putExtra("key_danetka_is_investigator", isInvestigator);
+        intent.putExtra("key_danetka_is_more_danetka", isMoreDanetka);
+        intent.putExtra("key_danetka_isPayment", isPayment);
+        startActivity(intent);
     }
 
     public String returnStackFragmentTag() {

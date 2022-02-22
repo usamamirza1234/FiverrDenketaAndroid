@@ -29,7 +29,7 @@ public interface ApiMethod {
         String verifyAndUpdate ="verifyAndUpdate" ;
         String forgotPassword ="forgotPassword" ;
         String addResults ="add/result" ;
-
+        String card_noice = "generate/payment/token";
     }
 
 

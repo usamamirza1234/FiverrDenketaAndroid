@@ -93,7 +93,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
 
     //facebook integration
-    implementation 'com.facebook.android:facebook-android-sdk:4.31.0'
+//    implementation 'com.facebook.android:facebook-android-sdk:4.31.0'
+    implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
 
     // both are for retrieving otp sms without persmission
     // implementation 'com.google.android.gms:play-services-analytics:16.0.5'

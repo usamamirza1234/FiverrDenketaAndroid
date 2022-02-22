@@ -39,9 +39,7 @@ import java.util.HashMap;
 public class BraintreeActivity extends AppCompatActivity implements View.OnClickListener {
 
     final int REQUEST_CODE = 1;
-
     private Dialog progressDialog;
-
     String btToken = "sandbox_v2nf5t6c_mybf9tq8g5qv92zw";
     String btToken1 = "sandbox_f252zhq7_hh4cpc39zq4rgjcg";
 

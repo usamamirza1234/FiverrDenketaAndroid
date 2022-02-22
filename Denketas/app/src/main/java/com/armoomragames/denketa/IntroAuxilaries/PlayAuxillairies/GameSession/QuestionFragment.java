@@ -171,12 +171,20 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
 
             case R.id.frg_denketa_question_llBundleDiscount:
                 if (AppConfig.getInstance().mUser.isLoggedIn()) {
-                    navToBundleDiscountFragment();
+                    bundle.putInt("key_danetka_position", position);
+                    bundle.putBoolean("key_danetka_is_investigator", isInvestigator);
+                    bundle.putBoolean("key_danetka_is_more_danetka", isMoreDanetka);
+                    ((IntroActivity) getActivity()).navtoMainActivity(position,isMoreDanetka,isInvestigator,false);
                 } else ((IntroActivity) getActivity()).navToSigninFragment();
                 break;
             case R.id.frg_denketa_question_llBuyNow:
                 if (AppConfig.getInstance().mUser.isLoggedIn()) {
-                    navToPaymentDetailFragment();
+                    bundle.putInt("key_danetka_position", position);
+                    bundle.putBoolean("key_danetka_is_investigator", isInvestigator);
+                    bundle.putBoolean("key_danetka_is_more_danetka", isMoreDanetka);
+                    ((IntroActivity) getActivity()).navtoMainActivity(position,isMoreDanetka,isInvestigator,true);
+                    //navToPaymentDetailFragment
+
                 } else ((IntroActivity) getActivity()).navToSigninFragment();
 
                 break;
