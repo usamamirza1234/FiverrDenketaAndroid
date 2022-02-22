@@ -129,7 +129,7 @@ public class Intro_WebHit_Get_Token {
 
         public Data getData() {
             return this.data;
-            
+
         }
 
     }

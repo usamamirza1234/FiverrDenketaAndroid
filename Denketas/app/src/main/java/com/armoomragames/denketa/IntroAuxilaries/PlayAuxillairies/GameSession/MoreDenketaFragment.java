@@ -37,63 +37,38 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class MoreDenketaFragment extends Fragment implements View.OnClickListener, IWebPaginationCallback, AbsListView.OnScrollListener {
+public class MoreDenketaFragment extends Fragment implements IWebPaginationCallback, AbsListView.OnScrollListener {
 
     private static final String KEY_POSITION = "position";
     private static int Position;
-    RelativeLayout rlToolbar, rlBack, rlCross;
     ListView lsvMoreDenekta;
-    String strID = "0";
-
     EditText edtSearch;
     ImageView imvSearch;
-    CustomAlertDialog customAlertDialog;
     MoreDenketaLsvAdapter adapter;
     Intro_WebHit_Get_More_Danektas intro_webHit_get_all__danektas;
     boolean isAlreadyFetching = false;
-
     ArrayList<DModel_MyDenketa> lst_MyDenketa;
-    ArrayList<DModel_MyDenketa> lst_MyDenketaFiltered;
     TextView txvUseGameCredits;
     private int nFirstVisibleItem, nVisibleItemCount, nTotalItemCount, nScrollState, nErrorMsgShown;
     private boolean isLoadingMore = false;
-
-    //region progdialog
     private Dialog progressDialog;
-    //endregion
-    public static Fragment newInstance(int position) {
-        Fragment frag = new MoreDenketaFragment();
-        Bundle args = new Bundle();
-        args.putInt(KEY_POSITION, position);
-        Position = position;
-        frag.setArguments(args);
-        return (frag);
-    }
-
-    // Store instance variables based on arguments passed
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View frg = inflater.inflate(R.layout.fragment_more_denketa, container, false);
-
-
         init();
         bindViewss(frg);
-        txvUseGameCredits.setText("Game Credits available -- " + AppConfig.getInstance().mUser.getGameCredits());
-
+        txvUseGameCredits.setText("Game Credits available " + AppConfig.getInstance().mUser.getGameCredits());
         requestDenketa();
         return frg;
     }
 
     private void init() {
         lst_MyDenketa = new ArrayList<>();
-        lst_MyDenketaFiltered = new ArrayList<>();
-
         nFirstVisibleItem = 0;
         nVisibleItemCount = 0;
         nTotalItemCount = 0;
@@ -125,7 +100,6 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
         });
     }
 
-
     public void requestDenketa() {
         isAlreadyFetching = true;
         showProgDialog();
@@ -136,30 +110,18 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
                 Intro_WebHit_Get_More_Danektas.mPaginationInfo.currIndex);
     }
 
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-
-        }
-    }
-
     //region Api and population more danetka
     private void populateAllDanektasData(boolean isSuccess, String strMsg) {
 
         dismissProgDialog();
-
         isAlreadyFetching = false;
         if (getActivity() != null && isAdded())
             if (isSuccess) {
-
                 if (Intro_WebHit_Get_More_Danektas.responseObject != null &&
                         Intro_WebHit_Get_More_Danektas.responseObject.getData() != null &&
                         Intro_WebHit_Get_More_Danektas.responseObject.getData().getListing() != null &&
                         Intro_WebHit_Get_More_Danektas.responseObject.getData().getListing().size() > 0) {
-
 //                    txvNoData.setVisibility(View.GONE);
-
                     for (int i = 0; i < Intro_WebHit_Get_More_Danektas.responseObject.getData().getListing().size(); i++) {
                         lst_MyDenketa.add(
                                 new DModel_MyDenketa(
@@ -174,25 +136,16 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
                                 )
                         );
                     }
-
-
                     if (adapter == null) {
                         Collections.sort(lst_MyDenketa, (o1, o2) -> o1.getStrName().compareTo(o2.getStrName()));
-
-                        if (lst_MyDenketaFiltered.size()<=0)
-                        {
-                            lst_MyDenketaFiltered = lst_MyDenketa;
-                        }
-
                         adapter = new MoreDenketaLsvAdapter(new IAdapterCallback() {
                             @Override
                             public void onAdapterEventFired(int eventId, int position) {
                                 switch (eventId) {
                                     case EVENT_A:
-                                        ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, true,lst_MyDenketaFiltered.get(position).getStrId(),lst_MyDenketaFiltered);
+                                        ((IntroActivity) getActivity()).navToDenketaInvestigatorQuestionFragment(position, false, true,lst_MyDenketa.get(position).getStrId(),lst_MyDenketa);
                                         break;
                                 }
-
                             }
                         }, getActivity(), lst_MyDenketa);
                         lsvMoreDenekta.setAdapter(adapter);
@@ -234,7 +187,7 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
                     populateAllDanektasData(isSuccess, errorMsg);
                 }
             } else if (nErrorMsgShown++ < AppConstt.LIMIT_PAGINATION_ERROR) {
-//                CustomToast.showToastMessage(getActivity(), errorMsg, Toast.LENGTH_SHORT, false);
+                CustomToast.showToastMessage(getActivity(), errorMsg, Toast.LENGTH_SHORT);
             }
     }
 
@@ -245,7 +198,7 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onWebSuccessiveResult(boolean isSuccess, boolean isCompleted, String strMsg) {
-//        updateDenketaList(isSuccess, isCompleted, strMsg);
+        updateDenketaList(isSuccess, isCompleted, strMsg);
     }
 
     @Override
@@ -278,44 +231,16 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
             if (!isLoadingMore && !Intro_WebHit_Get_More_Danektas.mPaginationInfo.isCompleted) {
                 isLoadingMore = true;
 //                llListItemLoader.setVisibility(View.VISIBLE);
-
+                showProgDialog();
                 intro_webHit_get_all__danektas.getCategory(this,
                         Intro_WebHit_Get_More_Danektas.mPaginationInfo.currIndex + 1);
             }
         }
     }
-    //endregion
-
 
     private void filter(String text) {
-        // creating a new array list to filter our data.
-        ArrayList<DModel_MyDenketa> filteredlist = new ArrayList<>();
-
-        // running a for loop to compare elements.
-        for (DModel_MyDenketa item : lst_MyDenketa) {
-            // checking if the entered string matched with any item of our recycler view.
-            if (item.getStrName().toLowerCase().contains(text.toLowerCase())) {
-                // if the item is matched we are
-                // adding it to our filtered list.
-                filteredlist.add(item);
-            }
-        }
-        if (filteredlist.isEmpty()) {
-            // if no item is added in filtered list we are
-            // displaying a toast message as no data found.
-            Toast.makeText(getContext(), "No Data Found for word" + text, Toast.LENGTH_SHORT).show();
-//            adapter.filterList(lst_MyDenketa);
-        } else {
-            // at last we are passing that filtered
-            // list to our adapter class.
-
-            lst_MyDenketaFiltered=filteredlist;
-            adapter.filterList(filteredlist);
-
-//            Toast.makeText(getContext(), "Data Found.." + text, Toast.LENGTH_SHORT).show();
-        }
     }
-
+    //endregion
 
     private void dismissProgDialog() {
         if (progressDialog != null) {
@@ -339,9 +264,14 @@ public class MoreDenketaFragment extends Fragment implements View.OnClickListene
         progressDialog.show();
     }
 
+    // Store instance variables based on arguments passed
+    public static Fragment newInstance(int position) {
+        Fragment frag = new MoreDenketaFragment();
+        Bundle args = new Bundle();
+        args.putInt(KEY_POSITION, position);
+        Position = position;
+        frag.setArguments(args);
+        return (frag);
+    }
 
-
-
-
-    //endregion
 }

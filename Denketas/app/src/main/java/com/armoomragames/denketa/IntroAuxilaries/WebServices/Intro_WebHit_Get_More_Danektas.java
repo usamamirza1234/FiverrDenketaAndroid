@@ -28,17 +28,12 @@ public class Intro_WebHit_Get_More_Danektas {
         else
              myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.fetchAllDanetkas;
 
-
         RequestParams params = new RequestParams();
-
         params.put("page", _index);
         params.put("per_page", "10");
-        params.put("sortBy", "id");
+        params.put("sortBy", "title");
         params.put("sortOrder", "ASC");
-
-
         Log.d("LOG_AS", "getAllDanketaForAllUsers:  " + myUrl + params);
-
         mClient.addHeader(ApiMethod.HEADER.Authorization, AppConfig.getInstance().mUser.getAuthorization());
         mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS);
         mClient.get(myUrl, params, new AsyncHttpResponseHandler() {
