@@ -119,7 +119,8 @@ public class BraintreePaymentsFragment extends Fragment implements View.OnClickL
                 onPayPalButtonClick();
                 break;
             case R.id.rlPaypalCredit:
-                tokenizeCard();
+                if (Intro_WebHit_Get_Token.responseObject.getData().getClientToken() !=null)
+                    navToCardFragment(Intro_WebHit_Get_Token.responseObject.getData().getClientToken()) ;
                 break;
             case R.id.frg_getmore:
                 String danetkaID = "2";
@@ -130,8 +131,21 @@ public class BraintreePaymentsFragment extends Fragment implements View.OnClickL
         }
     }
 
+    private void navToCardFragment(String clientToken) {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment frag = new PaymentCardFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("key_danetka_clientToken", clientToken);
+        frag.setArguments(bundle);
+        ft.add(R.id.act_main_content_frg, frag, AppConstt.FragTag.FN_PaymentCardFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_PaymentDetailFragment);
+        ft.hide(this);
+        ft.commit();
+    }
 
-    @Override
+
+        @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == REQUEST_CODE) {
@@ -273,25 +287,7 @@ public class BraintreePaymentsFragment extends Fragment implements View.OnClickL
         });
     }
 
-    private void tokenizeCard() {
-        showProgDialog();
-        Card card = new Card();
-        card.setNumber("4111111111111111");
-        card.setExpirationDate("09/2028");
 
-        cardClient = new CardClient(braintreeClient);
-        cardClient.tokenize(card, (cardNonce, error) -> {
-            dismissProgDialog();
-            // send cardNonce.getString() to your server
-            Log.d("mylog", "streetAddress: " + cardNonce.getCardholderName());
-            Log.d("mylog", "streetAddress: " + cardNonce.getCardType());
-            Log.d("mylog", "streetAddress: " + cardNonce.getLastFour());
-            Log.d("mylog", "streetAddress: " + cardNonce.getCardType());
-            Log.d("mylog", "streetAddress: " + cardNonce.getExpirationMonth());
-            Log.d("mylog", "streetAddress: " + cardNonce.getExpirationYear());
-            Log.d("mylog", "cardNonce.getString(): " + cardNonce.getString());
-        });
-    }
 
     @Override
     public void onResume() {
