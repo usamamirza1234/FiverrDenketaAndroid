@@ -87,11 +87,11 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
     }
 
     private void bindViews(View frg) {
-        WebView browser = (WebView) frg.findViewById(R.id.webview);
+
         rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
         rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
         rlCross = frg.findViewById(R.id.act_intro_lay_toolbar_rlCross);
-        browser.loadUrl("http://18.119.55.236:2000/auth/google");
+
         rlBack.setOnClickListener(this);
         rlCross.setOnClickListener(this);
         llFB = frg.findViewById(R.id.fg_signin_llFB);
