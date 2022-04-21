@@ -18,6 +18,11 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
+
+    configurations.all {
+        resolutionStrategy { force 'androidx.core:core:1.6.0' }
+    }
+
     defaultConfig {
         applicationId "com.armoomragames.denketa"
         minSdkVersion 21

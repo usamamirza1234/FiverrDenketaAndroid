@@ -55,7 +55,7 @@ public class QuestionFragment extends Fragment implements View.OnClickListener {
     boolean isInvestigator = false;
     boolean isMoreDanetka = false;
     TextView txvDanetkaName;
-    JustifyTextView txvQuestion;
+    TextView txvQuestion;
     ImageView img;
     Dialog progressDialog = null; // Context, this, etc.
 

@@ -41,7 +41,7 @@ public class AnswerFragment extends Fragment implements View.OnClickListener {
     RecyclerView rcvRegilto;
     ArrayList<DModel_MyDenketa> lst_MyDenketa;
     TextView txvDanetkaName;
-    JustifyTextView txvDetail;
+    TextView txvDetail;
     IBadgeUpdateListener mBadgeUpdateListener;
     ImageView img;
     LinearLayout llLearnMore;

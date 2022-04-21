@@ -237,6 +237,7 @@ public interface AppConstt {
         String FN_EditDenketaFragment ="EditDenketaFragment" ;
         String FN_CreateAdminDenketaFragment ="CreateAdminDenketaFragment" ;
         String FN_PaymentCardFragment ="PaymentCardFragment" ;
+        String FN_PromoCodesFragment = "PromoCodesFragment" ;
     }
 
 

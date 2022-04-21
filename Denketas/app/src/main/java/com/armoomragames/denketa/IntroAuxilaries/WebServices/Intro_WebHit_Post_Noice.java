@@ -18,7 +18,7 @@ import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
 
-public class Intro_WebHit_Post_Card {
+public class Intro_WebHit_Post_Noice {
 
 
     public static RModel_SignIn responseObject = null;
@@ -26,12 +26,13 @@ public class Intro_WebHit_Post_Card {
     private final AsyncHttpClient mClient = new AsyncHttpClient();
     public Context mContext;
 
-    public void postSignIn(Context context, final IWebCallback iWebCallback) {
+    public void postSignIn(Context context, final IWebCallback iWebCallback,
+                           final String _signInEntity) {
         mContext = context;
-        String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.card_noice;
-        Log.d("LOG_AS", "postSignIn: " + myUrl );
+        String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.noice;
+        Log.d("LOG_AS", "postSignIn: " + myUrl + _signInEntity);
         StringEntity entity = null;
-        entity = new StringEntity("", "UTF-8");
+        entity = new StringEntity(_signInEntity, "UTF-8");
         mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS);
         mClient.post(mContext, myUrl, entity, "application/json", new AsyncHttpResponseHandler() {
                     @Override

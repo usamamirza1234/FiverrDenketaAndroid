@@ -356,7 +356,7 @@ public class InvestigatorFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onWebSuccessiveResult(boolean isSuccess, boolean isCompleted, String strMsg) {
-//        updateDenketaList(isSuccess, isCompleted, strMsg);
+        updateDenketaList(isSuccess, isCompleted, strMsg);
     }
 
     @Override

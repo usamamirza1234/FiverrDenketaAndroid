@@ -28,6 +28,7 @@ import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.PaymentFailedF
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Get_Token;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddUserCredits;
 import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_Card;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_Noice;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.CustomToast;
@@ -145,38 +146,6 @@ public class BraintreePaymentsFragment extends Fragment implements View.OnClickL
     }
 
 
-        @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                DropInResult result = data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT);
-                PaymentMethodNonce nonce = result.getPaymentMethodNonce();
-//                String stringNonce = nonce.getNonce();
-                Log.d("mylog", "Result: " + nonce);
-                // Send payment price with the nonce
-                // use the result to update your UI and send the payment method nonce to your server
-//                if (!etAmount.getText().toString().isEmpty()) {
-//                    amount = etAmount.getText().toString();
-////                    paramHash = new HashMap<>();
-////                    paramHash.put("amount", amount);
-////                    paramHash.put("nonce", stringNonce);
-////                    sendPaymentDetails();
-//                } else
-//                    Toast.makeText(getContext(), "Please enter a valid amount.", Toast.LENGTH_SHORT).show();
-
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                // the user canceled
-                Log.d("mylog", "user canceled");
-            } else {
-                // handle errors here, an exception may be available in
-                Exception error = (Exception) data.getSerializableExtra(DropInResult.EXTRA_ERROR);
-                Log.d("mylog", "Error : " + error.toString());
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
     public void onBraintreeSubmit(String token) {
         braintreeClient = new BraintreeClient(getContext(), token);
         payPalClient = new PayPalClient(braintreeClient);
@@ -191,7 +160,7 @@ public class BraintreePaymentsFragment extends Fragment implements View.OnClickL
             @Override
             public void onWebResult(boolean isSuccess, String strMsg) {
                 if (isSuccess) {
-                    Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "TOKEN GOT: ", Toast.LENGTH_SHORT).show();
                     dismissProgDialog();
                     onBraintreeSubmit(Intro_WebHit_Get_Token.responseObject.getData().getClientToken());
                 } else {
@@ -208,10 +177,17 @@ public class BraintreePaymentsFragment extends Fragment implements View.OnClickL
         });
     }
 
-    private void requestPostToken(String _signUpEntity) {
+    private void requestPostToken(String noice) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("nonce", noice);
+        jsonObject.addProperty("amount", totalAmount);
+        requestPostPaymentProcess(jsonObject.toString());
+    }
+
+    private void requestPostPaymentProcess(String _signUpEntity) {
         showProgDialog();
-        Intro_WebHit_Post_Card intro_webHit_post_card = new Intro_WebHit_Post_Card();
-        intro_webHit_post_card.postSignIn(getContext(), new IWebCallback() {
+        Intro_WebHit_Post_Noice intro_webHit_post_noice = new Intro_WebHit_Post_Noice();
+        intro_webHit_post_noice.postSignIn(getContext(), new IWebCallback() {
             @Override
             public void onWebResult(boolean isSuccess, String strMsg) {
                 if (isSuccess) {
@@ -310,7 +286,8 @@ public class BraintreePaymentsFragment extends Fragment implements View.OnClickL
                             Log.d("mylog", "streetAddress: " + payPalAccountNonce.getCreditFinancing());
                             Log.d("mylog", "streetAddress: " + payPalAccountNonce.getShippingAddress());
                             Log.d("mylog", "paypalAccountNonce.getString(): " + payPalAccountNonce.getString());
-                            requestPostToken("");
+
+                            requestPostToken(payPalAccountNonce.getString());
                         } catch (Exception e) {
                             navToPayentDisapprovedFragment();
                         }
@@ -334,23 +311,18 @@ public class BraintreePaymentsFragment extends Fragment implements View.OnClickL
     }
 
     private void showProgDialog() {
-
         progressDialog = new Dialog(getContext(), R.style.AppTheme);
-//        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         progressDialog.setContentView(R.layout.dialog_progress_loading);
         WindowManager.LayoutParams wmlp = progressDialog.getWindow().getAttributes();
         wmlp.gravity = Gravity.CENTER | Gravity.CENTER;
         wmlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
         wmlp.height = ViewGroup.LayoutParams.MATCH_PARENT;
-
         ImageView imageView = progressDialog.findViewById(R.id.img_anim);
         Glide.with(getContext()).asGif().load(R.raw.loading).into(imageView);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
         progressDialog.show();
-
-
     }
 
 

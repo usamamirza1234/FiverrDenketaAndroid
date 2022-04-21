@@ -2,6 +2,7 @@ package com.armoomragames.denketa.IntroAuxilaries.WebServices;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.armoomragames.denketa.AppConfig;
@@ -12,28 +13,32 @@ import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.entity.StringEntity;
 
 
-public class Intro_WebHit_Post_Card {
-
+public class Intro_WebHit_Delete_Promo {
 
     public static RModel_SignIn responseObject = null;
     public static RModel_ERROR responseObjectError = null;
     private final AsyncHttpClient mClient = new AsyncHttpClient();
     public Context mContext;
 
-    public void postSignIn(Context context, final IWebCallback iWebCallback) {
+    public void deletePromo(Context context, final IWebCallback iWebCallback,
+                                   String  _id) {
         mContext = context;
-        String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.card_noice;
-        Log.d("LOG_AS", "postSignIn: " + myUrl );
-        StringEntity entity = null;
-        entity = new StringEntity("", "UTF-8");
+        String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.Delete.removePromo + _id;
+
         mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS);
-        mClient.post(mContext, myUrl, entity, "application/json", new AsyncHttpResponseHandler() {
+        mClient.addHeader(ApiMethod.HEADER.Authorization, AppConfig.getInstance().mUser.getAuthorization());
+
+        Log.d("LOG_AS", "deletePromo: " + myUrl);
+
+        mClient.delete(myUrl, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                         String strResponse;
@@ -42,18 +47,21 @@ public class Intro_WebHit_Post_Card {
                         try {
                             Gson gson = new Gson();
                             strResponse = new String(responseBody, StandardCharsets.UTF_8);
-                            Log.d("LOG_AS", "postSignIn: strResponse" + strResponse);
+                            Log.d("LOG_AS", "deletePromo: strResponse" + strResponse);
                             responseObject = gson.fromJson(strResponse, RModel_SignIn.class);
-
                             switch (statusCode) {
-
                                 case AppConstt.ServerStatus.OK:
                                 case AppConstt.ServerStatus.CREATED:
                                     iWebCallback.onWebResult(true, "");
                                     break;
 
                                 default:
-                                    AppConfig.getInstance().parsErrorMessage(iWebCallback, responseBody);
+                                    strResponse = new String(responseBody, StandardCharsets.UTF_8);
+                                    Log.d("LOG_AS", "postSignIn: strResponse" + strResponse);
+                                    responseObjectError = gson.fromJson(strResponse, RModel_ERROR.class);
+                                    iWebCallback.onWebResult(false, responseObjectError.getMessage());
+//                                    iWebCallback.onWebResult(false, responseObject.getMessage());
+//                                    AppConfig.getInstance().parsErrorMessage(iWebCallback, responseBody);
                                     break;
                             }
                         } catch (Exception ex) {
@@ -63,7 +71,6 @@ public class Intro_WebHit_Post_Card {
                             Log.d("LOG_AS", "postSignIn: strResponse" + strResponse);
                             responseObjectError = gson.fromJson(strResponse, RModel_ERROR.class);
                             iWebCallback.onWebResult(false, responseObjectError.getMessage());
-//                            iWebCallback.onWebException(ex);
                         }
                     }
 
@@ -87,7 +94,6 @@ public class Intro_WebHit_Post_Card {
 
         );
     }
-
 
     public class RModel_SignIn {
 
@@ -129,33 +135,43 @@ public class Intro_WebHit_Post_Card {
         }
 
         public class Data {
-            private int id;
-
-            private String name;
-
-            private String userName;
-
-            private String dateOfBirth;
-
-            private String gender;
-
-            private String nationality;
-
-            private String language;
-
-            private String email;
-
-            private String otpCode;
-
-            private String accessToken;
-
-            private String userType;
-
-            private boolean isProfileSet;
+            private String masterId;
 
             private boolean status;
 
+            private int id;
+
+            private String title;
+
+            private String hint;
+
+            private String answer;
+
+            private String question;
+
+            private String image;
+
+            private String answerImage;
+
+            private String learnMore;
+
             private int updatedTime;
+
+            public String getMasterId() {
+                return this.masterId;
+            }
+
+            public void setMasterId(String masterId) {
+                this.masterId = masterId;
+            }
+
+            public boolean getStatus() {
+                return this.status;
+            }
+
+            public void setStatus(boolean status) {
+                this.status = status;
+            }
 
             public int getId() {
                 return this.id;
@@ -165,100 +181,60 @@ public class Intro_WebHit_Post_Card {
                 this.id = id;
             }
 
-            public String getName() {
-                return this.name;
+            public String getTitle() {
+                return this.title;
             }
 
-            public void setName(String name) {
-                this.name = name;
+            public void setTitle(String title) {
+                this.title = title;
             }
 
-            public String getUserName() {
-                return this.userName;
+            public String getHint() {
+                return this.hint;
             }
 
-            public void setUserName(String userName) {
-                this.userName = userName;
+            public void setHint(String hint) {
+                this.hint = hint;
             }
 
-            public String getDateOfBirth() {
-                return this.dateOfBirth;
+            public String getAnswer() {
+                return this.answer;
             }
 
-            public void setDateOfBirth(String dateOfBirth) {
-                this.dateOfBirth = dateOfBirth;
+            public void setAnswer(String answer) {
+                this.answer = answer;
             }
 
-            public String getGender() {
-                return this.gender;
+            public String getQuestion() {
+                return this.question;
             }
 
-            public void setGender(String gender) {
-                this.gender = gender;
+            public void setQuestion(String question) {
+                this.question = question;
             }
 
-            public String getNationality() {
-                return this.nationality;
+            public String getImage() {
+                return this.image;
             }
 
-            public void setNationality(String nationality) {
-                this.nationality = nationality;
+            public void setImage(String image) {
+                this.image = image;
             }
 
-            public String getLanguage() {
-                return this.language;
+            public String getAnswerImage() {
+                return this.answerImage;
             }
 
-            public void setLanguage(String language) {
-                this.language = language;
+            public void setAnswerImage(String answerImage) {
+                this.answerImage = answerImage;
             }
 
-            public String getEmail() {
-                return this.email;
+            public String getLearnMore() {
+                return this.learnMore;
             }
 
-            public void setEmail(String email) {
-                this.email = email;
-            }
-
-            public String getOtpCode() {
-                return this.otpCode;
-            }
-
-            public void setOtpCode(String otpCode) {
-                this.otpCode = otpCode;
-            }
-
-            public String getAccessToken() {
-                return this.accessToken;
-            }
-
-            public void setAccessToken(String accessToken) {
-                this.accessToken = accessToken;
-            }
-
-            public String getUserType() {
-                return this.userType;
-            }
-
-            public void setUserType(String userType) {
-                this.userType = userType;
-            }
-
-            public boolean getIsProfileSet() {
-                return this.isProfileSet;
-            }
-
-            public void setIsProfileSet(boolean isProfileSet) {
-                this.isProfileSet = isProfileSet;
-            }
-
-            public boolean getStatus() {
-                return this.status;
-            }
-
-            public void setStatus(boolean status) {
-                this.status = status;
+            public void setLearnMore(String learnMore) {
+                this.learnMore = learnMore;
             }
 
             public int getUpdatedTime() {
@@ -271,13 +247,11 @@ public class Intro_WebHit_Post_Card {
         }
     }
 
-
     public class RModel_ERROR {
         private int code;
-
+        private String status;
         private String message;
-
-        private String data;
+        private Data data;
 
         public int getCode() {
             return this.code;
@@ -285,6 +259,14 @@ public class Intro_WebHit_Post_Card {
 
         public void setCode(int code) {
             this.code = code;
+        }
+
+        public String getStatus() {
+            return this.status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
         }
 
         public String getMessage() {
@@ -295,12 +277,15 @@ public class Intro_WebHit_Post_Card {
             this.message = message;
         }
 
-        public String getData() {
+        public Data getData() {
             return this.data;
         }
 
-        public void setData(String data) {
+        public void setData(Data data) {
             this.data = data;
+        }
+
+        public class Data {
         }
     }
 

@@ -3,21 +3,34 @@ package com.armoomragames.denketa.IntroAuxilaries.Admin.PromoCode;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Delete_Promo;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_AddPromo;
+import com.armoomragames.denketa.IntroAuxilaries.WebServices.Intro_WebHit_Post_UpdatePromo;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
+import com.armoomragames.denketa.Utils.CustomToast;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
+import com.armoomragames.denketa.Utils.IWebCallback;
+import com.bumptech.glide.Glide;
+import com.google.gson.JsonObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,19 +39,23 @@ import java.util.Locale;
 public class AddPromoFragment extends Fragment implements View.OnClickListener {
 
 
+    private final boolean isStarttime = false;
+    private final boolean isEndtime = false;
     Calendar calendar;
     DatePickerDialog.OnDateSetListener date;
     Calendar todayCalender;
-
+    JsonObject jsonObject;
     RelativeLayout rlToolbar, rlBack, rlCross;
-    RelativeLayout rlDenketaDetails, rlPromo, rlsave;
+    RelativeLayout rlDel, rlUpdate, rlsave;
     EditText edtPromo;
-    TextView edtValidFrom, edtValidTill, edtStarttime, edtEndtime;
+    TextView edtValidFrom, edtValidTill, edtDiscount, edtRedemption;
     Dialog dialog;
     IBadgeUpdateListener mBadgeUpdateListener;
+    boolean isUpdate;
+    String startDate, endDate, promoName, discount, redemption, id_promo;
     private boolean isValidFrom = false, isValidTill = false;
-    private boolean isStarttime = false, isEndtime = false;
     private long min_date;
+    private Dialog progressDialog;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,8 +63,26 @@ public class AddPromoFragment extends Fragment implements View.OnClickListener {
 
         init();
         bindViews(frg);
+        setDate();
 
         return frg;
+    }
+
+    private void setDate() {
+        if (isUpdate) {
+            rlsave.setVisibility(View.GONE);
+            rlUpdate.setVisibility(View.VISIBLE);
+            rlDel.setVisibility(View.VISIBLE);
+            edtPromo.setText(promoName + "");
+            edtValidFrom.setText(startDate + "");
+            edtValidTill.setText(endDate + "");
+            edtDiscount.setText(discount + "");
+            edtRedemption.setText(redemption + "");
+        } else {
+            rlsave.setVisibility(View.VISIBLE);
+            rlUpdate.setVisibility(View.GONE);
+            rlDel.setVisibility(View.GONE);
+        }
     }
 
     void setToolbar() {
@@ -65,12 +100,24 @@ public class AddPromoFragment extends Fragment implements View.OnClickListener {
     }
 
     void init() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            isUpdate = bundle.getBoolean("key_is_update", false);
+            startDate = bundle.getString("key_startDate");
+            endDate = bundle.getString("key_endDate");
+            promoName = bundle.getString("key_promoName");
+            redemption = bundle.getString("key_redemption");
+            discount = bundle.getString("key_discount");
+            id_promo = bundle.getString("key_id_promo");
+
+        }
+
+
         setToolbar();
         calendar = Calendar.getInstance();
         initializeDate();
         min_date = calendar.getTimeInMillis();
     }
-
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -80,7 +127,6 @@ public class AddPromoFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-
     private void bindViews(View frg) {
         rlToolbar = frg.findViewById(R.id.act_intro_rl_toolbar);
         rlBack = frg.findViewById(R.id.act_intro_lay_toolbar_rlBack);
@@ -89,17 +135,19 @@ public class AddPromoFragment extends Fragment implements View.OnClickListener {
         edtPromo = frg.findViewById(R.id.frg_add_promo_edt_promo);
         edtValidFrom = frg.findViewById(R.id.frg_add_promo_edt_valid_from);
         edtValidTill = frg.findViewById(R.id.frg_add_promo_edt_valid_till);
-        edtStarttime = frg.findViewById(R.id.frg_add_promo_edt_start_time);
-        edtEndtime = frg.findViewById(R.id.frg_add_promo_edt_end_t);
+        edtDiscount = frg.findViewById(R.id.frg_add_promo_edt_discount);
+        edtRedemption = frg.findViewById(R.id.frg_add_promo_edt_redemption);
         rlsave = frg.findViewById(R.id.frg_add_promo_edt_save);
+        rlUpdate = frg.findViewById(R.id.frg_add_promo_edt_update);
+        rlDel = frg.findViewById(R.id.frg_add_promo_edt_del);
 
         edtValidFrom.setOnClickListener(this);
         edtValidTill.setOnClickListener(this);
-        edtStarttime.setOnClickListener(this);
-        edtEndtime.setOnClickListener(this);
         rlsave.setOnClickListener(this);
         rlBack.setOnClickListener(this);
         rlCross.setOnClickListener(this);
+        rlDel.setOnClickListener(this);
+        rlUpdate.setOnClickListener(this);
 //        rlToolbar.setVisibility(View.VISIBLE);
     }
 
@@ -118,20 +166,27 @@ public class AddPromoFragment extends Fragment implements View.OnClickListener {
                 isValidFrom = false;
                 showCalender().show();
                 break;
-            case R.id.frg_add_promo_edt_start_time:
-                isStarttime = true;
-                isEndtime = false;
-                setTime();
-
-                break;
-            case R.id.frg_add_promo_edt_end_t:
-                isStarttime = false;
-                isEndtime = true;
-                setTime();
-
-
+            case R.id.frg_add_promo_edt_save:
+                AppConfig.getInstance().closeKeyboard(getActivity());
+                jsonObject = new JsonObject();
+                jsonObject.addProperty("promoCode", edtPromo.getText().toString());
+                jsonObject.addProperty("discount", edtDiscount.getText().toString());
+                jsonObject.addProperty("redemption", edtRedemption.getText().toString());
+                jsonObject.addProperty("startDate", edtValidFrom.getText().toString());
+                jsonObject.addProperty("endDate", edtValidTill.getText().toString());
+                requestAddPromo(jsonObject.toString());
                 break;
 
+            case R.id.frg_add_promo_edt_update:
+
+                AppConfig.getInstance().closeKeyboard(getActivity());
+
+                requestUpdatePromo(edtPromo.getText().toString(), edtDiscount.getText().toString(), edtRedemption.getText().toString(),
+                        edtValidFrom.getText().toString(), edtValidTill.getText().toString());
+                break;
+            case R.id.frg_add_promo_edt_del:
+                requestDeletePromo(id_promo);
+                break;
 
             case R.id.act_intro_lay_toolbar_rlBack:
                 getActivity().onBackPressed();
@@ -142,43 +197,111 @@ public class AddPromoFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void setTime() {
+    private void dismissProgDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
 
+    private void showProgDialog() {
 
-        Calendar mcurrentTime = Calendar.getInstance();
-        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-        int minute = mcurrentTime.get(Calendar.MINUTE);
-        TimePickerDialog mTimePicker;
-        mTimePicker = new TimePickerDialog(getContext(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, (timePicker, selectedHour, selectedMinute) -> {
+        progressDialog = new Dialog(getActivity(), R.style.AppTheme);
+//        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog.setContentView(R.layout.dialog_progress_loading);
+        WindowManager.LayoutParams wmlp = progressDialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.CENTER | Gravity.CENTER;
+        wmlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        wmlp.height = ViewGroup.LayoutParams.MATCH_PARENT;
 
-            String am_pm = "";
+        ImageView imageView = progressDialog.findViewById(R.id.img_anim);
+        Glide.with(getContext()).asGif().load(R.raw.loading).into(imageView);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
-            Calendar datetime = Calendar.getInstance();
-            datetime.set(Calendar.HOUR_OF_DAY, selectedHour);
-            datetime.set(Calendar.MINUTE, minute);
-
-            if (datetime.get(Calendar.AM_PM) == Calendar.AM)
-                am_pm = "AM";
-            else if (datetime.get(Calendar.AM_PM) == Calendar.PM)
-                am_pm = "PM";
-
-            String strHrsToShow = (datetime.get(Calendar.HOUR) == 0) ? "12" : datetime.get(Calendar.HOUR) + "";
-
-
-            if (isStarttime) {
-                edtStarttime.setText(strHrsToShow + ":" + selectedMinute + " " + am_pm);
-                isStarttime = false;
-            } else if (isEndtime) {
-                edtEndtime.setText(strHrsToShow + ":" + selectedMinute + " " + am_pm);
-                isEndtime = false;
-            }
-
-        }, hour, minute, false);//Yes 24 hour time
-        mTimePicker.setTitle("Select Promo validation time");
-        mTimePicker.show();
 
     }
 
+
+    private void requestAddPromo(String _signUpEntity) {
+        showProgDialog();
+        Intro_WebHit_Post_AddPromo intro_webHit_post_addPromo = new Intro_WebHit_Post_AddPromo();
+        intro_webHit_post_addPromo.postPromo(getContext(), new IWebCallback() {
+            @Override
+            public void onWebResult(boolean isSuccess, String strMsg) {
+                if (isSuccess) {
+                    dismissProgDialog();
+                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
+                } else {
+
+                    dismissProgDialog();
+                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
+//                    Toast.makeText(getActivity(), strMsg, Toast.LENGTH_SHORT).show();
+//                    AppConfig.getInstance().showErrorMessage(getContext(), strMsg);
+                }
+            }
+
+            @Override
+            public void onWebException(Exception ex) {
+                Log.d("LOG_AS", "postSignIn: Exception" + ex.getMessage());
+                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
+//                Toast.makeText(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+//                AppConfig.getInstance().showErrorMessage(getContext(), ex.toString());
+            }
+        }, _signUpEntity);
+    }
+
+    private void requestUpdatePromo(String promoName, String discount, String redemption, String startDate, String endDate) {
+        showProgDialog();
+        Intro_WebHit_Post_UpdatePromo intro_webHit_post_updatePromo = new Intro_WebHit_Post_UpdatePromo();
+        intro_webHit_post_updatePromo.postUpdatePromo(getContext(), new IWebCallback() {
+            @Override
+            public void onWebResult(boolean isSuccess, String strMsg) {
+                if (isSuccess) {
+                    dismissProgDialog();
+                    CustomToast.showToastMessage(getActivity(), "Promo is Updated", Toast.LENGTH_SHORT);
+                } else {
+
+                    dismissProgDialog();
+                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
+//                    Toast.makeText(getActivity(), strMsg, Toast.LENGTH_SHORT).show();
+//                    AppConfig.getInstance().showErrorMessage(getContext(), strMsg);
+                }
+            }
+
+            @Override
+            public void onWebException(Exception ex) {
+                Log.d("LOG_AS", "postSignIn: Exception" + ex.getMessage());
+                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
+//                Toast.makeText(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+//                AppConfig.getInstance().showErrorMessage(getContext(), ex.toString());
+            }
+        }, promoName, discount, redemption, startDate, endDate, id_promo);
+    }
+
+    private void requestDeletePromo(String _id) {
+        Intro_WebHit_Delete_Promo intro_webHit_delete_promo = new Intro_WebHit_Delete_Promo();
+        intro_webHit_delete_promo.deletePromo(getContext(), new IWebCallback() {
+            @Override
+            public void onWebResult(boolean isSuccess, String strMsg) {
+                if (isSuccess) {
+                    dismissProgDialog();
+                    CustomToast.showToastMessage(getActivity(), "Promo is deleted", Toast.LENGTH_SHORT);
+                    getActivity().onBackPressed();
+                } else {
+                    dismissProgDialog();
+                    CustomToast.showToastMessage(getActivity(), strMsg, Toast.LENGTH_SHORT);
+                }
+            }
+
+            @Override
+            public void onWebException(Exception ex) {
+                dismissProgDialog();
+                CustomToast.showToastMessage(getActivity(), ex.getMessage(), Toast.LENGTH_SHORT);
+            }
+        }, _id);
+    }
 
     private DatePickerDialog showCalender() {
         DatePickerDialog dpd = new DatePickerDialog(getContext(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, date, calendar

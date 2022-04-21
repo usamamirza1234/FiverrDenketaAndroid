@@ -108,7 +108,10 @@ public class PaymentCardFragment extends Fragment implements View.OnClickListene
         cardClient.tokenize(card, (cardNonce, error) -> {
             dismissProgDialog();
             // send cardNonce.getString() to your server
-            CustomToast.showToastMessage(getActivity(),"Paid from card",Toast.LENGTH_LONG);
+            CustomToast.showToastMessage(getActivity(),"Paid from card: " + cardNonce.getString(),Toast.LENGTH_LONG);
+            if (cardNonce !=null){
+
+
             Log.d("mylog", "streetAddress: " + cardNonce.getCardholderName());
             Log.d("mylog", "streetAddress: " + cardNonce.getCardType());
             Log.d("mylog", "streetAddress: " + cardNonce.getLastFour());
@@ -116,6 +119,7 @@ public class PaymentCardFragment extends Fragment implements View.OnClickListene
             Log.d("mylog", "streetAddress: " + cardNonce.getExpirationMonth());
             Log.d("mylog", "streetAddress: " + cardNonce.getExpirationYear());
             Log.d("mylog", "cardNonce.getString(): " + cardNonce.getString());
+            }
         });
     }
 

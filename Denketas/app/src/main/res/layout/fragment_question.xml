@@ -63,7 +63,6 @@
                         android:layout_width="@dimen/question_icon_height"
                         android:layout_height="@dimen/question_icon_height"
                         android:padding="5dp"
-                        android:layout_margin="5dp"
                         android:layout_centerHorizontal="true"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_placeholder" />
@@ -89,16 +88,13 @@
                             android:textStyle="bold" />
 
 
-                        <com.armoomragames.denketa.Utils.JustifyTextView
+                        <TextView
                             android:id="@+id/txvQuestion"
                             android:layout_margin="5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="start"
                             android:justificationMode="inter_word"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="10dp"
-                            android:paddingBottom="10dp"
                             android:textColor="@color/light_gray3"
                             android:textSize="@dimen/fontsize_mini" />
                     </LinearLayout>

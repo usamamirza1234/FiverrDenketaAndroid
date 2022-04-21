@@ -97,9 +97,9 @@ public class DanetkaDetailsFragment extends Fragment implements View.OnClickList
         edtSearch = frg.findViewById(R.id.frg_more_dankta_edt_search);
         imvSearch = frg.findViewById(R.id.frg_more_dankta_imv_search);
         fab = frg.findViewById(R.id.fab);
-
-        txvUseGameCredits = frg.findViewById(R.id.txvUseGameCredits);
         fab.setOnClickListener(this);
+        txvUseGameCredits = frg.findViewById(R.id.txvUseGameCredits);
+
         edtSearch.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {

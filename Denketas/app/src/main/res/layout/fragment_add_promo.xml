@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <RelativeLayout
         android:id="@+id/act_intro_rl_toolbar"
         android:layout_width="match_parent"
@@ -11,6 +12,7 @@
         <include layout="@layout/act_lay_toolabar" />
 
     </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/frg_add_promo_edt_ll_NewResults"
         android:layout_width="match_parent"
@@ -23,9 +25,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_margin="10dp"
             android:gravity="center"
             android:paddingStart="14dp"
-            android:layout_margin="10dp"
             android:text="Add Promo Code"
             android:textColor="@color/thm_red_app"
             android:textSize="@dimen/fontsize_large"
@@ -46,7 +48,7 @@
                 android:gravity="center"
                 android:paddingStart="25dp"
                 android:paddingEnd="25dp"
-                android:text="PromoCode Name"
+                android:text="PromoCode"
                 android:textColor="@color/black"
                 android:textSize="@dimen/fontsize_small"
                 android:textStyle="bold" />
@@ -56,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/button_height_large"
                 android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
                 android:background="@null"
                 android:cursorVisible="true"
                 android:fontFamily="@font/roboto_regular"
@@ -107,7 +109,7 @@
                 android:cursorVisible="true"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center"
-                android:hint="Enter Start time"
+                android:hint="Enter Start Date"
 
                 android:inputType="date"
                 android:paddingStart="25dp"
@@ -150,12 +152,13 @@
                 android:layout_height="@dimen/button_height_large"
 
                 android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
                 android:background="@null"
                 android:cursorVisible="true"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center"
-                android:hint="Enter End time"              android:inputType="date"
+                android:hint="Enter End Date"
+                android:inputType="date"
                 android:paddingStart="25dp"
                 android:paddingEnd="25dp"
                 android:textColor="@color/black"
@@ -170,13 +173,12 @@
             android:layout_marginEnd="20dp"
             android:background="@color/black" />
 
-  
 
         <RelativeLayout
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="visible">
 
             <TextView
 
@@ -188,17 +190,17 @@
                 android:gravity="center"
                 android:paddingStart="25dp"
                 android:paddingEnd="25dp"
-                android:text="Start Time"
+                android:text="Discount"
                 android:textColor="@color/black"
                 android:textSize="@dimen/fontsize_small"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/frg_add_promo_edt_start_time"
+            <EditText
+                android:id="@+id/frg_add_promo_edt_discount"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/button_height_large"
                 android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
                 android:background="@null"
                 android:cursorVisible="true"
                 android:fontFamily="@font/roboto_regular"
@@ -220,10 +222,10 @@
             android:background="@color/black" />
 
         <RelativeLayout
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="visible">
 
             <TextView
 
@@ -235,13 +237,13 @@
                 android:gravity="center"
                 android:paddingStart="25dp"
                 android:paddingEnd="25dp"
-                android:text="End Time"
+                android:text="Redemption"
                 android:textColor="@color/black"
                 android:textSize="@dimen/fontsize_small"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/frg_add_promo_edt_end_t"
+            <EditText
+                android:id="@+id/frg_add_promo_edt_redemption"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/button_height_large"
                 android:layout_alignParentEnd="true"
@@ -302,21 +304,21 @@
 
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/frg_add_promo_edt_ll_saved_results"
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:id="@+id/frg_add_promo_edt_update"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height_large"
                 android:layout_gravity="center"
 
-                android:background="@drawable/shp_rect_rounded_app_green"
+                android:background="@drawable/shp_rect_rounded_app_blue"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingStart="15dp"
                 android:paddingTop="5dp"
-
                 android:paddingEnd="15dp"
                 android:paddingBottom="5dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
 
                 <TextView
@@ -328,17 +330,47 @@
                     android:lines="1"
                     android:paddingEnd="5dp"
 
-                    android:text="Results Saved"
+                    android:text="Update"
 
                     android:textColor="@color/white"
                     android:textSize="@dimen/fontsize_medium"
                     android:textStyle="bold" />
 
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:src="@drawable/ic_white_tick" />
-            </LinearLayout>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:id="@+id/frg_add_promo_edt_del"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height_large"
+                android:layout_gravity="center"
+
+                android:background="@drawable/shp_rect_rounded_app_red"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="15dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="5dp"
+                android:visibility="visible">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@null"
+                    android:fontFamily="@font/poppins_bold"
+                    android:lines="1"
+                    android:paddingEnd="5dp"
+
+                    android:text="Delete"
+
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/fontsize_medium"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+
 
         </LinearLayout>
 

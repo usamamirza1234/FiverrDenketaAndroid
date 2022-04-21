@@ -23,7 +23,7 @@ public class Intro_WebHit_Get_Token {
     public static DModel_PaginationInfo mPaginationInfo = new DModel_PaginationInfo();
 
     public void getToken(final IWebCallback iWebPaginationCallback) {
-        String myUrl = "http://18.119.55.236:2000/api/v1/denetkas/generate/payment/token";
+        String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.card_noice;
         mClient.addHeader(ApiMethod.HEADER.Authorization, AppConfig.getInstance().mUser.getAuthorization());
         mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS);
         mClient.get(myUrl, new AsyncHttpResponseHandler() {

@@ -18,7 +18,7 @@ import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
 
-public class Intro_WebHit_Post_Card {
+public class Intro_WebHit_Post_AddPromo {
 
 
     public static RModel_SignIn responseObject = null;
@@ -26,13 +26,17 @@ public class Intro_WebHit_Post_Card {
     private final AsyncHttpClient mClient = new AsyncHttpClient();
     public Context mContext;
 
-    public void postSignIn(Context context, final IWebCallback iWebCallback) {
+    public void postPromo(Context context, final IWebCallback iWebCallback,
+                          final String _signInEntity) {
         mContext = context;
-        String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.card_noice;
-        Log.d("LOG_AS", "postSignIn: " + myUrl );
+        String myUrl = AppConfig.getInstance().getBaseUrlApi() + ApiMethod.POST.add_promo;
+        Log.d("LOG_AS", "postPromo: " + myUrl + _signInEntity);
         StringEntity entity = null;
-        entity = new StringEntity("", "UTF-8");
+        entity = new StringEntity(_signInEntity, "UTF-8");
+
         mClient.setMaxRetriesAndTimeout(AppConstt.LIMIT_API_RETRY, AppConstt.LIMIT_TIMOUT_MILLIS);
+        mClient.addHeader(ApiMethod.HEADER.Authorization, AppConfig.getInstance().mUser.getAuthorization());
+
         mClient.post(mContext, myUrl, entity, "application/json", new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -42,14 +46,14 @@ public class Intro_WebHit_Post_Card {
                         try {
                             Gson gson = new Gson();
                             strResponse = new String(responseBody, StandardCharsets.UTF_8);
-                            Log.d("LOG_AS", "postSignIn: strResponse" + strResponse);
+                            Log.d("LOG_AS", "postPromo: strResponse" + strResponse);
                             responseObject = gson.fromJson(strResponse, RModel_SignIn.class);
 
                             switch (statusCode) {
 
                                 case AppConstt.ServerStatus.OK:
                                 case AppConstt.ServerStatus.CREATED:
-                                    iWebCallback.onWebResult(true, "");
+                                    iWebCallback.onWebResult(true, responseObject.getMessage());
                                     break;
 
                                 default:
@@ -58,11 +62,11 @@ public class Intro_WebHit_Post_Card {
                             }
                         } catch (Exception ex) {
                             ex.printStackTrace();
-                            Gson gson = new Gson();
-                            strResponse = new String(responseBody, StandardCharsets.UTF_8);
-                            Log.d("LOG_AS", "postSignIn: strResponse" + strResponse);
-                            responseObjectError = gson.fromJson(strResponse, RModel_ERROR.class);
-                            iWebCallback.onWebResult(false, responseObjectError.getMessage());
+//                            Gson gson = new Gson();
+//                            strResponse = new String(responseBody, StandardCharsets.UTF_8);
+//                            Log.d("LOG_AS", "postPromo: strResponse" + strResponse);
+//                            responseObjectError = gson.fromJson(strResponse, RModel_ERROR.class);
+                            iWebCallback.onWebResult(false, "Exception");
 //                            iWebCallback.onWebException(ex);
                         }
                     }

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroAuxilaries.PlayAuxillairies.DModel_MyDenketa;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.IAdapterCallback;
@@ -110,6 +111,14 @@ public class MyDenketaLsvAdapter extends BaseAdapter implements Filterable {
 //                .into( viewHolder.imvDanetka);
 //
 
+        if (AppConfig.getInstance().mUser.isLoggedIn())
+        {
+            viewHolder.imvResult.setVisibility(View.VISIBLE);
+        }
+        else {
+            viewHolder.imvResult.setVisibility(View.GONE);
+
+        }
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()

@@ -15,6 +15,7 @@ import com.armoomragames.denketa.AppConfig;
 import com.armoomragames.denketa.IntroActivity;
 import com.armoomragames.denketa.IntroAuxilaries.Admin.DanetkaDetails.DanetkaDetailsFragment;
 import com.armoomragames.denketa.IntroAuxilaries.Admin.PromoCode.AddPromoFragment;
+import com.armoomragames.denketa.IntroAuxilaries.Admin.PromoCode.PromoCodesFragment;
 import com.armoomragames.denketa.R;
 import com.armoomragames.denketa.Utils.AppConstt;
 import com.armoomragames.denketa.Utils.IBadgeUpdateListener;
@@ -113,9 +114,9 @@ public class AdminHomeFragment extends Fragment implements View.OnClickListener 
     private void navtoAddPromoFragment() {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        Fragment frag = new AddPromoFragment();
-        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_AddPromoFragment);
-        ft.addToBackStack(AppConstt.FragTag.FN_AddPromoFragment);
+        Fragment frag = new PromoCodesFragment();
+        ft.add(R.id.act_intro_content_frg, frag, AppConstt.FragTag.FN_PromoCodesFragment);
+        ft.addToBackStack(AppConstt.FragTag.FN_PromoCodesFragment);
         ft.hide(this);
         ft.commit();
     }

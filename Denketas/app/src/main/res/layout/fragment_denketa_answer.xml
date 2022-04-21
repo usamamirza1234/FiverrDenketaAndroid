@@ -84,7 +84,7 @@
                         android:textStyle="bold" />
 
 
-                    <com.armoomragames.denketa.Utils.JustifyTextView
+                    <TextView
                         android:id="@+id/detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -92,8 +92,9 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
                         android:gravity="start"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
+                        android:text=""
+
+                        android:justificationMode="inter_word"
                         android:padding="5dp"
                         android:textColor="@color/light_gray3"
                         android:textSize="@dimen/fontsize_mini" />
@@ -101,7 +102,6 @@
                     <ImageView
                         android:layout_gravity="center"
                         android:padding="5dp"
-                        android:layout_margin="5dp"
                         android:id="@+id/img"
                         android:layout_width="@dimen/question_icon_height"
                         android:layout_height="@dimen/question_icon_height"
